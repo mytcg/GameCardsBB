@@ -191,7 +191,8 @@ public final class Const {
 	public static int FONT = LARGE_FONT;
 	public static final int INCREASE_FONT = 2;
 	
-	public static final int FONTCOLOR = Color.BLACK;
+	public static final int FONTCOLOR = Color.WHITE;
+	public static final int BACKCOLOR = Color.BLACK;
 	public static final int BUTTONCOLOR = Color.WHITE;
 	public static final int SELECTEDCOLOR = Color.BLUE;
 	
@@ -391,6 +392,7 @@ public final class Const {
 	public static String rdm = "redeemcode=";
 	public static String update = "update=";
 	public static String trademethod = "&trademethod=phone_number&detail=";
+	public static String sendnote = "&note=";
 	public static String cardid = "&cardid=";
 	public static String height = "&height=";
 	public static String width = "&width=";
@@ -626,6 +628,15 @@ public final class Const {
 			listboxcentre = getSizeImage(sz_listboxcentre);   
 		}
 		return listboxcentre;
+	}
+	
+	private static Bitmap listboxselcentre;
+	private static String sz_listboxselcentre = "listbox_sel_centre.png";
+	public static Bitmap getListboxSelCentre() {
+		if (listboxselcentre == null) {
+			listboxselcentre = getSizeImage(sz_listboxselcentre);   
+		}
+		return listboxselcentre;
 	}
 	
 	private static Bitmap listboxleftedge;

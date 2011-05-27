@@ -31,14 +31,11 @@ public final class ConnectionGet extends Connection implements Runnable {
 	private int type = -1;
 	private GameCardsHome home;
 	private boolean autoclean = true;
+	private String filename;
 	
 	public ConnectionGet(String url, GameCardsHome home) {
 		this(url);
 		this.home=home;
-	}
-	public ConnectionGet(String url, ImageField image) {
-		this(url);
-		this.image = image;
 	}
 	public ConnectionGet(String url, VerticalStatManager vStat) {
 		this(url);
@@ -47,6 +44,12 @@ public final class ConnectionGet extends Connection implements Runnable {
 	public ConnectionGet(String url, HorizontalStatManager hStat) {
 		this(url);
 		this.hStat = hStat;
+	}
+	public ConnectionGet(String url, ConnectionHandler field, ImageField image, String filename) {
+		this(url);
+		this.image = image;
+		this.field = field;
+		this.filename = filename;
 	}
 	public ConnectionGet(String url, ConnectionHandler field, int type, ThumbnailField thumb) {
 		this(url);
@@ -70,7 +73,7 @@ public final class ConnectionGet extends Connection implements Runnable {
 			screen.setText("Attempting Connection");
 		}
 	}
-	public void saveData(byte[] data, int type) {
+	public synchronized void saveData(byte[] data, int type) {
 		FileConnection _file = null;
 		OutputStream output = null;
 		String filename = "";
@@ -120,6 +123,7 @@ public final class ConnectionGet extends Connection implements Runnable {
 		        	if (screen != null) {
 		        		screen.setText("Loading...");
 		        	}
+		        	
 		        	if (lengt != -1) {
 						data = new byte[lengt];
 						_input.readFully(data);
@@ -138,24 +142,27 @@ public final class ConnectionGet extends Connection implements Runnable {
 	                    }
 		        	}
 		        	
-		        	System.out.println(new String(data));
+		        	//System.out.println(new String(data));
 		        	
 		        	if (screen != null) {
 		        		screen.process(new String(data));
 		        	}
-		        	if (field != null) {
-		        		saveData(data, type);
-		        		field.process(data, type, thumb);
-		        	}
-		        	if (image != null) {
-		        		image.process(data);
-		        	}
-		        	if (vStat != null) {
+					if (vStat != null) {
 		        		vStat.process(data);
 		        	}
 		        	if (hStat != null) {
 		        		hStat.process(data);
 		        	}
+		        	if ((field != null)&&(thumb != null)) {
+		        		saveData(data, type);
+		        		field.process(data, type, thumb);
+		        	}
+		        	if ((field != null)&&(image != null)) {
+		        		field.process(data, image, filename);
+		        	}
+		        	/*if (image != null) {
+		        		image.process(data, filename);
+		        	}*/
 		        	if ((home != null)&&(data.length > 0)) {
 		        		String val = new String(data);
 		        		int fromIndex = -1;

@@ -1,5 +1,6 @@
 package net.mytcg.dex.ui;
 
+import net.mytcg.dex.ui.custom.ColorLabelField;
 import net.mytcg.dex.ui.custom.FixedButtonField;
 import net.mytcg.dex.ui.custom.SexyEditField;
 import net.mytcg.dex.util.Const;
@@ -8,18 +9,17 @@ import net.rim.device.api.io.Base64OutputStream;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.FieldChangeListener;
 import net.rim.device.api.ui.UiApplication;
-import net.rim.device.api.ui.component.LabelField;
 
 public class SearchScreen extends AppScreen implements FieldChangeListener
 {
 	FixedButtonField home = new FixedButtonField(Const.home);
 	FixedButtonField search = new FixedButtonField(Const.search);
 	SexyEditField number = new SexyEditField("");
-	LabelField lbl = new LabelField(Const.term);
+	ColorLabelField lbl = new ColorLabelField(Const.term);
 	
-	public SearchScreen()
+	public SearchScreen(AppScreen screen)
 	{
-		super(null);
+		super(screen);
 		
 		add(lbl);
 		add(number);
@@ -35,6 +35,10 @@ public class SearchScreen extends AppScreen implements FieldChangeListener
 	}
 	public void process(String val) {
 		synchronized(UiApplication.getEventLock()) {
+			
+			//screen = null;
+			//UiApplication.getUiApplication().popScreen(this);
+			
 			screen = new AlbumListScreen(val);
 			UiApplication.getUiApplication().pushScreen(screen);
 		}
@@ -42,8 +46,12 @@ public class SearchScreen extends AppScreen implements FieldChangeListener
 	
 	public void fieldChanged(Field f, int i) {
 		if (f == home) {
-			screen = new AlbumScreen();
-			UiApplication.getUiApplication().pushScreen(screen);
+			
+			screen = null;
+			UiApplication.getUiApplication().popScreen(this);
+			
+			//screen = new AlbumScreen();
+			//UiApplication.getUiApplication().pushScreen(screen);
 		} else if (f == search) {
 			String search64="";
 			try {

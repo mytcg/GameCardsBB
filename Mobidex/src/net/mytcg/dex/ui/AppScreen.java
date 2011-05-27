@@ -4,6 +4,7 @@ import net.mytcg.dex.http.ConnectionGet;
 import net.mytcg.dex.ui.custom.BackgroundManager;
 import net.mytcg.dex.ui.custom.VerticalStatManager;
 import net.mytcg.dex.ui.custom.HorizontalStatManager;
+import net.mytcg.dex.ui.custom.ColorLabelField;
 import net.mytcg.dex.util.Const;
 import net.rim.device.api.math.Fixed32;
 import net.rim.device.api.system.Bitmap;
@@ -23,16 +24,16 @@ public class AppScreen extends MainScreen {
 	protected HorizontalStatManager hStatManager = new HorizontalStatManager();
 	protected BackgroundManager titleManager = new BackgroundManager(false) {
 		
-		public int getPreferredHeight() {
-			return logo.getHeight();
-		}
-		public void paint(Graphics g) {
+		/*public int getPreferredHeight() {
+			return logo.getHeight()+(Const.FONT);
+		}*/
+		/*public void paint(Graphics g) {
 			g.setColor(Color.RED);
 			Font _font = getFont();
 			_font = _font.derive(Font.PLAIN, Const.FONT-2);
 			g.setFont(_font);
 			setFont(_font);
-			super.paint(g);
+			//super.paint(g);
 			
 			int xPts1[] = {0,0,padding,padding};
 			int yPts1[] = {0,logoleft.getHeight(),logoright.getHeight(),0};
@@ -42,7 +43,7 @@ public class AppScreen extends MainScreen {
 			int yPts2[] = {0,logoright.getHeight(),logoright.getHeight(),0};
 			g.drawTexturedPath(xPts2,yPts2,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,logoright);
 			
-		}
+		}*/
 	};
 	
 	protected boolean navigationMovement(int dx, int dy, int status, int time)
@@ -54,7 +55,7 @@ public class AppScreen extends MainScreen {
 	protected BackgroundManager statusManager = new BackgroundManager(false);
 	protected HorizontalFieldManager hManager1 = new HorizontalFieldManager();
 	
-	protected LabelField status = new LabelField("", LabelField.FIELD_HCENTER);
+	protected ColorLabelField status = new ColorLabelField("", LabelField.FIELD_HCENTER);
 	protected Bitmap logo = Const.getLogo();
 	protected Bitmap logoleft = Const.getLogoLeft();
 	protected Bitmap logoright = Const.getLogoRight();
@@ -191,6 +192,7 @@ public class AppScreen extends MainScreen {
 	
 	public void doConnect(String url, boolean autoclean) {
 		setText("Attempting Connection, Please Wait...");
+		System.out.println("url " + url);
 		ConnectionGet cG = new ConnectionGet(url, this, autoclean);
 		cG.start();
 	}

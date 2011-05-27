@@ -56,7 +56,7 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 	    		Vector stats = null;
 	    		String statdesc = "";
 	    		int statival = -1;
-	    		int stattop = 0;
+				int stattop = 0;
 	    		int statleft = 0;
 	    		int statwidth = 0;
 	    		int statheight = 0;
@@ -133,7 +133,7 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 	    					if ((fromIndex = card.indexOf(Const.xml_val)) != -1) {
 	    						statval = card.substring(fromIndex+Const.xml_val_length, card.indexOf(Const.xml_stat_end, fromIndex));
 	    					}
-	    					if((fromIndex = card.indexOf(Const.xml_top)) != -1){
+							if((fromIndex = card.indexOf(Const.xml_top)) != -1){
 	    						try{
 	    							stattop = Integer.parseInt(card.substring(fromIndex+Const.xml_top_length, card.indexOf(Const.xml_end, fromIndex+Const.xml_top_length)));
 	    						} catch(Exception e){
@@ -265,10 +265,16 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 			screen = null;
 			UiApplication.getUiApplication().popScreen(this);
 		} else {
-			Card card = ((ThumbnailField)(f)).getCard();
-			if (card.getQuantity() > 0) {
-				screen = new ImageScreen(card, newcards, this);
+			ThumbnailField set = ((ThumbnailField)(f));
+			Card card = set.getCard();
+			if (id == Const.MYCARD) {
+				screen = new ShareScreen(card, this);
 				UiApplication.getUiApplication().pushScreen(screen);
+			} else {
+				if (card.getQuantity() > 0) {
+					screen = new ImageScreen(card, newcards, this);
+					UiApplication.getUiApplication().pushScreen(screen);
+				}
 			}
 		}
 	}

@@ -8,19 +8,20 @@ import javax.microedition.pim.PIMItem;
 import javax.wireless.messaging.MessageConnection;
 import javax.wireless.messaging.TextMessage;
 
+import net.mytcg.dex.ui.custom.ColorLabelField;
 import net.mytcg.dex.ui.custom.FixedButtonField;
 import net.mytcg.dex.ui.custom.SexyEditField;
 import net.mytcg.dex.util.Card;
 import net.mytcg.dex.util.Const;
 import net.rim.blackberry.api.pdap.BlackBerryContact;
 import net.rim.blackberry.api.pdap.BlackBerryContactList;
+import net.rim.device.api.io.Base64OutputStream;
 import net.rim.device.api.system.RadioInfo;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.FieldChangeListener;
 import net.rim.device.api.ui.Font;
 import net.rim.device.api.ui.UiApplication;
 import net.rim.device.api.ui.component.EditField;
-import net.rim.device.api.ui.component.LabelField;
 
 public class ShareScreen extends AppScreen implements FieldChangeListener
 {
@@ -28,13 +29,13 @@ public class ShareScreen extends AppScreen implements FieldChangeListener
 	FixedButtonField contacts = new FixedButtonField(Const.contacts);
 	FixedButtonField send = new FixedButtonField(Const.send);
 	SexyEditField number = new SexyEditField("", EditField.FILTER_NUMERIC, 36);
-	LabelField lbl = new LabelField(Const.cell);
+	ColorLabelField lbl = new ColorLabelField(Const.cell);
 	SexyEditField note = new SexyEditField(Const.getWidth(), (Const.FONT*8));
 	
 	private int sendSize = 160;
 	private int numsms = 0;
 	private String[] smstext = null;
-	private String message = "Go to http://dex.mytcg.net/m/ to download the latest Mobidex Application.";
+	//private String message = " would like to share his Mobidex Business Card with you. Go to http://dex.mytcg.net/m/ to download his Card.";
 	private String smsnumber = "";
 	private Card card = null;
 	
@@ -46,9 +47,9 @@ public class ShareScreen extends AppScreen implements FieldChangeListener
 		add(lbl);
 		add(number);
 		
-		lbl = new LabelField(Const.notes);
+		lbl = new ColorLabelField(Const.notes);
 		add(lbl);
-		note.setText(message);
+		note.setText("");
 		add(note);
 		
 		Font _font = getFont();
@@ -126,13 +127,19 @@ public class ShareScreen extends AppScreen implements FieldChangeListener
 			if ((number.getText() == null)||(number.getText().length() <= 0)) {
 				setText("Cell Number cannot be blank.");
 			} else {
-				doConnect(Const.trade+card.getId()+Const.trademethod+number.getText(), false);
+				String note64="";
+				String sznote = " ["+note.getText() + "] ";
+				try {
+					note64 = new String(Base64OutputStream.encode(sznote.getBytes(), 0, sznote.length(), false, false), "UTF-8");
+				} catch (Exception e) {
+					note64="";
+				}
+				doConnect(Const.trade+card.getId()+Const.trademethod+number.getText()+Const.sendnote+note64, false);
 			}
 		}
 	}
 	
 	public void checkSplit(String text) {
-		
 		if (text.length() > sendSize) {
 			numsms = (int)Math.ceil(((double)text.length() / (double)sendSize));
 			smstext = new String[numsms];
@@ -152,10 +159,11 @@ public class ShareScreen extends AppScreen implements FieldChangeListener
 	
 	public void process(String val) {
 		int fromIndex = -1;
+		System.out.println(val);
 		if ((fromIndex = val.indexOf(Const.xml_result)) != -1) {
 			String message = val.substring(fromIndex+Const.xml_result_length, val.indexOf(Const.xml_result_end, fromIndex));
-			if (message.equals("User not found. Invite Sent.")) {
-				checkSplit(note.getText());
+			if (message.startsWith("User not found.")) {
+				checkSplit(message.substring(16));
 				smsnumber = number.getText();
 				sendSMS();
 			} else {

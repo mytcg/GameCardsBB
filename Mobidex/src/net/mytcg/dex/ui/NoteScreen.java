@@ -1,5 +1,6 @@
 package net.mytcg.dex.ui;
 
+import net.mytcg.dex.ui.custom.ColorLabelField;
 import net.mytcg.dex.ui.custom.FixedButtonField;
 import net.mytcg.dex.ui.custom.SexyEditField;
 import net.mytcg.dex.util.Card;
@@ -10,7 +11,6 @@ import net.rim.device.api.io.Base64OutputStream;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.FieldChangeListener;
 import net.rim.device.api.ui.UiApplication;
-import net.rim.device.api.ui.component.LabelField;
 
 public class NoteScreen extends AppScreen implements FieldChangeListener
 {
@@ -22,7 +22,7 @@ public class NoteScreen extends AppScreen implements FieldChangeListener
 	public NoteScreen(Card card, AppScreen screen)
 	{
 		super(screen);
-		add(new LabelField(Const.notes));
+		add(new ColorLabelField(Const.notes));
 		this.card = card;
 		if (card.getNote().length() >= 0) {
 			String nt = "";

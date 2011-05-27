@@ -22,11 +22,10 @@ public final class ThumbnailField extends Field {
 	
 	private boolean focus;
 	private String label1;
-	private String label2;
 	
 	private Bitmap button_centre;
 	
-	private Bitmap button_sel_right_edge;
+	private Bitmap button_sel_centre;
 	
 	private Bitmap button_thumbnail;
 	
@@ -78,8 +77,6 @@ public final class ThumbnailField extends Field {
 			this.delete = true;
 		}*/
 		
-		label2 = "Quantity: " + card.getQuantity();
-		
 		if ((getThumbUrl() != null)&&(getThumbUrl().length() > 0)){
 			thumbfile = getThumbUrl().substring(getThumbUrl().indexOf(Const.cards)+Const.cards_length, getThumbUrl().indexOf(Const.png));
 		}
@@ -126,6 +123,16 @@ public final class ThumbnailField extends Field {
 				_file.close();
 				_file = null;
 				doConnect(url, type);
+			} else if (_file.fileSize() == 0) {
+				_file.delete();
+				_file.close();
+				_file = null;
+				doConnect(url, type);
+			} else if (delete) {
+				_file.delete();
+				_file.close();
+				_file = null;
+				doConnect(url, type);
 			} else if (!delete) {
 				if (type==0) {
 					input = _file.openInputStream();
@@ -136,14 +143,12 @@ public final class ThumbnailField extends Field {
 					button_thumbnail = Const.getSizeImage(EncodedImage.createEncodedImage(data, 0, data.length));
 					invalidate();
 				}
-			} else if (delete) {
-				_file.delete();
-				_file.close();
-				_file = null;
-				doConnect(url, type);
 			}
 		} catch (Exception e) {
-			
+			try {
+				_file.close();
+			} catch (Exception ex) {}
+			doConnect(url, type);
 		}
 	}
 	
@@ -151,7 +156,7 @@ public final class ThumbnailField extends Field {
 		int font = Const.FONT;
 		
 		button_centre = Const.getThumbCentre();
-		button_sel_right_edge = Const.getThumbRightEdge();
+		button_sel_centre = Const.getThumbRightEdge();
 		note = Const.getNote();
 		
 		if (getQuantity() == 0) {
@@ -176,7 +181,7 @@ public final class ThumbnailField extends Field {
 		return Const.getWidth();
 	}
 	public int getPreferredHeight() {
-		return button_sel_right_edge.getHeight();
+		return button_sel_centre.getHeight();
 	}
 	protected void layout(int width, int height) {
 		setExtent(getPreferredWidth(),getPreferredHeight());
@@ -185,32 +190,40 @@ public final class ThumbnailField extends Field {
     	return true;
     }
 	public void paint(Graphics g) {
-		int _xPts[] = {0,0,getPreferredWidth(),getPreferredWidth()};
-		int _yPts[] = {0,Const.getHeight(),Const.getHeight(),0};
-		g.drawTexturedPath(_xPts,_yPts,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,Const.getBackground());
+		//int _xPts[] = {0,0,getPreferredWidth(),getPreferredWidth()};
+		//int _yPts[] = {0,Const.getHeight(),Const.getHeight(),0};
+		//g.drawTexturedPath(_xPts,_yPts,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,Const.getBackground());
 		
-		int xPts[] = {0,0,getPreferredWidth(),getPreferredWidth()};
-		int yPts[] = {0,Const.getHeight(),Const.getHeight(),0};
-		g.drawTexturedPath(xPts,yPts,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,Const.getBackground());
-		
-		int xPts1[] = {2,2,getPreferredWidth()-2,getPreferredWidth()-2};
-		int yPts1[] = {0,getPreferredHeight(),getPreferredHeight(),0};
-		
-		g.drawTexturedPath(xPts1,yPts1,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,button_centre);
-		
-		g.drawBitmap(5, 0, button_thumbnail.getWidth(), getPreferredHeight(), button_thumbnail, 0, 0);
+		int xPts2[] = {0,0,getPreferredWidth(),getPreferredWidth()};
+		int yPts2[] = {0,getPreferredHeight(),getPreferredHeight(),0};
 		
 		g.setColor(Const.FONTCOLOR);
+		
 		if (focus) {
-			g.setColor(Const.SELECTEDCOLOR);
-			g.drawBitmap(Const.getWidth() - (button_sel_right_edge.getWidth() + 5), 0, button_sel_right_edge.getWidth(), getPreferredHeight(), button_sel_right_edge, 0, 0);
+			//g.setColor(Const.SELECTEDCOLOR);
+			g.drawTexturedPath(xPts2,yPts2,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,button_sel_centre);
+			//g.drawBitmap(Const.getWidth() - (button_sel_right_edge.getWidth() + 5), 0, button_sel_right_edge.getWidth(), getPreferredHeight(), button_sel_right_edge, 0, 0);
+		} else {
+			//int xPts1[] = {2,2,getPreferredWidth()-2,getPreferredWidth()-2};
+			//int yPts1[] = {0,getPreferredHeight(),getPreferredHeight(),0};
+				
+			g.drawTexturedPath(xPts2,yPts2,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,button_centre);
 		}
+		
+		//int xPts[] = {0,0,getPreferredWidth(),getPreferredWidth()};
+		//int yPts[] = {0,Const.getHeight(),Const.getHeight(),0};
+		//g.drawTexturedPath(xPts,yPts,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,Const.getBackground());
+		
+		
+		
+		g.drawBitmap(5, 5, button_thumbnail.getWidth(), getPreferredHeight(), button_thumbnail, 0, 0);
+		
 		Font _font = getFont();
 		_font = _font.derive(Font.BOLD,Const.FONT+2);
 		g.setFont(_font);
 		
 		if ((card.getNote() != null)&&(card.getNote().length() > 0)) {
-			g.drawBitmap(5, 0, note.getWidth(), note.getHeight(), note, 0, 0);
+			g.drawBitmap(5, 5, note.getWidth(), note.getHeight(), note, 0, 0);
 		}
 		
 		if (card.getUpdated() == 1) {
@@ -221,10 +234,6 @@ public final class ThumbnailField extends Field {
 		
 		_font = _font.derive(Font.PLAIN,Const.FONT);
 		g.setFont(_font);
-		
-		if (label2!=null&&label2.length()>0) {
-			g.drawText(label2, button_thumbnail.getWidth()+10, 8+Const.FONT);
-		}
 	}
 	protected void onFocus(int direction) {
 		focus = true;

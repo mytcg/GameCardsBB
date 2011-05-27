@@ -85,9 +85,9 @@ public class AlbumScreen extends AppScreen implements FieldChangeListener
 	    		}
 	    	}
 	    	synchronized(UiApplication.getEventLock()) {
-	    		tmp = new ListItemField(Const.redeem, Const.REDEEM, false, 0);
-    			tmp.setChangeListener(this);
-    			add(tmp);
+	    		//tmp = new ListItemField(Const.redeem, Const.REDEEM, false, 0);
+    			//tmp.setChangeListener(this);
+    			//add(tmp);
 				tmp = new ListItemField(Const.logout, Const.LOGOUT, false, 0);
 				tmp.setChangeListener(this);
 				add(tmp);
@@ -150,7 +150,6 @@ public class AlbumScreen extends AppScreen implements FieldChangeListener
 		return true;
 	}
 	public void fieldChanged(Field f, int i) {
-		System.out.println("field changed");
 		if (f == exit) {
 			if (id >= 0) {
 				screen = null;
@@ -167,9 +166,9 @@ public class AlbumScreen extends AppScreen implements FieldChangeListener
 				Const.FROMSCREEN = Const.LOGINSCREEN;
 				Const.app.previousScreen();
 			} else if (id == Const.SEARCH){
-				//screen = new SearchScreen();
-				UiApplication.getUiApplication().popScreen(this);
-				//UiApplication.getUiApplication().pushScreen(screen);
+				screen = new SearchScreen(this);
+				//UiApplication.getUiApplication().popScreen(this);
+				UiApplication.getUiApplication().pushScreen(screen);
 			} else if (id == Const.REDEEM){
 				screen = new RedeemScreen(this);
 				UiApplication.getUiApplication().pushScreen(screen);

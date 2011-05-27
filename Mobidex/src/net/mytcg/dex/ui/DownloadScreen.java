@@ -1,5 +1,6 @@
 package net.mytcg.dex.ui;
 
+import net.mytcg.dex.ui.custom.ColorLabelField;
 import net.mytcg.dex.ui.custom.FixedButtonField;
 import net.mytcg.dex.ui.custom.NonEditableField;
 import net.mytcg.dex.util.Const;
@@ -8,7 +9,6 @@ import net.rim.blackberry.api.browser.BrowserSession;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.FieldChangeListener;
 import net.rim.device.api.ui.Font;
-import net.rim.device.api.ui.component.LabelField;
 
 public class DownloadScreen extends AppScreen implements FieldChangeListener
 {
@@ -29,7 +29,7 @@ public class DownloadScreen extends AppScreen implements FieldChangeListener
 		_font = _font.derive(Font.BOLD, Const.FONT);
 		setFont(_font); 
 		
-		add(new LabelField(Const.newupdate));
+		add(new ColorLabelField(Const.newupdate));
 		note.setText(Const.updatemsg);
 		add(note);
 		

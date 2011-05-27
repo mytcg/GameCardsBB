@@ -1,19 +1,19 @@
 package net.mytcg.dex.ui;
 
+import net.mytcg.dex.ui.custom.ColorLabelField;
 import net.mytcg.dex.ui.custom.FixedButtonField;
 import net.mytcg.dex.ui.custom.SexyEditField;
 import net.mytcg.dex.util.Const;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.FieldChangeListener;
 import net.rim.device.api.ui.UiApplication;
-import net.rim.device.api.ui.component.LabelField;
 
 public class RedeemScreen extends AppScreen implements FieldChangeListener
 {
 	FixedButtonField exit = new FixedButtonField(Const.back);
 	FixedButtonField redeem = new FixedButtonField(Const.redeem);
 	SexyEditField number = new SexyEditField("");
-	LabelField lbl = new LabelField(Const.code);
+	ColorLabelField lbl = new ColorLabelField(Const.code);
 	
 	public RedeemScreen(AppScreen screen)
 	{

@@ -46,13 +46,13 @@ public class ImageScreen extends AppScreen implements FieldChangeListener
 		this.card = card;
 		
 		//bgManager.setStatusHeight(exit.getContentHeight());
-		
 		exit.setChangeListener(this);
 		flips.setChangeListener(this);
 		option.setChangeListener(this);
 		
 		//image = new ImageField(card.getFronturl());
 		//image.setChangeListener(this);
+		
 		if(!(Const.getPortrait())){
 			hStatManager.setStatusHeight(exit.getContentHeight());
 			hStatManager.setUrl(card.getFronturl());
@@ -76,6 +76,7 @@ public class ImageScreen extends AppScreen implements FieldChangeListener
 			addStat(stats[i]);
 		}
 		addStat(new NullField());
+		
 		addButton(exit);
 		addButton(flips);
 		addButton(option);

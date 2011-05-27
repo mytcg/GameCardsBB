@@ -44,7 +44,7 @@ public class BackgroundManager extends VerticalFieldManager
 	public void paint(Graphics g)
 	{
 		int xPts[] = {0,0,getPreferredWidth(),getPreferredWidth()};
-		int yPts[] = {0,getPreferredWidth(),getPreferredWidth(),0};
+		int yPts[] = {0,getPreferredHeight(),getPreferredHeight(),0};
 		g.drawTexturedPath(xPts,yPts,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,img);
 		super.paint(g);
 	}

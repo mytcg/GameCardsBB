@@ -18,6 +18,7 @@ public final class ListItemField extends Field {
 	private Bitmap button_left_edge;
 	private Bitmap button_right_edge;
 	
+	private Bitmap button_sel_centre;
 	private Bitmap button_sel_left_edge;
 	private Bitmap button_sel_right_edge;
 	
@@ -42,6 +43,7 @@ public final class ListItemField extends Field {
 		button_left_edge = Const.getListboxLeftEdge();
 		button_right_edge = Const.getListboxRightEdge();
 		
+		button_sel_centre = Const.getListboxSelCentre();
 		button_sel_left_edge = Const.getListboxSelLeftEdge();
 		button_sel_right_edge = Const.getListboxSelRightEdge();
 		
@@ -78,24 +80,30 @@ public final class ListItemField extends Field {
 	public void paint(Graphics g) {
 		int _xPts[] = {0,0,getPreferredWidth(),getPreferredWidth()};
 		int _yPts[] = {0,Const.getHeight(),Const.getHeight(),0};
+		
+		int xPts[] = {0,0,getPreferredWidth(),getPreferredWidth()};
+		int yPts[] = {0,getPreferredHeight(),getPreferredHeight(),0};
+		g.clear();
+		
+		
 		g.drawTexturedPath(_xPts,_yPts,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,Const.getBackground());
 		
-		int xPts[] = {5,5,getPreferredWidth()-5,getPreferredWidth()-5};
-		int yPts[] = {0,getPreferredHeight(),getPreferredHeight(),0};
 		g.setColor(Const.FONTCOLOR);
+		
 		if (focus) {
-			g.drawTexturedPath(xPts,yPts,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,button_centre);
+			g.drawTexturedPath(xPts,yPts,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,button_sel_centre);
 			
-			g.drawBitmap(5, 0, getPreferredWidth(), getPreferredHeight(), button_sel_left_edge, 0, 0);
-			g.drawBitmap(getPreferredWidth()-(button_sel_right_edge.getWidth()+5), 0, getPreferredWidth(), getPreferredHeight(), button_sel_right_edge, 0, 0);
-			g.setColor(Const.SELECTEDCOLOR);
+			//g.drawBitmap(0, 0, getPreferredWidth(), getPreferredHeight(), button_sel_left_edge, 0, 0);
+			//g.drawBitmap(getPreferredWidth()-(button_sel_right_edge.getWidth()), 0, getPreferredWidth(), getPreferredHeight(), button_sel_right_edge, 0, 0);
+
+			//g.setColor(Const.SELECTEDCOLOR);
 		} else {
 			g.drawTexturedPath(xPts,yPts,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,button_centre);
 			
-			g.drawBitmap(5, 0, getPreferredWidth(), getPreferredHeight(), button_left_edge, 0, 0);
-			g.drawBitmap(getPreferredWidth()-(button_right_edge.getWidth()+5), 0, getPreferredWidth(), getPreferredHeight(), button_right_edge, 0, 0);
+			//g.drawBitmap(5, 0, getPreferredWidth(), getPreferredHeight(), button_left_edge, 0, 0);
+			//g.drawBitmap(getPreferredWidth()-(button_right_edge.getWidth()+5), 0, getPreferredWidth(), getPreferredHeight(), button_right_edge, 0, 0);
 		}
-		g.drawText(label, (int)((getPreferredWidth()-getFont().getAdvance(label))/2), (int)((getPreferredHeight()-Const.FONT)/2));
+		g.drawText(label, 5, (int)((getPreferredHeight()-Const.FONT)/2));
 	}
 	protected void onFocus(int direction) {
 		focus = true;

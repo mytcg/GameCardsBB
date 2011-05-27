@@ -2,6 +2,7 @@ package net.mytcg.dex.http;
 
 import java.util.Vector;
 
+import net.mytcg.dex.ui.custom.ImageField;
 import net.mytcg.dex.ui.custom.ThumbnailField;
 import net.mytcg.dex.util.Const;
 
@@ -25,6 +26,13 @@ public class ConnectionHandler extends Thread {
 			close();
 		}
 	}
+	public synchronized void process(byte[] data, ImageField img, String filename) {
+		img.process(data, filename);
+		Const.THREADS--;
+		if ((Const.THREADS == 0)&&(connections.size()==0)) {
+			close();
+		}
+	}
 	public void setBusy() {
 		busy = false;
 	}
@@ -38,13 +46,28 @@ public class ConnectionHandler extends Thread {
 		current = null;
 	}
 	public synchronized void addConnect(String url, int type, ThumbnailField thumb) {
-		connections.addElement(new ThumbConnection(url, type, thumb));
-		if (!busy) {
-			busy = true;
-			start();
+		ThumbConnection tmp = new ThumbConnection(url, type, thumb);
+		if (!connections.contains(tmp)) {
+			connections.addElement(tmp);
+			if (!busy) {
+				busy = true;
+				start();
+			}
+			
+			checkRun();
 		}
-		
-		checkRun();
+	}
+	public synchronized void addConnect(String url, String filename, ImageField img) {
+		ThumbConnection tmp = new ThumbConnection(url, filename, img);
+		if (!connections.contains(tmp)) {
+			connections.addElement(tmp);
+			if (!busy) {
+				busy = true;
+				start();
+			}
+			
+			checkRun();
+		}
 	}
 	public synchronized void checkRun() {
 		if (Thread.activeCount() <= 14) {
@@ -67,7 +90,13 @@ public class ConnectionHandler extends Thread {
 		}
 	}
 	public void doConnect(ThumbConnection thumb) {
-		ConnectionGet cG = new ConnectionGet(thumb.getUrl(), this, thumb.getType(), thumb.getThumb());
-		cG.start();
+		if (thumb.getImg() == null) {
+			ConnectionGet cG = new ConnectionGet(thumb.getUrl(), this, thumb.getType(), thumb.getThumb());
+			cG.start();
+		} else if (thumb.getThumb() == null) {
+			ConnectionGet cG = new ConnectionGet(thumb.getUrl(), this, thumb.getImg(), thumb.getFilename());
+			cG.start();
+			
+		}
 	}
 }

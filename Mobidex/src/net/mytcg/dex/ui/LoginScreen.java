@@ -1,5 +1,6 @@
 package net.mytcg.dex.ui;
 
+import net.mytcg.dex.ui.custom.ColorLabelField;
 import net.mytcg.dex.ui.custom.FixedButtonField;
 import net.mytcg.dex.ui.custom.SexyEditField;
 import net.mytcg.dex.util.Const;
@@ -8,7 +9,6 @@ import net.rim.device.api.io.Base64OutputStream;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.FieldChangeListener;
 import net.rim.device.api.ui.UiApplication;
-import net.rim.device.api.ui.component.LabelField;
 
 public class LoginScreen extends AppScreen implements FieldChangeListener
 {
@@ -47,9 +47,9 @@ public class LoginScreen extends AppScreen implements FieldChangeListener
 		_instance.setAuthenticated(false);
 		SettingsBean.saveSettings(_instance);
 		
-		add(new LabelField(Const.user));
+		add(new ColorLabelField(Const.user));
 		add(username);
-		add(new LabelField(Const.password));
+		add(new ColorLabelField(Const.password));
 		add(password);
 		
 		bgManager.setStatusHeight(Const.getButtonHeight());
@@ -79,8 +79,6 @@ public class LoginScreen extends AppScreen implements FieldChangeListener
 				SettingsBean _instance = SettingsBean.getSettings();
 				_instance.setUsername(username.getText());
 				_instance.setPassword(password64);
-				System.out.println(username.getText());
-				System.out.println(password64);
 				SettingsBean.saveSettings(_instance);
 				_instance = null;
 				doConnect(Const.userdetails, false);

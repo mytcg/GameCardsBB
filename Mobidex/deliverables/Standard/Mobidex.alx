@@ -15,16 +15,6 @@
 		<copyright >
 			Copyright (c) 2011 Mobile Game Card Applications (Pty) Ltd
 		</copyright>
-		<fileset Java="1.52" _blackberryVersion="[4.5.0,4.5.1)">
-			<directory >
-				4.5.0
-			</directory>
-			<files >
-				Mobidex.cod
-
-			</files>
-
-		</fileset>
 		<fileset Java="1.52" _blackberryVersion="[6.0.0)">
 			<directory >
 				6.0.0

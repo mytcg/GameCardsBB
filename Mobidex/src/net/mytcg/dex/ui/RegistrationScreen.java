@@ -1,5 +1,6 @@
 package net.mytcg.dex.ui;
 
+import net.mytcg.dex.ui.custom.ColorLabelField;
 import net.mytcg.dex.ui.custom.FixedButtonField;
 import net.mytcg.dex.ui.custom.SexyEditField;
 import net.mytcg.dex.util.Const;
@@ -9,7 +10,6 @@ import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.FieldChangeListener;
 import net.rim.device.api.ui.UiApplication;
 import net.rim.device.api.ui.component.EditField;
-import net.rim.device.api.ui.component.LabelField;
 
 public class RegistrationScreen extends AppScreen implements FieldChangeListener
 {
@@ -17,7 +17,7 @@ public class RegistrationScreen extends AppScreen implements FieldChangeListener
 	FixedButtonField exit = new FixedButtonField(Const.exit);
 	
 	SexyEditField fullname = new SexyEditField("");
-	SexyEditField username = new SexyEditField("");
+	SexyEditField username = new SexyEditField("", EditField.FILTER_URL, 36);
 	SexyEditField cell = new SexyEditField("", EditField.FILTER_NUMERIC, 36);
 	SexyEditField email = new SexyEditField("", EditField.FILTER_EMAIL, 36);
 	SexyEditField password = new SexyEditField("");
@@ -62,15 +62,15 @@ public class RegistrationScreen extends AppScreen implements FieldChangeListener
 		_instance.setAuthenticated(false);
 		SettingsBean.saveSettings(_instance);
 		
-		add(new LabelField(Const.name));
+		add(new ColorLabelField(Const.name));
 		add(fullname);
-		add(new LabelField(Const.surname));
+		add(new ColorLabelField(Const.surname));
 		add(username);
-		add(new LabelField(Const.cell));
+		add(new ColorLabelField(Const.cell));
 		add(cell);
-		add(new LabelField(Const.age));
+		add(new ColorLabelField(Const.age));
 		add(email);
-		add(new LabelField(Const.gender));
+		add(new ColorLabelField(Const.gender));
 		add(password);
 		
 		//bgManager.setStatusHeight(Const.getButtonHeight());

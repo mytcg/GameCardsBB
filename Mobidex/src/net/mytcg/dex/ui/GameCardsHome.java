@@ -13,7 +13,7 @@ public final class GameCardsHome extends UiApplication {
 		Const.getSettings();
 		if (SettingsBean.getSettings().getAuthenticated()) {
 			update();
-			screen = new SearchScreen();
+			screen = new AlbumScreen();
 		} else {
 			screen = new LoginRegisterScreen();
 		}

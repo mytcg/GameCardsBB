@@ -86,7 +86,7 @@ public final class FixedButtonField extends Field {
 			int yPts[] = {0,getPreferredHeight(),getPreferredHeight(),0};
 			
 			g.setColor(Const.BUTTONCOLOR);
-			if (focus) {
+			if (!focus) {
 				//g.setColor(Const.SELECTEDCOLOR);
 				g.drawTexturedPath(xPts,yPts,null,null,0,getPreferredHeight(),Fixed32.ONE,0,0,Fixed32.ONE,button_sel_centre);
 				g.drawBitmap(0, 0, Const.getWidth(), getPreferredHeight(), button_sel_left_edge, 0, 0);
