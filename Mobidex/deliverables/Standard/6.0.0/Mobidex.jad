@@ -1,28 +1,28 @@
 Manifest-Version: 1.0
 MIDlet-Version: 0.0.1
-MIDlet-Jar-Size: 453840
+MIDlet-Jar-Size: 453812
 RIM-COD-URL-4: Mobidex-4.cod
-RIM-COD-SHA1-4: b8 1f d7 55 17 01 f2 73 36 f4 9e d3 be 7f c3 6f 73 a4 5a 16
+RIM-COD-SHA1-4: a1 00 76 04 c8 34 df 21 43 fa 9a 34 c8 12 7a bf 84 98 4c 04
 RIM-COD-URL-3: Mobidex-3.cod
-RIM-COD-SHA1-3: 29 bd bb c4 c0 c9 0c 61 be b5 e4 da 91 48 39 1d 4f c8 42 8c
+RIM-COD-SHA1-3: 74 0c 14 cf 46 c8 ad eb 56 cd 33 6b c3 b1 ff 0f 28 b6 42 22
 RIM-COD-URL-2: Mobidex-2.cod
 MicroEdition-Configuration: CLDC-1.1
 MIDlet-Jar-URL: Mobidex.jar
 RIM-COD-Module-Dependencies: net_rim_cldc,net_rim_bbapi_browser,net_rim_bbapi_invoke,net_rim_os,net_rim_pdap,net_rim_bbapi_phone
-RIM-COD-SHA1-2: 52 8b 81 f4 d3 f3 67 ef 42 e7 37 b2 d6 92 a2 5f 6d f6 f3 da
+RIM-COD-SHA1-2: a3 54 8e a6 e6 16 8d b3 cb 4a 03 91 6f 5b 15 7b dd 97 88 93
 RIM-COD-URL-1: Mobidex-1.cod
 RIM-COD-Size-4: 14540
-RIM-COD-SHA1-1: c7 8a 42 d1 4f 41 22 cb 95 2a 6c e3 65 f4 9b f9 96 33 d4 1a
+RIM-COD-SHA1-1: 24 1d e7 ad 06 c5 d6 e3 d0 43 32 ef 87 06 cf fa a0 d5 21 10
 RIM-COD-Size-3: 71668
 RIM-COD-Size-2: 56508
 RIM-MIDlet-Flags-1: 0
 RIM-COD-Size-1: 53704
 RIM-COD-Module-Name: Mobidex
 MIDlet-Name: Mobidex
-RIM-COD-Size: 61100
-RIM-COD-Creation-Time: 1306485380
+RIM-COD-Size: 61084
+RIM-COD-Creation-Time: 1306488119
 MIDlet-1: Mobidex,icon 1.png,
 RIM-COD-URL: Mobidex.cod
-RIM-COD-SHA1: ff 72 34 4a 96 0a 81 69 2c 47 8b 42 86 5a e1 98 28 4f a3 2b
+RIM-COD-SHA1: 28 e9 e9 89 8e 69 9a 57 63 88 73 b9 30 e6 8b fa 53 7c 06 b8
 MicroEdition-Profile: MIDP-2.0
 MIDlet-Vendor: Mobile Game Card Applications (Pty) Ltd

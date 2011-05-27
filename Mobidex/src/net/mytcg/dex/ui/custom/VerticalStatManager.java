@@ -154,7 +154,7 @@ public class VerticalStatManager extends VerticalFieldManager
 	}
 	protected void sublayout(int width, int height)
 	{
-        super.sublayout(width, height);
+        //super.sublayout(width, height);
 		Field field;
         int numberOfFields = getFieldCount();
         for (int i = 0;i < numberOfFields;i++) {
@@ -164,8 +164,8 @@ public class VerticalStatManager extends VerticalFieldManager
             	setPositionChild(field, ((getPreferredWidth()-(image.getWidth()))/2)+sField.stat.getLeft()*image.getWidth()/250, ((((Const.getHeight()-Const.getButtonCentre().getHeight()))-((image.getHeight())))/2)+sField.stat.getTop()*image.getHeight()/350);  //set the position for the field
             	layoutChild( field, sField.stat.getWidth()*image.getWidth()/250, sField.stat.getHeight()*image.getHeight()/350 ); //lay out the field
             }else{
-            	setPositionChild(field,0,0);
-            	layoutChild(field,0,0);
+            	setPositionChild(field,getPreferredWidth(),getPreferredHeight());
+            	layoutChild(field,1,1);
             }   	
         }
 		setExtent();
