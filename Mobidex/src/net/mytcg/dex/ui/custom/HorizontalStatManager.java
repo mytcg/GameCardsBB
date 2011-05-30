@@ -59,12 +59,12 @@ public class HorizontalStatManager extends HorizontalFieldManager
 	}
 	public void paint(Graphics g)
 	{
-		super.paint(g);
 		int xPts[] = {0,0,getPreferredWidth(),getPreferredWidth()};
 		int yPts[] = {0,getPreferredWidth(),getPreferredWidth(),0};
 		g.drawTexturedPath(xPts,yPts,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,img);
 		
 		g.drawBitmap(((getPreferredWidth()-(image.getWidth()))/2), (((getPreferredHeight())-((image.getHeight())))/2), image.getWidth(), image.getHeight(), image, 0, 0);
+		super.paint(g);
 	}
 	public void setTitleHeight(int height) {
 		nTitleHeight = height;
@@ -149,10 +149,9 @@ public class HorizontalStatManager extends HorizontalFieldManager
 	}
 	protected void sublayout(int width, int height)
 	{
-		super.sublayout(width, height);
+		//super.sublayout(width, height);
 		Field field;
         int numberOfFields = getFieldCount();
-        System.out.println("FUUUU2"+ numberOfFields);
         for (int i = 0;i < numberOfFields;i++) {
             field = getField(i); //get the field
             if(field instanceof StatField){

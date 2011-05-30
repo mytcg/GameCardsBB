@@ -48,7 +48,6 @@ public class VerticalStatManager extends VerticalFieldManager
 		return Const.getHeight()-Const.getButtonCentre().getHeight();
 	}
 	public int getPreferredWidth() {
-		System.out.println("GGGGGGGG "+Const.getWidth());
 		return Const.getWidth();
 	}
 	
@@ -61,7 +60,6 @@ public class VerticalStatManager extends VerticalFieldManager
 	}
 	public void paint(Graphics g)
 	{
-		System.out.println("FIRST");
 		int xPts[] = {0,0,getPreferredWidth(),getPreferredWidth()};
 		int yPts[] = {0,Const.getHeight(),Const.getHeight(),0};
 		g.drawTexturedPath(xPts,yPts,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,img);
@@ -164,8 +162,8 @@ public class VerticalStatManager extends VerticalFieldManager
             	setPositionChild(field, ((getPreferredWidth()-(image.getWidth()))/2)+sField.stat.getLeft()*image.getWidth()/250, ((((Const.getHeight()-Const.getButtonCentre().getHeight()))-((image.getHeight())))/2)+sField.stat.getTop()*image.getHeight()/350);  //set the position for the field
             	layoutChild( field, sField.stat.getWidth()*image.getWidth()/250, sField.stat.getHeight()*image.getHeight()/350 ); //lay out the field
             }else{
-            	setPositionChild(field,getPreferredWidth(),getPreferredHeight());
-            	layoutChild(field,1,1);
+            	//setPositionChild(field,0,0);
+            	//layoutChild(field,getPreferredWidth(),getPreferredHeight());
             }   	
         }
 		setExtent();

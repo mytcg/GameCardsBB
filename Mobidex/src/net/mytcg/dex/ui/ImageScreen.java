@@ -75,7 +75,7 @@ public class ImageScreen extends AppScreen implements FieldChangeListener
 			stats[i].setChangeListener(this);
 			addStat(stats[i]);
 		}
-		addStat(new NullField());
+		//addStat(new NullField());
 		
 		addButton(exit);
 		addButton(flips);
@@ -90,6 +90,7 @@ public class ImageScreen extends AppScreen implements FieldChangeListener
 	}
 	
 	public void fieldChanged(Field f, int i) {
+		System.out.println("FIELD: "+f.toString()+ " i "+i);
 		if (f == exit) {
 			if (confirm) {
 				doConnect(Const.savecard+card.getId());
