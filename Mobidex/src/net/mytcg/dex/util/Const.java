@@ -171,14 +171,15 @@ public final class Const {
 	public static final short SUBCAT = 2;
 	public static final short CARDS = 3;
 	
-	public static final short LOGOUT = -1;
+	public static final short LOGOUT = -900;
 	public static final short SEARCH = -9;
 	public static final short REDEEM = -10;
 	
-	public static final short CACHE = -1;
-	public static final short MYCARD = -2;
-	public static final short NEWCARDS = -3;
-	public static final short UPDATES = -4;
+	//public static final short CACHE = -1;
+	public static final short MYCARD = -1;
+	public static final short NEWCARDS = -2;
+	public static final short UPDATES = -3;
+	public static final short CARD = -4;
 	
 	public static final short PADDING = 20;
 	
@@ -309,7 +310,7 @@ public final class Const {
 	
 	public static String quantity = "Quantity: ";
 	
-	public static String notes = " Message";
+	public static String notes = " Add a personal note.";
 	public static String name = " Full Name";
 	public static String surname = " Username";
 	public static String cell = " Cell Number";

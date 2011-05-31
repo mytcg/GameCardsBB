@@ -19,9 +19,11 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 	
 	ThumbnailField tmp = new ThumbnailField(new Card(-1, "", 0, "", "", "", "", 0, null));
 	
-	int id = -1;
+	int id = -999;
 	boolean update = true;
 	boolean newcards = false;
+	boolean search = false;
+	int count = 0;
 	
 	public void process(String val) {
 		SettingsBean _instance = SettingsBean.getSettings();
@@ -198,6 +200,7 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 	    			val = val.substring(val.indexOf(Const.xml_card_end)+Const.xml_card_end_length);
 	    			empty = false;
 	    			synchronized(UiApplication.getEventLock()) {
+	    				count++;
 	    				if (id == Const.UPDATES) {
 	    					tmp = new ThumbnailField(_instance.getImages(cardid), true);
 	    				} else {
@@ -211,6 +214,9 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 	    			synchronized(UiApplication.getEventLock()) {
 	        			add(new ListItemField("Empty", -1, false, 0));
 	        		}
+	    		}
+	    		if (search) {
+	    			setText("("+count+") Mobidex cards matched.");
 	    		}
 	    		SettingsBean.saveSettings(_instance);
 	    		_instance = null;
@@ -228,9 +234,10 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 		
 		exit.setChangeListener(this);
 		
+		
+		addButton(new FixedButtonField(""));
+		addButton(new FixedButtonField(""));
 		addButton(exit);
-		addButton(new FixedButtonField(""));
-		addButton(new FixedButtonField(""));
 		
 		this.id = id;
 		
@@ -244,16 +251,17 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 		
 		exit.setChangeListener(this);
 		
-		addButton(exit);
-		addButton(new FixedButtonField(""));
-		addButton(new FixedButtonField(""));
 		
+		addButton(new FixedButtonField(""));
+		addButton(new FixedButtonField(""));
+		addButton(exit);
+		search = true;
 		process(val);
 	}	
 	
 	protected void onExposed() {
 		screen = null;
-		if (!isVisible()) {
+		if ((!isVisible())&&(!search)) {
 			doConnect(Const.cardsincategory+id+Const.height+Const.getCardHeight()+Const.second+SettingsBean.getSettings().getLoaded());
 		}
 		super.onExposed();

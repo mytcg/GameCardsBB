@@ -14,7 +14,7 @@ public class AlbumScreen extends AppScreen implements FieldChangeListener
 	
 	ListItemField tmp = new ListItemField("Empty", -1, false, 0);
 	
-	int id = -1;
+	int id = -999;
 	boolean update = true;
 	
 	public void process(String val) {

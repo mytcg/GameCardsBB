@@ -77,9 +77,10 @@ public class ImageScreen extends AppScreen implements FieldChangeListener
 		}
 		//addStat(new NullField());
 		
-		addButton(exit);
-		addButton(flips);
 		addButton(option);
+		addButton(flips);
+		addButton(exit);
+		
 	}
 	
 	public void process(String val) {

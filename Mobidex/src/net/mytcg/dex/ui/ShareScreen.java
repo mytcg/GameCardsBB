@@ -16,6 +16,7 @@ import net.mytcg.dex.util.Const;
 import net.rim.blackberry.api.pdap.BlackBerryContact;
 import net.rim.blackberry.api.pdap.BlackBerryContactList;
 import net.rim.device.api.io.Base64OutputStream;
+import net.rim.device.api.system.KeyListener;
 import net.rim.device.api.system.RadioInfo;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.FieldChangeListener;
@@ -23,12 +24,12 @@ import net.rim.device.api.ui.Font;
 import net.rim.device.api.ui.UiApplication;
 import net.rim.device.api.ui.component.EditField;
 
-public class ShareScreen extends AppScreen implements FieldChangeListener
+public class ShareScreen extends AppScreen implements FieldChangeListener, KeyListener
 {
 	FixedButtonField exit = new FixedButtonField(Const.back);
 	FixedButtonField contacts = new FixedButtonField(Const.contacts);
 	FixedButtonField send = new FixedButtonField(Const.send);
-	SexyEditField number = new SexyEditField("", EditField.FILTER_NUMERIC, 36);
+	SexyEditField number = new SexyEditField("enter cell number", EditField.FILTER_NUMERIC, 36);
 	ColorLabelField lbl = new ColorLabelField(Const.cell);
 	SexyEditField note = new SexyEditField(Const.getWidth(), (Const.FONT*8));
 	
@@ -38,6 +39,37 @@ public class ShareScreen extends AppScreen implements FieldChangeListener
 	//private String message = " would like to share his Mobidex Business Card with you. Go to http://dex.mytcg.net/m/ to download his Card.";
 	private String smsnumber = "";
 	private Card card = null;
+	
+	boolean fresh = true;
+
+	public boolean keyChar(char key, int status, int time)
+	{
+		if (fresh) {
+			number.setText("");
+			fresh = !fresh;
+		}
+		return super.keyChar(key, status, time);
+	}
+	public boolean keyDown(int keyCode, int time) 
+	{
+		//System.out.println("keyDown");
+		return super.keyDown(keyCode, time);
+	}
+	public boolean keyRepeat(int keyCode, int time) 
+	{
+		//System.out.println("keyRepeat");
+		return super.keyRepeat(keyCode, time);
+	}
+	public boolean keyStatus(int keyCode, int time) 
+	{
+		//System.out.println("keyStatus");
+		return super.keyStatus(keyCode, time);
+	}
+	public boolean keyUp(int keyCode, int time) 
+	{
+		//System.out.println("keyUp");
+		return super.keyUp(keyCode, time);
+	}
 	
 	public ShareScreen(Card card, AppScreen screen)
 	{

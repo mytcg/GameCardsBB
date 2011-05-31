@@ -1,12 +1,14 @@
 package net.mytcg.dex.ui.custom;
 
 import java.io.InputStream;
+import java.util.Vector;
 
 import javax.microedition.io.Connector;
 import javax.microedition.io.file.FileConnection;
 
 import net.mytcg.dex.util.Card;
 import net.mytcg.dex.util.Const;
+import net.mytcg.dex.util.Stat;
 import net.rim.device.api.math.Fixed32;
 import net.rim.device.api.system.Bitmap;
 import net.rim.device.api.system.EncodedImage;
@@ -21,7 +23,9 @@ public final class ThumbnailField extends Field {
 	private String backfile;
 	
 	private boolean focus;
-	private String label1;
+	private String label1 = "";
+	private String label2 = "";
+	private String label3 = "";
 	
 	private Bitmap button_centre;
 	
@@ -170,7 +174,23 @@ public final class ThumbnailField extends Field {
 		Font _font = getFont();
 		_font = _font.derive(Font.BOLD,font);
 		setFont(_font);
+		//label +=
+		Vector stats = card.getStats();
+		Stat tmp;
+		if (stats != null) {
+			for (int i = 0; i < stats.size(); i++) {
+				tmp = (Stat)stats.elementAt(i);
+				System.out.println("stat desc " + tmp.getDesc());
+				System.out.println("stat val " + tmp.getValue());
+				if (tmp.getDesc().equals("Company Name")) {
+					this.label2 = "\n"+tmp.getValue();
+				} else if (tmp.getDesc().equals("Mobile No")) {
+					this.label3 = "\n"+tmp.getValue();
+				}
+			}
+		}
 		this.label1 = label;
+		
 	}
 	public void setLabel(String label) {
 		this.label1 = label;
@@ -216,20 +236,41 @@ public final class ThumbnailField extends Field {
 		
 		
 		
-		g.drawBitmap(5, 5, button_thumbnail.getWidth(), getPreferredHeight(), button_thumbnail, 0, 0);
+		g.drawBitmap(5, 3, button_thumbnail.getWidth(), getPreferredHeight(), button_thumbnail, 0, 0);
 		
 		Font _font = getFont();
 		_font = _font.derive(Font.BOLD,Const.FONT+2);
 		g.setFont(_font);
 		
 		if ((card.getNote() != null)&&(card.getNote().length() > 0)) {
-			g.drawBitmap(5, 5, note.getWidth(), note.getHeight(), note, 0, 0);
+			g.drawBitmap(5, 3, note.getWidth(), note.getHeight(), note, 0, 0);
 		}
 		
+		int base = 0;
 		if (card.getUpdated() == 1) {
-			g.drawText("*" +label1, button_thumbnail.getWidth()+10, 4);
+			g.drawText("*" +label1, button_thumbnail.getWidth()+10, base);
+			
+			//g.drawText(label2, (int)((double)(Const.getWidth()-(button_thumbnail.getWidth()+_font.getAdvance(label2)))/2), 8+Const.FONT);
+			
+			if (label2.length() > 0) {
+				base = base + 4 + Const.FONT;
+				g.drawText("" +label2, button_thumbnail.getWidth()+10, base);
+			}
+			if (label3.length() > 0) {
+				base = base + 4 + Const.FONT;
+				g.drawText("" +label3, button_thumbnail.getWidth()+10, base);
+			}
 		} else {
 			g.drawText(label1, button_thumbnail.getWidth()+10, 4);
+			
+			if (label2.length() > 0) {
+				base = base + 4 + Const.FONT;
+				g.drawText("" +label2, button_thumbnail.getWidth()+10, base);
+			}
+			if (label3.length() > 0) {
+				base = base + 4 + Const.FONT;
+				g.drawText("" +label3, button_thumbnail.getWidth()+10, base);
+			}
 		}
 		
 		_font = _font.derive(Font.PLAIN,Const.FONT);
