@@ -4,6 +4,7 @@ import net.mytcg.dex.util.Const;
 import net.mytcg.dex.util.Stat;
 import net.rim.device.api.system.Bitmap;
 import net.rim.device.api.ui.Field;
+import net.rim.device.api.ui.FieldChangeListener;
 import net.rim.device.api.ui.Font;
 import net.rim.device.api.ui.Graphics;
 
@@ -27,8 +28,6 @@ public final class StatField extends Field {
 	}
 	public void construct() {
 		int font = Const.FONT;
-
-		//landscape();
 
 		Font _font = getFont();
 		_font = _font.derive(Font.BOLD,font);
@@ -57,7 +56,11 @@ public final class StatField extends Field {
 		return Const.getWidth();
 	}
 	public int getPreferredHeight() {
-		return Const.getHeight()-Const.getButtonCentre().getHeight();
+		if(!(Const.getPortrait())){
+			return image.getHeight()-Const.getButtonCentre().getHeight();
+		}else{
+			return Const.getHeight()-Const.getButtonCentre().getHeight();
+		}
 	}
 	protected void layout(int width, int height) {
 		setExtent(getPreferredWidth(),getPreferredHeight());
@@ -83,18 +86,12 @@ public final class StatField extends Field {
         return true;
     }
 	
-	public void landscape() {
-		if (!(Const.getPortrait())) {
-			try {
-				//image = Const.rotate(image, 270);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			
-		}
+	public FieldChangeListener getChangeListener() {
+		// TODO Auto-generated method stub
+		return super.getChangeListener();
 	}
-	public void process(byte[] data) {
-		landscape();
-		invalidate();
+	
+	protected void onChange(){
+		
 	}
 }

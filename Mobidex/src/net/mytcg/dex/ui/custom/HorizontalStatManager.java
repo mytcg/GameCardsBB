@@ -14,6 +14,8 @@ import net.rim.device.api.system.EncodedImage;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.Font;
 import net.rim.device.api.ui.Graphics;
+import net.rim.device.api.ui.Manager;
+import net.rim.device.api.ui.component.NullField;
 import net.rim.device.api.ui.container.HorizontalFieldManager;
 
 public class HorizontalStatManager extends HorizontalFieldManager
@@ -29,8 +31,10 @@ public class HorizontalStatManager extends HorizontalFieldManager
 	
 	public HorizontalStatManager(boolean useall)
 	{
-		super(HorizontalFieldManager.USE_ALL_HEIGHT);
+		super(HorizontalFieldManager.USE_ALL_WIDTH | Manager.FOCUSABLE);
 		this.useall = useall;
+		
+		add(new NullField());
 	}
 	protected boolean navigationMovement(int dx, int dy, int status, int time)
     {
@@ -60,7 +64,7 @@ public class HorizontalStatManager extends HorizontalFieldManager
 	public void paint(Graphics g)
 	{
 		int xPts[] = {0,0,getPreferredWidth(),getPreferredWidth()};
-		int yPts[] = {0,getPreferredWidth(),getPreferredWidth(),0};
+		int yPts[] = {0,getPreferredHeight(),getPreferredHeight(),0};
 		g.drawTexturedPath(xPts,yPts,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,img);
 		
 		g.drawBitmap(((getPreferredWidth()-(image.getWidth()))/2), (((getPreferredHeight())-((image.getHeight())))/2), image.getWidth(), image.getHeight(), image, 0, 0);
@@ -158,9 +162,6 @@ public class HorizontalStatManager extends HorizontalFieldManager
             	StatField sField = (StatField) field;
             	setPositionChild(field, ((getPreferredWidth()-(image.getWidth()))/2)+sField.stat.getTop()*image.getWidth()/350, (((getPreferredHeight())-((image.getHeight())))/2)+(250 - sField.stat.getLeft() - sField.stat.getWidth())*image.getHeight()/250);  //set the position for the field
             	layoutChild( field, sField.stat.getHeight()*image.getHeight()/250, sField.stat.getWidth()*image.getWidth()/350); //lay out the field
-            }else{
-            	setPositionChild(field,0,0);
-            	layoutChild(field,0,0);
             }
         }
 		setExtent();
