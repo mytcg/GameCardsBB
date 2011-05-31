@@ -14,6 +14,8 @@ import net.rim.device.api.system.EncodedImage;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.Font;
 import net.rim.device.api.ui.Graphics;
+import net.rim.device.api.ui.Manager;
+import net.rim.device.api.ui.component.NullField;
 import net.rim.device.api.ui.container.VerticalFieldManager;
 
 public class VerticalStatManager extends VerticalFieldManager
@@ -29,8 +31,10 @@ public class VerticalStatManager extends VerticalFieldManager
 	
 	public VerticalStatManager(boolean useall)
 	{
-		super(VerticalFieldManager.USE_ALL_WIDTH);
+		super(VerticalFieldManager.USE_ALL_WIDTH | Manager.FOCUSABLE);
 		this.useall = useall;
+		
+		add(new NullField());
 	}
 	protected boolean navigationMovement(int dx, int dy, int status, int time)
     {
@@ -161,10 +165,7 @@ public class VerticalStatManager extends VerticalFieldManager
             	StatField sField = (StatField)field;
             	setPositionChild(field, ((getPreferredWidth()-(image.getWidth()))/2)+sField.stat.getLeft()*image.getWidth()/250, ((((Const.getHeight()-Const.getButtonCentre().getHeight()))-((image.getHeight())))/2)+sField.stat.getTop()*image.getHeight()/350);  //set the position for the field
             	layoutChild( field, sField.stat.getWidth()*image.getWidth()/250, sField.stat.getHeight()*image.getHeight()/350 ); //lay out the field
-            }else{
-            	//setPositionChild(field,0,0);
-            	//layoutChild(field,getPreferredWidth(),getPreferredHeight());
-            }   	
+            } 	
         }
 		setExtent();
 	}
