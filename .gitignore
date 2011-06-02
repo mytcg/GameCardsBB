@@ -2,3 +2,8 @@
 /Mobidex/bin
 /Mobidex/deliverables
 /Mobidex/.classpath
+
+/GameCardsDev/.preprocessed
+/GameCardsDev/bin
+/Mobidex/.preprocessed
+/GameCardsDev/deliverables
