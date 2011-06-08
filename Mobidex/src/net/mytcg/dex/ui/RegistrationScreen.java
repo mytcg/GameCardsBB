@@ -78,9 +78,10 @@ public class RegistrationScreen extends AppScreen implements FieldChangeListener
 		exit.setChangeListener(this);
 		register.setChangeListener(this);
 		
-		addButton(exit);
-		addButton(new FixedButtonField(""));
+		
 		addButton(register);
+		addButton(new FixedButtonField(""));
+		addButton(exit);
 	}
 	
 	public void fieldChanged(Field f, int i) {

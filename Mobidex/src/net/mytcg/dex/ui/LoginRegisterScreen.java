@@ -28,9 +28,10 @@ public class LoginRegisterScreen extends AppScreen implements FieldChangeListene
 		add(login);
 		add(register);
 		
+		
+		addButton(new FixedButtonField(""));
+		addButton(new FixedButtonField(""));
 		addButton(exit);
-		addButton(new FixedButtonField(""));
-		addButton(new FixedButtonField(""));
 	}
 	public boolean onClose() {
 		System.exit(0);

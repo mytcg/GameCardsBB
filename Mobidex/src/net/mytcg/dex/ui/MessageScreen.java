@@ -25,9 +25,10 @@ public class MessageScreen extends AppScreen implements FieldChangeListener
 		
 		conti.setChangeListener(this);
 		
-		addButton(new FixedButtonField(""));
-		addButton(new FixedButtonField(""));
 		addButton(conti);
+		addButton(new FixedButtonField(""));
+		addButton(new FixedButtonField(""));
+		
 	}
 	public void fieldChanged(Field f, int i) {
 		if (f == conti) {

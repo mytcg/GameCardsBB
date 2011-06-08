@@ -16,6 +16,7 @@ public class AlbumScreen extends AppScreen implements FieldChangeListener
 	
 	int id = -999;
 	boolean update = true;
+	boolean collapse = false;
 	
 	public void process(String val) {
 		SettingsBean _instance = SettingsBean.getSettings();

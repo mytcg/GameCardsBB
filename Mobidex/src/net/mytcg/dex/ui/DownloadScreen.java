@@ -38,9 +38,10 @@ public class DownloadScreen extends AppScreen implements FieldChangeListener
 		download.setChangeListener(this);
 		later.setChangeListener(this);
 		
-		addButton(later);
-		addButton(new FixedButtonField(""));
 		addButton(download);
+		addButton(new FixedButtonField(""));
+		addButton(later);
+		
 	}
 	public void fieldChanged(Field f, int i) {
 		if (f == later) {

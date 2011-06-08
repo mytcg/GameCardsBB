@@ -29,9 +29,10 @@ public class DeleteScreen extends AppScreen implements FieldChangeListener
 		yes.setChangeListener(this);
 		no.setChangeListener(this);
 		
-		addButton(yes);
-		addButton(new FixedButtonField(""));
 		addButton(no);
+		addButton(new FixedButtonField(""));
+		addButton(yes);
+		
 	}
 	
 	public void fieldChanged(Field f, int i) {

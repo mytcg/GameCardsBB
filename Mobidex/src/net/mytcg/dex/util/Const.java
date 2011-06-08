@@ -172,6 +172,7 @@ public final class Const {
 	public static final short CARDS = 3;
 	
 	public static final short LOGOUT = -900;
+	public static final short DIREC = -90;
 	public static final short SEARCH = -9;
 	public static final short REDEEM = -10;
 	

@@ -40,9 +40,10 @@ public class NoteScreen extends AppScreen implements FieldChangeListener
 		exit.setChangeListener(this);
 		save.setChangeListener(this);
 		
-		addButton(exit);
-		addButton(new FixedButtonField(""));
+		
 		addButton(save);
+		addButton(new FixedButtonField(""));
+		addButton(exit);
 	}
 	
 	public void fieldChanged(Field f, int i) {
