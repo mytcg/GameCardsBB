@@ -31,7 +31,7 @@ public class HorizontalStatManager extends HorizontalFieldManager
 	
 	public HorizontalStatManager(boolean useall)
 	{
-		super(HorizontalFieldManager.USE_ALL_WIDTH | Manager.FOCUSABLE);
+		super(HorizontalFieldManager.USE_ALL_WIDTH | Manager.FOCUSABLE | HorizontalFieldManager.USE_ALL_HEIGHT);
 		this.useall = useall;
 		
 		add(new NullField());
@@ -88,7 +88,7 @@ public class HorizontalStatManager extends HorizontalFieldManager
 	}
 	public void construct() {
 		int font = Const.FONT;
-		image = Const.getThumbLoading();
+		image = Const.getLoading();
 		landscape();
 		if (file != null) {
 			getData();

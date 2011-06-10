@@ -31,7 +31,7 @@ public class VerticalStatManager extends VerticalFieldManager
 	
 	public VerticalStatManager(boolean useall)
 	{
-		super(VerticalFieldManager.USE_ALL_WIDTH | Manager.FOCUSABLE);
+		super(VerticalFieldManager.USE_ALL_WIDTH | Manager.FOCUSABLE | VerticalFieldManager.USE_ALL_HEIGHT);
 		this.useall = useall;
 		
 		add(new NullField());
@@ -91,7 +91,7 @@ public class VerticalStatManager extends VerticalFieldManager
 	}
 	public void construct() {
 		int font = Const.FONT;
-		image = Const.getThumbLoading();
+		image = Const.getLoading();
 		landscape();
 		if (file != null) {
 			getData();

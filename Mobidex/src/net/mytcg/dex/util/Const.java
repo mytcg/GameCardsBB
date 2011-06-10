@@ -533,6 +533,15 @@ public final class Const {
 		return thumbnaildisplayrightedge;
 	}
 	
+	private static Bitmap loading;
+	private static String sz_loading = "loading.png";
+	public static Bitmap getLoading() {
+		if (loading == null) {
+			loading = getSizeImage(sz_loading);   
+		}
+		return loading;
+	}
+	
 	private static Bitmap loadingthumb;
 	private static String sz_loadingthumb = "loadingthumb.png";
 	public static Bitmap getThumbLoading() {
