@@ -20,13 +20,21 @@ public class LoginScreen extends AppScreen implements FieldChangeListener
 	
 	public void process(String val) {
 		int fromIndex;
+		String freebie = "-1";
     	if ((fromIndex = val.indexOf(Const.xml_result)) != -1) {
     		super.process(val);
     	} else if ((fromIndex = val.indexOf(Const.xml_userdetails)) != -1) {
     		if (Const.processUserDetails(val)) {
+    			if ((fromIndex = val.indexOf(Const.xml_freebie)) != -1) {
+        			freebie = (val.substring(fromIndex+Const.xml_freebie_length, val.indexOf(Const.xml_freebie_end, fromIndex)));
+        		}
 				synchronized(UiApplication.getEventLock()) {
 					close();
-					Const.GOTOSCREEN = Const.ALBUMSCREEN;
+					if(freebie.equals("0")){
+						Const.GOTOSCREEN = Const.SHOP;
+					}else{
+						Const.GOTOSCREEN = Const.MENUSCREEN;
+					}
 					Const.FROMSCREEN = Const.LOGINSCREEN;
 		    		Const.app.nextScreen();
 				}

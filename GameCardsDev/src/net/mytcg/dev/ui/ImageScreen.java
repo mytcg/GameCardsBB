@@ -5,15 +5,16 @@ import net.mytcg.dev.ui.custom.ImageField;
 import net.mytcg.dev.ui.custom.StatField;
 import net.mytcg.dev.util.Card;
 import net.mytcg.dev.util.Const;
+import net.mytcg.dev.util.SettingsBean;
 import net.rim.blackberry.api.browser.Browser;
 import net.rim.blackberry.api.browser.BrowserSession;
 import net.rim.blackberry.api.invoke.Invoke;
 import net.rim.blackberry.api.invoke.MessageArguments;
 import net.rim.blackberry.api.invoke.PhoneArguments;
+import net.rim.device.api.system.Bitmap;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.FieldChangeListener;
 import net.rim.device.api.ui.UiApplication;
-import net.rim.device.api.ui.component.NullField;
 
 import java.util.Vector;
 import net.mytcg.dev.util.Stat;
@@ -30,9 +31,10 @@ public class ImageScreen extends AppScreen implements FieldChangeListener
 	private boolean flip = false;
 	private Card card = null;
 	private boolean confirm = false;
+	private Bitmap cardthumb = null;
 	
-	public ImageScreen(Card card, boolean confirm, AppScreen screen) {
-		this(card, screen);
+	public ImageScreen(Card card, boolean confirm, AppScreen screen, Bitmap cardthumb) {
+		this(card, screen, cardthumb);
 		this.confirm = confirm;
 		if (confirm) {
 			exit.setLabel(Const.accept);
@@ -41,9 +43,10 @@ public class ImageScreen extends AppScreen implements FieldChangeListener
 		
 	}
 	
-	public ImageScreen(Card card, AppScreen screen) {
+	public ImageScreen(Card card, AppScreen screen, Bitmap cardthumb) {
 		super(screen, true);
 		this.card = card;
+		this.cardthumb = cardthumb;
 		
 		//bgManager.setStatusHeight(exit.getContentHeight());
 		exit.setChangeListener(this);
@@ -89,6 +92,12 @@ public class ImageScreen extends AppScreen implements FieldChangeListener
 		}
 	}
 	
+	protected void onExposed() {
+		if(SettingsBean.getSettings().created){
+			UiApplication.getUiApplication().popScreen(this);
+		}
+	}
+	
 	public void fieldChanged(Field f, int i) {
 		System.out.println("FIELD: "+f.toString()+ " i "+i);
 		if (f == exit) {
@@ -102,7 +111,7 @@ public class ImageScreen extends AppScreen implements FieldChangeListener
 			if (confirm) {
 				doConnect(Const.rejectcard+card.getId());
 			} else {
-				screen = new OptionScreen(card, this);
+				screen = new OptionScreen(card, this, cardthumb);
 				UiApplication.getUiApplication().pushScreen(screen);
 			}
 		} else if ((f == flips)) {

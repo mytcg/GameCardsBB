@@ -9,10 +9,11 @@ import net.rim.device.api.ui.Graphics;
 
 public final class ListItemField extends Field {
 	
-	private boolean focus;
+	private boolean focus = false;
 	private String label;
 	private int id;
 	private boolean hasCards;
+	private boolean focusable = true;
 	
 	private Bitmap button_centre;
 	private Bitmap button_left_edge;
@@ -65,6 +66,9 @@ public final class ListItemField extends Field {
 		return label;
 	}
 	
+	public void setFocusable(boolean f){
+		focusable = f;
+	}
 	public int getPreferredWidth() {
 		return Const.getWidth();
 	}
@@ -75,7 +79,7 @@ public final class ListItemField extends Field {
 		setExtent(getPreferredWidth(),getPreferredHeight());
     }
 	public boolean isFocusable() {
-    	return true;
+    	return focusable;
     }
 	public void paint(Graphics g) {
 		int _xPts[] = {0,0,getPreferredWidth(),getPreferredWidth()};
@@ -93,17 +97,18 @@ public final class ListItemField extends Field {
 		if (focus) {
 			g.drawTexturedPath(xPts,yPts,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,button_sel_centre);
 			
-			//g.drawBitmap(0, 0, getPreferredWidth(), getPreferredHeight(), button_sel_left_edge, 0, 0);
-			//g.drawBitmap(getPreferredWidth()-(button_sel_right_edge.getWidth()), 0, getPreferredWidth(), getPreferredHeight(), button_sel_right_edge, 0, 0);
+			g.drawBitmap(0, 0, getPreferredWidth(), getPreferredHeight(), button_sel_left_edge, 0, 0);
+			g.drawBitmap(getPreferredWidth()-(button_sel_right_edge.getWidth()), 0, getPreferredWidth(), getPreferredHeight(), button_sel_right_edge, 0, 0);
 
-			//g.setColor(Const.SELECTEDCOLOR);
+			g.setColor(Const.SELECTEDCOLOR);
 		} else {
 			g.drawTexturedPath(xPts,yPts,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,button_centre);
 			
 			//g.drawBitmap(5, 0, getPreferredWidth(), getPreferredHeight(), button_left_edge, 0, 0);
 			//g.drawBitmap(getPreferredWidth()-(button_right_edge.getWidth()+5), 0, getPreferredWidth(), getPreferredHeight(), button_right_edge, 0, 0);
 		}
-		g.drawText(label, 5, (int)((getPreferredHeight()-Const.FONT)/2));
+		//g.drawText(label, 5, (int)((getPreferredHeight()-Const.FONT)/2));
+		g.drawText(label, (getPreferredWidth()/2-label.length()*8/2), (int)((getPreferredHeight()-Const.FONT)/2));
 	}
 	protected void onFocus(int direction) {
 		focus = true;

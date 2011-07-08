@@ -70,9 +70,9 @@ public final class ColorLabelField extends LabelField {
 	}
 	
 	public void paint(Graphics g) {
-		g.setColor(_currentColor);
-		g.fillRect(-1, -1, getPreferredWidth()+2, getPreferredHeight()+2);
-		g.setColor(_normalColor);
+		//g.setColor(_currentColor);
+		//g.fillRect(-1, -1, getPreferredWidth()+2, getPreferredHeight()+2);
+		//g.setColor(_normalColor);
 		super.paint(g);
 	}
 	

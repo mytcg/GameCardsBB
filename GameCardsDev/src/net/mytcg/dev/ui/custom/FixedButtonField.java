@@ -88,13 +88,13 @@ public final class FixedButtonField extends Field {
 			g.setColor(Const.BUTTONCOLOR);
 			if (!focus) {
 				//g.setColor(Const.SELECTEDCOLOR);
-				g.drawTexturedPath(xPts,yPts,null,null,0,getPreferredHeight(),Fixed32.ONE,0,0,Fixed32.ONE,button_sel_centre);
-				g.drawBitmap(0, 0, Const.getWidth(), getPreferredHeight(), button_sel_left_edge, 0, 0);
-				g.drawBitmap(getPreferredWidth()-button_sel_right_edge.getWidth(), 0, Const.getWidth(), getPreferredHeight(), button_sel_right_edge, 0, 0);
-			} else {
 				g.drawTexturedPath(xPts,yPts,null,null,0,getPreferredHeight(),Fixed32.ONE,0,0,Fixed32.ONE,button_centre);
 				g.drawBitmap(0, 0, Const.getWidth(), getPreferredHeight(), button_left_edge, 0, 0);
 				g.drawBitmap(getPreferredWidth()-button_right_edge.getWidth(), 0, Const.getWidth(), getPreferredHeight(), button_right_edge, 0, 0);
+			} else {
+				g.drawTexturedPath(xPts,yPts,null,null,0,getPreferredHeight(),Fixed32.ONE,0,0,Fixed32.ONE,button_sel_centre);
+				g.drawBitmap(0, 0, Const.getWidth(), getPreferredHeight(), button_sel_left_edge, 0, 0);
+				g.drawBitmap(getPreferredWidth()-button_sel_right_edge.getWidth(), 0, Const.getWidth(), getPreferredHeight(), button_sel_right_edge, 0, 0);
 			}
 			g.drawText(label, (int)((getPreferredWidth()-getFont().getAdvance(label))/2), (int)((getPreferredHeight()-Const.FONT)/2));
 		}

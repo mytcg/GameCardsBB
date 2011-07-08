@@ -13,7 +13,7 @@ public final class GameCardsHome extends UiApplication {
 		Const.getSettings();
 		if (SettingsBean.getSettings().getAuthenticated()) {
 			update();
-			screen = new AlbumScreen();
+			screen = new MenuScreen();
 		} else {
 			screen = new LoginRegisterScreen();
 		}
@@ -30,15 +30,18 @@ public final class GameCardsHome extends UiApplication {
 			popScreen(screen);
 		} catch (Exception e) {}
 		switch (Const.GOTOSCREEN) {
-			case Const.ALBUMSCREEN:
+			case Const.MENUSCREEN:
 				update();
-				screen = new AlbumScreen();
+				screen = new MenuScreen();
 				break;
 			case Const.LOGINSCREEN:
 				screen = new LoginScreen();
 				break;
 			case Const.REGISTERSCREEN:
 				screen = new RegistrationScreen();
+				break;
+			case Const.SHOP:
+				screen = new ShopCategoriesScreen(true);
 				break;
 		}
 		pushScreen(screen);
@@ -57,8 +60,8 @@ public final class GameCardsHome extends UiApplication {
 			case Const.LOGINSCREEN:
 				screen = new LoginScreen();
 				break;
-			case Const.ALBUMSCREEN:
-				screen = new AlbumScreen();
+			case Const.MENUSCREEN:
+				screen = new MenuScreen();
 				break;
 		}
 		pushScreen(screen);

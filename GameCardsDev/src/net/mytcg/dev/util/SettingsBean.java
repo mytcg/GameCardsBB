@@ -27,10 +27,14 @@ public final class SettingsBean implements Persistable {
 	private String msisdn;
 	private boolean authenticated;
 	private String usercategories;
+	private String productcategories;
 	
 	private Hashtable albums;
+	private Hashtable products;
 	private Hashtable cards;
 	private Hashtable images;
+	
+	public boolean created = false;
 	
 	//saves precache xml data
 	private String all;
@@ -90,6 +94,7 @@ public final class SettingsBean implements Persistable {
 		setEmail("");
 		setUrl(Const.url);
 		setUsercategories(Const.cat);
+		setProductcategories(Const.productcat);
 		albums = new Hashtable();
 		cards = new Hashtable();
 		images = new Hashtable();
@@ -193,6 +198,16 @@ public final class SettingsBean implements Persistable {
 			return Const.cat;
 		}
 		return (String)albums.get(""+id);
+	}
+	public String getProductcategories() {
+		return productcategories;
+	}
+	public boolean setProductcategories(String productcategories) {
+		if ((this.productcategories != null)&&(this.productcategories.equals(productcategories))) {
+			return false;
+		}
+		this.productcategories = productcategories;
+		return true;
 	}
 	public boolean setImages(int id, Card image) {
 		Card var = (Card)images.get(""+id);

@@ -1,11 +1,10 @@
 package net.mytcg.dev.util;
 
 import java.util.Vector;
-
 import net.rim.device.api.util.Persistable;
 
-public class Card implements Persistable {
-	private int id, categoryid = -1;
+public class Product implements Persistable {
+	private int id = -1;
 	private String description = "";
 	private int quantity = -1;
 	private String thumburl = "";
@@ -13,9 +12,12 @@ public class Card implements Persistable {
 	private String backurl = "";
 	private String note = "";
 	private int updated = 0;
+	private String type = "";
+	private String numcards = "";
+	private String price = "";
 	private Vector stats = new Vector();
 	
-	public Card(int id, String description, int quantity, String thumburl, String fronturl, String backurl, String note, int updated, Vector stats) {
+	public Product(int id, String description, int quantity, String thumburl, String fronturl, String backurl, String note, int updated, Vector stats) {
 		setId(id);
 		setDesc(description);
 		setQuantity(quantity);
@@ -27,7 +29,7 @@ public class Card implements Persistable {
 		setStats(stats);
 	}
 	
-	public boolean equals(Card compare) {
+	public boolean equals(Product compare) {
 		if (this.id == compare.id) {
 			if (this.description.equals(compare.description)) {
 				if (this.quantity == compare.quantity) {
@@ -35,18 +37,23 @@ public class Card implements Persistable {
 						if (this.fronturl.equals(compare.fronturl)) {
 							if (this.backurl.equals(compare.backurl)){
 								if (this.note.equals(compare.note)) {
-									if (this.updated == compare.updated){
-										if ((this.stats.size() == compare.stats.size())&&this.stats.size() > 0) {
-											boolean cmp = false;
-											for (int i = 0; i < this.stats.size(); i++) {
-												if (((Stat)(this.stats.elementAt(i))).equals((Stat)(compare.stats.elementAt(i)))) {
-													cmp = true;
+									if (this.type.equals(compare.type)) {
+										if (this.numcards.equals(compare.numcards)) {
+											if (this.price.equals(compare.price)) {
+												if (this.updated == compare.updated){
+													if ((this.stats.size() == compare.stats.size())&&this.stats.size() > 0) {
+														boolean cmp = false;
+														for (int i = 0; i < this.stats.size(); i++) {
+															if (((Stat)(this.stats.elementAt(i))).equals((Stat)(compare.stats.elementAt(i)))) {
+																cmp = true;
+															}
+														}
+														return !cmp;
+													}
 												}
 											}
-											return !cmp;
 										}
 									}
-									
 								}
 							}
 						}
@@ -56,6 +63,7 @@ public class Card implements Persistable {
 		}
 		return false;
 	}
+	
 	
 	public void setStats(Vector stats) {
 		this.stats = stats;
@@ -73,9 +81,6 @@ public class Card implements Persistable {
 	
 	public void setId(int id) {
 		this.id = id;
-	}
-	public void setCategoryId(int categoryid) {
-		this.categoryid = categoryid;
 	}
 	public void setDesc(String description) {
 		this.description = description;
@@ -98,12 +103,19 @@ public class Card implements Persistable {
 	public void setUpdated(int updated) {
 		this.updated = updated;
 	}
+	public void setType(String type) {
+		this.type = type;
+	}
+	public void setNumCards(String num) {
+		this.numcards = num;
+	}
+	public void setPrice(String price) {
+		this.price = price;
+	}
+	
 	
 	public int getId() {
 		return id;
-	}
-	public int getCategoryId() {
-		return categoryid;
 	}
 	public String getDesc() {
 		return description;
@@ -125,5 +137,14 @@ public class Card implements Persistable {
 	}
 	public int getUpdated() {
 		return updated;
+	}
+	public String getType() {
+		return type;
+	}
+	public String getNumCards() {
+		return numcards;
+	}
+	public String getPrice() {
+		return price;
 	}
 }

@@ -20,10 +20,13 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 	ThumbnailField tmp = new ThumbnailField(new Card(-1, "", 0, "", "", "", "", 0, null));
 	
 	int id = -1;
+	int type = 0;
 	boolean update = true;
 	boolean newcards = false;
+	Card compareCard = null;
 	
 	public void process(String val) {
+		System.out.println("val "+val);
 		SettingsBean _instance = SettingsBean.getSettings();
     	update = _instance.setCards(val, id);
     	
@@ -47,6 +50,7 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 	    		}
 	    		int cardid = -1;
 	    		String description = "";
+	    		String quality = "";
 	    		int quantity = -1;
 	    		String thumburl = "";
 	    		String fronturl = "";
@@ -67,13 +71,13 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 	    		String statval = "";
 	    		
 	    		while ((fromIndex = val.indexOf(Const.xml_cardid)) != -1){
-	    			
 	    			endIndex = val.indexOf(Const.xml_card_end);
 	    			card = val.substring(fromIndex, endIndex+Const.xml_card_end_length);
 	    			fromIndex = card.indexOf(Const.xml_cardid);
 	    			
 	    			cardid = -1;
 	    			description = "";
+	    			quality = "";
 	    			quantity = -1;
 	    			thumburl = "";
 	    			fronturl = "";
@@ -88,6 +92,9 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 	    			}
 	    			if ((fromIndex = card.indexOf(Const.xml_description)) != -1) {
 	    				description = card.substring(fromIndex+Const.xml_description_length, card.indexOf(Const.xml_description_end, fromIndex));
+	    			}
+	    			if ((fromIndex = card.indexOf(Const.xml_quality)) != -1) {
+	    				quality = card.substring(fromIndex+Const.xml_quality_length, card.indexOf(Const.xml_quality_end, fromIndex));
 	    			}
 	    			if ((fromIndex = card.indexOf(Const.xml_quantity)) != -1) {
 	    				try {
@@ -193,15 +200,23 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 	    					card = card.substring(card.indexOf(Const.xml_stat_end)+Const.xml_stat_end_length);
 	    				}
 	    			}
-	    			_instance.setImages(cardid, new Card(cardid, description, quantity, thumburl, fronturl, backurl, note, updated, stats));
-	    			  
+	    			System.out.println("...");
+	    			Card cardobject = new Card(cardid, description, quantity, thumburl, fronturl, backurl, note, updated, stats);
+	    			cardobject.setCategoryId(id);
+	    			_instance.setImages(cardid, cardobject);
+		    		
 	    			val = val.substring(val.indexOf(Const.xml_card_end)+Const.xml_card_end_length);
+	    			
 	    			empty = false;
 	    			synchronized(UiApplication.getEventLock()) {
 	    				if (id == Const.UPDATES) {
 	    					tmp = new ThumbnailField(_instance.getImages(cardid), true);
 	    				} else {
 	    					tmp = new ThumbnailField(_instance.getImages(cardid));
+	    				}
+	    				tmp.setSecondLabel("Quantity: "+ quantity);
+	    				if(!quality.equals("")){
+	    					tmp.setSecondLabel("Quality: "+ quality);
 	    				}
 	        			tmp.setChangeListener(this);
 	        			add(tmp);
@@ -215,11 +230,35 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 	    		SettingsBean.saveSettings(_instance);
 	    		_instance = null;
 	    	}
+	    	System.out.println(".....");
 	    	setDisplaying(true);
     	}
 	}
-	public AlbumListScreen(int id) {
+	public AlbumListScreen(int id, int type) {
 		super(null);
+		this.type = type;
+		bgManager.setStatusHeight(exit.getContentHeight());
+		
+		if (id == Const.NEWCARDS) {
+			newcards = true;
+		}
+		
+		exit.setChangeListener(this);
+		
+		addButton(exit);
+		addButton(new FixedButtonField(""));
+		addButton(new FixedButtonField(""));
+		
+		this.id = id;
+		
+		process(SettingsBean.getSettings().getCards(id));
+		doConnect(Const.cardsincategory+id+Const.height+Const.getCardHeight()+Const.second+SettingsBean.getSettings().getLoaded());
+	}
+	
+	public AlbumListScreen(int id, int type, Card card) {
+		super(null);
+		this.type = type;
+		this.compareCard = card;
 		bgManager.setStatusHeight(exit.getContentHeight());
 		
 		if (id == Const.NEWCARDS) {
@@ -249,9 +288,32 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 		addButton(new FixedButtonField(""));
 		
 		process(val);
-	}	
+	}
+	
+	public AlbumListScreen(String val, int type) {
+		super(null);
+		this.type = type;
+		bgManager.setStatusHeight(exit.getContentHeight());
+		
+		exit.setChangeListener(this);
+		
+		addButton(exit);
+		addButton(new FixedButtonField(""));
+		addButton(new FixedButtonField(""));
+		
+		process(val);
+	}
 	
 	protected void onExposed() {
+		if(type == 1){
+			UiApplication.getUiApplication().popScreen(this);
+		}
+		if(SettingsBean.getSettings().created){
+			SettingsBean _instance = SettingsBean.getSettings();
+			_instance.created = false;
+			SettingsBean.saveSettings(_instance);
+			UiApplication.getUiApplication().popScreen(this);
+		}
 		screen = null;
 		if (!isVisible()) {
 			doConnect(Const.cardsincategory+id+Const.height+Const.getCardHeight()+Const.second+SettingsBean.getSettings().getLoaded());
@@ -262,17 +324,33 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 	
 	public void fieldChanged(Field f, int i) {
 		if (f == exit) {
-			screen = null;
-			UiApplication.getUiApplication().popScreen(this);
-		} else {
+			if(type == 3){
+				try{
+					close();
+					Const.GOTOSCREEN = Const.MENUSCREEN;
+					Const.FROMSCREEN = Const.LOGINSCREEN;
+					Const.app.nextScreen();
+				}catch(Exception e){
+				}
+			} else {
+				screen = null;
+				UiApplication.getUiApplication().popScreen(this);
+			}
+		} else if(f instanceof ThumbnailField){
 			ThumbnailField set = ((ThumbnailField)(f));
 			Card card = set.getCard();
 			if (id == Const.MYCARD) {
-				screen = new ShareScreen(card, this);
+				screen = new ShareMenuScreen(card, set.getThumbnail());
+				UiApplication.getUiApplication().pushScreen(screen);
+			} else if(type == 1){
+				screen = new AuctionCreateScreen(card, set.getThumbnail());
+				UiApplication.getUiApplication().pushScreen(screen);
+			}  else if(type == 2){
+				screen = new CompareScreen(card, compareCard);
 				UiApplication.getUiApplication().pushScreen(screen);
 			} else {
 				if (card.getQuantity() > 0) {
-					screen = new ImageScreen(card, newcards, this);
+					screen = new ImageScreen(card, newcards, this, set.getThumbnail());
 					UiApplication.getUiApplication().pushScreen(screen);
 				}
 			}

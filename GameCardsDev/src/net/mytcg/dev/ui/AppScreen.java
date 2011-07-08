@@ -2,10 +2,12 @@ package net.mytcg.dev.ui;
 
 import net.mytcg.dev.http.ConnectionGet;
 import net.mytcg.dev.ui.custom.BackgroundManager;
+import net.mytcg.dev.ui.custom.HorizontalBackgroundManager;
 import net.mytcg.dev.ui.custom.VerticalStatManager;
 import net.mytcg.dev.ui.custom.HorizontalStatManager;
 import net.mytcg.dev.ui.custom.ColorLabelField;
 import net.mytcg.dev.util.Const;
+import net.mytcg.dev.util.SettingsBean;
 import net.rim.device.api.math.Fixed32;
 import net.rim.device.api.system.Bitmap;
 import net.rim.device.api.ui.Color;
@@ -20,6 +22,7 @@ import net.rim.device.api.ui.container.MainScreen;
 
 public class AppScreen extends MainScreen {
 	protected BackgroundManager bgManager = new BackgroundManager();
+	protected HorizontalBackgroundManager hbgManager = new HorizontalBackgroundManager();
 	protected VerticalStatManager vStatManager = new VerticalStatManager();
 	protected HorizontalStatManager hStatManager = new HorizontalStatManager();
 	protected BackgroundManager titleManager = new BackgroundManager(false) {
@@ -60,6 +63,7 @@ public class AppScreen extends MainScreen {
 	protected Bitmap logoleft = Const.getLogoLeft();
 	protected Bitmap logoright = Const.getLogoRight();
 	private int padding = (int)(((double)(Const.getWidth()-logo.getWidth()))/2);
+	public boolean created = false;
 	protected AppScreen screen = null;
 	protected AppScreen parent = null;
 	
@@ -151,6 +155,22 @@ public class AppScreen extends MainScreen {
 		setStatus(statusManager);
 	}
 	
+	public AppScreen(boolean noheader) {
+		super();
+		
+		if(!(Const.getPortrait())){
+			super.add(hbgManager);
+		}else{
+			add(bgManager);
+		}
+		
+		this.parent = null;
+		
+		//status setup
+		statusManager.add(hManager1);
+		setStatus(statusManager);
+	}
+	
 	public void pop() {
 		if (parent != null) {
 			UiApplication.getUiApplication().popScreen(this);
@@ -164,11 +184,22 @@ public class AppScreen extends MainScreen {
 		hManager1.add(field);
 	}
 	
+	public void removeButton(Field field){
+		hManager1.delete(field) ;
+	}
+	
 	public void add(Field field) {
 		if(field instanceof BackgroundManager)
 			super.add(field);
 		else
 			bgManager.add(field);
+	}
+	
+	public void remove(Field field) {
+		if(field instanceof BackgroundManager)
+			super.delete(field);
+		else
+			bgManager.delete(field);
 	}
 	
 	public void addStat(Field field) {
@@ -192,7 +223,6 @@ public class AppScreen extends MainScreen {
 	
 	public void doConnect(String url, boolean autoclean) {
 		setText("Attempting Connection, Please Wait...");
-		System.out.println("url " + url);
 		ConnectionGet cG = new ConnectionGet(url, this, autoclean);
 		cG.start();
 	}

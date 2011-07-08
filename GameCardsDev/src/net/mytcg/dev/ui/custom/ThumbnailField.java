@@ -7,6 +7,8 @@ import javax.microedition.io.file.FileConnection;
 
 import net.mytcg.dev.util.Card;
 import net.mytcg.dev.util.Const;
+import net.mytcg.dev.util.Product;
+import net.mytcg.dev.util.Auction;
 import net.rim.device.api.math.Fixed32;
 import net.rim.device.api.system.Bitmap;
 import net.rim.device.api.system.EncodedImage;
@@ -22,6 +24,8 @@ public final class ThumbnailField extends Field {
 	
 	private boolean focus;
 	private String label1;
+	private String label2;
+	private String label3;
 	
 	private Bitmap button_centre;
 	
@@ -31,27 +35,69 @@ public final class ThumbnailField extends Field {
 	
 	private Bitmap note;
 	
-	private Card card;
+	private Card card = null;
+	
+	private Product product = null;
+	
+	private Auction auction = null;
 	
 	private boolean delete = false;
 	
 	public int getId() {
-		return card.getId();
+		if(card != null){
+			return card.getId();
+		}else if(product != null){
+			return product.getId();
+		}else if(auction != null){
+			return auction.getId();
+		}else return -1;
 	}
 	public String getDescription() {
-		return card.getDesc();
+		if(card != null){
+			return card.getDesc();
+		}else if(product != null){
+			return product.getDesc();
+		}else if(auction != null){
+			return auction.getDesc();
+		}else return "";
+	}
+	public String getType() {
+		return product.getType();
+	}
+	public String getNumCards() {
+		return product.getNumCards();
 	}
 	public int getQuantity() {
-		return card.getQuantity();
+		if(card != null){
+			return card.getQuantity();
+		}else if(product != null){
+			return product.getQuantity();
+		}else if(auction != null){
+			return 1;
+		}else return 0;
 	}
 	public String getThumbUrl() {
-		return card.getThumburl();
+		if(card != null){
+			return card.getThumburl();
+		}else if (product != null){
+			return product.getThumburl();
+		}else if (auction != null){
+			return auction.getThumburl();
+		}else return "";
 	}
 	public String getFrontUrl() {
-		return card.getFronturl();
+		if(card != null){
+			return card.getFronturl();
+		}else if (product != null){
+			return product.getFronturl();
+		}else return "";
 	}
 	public String getBackUrl() {
-		return card.getBackurl();
+		if(card != null){
+			return card.getBackurl();
+		}else if (product != null){
+			return product.getBackurl();
+		}else return "";
 	}
 	public String getThumbFile() {
 		return thumbfile;
@@ -65,6 +111,12 @@ public final class ThumbnailField extends Field {
 	public Card getCard() {
 		return card;
 	}
+	public Product getProduct() {
+		return product;
+	}
+	public Auction getAuction() {
+		return auction;
+	}
 	
 	public ThumbnailField(Card card) {
 		this(card, false);
@@ -72,6 +124,8 @@ public final class ThumbnailField extends Field {
 	public ThumbnailField(Card card, boolean delete) {
 		this.card = card;
 		this.delete = delete;
+		this.label2 = "";
+		this.label3 = "";
 		
 		/*if (card.getUpdated() == 1) {
 			this.delete = true;
@@ -87,6 +141,26 @@ public final class ThumbnailField extends Field {
 			backfile  = getBackUrl().substring(getBackUrl().indexOf(Const.cards)+Const.cards_length, getBackUrl().indexOf(Const.png));
 		}
 		
+		construct(getDescription());
+	}
+	public ThumbnailField(Product product){
+		this.product = product;
+		this.delete = false;
+		this.label2 = "";
+		this.label3 = "";
+		if ((getThumbUrl() != null)&&(getThumbUrl().length() > 0)){
+			thumbfile = getThumbUrl().substring(getThumbUrl().indexOf(Const.products)+Const.products_length, getThumbUrl().indexOf(Const.png));
+		}
+		construct(getDescription());
+	}
+	public ThumbnailField(Auction auction){
+		this.auction = auction;
+		this.delete = false;
+		this.label2 = "";
+		this.label3 = "";
+		if ((getThumbUrl() != null)&&(getThumbUrl().length() > 0)){
+			thumbfile = getThumbUrl().substring(getThumbUrl().indexOf(Const.cards)+Const.cards_length, getThumbUrl().indexOf(Const.png));
+		}
 		construct(getDescription());
 	}
 	
@@ -177,6 +251,34 @@ public final class ThumbnailField extends Field {
 		invalidate();
 	}
 	
+	public void setSecondLabel(String label) {
+		this.label2 = label;
+		invalidate();
+	}
+	
+	public void setThirdLabel(String label) {
+		this.label3 = label;
+		invalidate();
+	}
+	
+	public void setProductType(String type) {
+		this.product.setType(type);
+	}
+	
+	public void setProductNumCards(String num) {
+		this.product.setNumCards(num);
+	}
+	
+	public void setProductPrice(String price) {
+		this.product.setPrice(price);
+	}
+	
+	public Bitmap getThumbnail(){
+		return button_thumbnail;
+	}
+	public void setThumbnail(Bitmap thumb){
+		this.button_thumbnail = thumb;
+	}
 	public int getPreferredWidth() {
 		return Const.getWidth();
 	}
@@ -200,8 +302,8 @@ public final class ThumbnailField extends Field {
 		g.setColor(Const.FONTCOLOR);
 		
 		if (focus) {
-			//g.setColor(Const.SELECTEDCOLOR);
-			g.drawTexturedPath(xPts2,yPts2,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,button_sel_centre);
+			g.setColor(Const.SELECTEDCOLOR);
+			g.drawTexturedPath(xPts2,yPts2,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,button_centre);
 			//g.drawBitmap(Const.getWidth() - (button_sel_right_edge.getWidth() + 5), 0, button_sel_right_edge.getWidth(), getPreferredHeight(), button_sel_right_edge, 0, 0);
 		} else {
 			//int xPts1[] = {2,2,getPreferredWidth()-2,getPreferredWidth()-2};
@@ -221,15 +323,26 @@ public final class ThumbnailField extends Field {
 		Font _font = getFont();
 		_font = _font.derive(Font.BOLD,Const.FONT+2);
 		g.setFont(_font);
-		
-		if ((card.getNote() != null)&&(card.getNote().length() > 0)) {
-			g.drawBitmap(5, 5, note.getWidth(), note.getHeight(), note, 0, 0);
-		}
-		
-		if (card.getUpdated() == 1) {
-			g.drawText("*" +label1, button_thumbnail.getWidth()+10, 4);
-		} else {
+		if(card != null){
+			if ((card.getNote() != null)&&(card.getNote().length() > 0)) {
+				g.drawBitmap(5, 5, note.getWidth(), note.getHeight(), note, 0, 0);
+			}
+			
+			if (card.getUpdated() == 1) {
+				g.drawText("*" +label1, button_thumbnail.getWidth()+10, 4);
+			} else {
+				g.drawText(label1, button_thumbnail.getWidth()+10, 4);
+			}
+		}else if(product != null){
 			g.drawText(label1, button_thumbnail.getWidth()+10, 4);
+		}else if(auction != null){
+			g.drawText(label1, button_thumbnail.getWidth()+10, 4);
+		}
+		if(!label2.equals("")){
+			g.drawText(label2, button_thumbnail.getWidth()+10, 26);
+		}
+		if(!label3.equals("")){
+			g.drawText(label3, button_thumbnail.getWidth()+10, 48);
 		}
 		
 		_font = _font.derive(Font.PLAIN,Const.FONT);
@@ -256,7 +369,11 @@ public final class ThumbnailField extends Field {
 	}
 	public void process(byte[] data, int type) {
 		if (type == 0) {
-			button_thumbnail = Const.getSizeImage(EncodedImage.createEncodedImage(data, 0, data.length));
+			try{
+				button_thumbnail = Const.getSizeImage(EncodedImage.createEncodedImage(data, 0, data.length));
+			}catch(IllegalArgumentException e){
+				
+			}
 			invalidate();
 		}
 		if (type < 2) 

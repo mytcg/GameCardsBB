@@ -2,6 +2,7 @@ package net.mytcg.dev.http;
 
 import java.util.Vector;
 
+import net.mytcg.dev.ui.custom.CompareField;
 import net.mytcg.dev.ui.custom.ImageField;
 import net.mytcg.dev.ui.custom.ThumbnailField;
 import net.mytcg.dev.util.Const;
@@ -58,6 +59,18 @@ public class ConnectionHandler extends Thread {
 		}
 	}
 	public synchronized void addConnect(String url, String filename, ImageField img) {
+		ThumbConnection tmp = new ThumbConnection(url, filename, img);
+		if (!connections.contains(tmp)) {
+			connections.addElement(tmp);
+			if (!busy) {
+				busy = true;
+				start();
+			}
+			
+			checkRun();
+		}
+	}
+	public synchronized void addConnect(String url, String filename, CompareField img) {
 		ThumbConnection tmp = new ThumbConnection(url, filename, img);
 		if (!connections.contains(tmp)) {
 			connections.addElement(tmp);

@@ -47,7 +47,7 @@ public class RegistrationScreen extends AppScreen implements FieldChangeListener
     		
     		synchronized(UiApplication.getEventLock()) {
 				close();
-				Const.GOTOSCREEN = Const.ALBUMSCREEN;
+				Const.GOTOSCREEN = Const.MENUSCREEN;
 				Const.FROMSCREEN = Const.LOGINSCREEN;
 	    		Const.app.nextScreen();
 			}

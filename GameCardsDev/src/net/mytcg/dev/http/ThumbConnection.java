@@ -1,5 +1,6 @@
 package net.mytcg.dev.http;
 
+import net.mytcg.dev.ui.custom.CompareField;
 import net.mytcg.dev.ui.custom.ImageField;
 import net.mytcg.dev.ui.custom.ThumbnailField;
 
@@ -8,6 +9,7 @@ class ThumbConnection {
 	private int type = -1;
 	private ThumbnailField thumb = null;
 	private ImageField img = null;
+	private CompareField com = null;
 	private String filename = "";
 	
 	public ThumbConnection(String url, int type, ThumbnailField thumb) {
@@ -15,12 +17,21 @@ class ThumbConnection {
 		this.type = type;
 		this.thumb = thumb;
 		this.img = null;
+		this.com = null;
 	}
 	public ThumbConnection(String url, String filename, ImageField img) {
 		this.url = url;
 		this.filename = filename;
 		this.thumb = null;
 		this.img = img;
+		this.com = null;
+	}
+	public ThumbConnection(String url, String filename, CompareField com) {
+		this.url = url;
+		this.filename = filename;
+		this.thumb = null;
+		this.img = null;
+		this.com = com;
 	}
 	public int getType() {
 		return type;

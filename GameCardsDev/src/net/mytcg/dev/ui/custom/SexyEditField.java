@@ -40,6 +40,7 @@ public final class SexyEditField extends Manager {
 	private Bitmap editbox_sel_middle_bottom;
 	
 	private boolean focus;
+	private boolean focusable = true;
 	
 	protected void drawFocus(Graphics g, boolean x) {
 		
@@ -123,13 +124,15 @@ public final class SexyEditField extends Manager {
 			editField.setCursorPosition(s.length());
 		}
 	}
-
+	public void setFocusable(boolean f){
+		focusable = f;
+	}
 	public int getPreferredWidth() {
 		return managerWidth;
 	}
 
 	public boolean isFocusable() {
-		return true;
+		return focusable;
 	}
 	
 	protected void onFocus(int direction) {

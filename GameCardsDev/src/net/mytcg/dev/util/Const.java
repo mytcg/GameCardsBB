@@ -81,13 +81,32 @@ public final class Const {
 		}
 		return image.getBitmap();
 	}
-	private static Bitmap getScaledBitmapImage(EncodedImage image, int ratioX, int ratioY) {
+	public static Bitmap getScaledBitmapImage(EncodedImage image, int ratioX, int ratioY) {
 		try {	
 			int currentWidthFixed32 = Fixed32.toFP(image.getWidth());
 			int currentHeightFixed32 = Fixed32.toFP(image.getHeight());
 			double ratio = (double)ratioX / (double) ratioY;
 			double w = (double) image.getWidth() * ratio;
 			double h = (double)image.getHeight() * ratio;
+			int width = (int) w;
+			int height = (int) h;
+			int requiredWidthFixed32 = Fixed32.toFP(width);
+			int requiredHeightFixed32 = Fixed32.toFP(height);
+			int scaleXFixed32 = Fixed32.div(currentWidthFixed32, requiredWidthFixed32);
+			int scaleYFixed32 = Fixed32.div(currentHeightFixed32, requiredHeightFixed32);
+			image = image.scaleImage32(scaleXFixed32, scaleYFixed32);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return image.getBitmap();
+	}
+	public static Bitmap getScaledBitmapImage(EncodedImage image, double ratioX, double ratioY) {
+		try {	
+			int currentWidthFixed32 = Fixed32.toFP(image.getWidth());
+			int currentHeightFixed32 = Fixed32.toFP(image.getHeight());
+			double ratio = (double)ratioX / (double) ratioY;
+			double w = (double) image.getWidth() * ratioX;
+			double h = (double)image.getHeight() * ratioY;
 			int width = (int) w;
 			int height = (int) h;
 			int requiredWidthFixed32 = Fixed32.toFP(width);
@@ -163,8 +182,10 @@ public final class Const {
 	public static int FROMSCREEN;
 	public static final short LOGINSCREEN = 0;
 	public static final short ALBUMSCREEN = 1;
-	public static final short LISTSCREEN = 2;
+	public static final short MENUSCREEN = 2;
 	public static final short REGISTERSCREEN = 3;
+	public static final short PROFILESCREEN = 4;
+	public static final short BALANCESCREEN = 5;
 	
 	public static final short USERDET = 0;
 	public static final short USERCAT = 1;
@@ -172,13 +193,19 @@ public final class Const {
 	public static final short CARDS = 3;
 	
 	public static final short LOGOUT = -1;
-	public static final short SEARCH = -9;
+	public static final short ALBUMS = -11;
+	public static final short PLAY = -12;
+	public static final short SHOP = -13;
+	public static final short AUCTIONS = -14;
+	public static final short BALANCE = -15;
+	public static final short PROFILE = -16;
 	public static final short REDEEM = -10;
 	
 	public static final short CACHE = -1;
 	public static final short MYCARD = -2;
 	public static final short NEWCARDS = -3;
 	public static final short UPDATES = -4;
+	public static final short BACK = -5;
 	
 	public static final short PADDING = 20;
 	
@@ -191,9 +218,9 @@ public final class Const {
 	public static int FONT = LARGE_FONT;
 	public static final int INCREASE_FONT = 2;
 	
-	public static final int FONTCOLOR = Color.WHITE;
+	public static final int FONTCOLOR = Color.BLACK;
 	public static final int BACKCOLOR = Color.BLACK;
-	public static final int BUTTONCOLOR = Color.WHITE;
+	public static final int BUTTONCOLOR = Color.BLACK;
 	public static final int SELECTEDCOLOR = Color.BLUE;
 	
 	public static final int getWidth() {
@@ -286,13 +313,24 @@ public final class Const {
 	public static String exit = "Exit";
 	public static String back = "Back";
 	public static String home = "Home";
+	public static String confirm = "Confirm";
+	public static String bid = "Bid";
 	public static String newupdate = " Update Available";
 	public static String updatemsg = "New update available. Select \"Update\" to install, or \"Later\" to continue.";
 	public static String contacts = "Contacts";
 	public static String send = "Share";
+	public static String auction = "Auction";
 	public static String search = "Search";
 	public static String term = " Search Term:";
 	public static String code = " Redeem Code:";
+	public static String usern = " Username:";
+	public static String email = " Email:";
+	public static String credits = "Credits";
+	public static String openingbid = " Opening Bid: ";
+	public static String currentbid = " Current Bid: ";
+	public static String buynowprice = " Buy Now Price: ";
+	public static String enddate = " End Date: ";
+	public static String yourbid = " Your Bid:";
 	public static String conti = "Continue";
 	public static String down = "Update";
 	public static String later = "Later";
@@ -302,7 +340,20 @@ public final class Const {
 	public static String flip = "Flip";
 	public static String options = "Options";
 	public static String logout = "Logout";
+	public static String logOut = "Log Out";
+	public static String albums = "Albums";
+	public static String play = "Play";
+	public static String shop = "Shop";
+	public static String auctions = "Auctions";
 	public static String redeem = "Redeem";
+	public static String balance = "My Balance";
+	public static String profile = "My Profile";
+	public static String all_auctions = "All Auctions";
+	public static String my_auctions = "My Auctions";
+	public static String create_auction = "Create New Auction";
+	public static String newgame = "New Game";
+	public static String placebid = "Place bid";
+	public static String buynow = "Buy now";
 	public static String close = "Close";
 	public static String accept = "Accept";
 	public static String reject = "Reject";
@@ -365,6 +416,9 @@ public final class Const {
 	
 	public static String url = "http://dev.mytcg.net/_phone/?";
 	public static String userdetails = "userdetails=1";
+	public static String profiledetails = "profiledetails=1";
+	public static String creditlog = "creditlog=1";
+	public static String saveprofiledetail = "saveprofiledetail=1";
 	public static String registeruser = "registeruser=1";
 	/*
 	 * $username = $_REQUEST['username'];
@@ -380,11 +434,24 @@ public final class Const {
 	public static String useremail = "&email=";
 	public static String userpassword = "&password=";
 	public static String usercategories = "usercategories=1";
+	public static String productcategories = "productcategories=1";
+	public static String categoryproducts = "categoryproducts=1";
+	public static String auctioncategories="auctioncategories=1";
+	public static String getusergames="getusergames=1";
+	public static String getuserdecks="getuserdecks=1";
+	public static String getdecks="getdecks=1";
+	public static String addtodeck="addtodeck=";
+	public static String categoryauction = "categoryauction=1";
+	public static String createauction = "createauction=1";
+	public static String userauction = "userauction=1";
+	public static String buyauctionnow = "buyauctionnow=1";
+	public static String auctionbid = "auctionbid=1";
 	public static String savecard = "savecard=";
 	public static String deletecard = "deletecard=";
 	public static String rejectcard = "rejectcard=";
 	public static String showall = "&showall=0";
 	public static String cardsincategory = "cardsincategory=";
+	public static String buyproduct = "buyproduct=";
 	public static String second = "&seconds=";
 	public static String savenote = "savenote=";
 	public static String trade = "tradecard=";
@@ -396,8 +463,10 @@ public final class Const {
 	public static String cardid = "&cardid=";
 	public static String height = "&height=";
 	public static String width = "&width=";
+	public static String freebie = "&freebie=";
 	public static String subcategories = "usersubcategories=1&category=";
 	public static String cat = "<usercategories><album><album><albumid>-999</albumid><hascards>false</hascards><albumname>Empty</albumname></album></usercategories>";
+	public static String productcat = "<cardcategories><album><albumid>-999</albumid><albumname>Empty</albumname></album></cardcategories>";
 	public static String card = "<cardsincategory><card><cardid>-999</cardid><description>Empty</description><quantity>0</quantity><backurl></backurl></card></cardsincategory>";
 	
 	
@@ -411,7 +480,9 @@ public final class Const {
 	
 	
 	public static String cards = "/cards/";
+	public static String products = "/products/";
 	public static final int cards_length = cards.length();
+	public static final int products_length = products.length();
 	public static String png = ".png";
 	
 	public static boolean store = false;
@@ -913,7 +984,14 @@ public final class Const {
 		}
 		return editboxselmiddlebottom;
 	}
-	
+	private static Bitmap log_out;
+	private static String sz_log_out = "logout.png";
+	public static Bitmap getLogOut() {
+		if (log_out == null) {
+			log_out = getSizeImage(sz_log_out);   
+		}
+		return log_out;
+	}
 	/*
 	 * XML
 	 */
@@ -921,15 +999,78 @@ public final class Const {
 	public static final String xml_result = "<result>";
 	public static final int xml_result_length = xml_result.length();
 	public static final String xml_result_end = "</result>";
+	public static final String xml_success = "<success>";
+	public static final int xml_success_length = xml_success.length();
+	public static final String xml_success_end = "</success>";
 	public static final int xml_error_end_length = xml_result_end.length();
+	public static final String xml_categoryproducts = "<categoryproducts>";
+	public static final int xml_categoryproducts_length = xml_categoryproducts.length(); 
+	public static final String xml_categoryproducts_end = "</categoryproducts>";
+	public static final int xml_categoryproducts_end_length = xml_categoryproducts_end.length();
+	public static final String xml_productcategories = "<cardcategories>";
+	public static final int xml_productcategories_length = xml_productcategories.length(); 
+	public static final String xml_productcategories_end = "</cardcategories>";
+	public static final int xml_productcategories_end_length = xml_productcategories_end.length();
 	public static final String xml_usercategories = "<usercategories>";
 	public static final int xml_usercategories_length = xml_usercategories.length(); 
 	public static final String xml_usercategories_end = "</usercategories>";
 	public static final int xml_usercategories_end_length = xml_usercategories_end.length();
+	public static final String xml_cardcategories = "<cardcategories>";
+	public static final int xml_cardcategories_length = xml_cardcategories.length(); 
+	public static final String xml_cardcategories_end = "</cardcategories>";
+	public static final int xml_cardcategories_end_length = xml_cardcategories_end.length();
+	public static final String xml_profiledetails = "<profiledetails>";
+	public static final int xml_profiledetails_length = xml_profiledetails.length(); 
+	public static final String xml_profiledetails_end = "</profiledetails>";
+	public static final int xml_profiledetails_end_length = xml_profiledetails_end.length();
+	public static final String xml_transactions = "<transactions>";
+	public static final int xml_transactions_length = xml_transactions.length(); 
+	public static final String xml_transactions_end = "</transactions>";
+	public static final int xml_transactions_end_length = xml_transactions_end.length();
+	public static final String xml_games = "<games>";
+	public static final int xml_games_length = xml_games.length(); 
+	public static final String xml_games_end = "</games>";
+	public static final int xml_games_end_length = xml_games_end.length();
+	public static final String xml_productid = "<productid>";
+	public static final int xml_productid_length = xml_productid.length();
+	public static final String xml_productid_end = "</productid>";
+	public static final int xml_productid_end_length = xml_productid_end.length();
+	public static final String xml_productname = "<productname>";
+	public static final int xml_productname_length = xml_productname.length();
+	public static final String xml_productname_end = "</productname>";
+	public static final int xml_productname_end_length = xml_productname_end.length();
+	public static final String xml_producttype = "<producttype>";
+	public static final int xml_producttype_length = xml_producttype.length();
+	public static final String xml_producttype_end = "</producttype>";
+	public static final int xml_producttype_end_length = xml_producttype_end.length();
+	public static final String xml_productprice = "<productprice>";
+	public static final int xml_productprice_length = xml_productprice.length();
+	public static final String xml_productprice_end = "</productprice>";
+	public static final int price = xml_productprice_end.length();
+	public static final String xml_productnumcards = "<productnumcards>";
+	public static final int xml_productnumcards_length = xml_productnumcards.length();
+	public static final String xml_productnumcards_end = "</productnumcards>";
+	public static final int xml_productnumcards_end_length = xml_productnumcards_end.length();
+	public static final String xml_productthumb = "<productthumb>";
+	public static final int xml_productthumb_length = xml_productthumb.length();
+	public static final String xml_productthumb_end = "</productthumb>";
+	public static final int xml_productthumb_end_length = xml_productthumb_end.length();
+	public static final String xml_gameid = "<gameid>";
+	public static final int xml_gameid_length = xml_gameid.length();
+	public static final String xml_gameid_end = "</gameid>";
+	public static final int xml_gameid_end_length = xml_gameid_end.length();
+	public static final String xml_gamename = "<gamedescription>";
+	public static final int xml_gamename_length = xml_gamename.length();
+	public static final String xml_gamename_end = "</gamedescription>";
+	public static final int xml_gamename_end_length = xml_gamename_end.length();
 	public static final String xml_albumid = "<albumid>";
 	public static final int xml_albumid_length = xml_albumid.length();
 	public static final String xml_albumid_end = "</albumid>";
 	public static final int xml_albumid_end_length = xml_albumid_end.length();
+	public static final String xml_answerid = "<answer_id>";
+	public static final int xml_answerid_length = xml_answerid.length();
+	public static final String xml_answerid_end = "</answer_id>";
+	public static final int xml_answerid_end_length = xml_answerid_end.length();
 	public static final String xml_hascards = "<hascards>";
 	public static final int xml_hascards_length = xml_hascards.length();
 	public static final String xml_hascards_end = "</hascards>";
@@ -940,10 +1081,44 @@ public final class Const {
 	public static final int xml_albumname_end_length = xml_albumname_end.length();
 	public static final String xml_album_end = "</album>";
 	public static final int xml_album_end_length = xml_album_end.length();
+	public static final String xml_detail_end = "</detail>";
+	public static final int xml_detail_end_length = xml_detail_end.length();
+	public static final String xml_transaction_end = "</transaction>";
+	public static final int xml_transaction_end_length = xml_transaction_end.length();
+	public static final String xml_game_end = "</game>";
+	public static final int xml_game_end_length = xml_game_end.length();
+	public static final String xml_product_end = "</product>";
+	public static final int xml_product_end_length = xml_product_end.length();
+	public static final String xml_auction_end = "</auction>";
+	public static final int xml_auction_end_length = xml_auction_end.length();
 	public static final String xml_userdetails = "<userdetails>";
 	public static final int xml_userdetails_length = xml_userdetails.length();
 	public static final String xml_userdetails_end = "</userdetails>";
 	public static final int xml_userdetails_end_length = xml_userdetails_end.length();
+	public static final String xml_descr = "<desc>";
+	public static final int xml_descr_length = xml_descr.length();
+	public static final String xml_descr_end = "</desc>";
+	public static final int xml_descr_end_length = xml_descr_end.length();
+	public static final String xml_date = "<date>";
+	public static final int xml_date_length = xml_date.length();
+	public static final String xml_date_end = "</date>";
+	public static final int xml_date_end_length = xml_date_end.length();
+	public static final String xml_value = "<value>";
+	public static final int xml_value_length = xml_value.length();
+	public static final String xml_value_end = "</value>";
+	public static final int xml_value_end_length = xml_value_end.length();
+	public static final String xml_answer = "<answer>";
+	public static final int xml_answer_length = xml_answer.length();
+	public static final String xml_answer_end = "</answer>";
+	public static final int xml_answer_end_length = xml_answer_end.length();
+	public static final String xml_answered = "<answered>";
+	public static final int xml_answered_length = xml_answered.length();
+	public static final String xml_answered_end = "</answered>";
+	public static final int xml_answered_end_length = xml_answered_end.length();
+	public static final String xml_creditvalue = "<creditvalue>";
+	public static final int xml_creditvalue_length = xml_creditvalue.length();
+	public static final String xml_creditvalue_end = "</creditvalue>";
+	public static final int xml_creditvalue_end_length = xml_creditvalue_end.length();
 	public static final String xml_email = "<email>";
 	public static final int xml_email_length = xml_email.length();
 	public static final String xml_email_end = "</email>";
@@ -952,11 +1127,57 @@ public final class Const {
 	public static final int xml_credits_length = xml_credits.length();
 	public static final String xml_credits_end = "</credits>";
 	public static final int xml_credits_end_length = xml_credits_end.length();
+	public static final String xml_freebie = "<freebie>";
+	public static final int xml_freebie_length = xml_freebie.length();
+	public static final String xml_freebie_end = "</freebie>";
+	public static final int xml_freebie_end_length = xml_freebie_end.length();
 	
 	public static final String xml_cardsincategory = "<cardsincategory>";
 	public static final int xml_cardsincategory_length = xml_cardsincategory.length();
 	public static final String xml_cardsincategory_end = "</cardsincategory>";
 	public static final int xml_cardsincategory_end_length = xml_cardsincategory_end.length();
+	
+	public static final String xml_auctionsincategory = "<auctionsincategory>";
+	public static final int xml_auctionsincategory_length = xml_auctionsincategory.length();
+	public static final String xml_auctionsincategory_end = "</auctionsincategory>";
+	public static final int xml_auctionsincategory_end_length = xml_auctionsincategory_end.length();
+	public static final String xml_auctioncardid = "<auctioncardid>";
+	public static final int xml_auctioncardid_length = xml_auctioncardid.length();
+	public static final String xml_auctioncardid_end = "</auctioncardid>";
+	public static final int xml_auctioncardid_end_length = xml_auctioncardid_end.length();
+	public static final String xml_usercardid = "<usercardid>";
+	public static final int xml_usercardid_length = xml_usercardid.length();
+	public static final String xml_usercardid_end = "</usercardid>";
+	public static final int xml_usercardid_end_length = xml_usercardid_end.length();
+	public static final String xml_openingbid = "<openingbid>";
+	public static final int xml_openingbid_length = xml_openingbid.length();
+	public static final String xml_openingbid_end = "</openingbid>";
+	public static final int xml_openingbid_end_length = xml_openingbid_end.length();
+	public static final String xml_buynowprice = "<buynowprice>";
+	public static final int xml_buynowprice_length = xml_buynowprice.length();
+	public static final String xml_buynowprice_end = "</buynowprice>";
+	public static final int xml_buynowprice_end_length = xml_buynowprice_end.length();
+	public static final String xml_price = "<price>";
+	public static final int xml_price_length = xml_price.length();
+	public static final String xml_price_end = "</price>";
+	public static final int xml_price_end_length = xml_price_end.length();
+	public static final String xml_username = "<username>";
+	public static final int xml_username_length = xml_username.length();
+	public static final String xml_username_end = "</username>";
+	public static final int xml_username_end_length = xml_username_end.length();
+	public static final String xml_endDate = "<endDate>";
+	public static final int xml_endDate_length = xml_endDate.length();
+	public static final String xml_endDate_end = "</endDate>";
+	public static final int xml_endDate_end_length = xml_endDate_end.length();
+	public static final String xml_lastBidUser = "<lastBidUser>";
+	public static final int xml_lastBidUser_length = xml_lastBidUser.length();
+	public static final String xml_lastBidUser_end = "</lastBidUser>";
+	public static final int xml_lastBidUser_end_length = xml_lastBidUser_end.length();
+	
+	public static final String xml_cards = "<cards>";
+	public static final int xml_cards_length = xml_cards.length();
+	public static final String xml_cards_end = "</cards>";
+	public static final int xml_cards_end_length = xml_cards_end.length();
 	
 	public static final String xml_card = "<card>";
 	public static final int xml_card_length = xml_card.length();
@@ -965,10 +1186,18 @@ public final class Const {
 	public static final int xml_cardid_length = xml_cardid.length();
 	public static final String xml_cardid_end = "</cardid>";
 	public static final int xml_cardid_end_length = xml_cardid_end.length();
+	public static final String xml_id = "<id>";
+	public static final int xml_id_length = xml_id.length();
+	public static final String xml_id_end = "</id>";
+	public static final int xml_id_end_length = xml_id_end.length();
 	public static final String xml_description = "<description>";
 	public static final int xml_description_length = xml_description.length();
 	public static final String xml_description_end = "</description>";
 	public static final int xml_description_end_length = xml_description_end.length();
+	public static final String xml_quality = "<quality>";
+	public static final int xml_quality_length = xml_quality.length();
+	public static final String xml_quality_end = "</quality>";
+	public static final int xml_quality_end_length = xml_quality_end.length();
 	public static final String xml_quantity = "<quantity>";
 	public static final int xml_quantity_length = xml_quantity.length();
 	public static final String xml_quantity_end = "</quantity>";
