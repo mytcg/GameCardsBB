@@ -13,6 +13,7 @@ public class NewGameScreen extends AppScreen implements FieldChangeListener
 	
 	ListItemField newgame = new ListItemField("Empty", -1, false, 0);
 	ListItemField tmp = new ListItemField("Empty", -1, false, 0);
+	String games = null;
 
 	public NewGameScreen()
 	{
@@ -33,37 +34,19 @@ public class NewGameScreen extends AppScreen implements FieldChangeListener
 	}
 	
 	public void process(String val) {
+		System.out.println("wawawa "+val);
 		if (!(isDisplaying())) {
 			int fromIndex;
 	    	if ((fromIndex = val.indexOf(Const.xml_result)) != -1) {
 	    		setText(val.substring(fromIndex+Const.xml_result_length, val.indexOf(Const.xml_result_end, fromIndex)));
 	    	} else if (((fromIndex = val.indexOf(Const.xml_games)) != -1)) {
-	    		int gameid = -1;
-	    		String gamename = "";
-	    		int endIndex = -1;
-	    		String game = "";
-	    		while ((fromIndex = val.indexOf(Const.xml_gameid)) != -1){
-	    			
-	    			endIndex = val.indexOf(Const.xml_gameid_end);
-	    			game = val.substring(fromIndex, endIndex+Const.xml_gameid_end_length);
-	    			fromIndex = game.indexOf(Const.xml_gameid);
-	    			
-	    			try {
-	    				gameid = Integer.parseInt(game.substring(fromIndex+Const.xml_gameid_length, game.indexOf(Const.xml_gameid_end, fromIndex)));
-	    			} catch (Exception e) {
-	    				gameid = -1;
-	    			}
-	    			if ((fromIndex = game.indexOf(Const.xml_gamename)) != -1) {
-	    				gamename = game.substring(fromIndex+Const.xml_gamename_length, game.indexOf(Const.xml_gamename_end, fromIndex));
-	    			}
-	    			val = val.substring(val.indexOf(Const.xml_game_end)+Const.xml_game_end_length);
-	    			if(gameid != -1){
-		    			synchronized(UiApplication.getEventLock()) {
-		    				tmp = new ListItemField(gamename, gameid, true, 0);
-		        			tmp.setChangeListener(this);
-		        			add(tmp);
-		        		}
-	    			}
+	    		if ((fromIndex = val.indexOf(Const.xml_gameid)) != -1){
+	    			games = val;
+	    			synchronized(UiApplication.getEventLock()) {
+	    				tmp = new ListItemField("Continue Game", 1, true, 0);
+	        			tmp.setChangeListener(this);
+	        			add(tmp);
+	        		}
 	    		}
 	    	}
 	    	invalidate();
@@ -76,12 +59,12 @@ public class NewGameScreen extends AppScreen implements FieldChangeListener
 			screen = null;
 			UiApplication.getUiApplication().popScreen(this);
 		} else if(f == newgame){
-			//screen = new AuctionListScreen(0,1);
+			screen = new GameCategoryScreen();
 			UiApplication.getUiApplication().pushScreen(screen);
 		} else if(f instanceof ListItemField){
 			int category = ((ListItemField)(f)).getId();
-			if(category > -1){
-				//screen = new AuctionListScreen(category,0);
+			if(category == 1){
+				screen = new GameListScreen(games);
 				UiApplication.getUiApplication().pushScreen(screen);
 			}
 		}

@@ -75,7 +75,7 @@ public final class ImageField extends Field {
 	
 	public void construct() {
 		int font = Const.FONT;
-		image = Const.getThumbLoading();
+		image = Const.getLoading();
 		landscape();
 		if (file != null) {
 			getData();

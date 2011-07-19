@@ -12,9 +12,11 @@ import javax.microedition.io.file.FileConnection;
 
 import net.mytcg.dev.ui.AppScreen;
 import net.mytcg.dev.ui.GameCardsHome;
+import net.mytcg.dev.ui.custom.HorizontalGamePlayManager;
 import net.mytcg.dev.ui.custom.HorizontalStatManager;
 import net.mytcg.dev.ui.custom.ImageField;
 import net.mytcg.dev.ui.custom.ThumbnailField;
+import net.mytcg.dev.ui.custom.VerticalGamePlayManager;
 import net.mytcg.dev.ui.custom.VerticalStatManager;
 import net.mytcg.dev.util.Const;
 import net.mytcg.dev.util.SettingsBean;
@@ -28,6 +30,8 @@ public final class ConnectionGet extends Connection implements Runnable {
 	private ImageField image = null;
 	private VerticalStatManager vStat = null;
 	private HorizontalStatManager hStat = null;
+	private VerticalGamePlayManager vGame = null;
+	private HorizontalGamePlayManager hGame = null;
 	private int type = -1;
 	private GameCardsHome home;
 	private boolean autoclean = true;
@@ -41,9 +45,17 @@ public final class ConnectionGet extends Connection implements Runnable {
 		this(url);
 		this.vStat = vStat;
 	}
+	public ConnectionGet(String url, VerticalGamePlayManager vGame) {
+		this(url);
+		this.vGame = vGame;
+	}
 	public ConnectionGet(String url, HorizontalStatManager hStat) {
 		this(url);
 		this.hStat = hStat;
+	}
+	public ConnectionGet(String url, HorizontalGamePlayManager hGame) {
+		this(url);
+		this.hGame = hGame;
 	}
 	public ConnectionGet(String url, ConnectionHandler field, ImageField image, String filename) {
 		this(url);
@@ -150,8 +162,14 @@ public final class ConnectionGet extends Connection implements Runnable {
 					if (vStat != null) {
 		        		vStat.process(data);
 		        	}
+					if (vGame != null) {
+						vGame.process(data);
+		        	}
 		        	if (hStat != null) {
 		        		hStat.process(data);
+		        	}
+		        	if (hGame != null) {
+						hGame.process(data);
 		        	}
 		        	if ((field != null)&&(thumb != null)) {
 		        		saveData(data, type);

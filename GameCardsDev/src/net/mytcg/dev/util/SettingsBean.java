@@ -35,6 +35,7 @@ public final class SettingsBean implements Persistable {
 	private Hashtable images;
 	
 	public boolean created = false;
+	public boolean leavegame = false;
 	
 	//saves precache xml data
 	private String all;

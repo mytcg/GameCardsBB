@@ -3,6 +3,8 @@ package net.mytcg.dev.ui;
 import net.mytcg.dev.http.ConnectionGet;
 import net.mytcg.dev.ui.custom.BackgroundManager;
 import net.mytcg.dev.ui.custom.HorizontalBackgroundManager;
+import net.mytcg.dev.ui.custom.HorizontalGamePlayManager;
+import net.mytcg.dev.ui.custom.VerticalGamePlayManager;
 import net.mytcg.dev.ui.custom.VerticalStatManager;
 import net.mytcg.dev.ui.custom.HorizontalStatManager;
 import net.mytcg.dev.ui.custom.ColorLabelField;
@@ -25,6 +27,8 @@ public class AppScreen extends MainScreen {
 	protected HorizontalBackgroundManager hbgManager = new HorizontalBackgroundManager();
 	protected VerticalStatManager vStatManager = new VerticalStatManager();
 	protected HorizontalStatManager hStatManager = new HorizontalStatManager();
+	protected VerticalGamePlayManager vGameManager = new VerticalGamePlayManager();
+	protected HorizontalGamePlayManager hGameManager = new HorizontalGamePlayManager();
 	protected BackgroundManager titleManager = new BackgroundManager(false) {
 		
 		/*public int getPreferredHeight() {
@@ -163,6 +167,18 @@ public class AppScreen extends MainScreen {
 		}else{
 			add(bgManager);
 		}
+		
+		this.parent = null;
+		
+		//status setup
+		statusManager.add(hManager1);
+		setStatus(statusManager);
+	}
+	
+	public AppScreen(boolean noheader, boolean gameplay) {
+		super();
+		
+		add(bgManager);
 		
 		this.parent = null;
 		

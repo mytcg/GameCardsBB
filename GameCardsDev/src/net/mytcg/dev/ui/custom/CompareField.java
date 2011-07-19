@@ -69,9 +69,9 @@ public final class CompareField extends Field {
 				_file.close();
 				Bitmap temp = (EncodedImage.createEncodedImage(data, 0, data.length)).getBitmap();
 				if ((Const.getPortrait())) {
-					image = Const.getScaledBitmapImage((EncodedImage.createEncodedImage(data, 0, data.length)),((double)(getPreferredHeight()-10)/temp.getWidth()),((double)(getPreferredWidth()-10)/temp.getHeight()));
+					image = Const.getScaledBitmapImage((EncodedImage.createEncodedImage(data, 0, data.length)),((double)(getPreferredHeight()-20)/temp.getWidth()),((double)(getPreferredWidth()-20)/temp.getHeight()));
 				}else{
-					image = Const.getScaledBitmapImage((EncodedImage.createEncodedImage(data, 0, data.length)),((double)(getPreferredWidth()-10)/temp.getWidth()),((double)(getPreferredHeight()-10)/temp.getHeight()));
+					image = Const.getScaledBitmapImage((EncodedImage.createEncodedImage(data, 0, data.length)),((double)(getPreferredWidth()-20)/temp.getWidth()),((double)(getPreferredHeight()-20)/temp.getHeight()));
 				}
 				landscape();
 				invalidate();
@@ -81,7 +81,7 @@ public final class CompareField extends Field {
 	
 	public void construct() {
 		int font = Const.FONT;
-		image = Const.getThumbLoading();
+		image = Const.getLoading();
 		landscape();
 		if (file != null) {
 			getData();
@@ -155,9 +155,9 @@ public final class CompareField extends Field {
 	public void process(byte[] data, String filename) {
 		Bitmap temp = (EncodedImage.createEncodedImage(data, 0, data.length)).getBitmap();
 		if ((Const.getPortrait())) {
-			image = Const.getScaledBitmapImage((EncodedImage.createEncodedImage(data, 0, data.length)),((double)(getPreferredHeight()-10)/temp.getWidth()),((double)(getPreferredWidth()-10)/temp.getHeight()));
+			image = Const.getScaledBitmapImage((EncodedImage.createEncodedImage(data, 0, data.length)),((double)(getPreferredHeight()-20)/temp.getWidth()),((double)(getPreferredWidth()-20)/temp.getHeight()));
 		}else{
-			image = Const.getScaledBitmapImage((EncodedImage.createEncodedImage(data, 0, data.length)),((double)(getPreferredWidth()-10)/temp.getWidth()),((double)(getPreferredHeight()-10)/temp.getHeight()));
+			image = Const.getScaledBitmapImage((EncodedImage.createEncodedImage(data, 0, data.length)),((double)(getPreferredWidth()-20)/temp.getWidth()),((double)(getPreferredHeight()-20)/temp.getHeight()));
 		}
 		landscape();
 		invalidate();

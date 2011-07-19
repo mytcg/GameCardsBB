@@ -343,6 +343,7 @@ public final class Const {
 	public static String logOut = "Log Out";
 	public static String albums = "Albums";
 	public static String play = "Play";
+	public static String con = "Continue";
 	public static String shop = "Shop";
 	public static String auctions = "Auctions";
 	public static String redeem = "Redeem";
@@ -419,6 +420,7 @@ public final class Const {
 	public static String profiledetails = "profiledetails=1";
 	public static String creditlog = "creditlog=1";
 	public static String saveprofiledetail = "saveprofiledetail=1";
+	public static String viewgamelog = "viewgamelog=1";
 	public static String registeruser = "registeruser=1";
 	/*
 	 * $username = $_REQUEST['username'];
@@ -438,6 +440,11 @@ public final class Const {
 	public static String categoryproducts = "categoryproducts=1";
 	public static String auctioncategories="auctioncategories=1";
 	public static String getusergames="getusergames=1";
+	public static String playablecategories="playablecategories=1";
+	public static String startnewgame = "newgame=1";
+	public static String loadgame = "loadgame=1";
+	public static String continuegame = "continuegame=1";
+	public static String selectstat = "selectstat=1";
 	public static String getuserdecks="getuserdecks=1";
 	public static String getdecks="getdecks=1";
 	public static String addtodeck="addtodeck=";
@@ -600,6 +607,15 @@ public final class Const {
 			thumbnaildisplayrightedge = getSizeImage(sz_thumbnaildisplayrightedge);   
 		}
 		return thumbnaildisplayrightedge;
+	}
+	
+	private static Bitmap loading;
+	private static String sz_loading = "loading.png";
+	public static Bitmap getLoading() {
+		if (loading == null) {
+			loading = getSizeImage(sz_loading);   
+		}
+		return loading;
 	}
 	
 	private static Bitmap loadingthumb;
@@ -1019,6 +1035,22 @@ public final class Const {
 	public static final int xml_cardcategories_length = xml_cardcategories.length(); 
 	public static final String xml_cardcategories_end = "</cardcategories>";
 	public static final int xml_cardcategories_end_length = xml_cardcategories_end.length();
+	public static final String xml_categories = "<categories>";
+	public static final int xml_categories_length = xml_categories.length(); 
+	public static final String xml_categories_end = "</categories>";
+	public static final int xml_categories_end_length = xml_categories_end.length();
+	public static final String xml_logs = "<logs>";
+	public static final int xml_logs_length = xml_logs.length(); 
+	public static final String xml_logs_end = "</logs>";
+	public static final int xml_logs_end_length = xml_logs_end.length();
+	public static final String xml_log = "<log>";
+	public static final int xml_log_length = xml_log.length(); 
+	public static final String xml_log_end = "</log>";
+	public static final int xml_log_end_length = xml_log_end.length();
+	public static final String xml_category = "<category>";
+	public static final int xml_category_length = xml_category.length(); 
+	public static final String xml_category_end = "</category>";
+	public static final int xml_category_end_length = xml_category_end.length();
 	public static final String xml_profiledetails = "<profiledetails>";
 	public static final int xml_profiledetails_length = xml_profiledetails.length(); 
 	public static final String xml_profiledetails_end = "</profiledetails>";
@@ -1031,6 +1063,8 @@ public final class Const {
 	public static final int xml_games_length = xml_games.length(); 
 	public static final String xml_games_end = "</games>";
 	public static final int xml_games_end_length = xml_games_end.length();
+	public static final String xml_game = "<game>";
+	public static final int xml_game_length = xml_game.length(); 
 	public static final String xml_productid = "<productid>";
 	public static final int xml_productid_length = xml_productid.length();
 	public static final String xml_productid_end = "</productid>";
@@ -1055,6 +1089,14 @@ public final class Const {
 	public static final int xml_productthumb_length = xml_productthumb.length();
 	public static final String xml_productthumb_end = "</productthumb>";
 	public static final int xml_productthumb_end_length = xml_productthumb_end.length();
+	public static final String xml_categoryid = "<categoryid>";
+	public static final int xml_categoryid_length = xml_categoryid.length();
+	public static final String xml_categoryid_end = "</categoryid>";
+	public static final int xml_categoryid_end_length = xml_categoryid_end.length();
+	public static final String xml_categoryname = "<categoryname>";
+	public static final int xml_categoryname_length = xml_categoryname.length();
+	public static final String xml_categoryname_end = "</categoryname>";
+	public static final int xml_categoryname_end_length = xml_categoryname_end.length();
 	public static final String xml_gameid = "<gameid>";
 	public static final int xml_gameid_length = xml_gameid.length();
 	public static final String xml_gameid_end = "</gameid>";
@@ -1063,6 +1105,42 @@ public final class Const {
 	public static final int xml_gamename_length = xml_gamename.length();
 	public static final String xml_gamename_end = "</gamedescription>";
 	public static final int xml_gamename_end_length = xml_gamename_end.length();
+	public static final String xml_gcurl = "<gcurl>";
+	public static final int xml_gcurl_length = xml_gcurl.length();
+	public static final String xml_gcurl_end = "</gcurl>";
+	public static final int xml_gcurl_end_length = xml_gcurl_end.length();
+	public static final String xml_active = "<active>";
+	public static final int xml_active_length = xml_active.length();
+	public static final String xml_active_end = "</active>";
+	public static final int xml_active_end_length = xml_active_end.length();
+	public static final String xml_explanation = "<explanation>";
+	public static final int xml_explanation_length = xml_explanation.length();
+	public static final String xml_explanation_end = "</explanation>";
+	public static final int xml_explanation_end_length = xml_explanation_end.length();
+	public static final String xml_phase = "<phase>";
+	public static final int xml_phase_length = xml_phase.length();
+	public static final String xml_phase_end = "</phase>";
+	public static final int xml_phase_end_length = xml_phase_end.length();
+	public static final String xml_lastmove = "<lastmove>";
+	public static final int xml_lastmove_length = xml_lastmove.length();
+	public static final String xml_lastmove_end = "</lastmove>";
+	public static final int xml_lastmove_end_length = xml_lastmove_end.length();
+	public static final String xml_oppcards = "<oppcards>";
+	public static final int xml_oppcards_length = xml_oppcards.length();
+	public static final String xml_oppcards_end = "</oppcards>";
+	public static final int xml_oppcards_end_length = xml_oppcards_end.length();
+	public static final String xml_oppname = "<oppname>";
+	public static final int xml_oppname_length = xml_oppname.length();
+	public static final String xml_oppname_end = "</oppname>";
+	public static final int xml_oppname_end_length = xml_oppname_end.length();
+	public static final String xml_usercards = "<usercards>";
+	public static final int xml_usercards_length = xml_usercards.length();
+	public static final String xml_usercards_end = "</usercards>";
+	public static final int xml_usercards_end_length = xml_usercards_end.length();
+	public static final String xml_gcurlflip = "<gcurlflip>";
+	public static final int xml_gcurlflip_length = xml_gcurlflip.length();
+	public static final String xml_gcurlflip_end = "</gcurlflip>";
+	public static final int xml_gcurlflip_end_length = xml_gcurlflip_end.length();
 	public static final String xml_albumid = "<albumid>";
 	public static final int xml_albumid_length = xml_albumid.length();
 	public static final String xml_albumid_end = "</albumid>";
@@ -1186,6 +1264,10 @@ public final class Const {
 	public static final int xml_cardid_length = xml_cardid.length();
 	public static final String xml_cardid_end = "</cardid>";
 	public static final int xml_cardid_end_length = xml_cardid_end.length();
+	public static final String xml_gameplaycardid = "<gameplaycard_id>";
+	public static final int xml_gameplaycardid_length = xml_gameplaycardid.length();
+	public static final String xml_gameplaycardid_end = "</gameplaycard_id>";
+	public static final int xml_gameplaycardid_end_length = xml_gameplaycardid_end.length();
 	public static final String xml_id = "<id>";
 	public static final int xml_id_length = xml_id.length();
 	public static final String xml_id_end = "</id>";
@@ -1194,6 +1276,22 @@ public final class Const {
 	public static final int xml_description_length = xml_description.length();
 	public static final String xml_description_end = "</description>";
 	public static final int xml_description_end_length = xml_description_end.length();
+	public static final String xml_statdescription = "<stat_description>";
+	public static final int xml_statdescription_length = xml_statdescription.length();
+	public static final String xml_statdescription_end = "</stat_description>";
+	public static final int xml_statdescription_end_length = xml_statdescription_end.length();
+	public static final String xml_stattype = "<stat_type>";
+	public static final int xml_stattype_length = xml_stattype.length();
+	public static final String xml_stattype_end = "</stat_type>";
+	public static final int xml_stattype_end_length = xml_stattype_end.length();
+	public static final String xml_cardstatid = "<cardstat_id>";
+	public static final int xml_cardstatid_length = xml_cardstatid.length();
+	public static final String xml_cardstatid_end = "</cardstat_id>";
+	public static final int xml_cardstatid_end_length = xml_cardstatid_end.length();
+	public static final String xml_categorystatid = "<categorystat_id>";
+	public static final int xml_categorystatid_length = xml_categorystatid.length();
+	public static final String xml_categorystatid_end = "</categorystat_id>";
+	public static final int xml_categorystatid_end_length = xml_categorystatid_end.length();
 	public static final String xml_quality = "<quality>";
 	public static final int xml_quality_length = xml_quality.length();
 	public static final String xml_quality_end = "</quality>";
@@ -1210,10 +1308,18 @@ public final class Const {
 	public static final int xml_fronturl_length = xml_fronturl.length();
 	public static final String xml_fronturl_end = "</fronturl>";
 	public static final int xml_fronturl_end_length = xml_fronturl_end.length();
+	public static final String xml_frontflipurl = "<frontflipurl>";
+	public static final int xml_frontflipurl_length = xml_frontflipurl.length();
+	public static final String xml_frontflipurl_end = "</frontflipurl>";
+	public static final int xml_frontflipurl_end_length = xml_frontflipurl_end.length();
 	public static final String xml_backurl = "<backurl>";
 	public static final int xml_backurl_length = xml_backurl.length();
 	public static final String xml_backurl_end = "</backurl>";
 	public static final int xml_backurl_end_length = xml_backurl_end.length();
+	public static final String xml_backflipurl = "<backflipurl>";
+	public static final int xml_backflipurl_length = xml_backflipurl.length();
+	public static final String xml_backflipurl_end = "</backflipurl>";
+	public static final int xml_backflipurl_end_length = xml_backflipurl_end.length();
 	public static final String xml_note = "<note>";
 	public static final int xml_note_length = xml_note.length();
 	public static final String xml_note_end = "</note>";
@@ -1226,10 +1332,18 @@ public final class Const {
 	public static final int xml_stats_length = xml_stats.length();
 	public static final String xml_stats_end = "</stats>";
 	public static final int xml_stats_end_length = xml_stats_end.length();
+	public static final String xml_cardstats = "<cardstats>";
+	public static final int xml_cardstats_length = xml_cardstats.length();
+	public static final String xml_cardstats_end = "</cardstats>";
+	public static final int xml_cardstats_end_length = xml_cardstats_end.length();
 	public static final String xml_stat = "<stat "; //(attribute = description, value = value);
 	public static final int xml_stat_length = xml_stat.length();
 	public static final String xml_stat_end = "</stat>";
 	public static final int xml_stat_end_length = xml_stat_end.length();
+	public static final String xml_cardstat = "<cardstat "; //(attribute = description, value = value);
+	public static final int xml_cardstat_length = xml_cardstat.length();
+	public static final String xml_cardstat_end = "</cardstat>";
+	public static final int xml_cardstat_end_length = xml_cardstat_end.length();
 	public static final String xml_card_end = "</card>";
 	public static final int xml_card_end_length = xml_card_end.length();
 	

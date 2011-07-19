@@ -13,19 +13,15 @@ import net.rim.device.api.ui.UiApplication;
 public class PlayMenuScreen extends AppScreen implements FieldChangeListener
 {
 	FixedButtonField exit = new FixedButtonField(Const.back);
+	int categoryId = 10;
 	
-	public void process(String val) {
-		
-	}
+	private ListItemField playpc = new ListItemField("Play versus PC", 1, false, 0);
+	private ListItemField playonline = new ListItemField("Play Online", 2, false, 0);
+	private ListItemField playfriend = new ListItemField("Play Against Friend", 3, false, 0);
 	
-	private ListItemField playpceasy = new ListItemField("Play versus PC (Easy)", 1, false, 0);
-	private ListItemField playpchard = new ListItemField("Play versus PC (Hard)", 2, false, 0);
-	private ListItemField playonline = new ListItemField("Play Online", 3, false, 0);
-	private ListItemField playfriend = new ListItemField("Play Against Friend", 4, false, 0);
-	
-	public PlayMenuScreen(int deckid) {
+	public PlayMenuScreen(int categoryId) {
 		super(null);
-		
+		this.categoryId = categoryId;
 		bgManager.setStatusHeight(exit.getContentHeight());
 		exit.setChangeListener(this);
 		
@@ -33,13 +29,11 @@ public class PlayMenuScreen extends AppScreen implements FieldChangeListener
 		addButton(new FixedButtonField(""));
 		addButton(new FixedButtonField(""));
 		
-		playpceasy.setChangeListener(this);
-		playpchard.setChangeListener(this);
+		playpc.setChangeListener(this);
 		playonline.setChangeListener(this);
 		playfriend.setChangeListener(this);
 		
-		add(playpceasy);
-		add(playpchard);
+		add(playpc);
 		add(playonline);
 		add(playfriend);
 	}
@@ -52,14 +46,15 @@ public class PlayMenuScreen extends AppScreen implements FieldChangeListener
 		if (f == exit) {
 			screen = null;
 			UiApplication.getUiApplication().popScreen(this);
-		} else if (f == playpceasy) {
-			
-		} else if (f == playpchard) {
-		
+		} else if (f == playpc) {
+			screen = new GamePlayScreen(true, categoryId, 1, false);
+			UiApplication.getUiApplication().pushScreen(screen);
 		} else if (f == playonline) {
-			
+			screen = new GamePlayScreen(true, categoryId, 2, false);
+			UiApplication.getUiApplication().pushScreen(screen);
 		} else if (f == playfriend) {
-			
+			screen = new GamePlayScreen(true, categoryId, 2, true);
+			UiApplication.getUiApplication().pushScreen(screen);
 		} 
 	}
 }

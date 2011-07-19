@@ -10,6 +10,8 @@ import net.rim.device.api.ui.Graphics;
 
 public final class StatField extends Field {
 	private boolean focus;
+	private boolean focusable = true;
+	public boolean gamestat = false;
 	public Stat stat;
 	public int flip = 0;
 	private Bitmap image;
@@ -66,17 +68,31 @@ public final class StatField extends Field {
 		setExtent(getPreferredWidth(),getPreferredHeight());
     }
 	public boolean isFocusable() {
-    	return true;
+    	return focusable;
     }
+	
+	public void setFocusable(boolean focusable) {
+		focusable = focusable;
+    }
+	
 	public void paint(Graphics g) {
 		if(stat.getFrontOrBack()==flip){
 			if(focus){
+				g.setColor(65536*stat.getColorRed()+256*stat.getColorGreen()+stat.getColorBlue());
 				if(!(Const.getPortrait())){
 					//g.fillRect(((getPreferredWidth()-(image.getWidth()))/2)+stat.getTop()*image.getWidth()/350, (((getPreferredHeight())-((image.getHeight())))/2)+(250 - stat.getLeft() - stat.getWidth())*image.getHeight()/250, stat.getHeight()*image.getHeight()/250, stat.getWidth()*image.getWidth()/350);
-					g.drawRect(0, 0, stat.getHeight()*image.getHeight()/250, stat.getWidth()*image.getWidth()/350);
+					if(!gamestat){
+						g.drawRect(0, 0, stat.getHeight()*image.getHeight()/250, stat.getWidth()*image.getWidth()/350);
+					}else {
+						g.drawRect(0, 0, stat.getWidth()*image.getWidth()/250, stat.getHeight()*image.getHeight()/350);
+					}
 				}else{
 					//g.fillRect(((getPreferredWidth()-(image.getWidth()))/2)+stat.getLeft()*image.getWidth()/250, (((getPreferredHeight())-((image.getHeight())))/2)+stat.getTop()*image.getHeight()/350, stat.getWidth()*image.getWidth()/250, stat.getHeight()*image.getHeight()/350);
-					g.drawRect(0, 0, stat.getWidth()*image.getWidth()/250, stat.getHeight()*image.getHeight()/350);
+					if(!gamestat){
+						g.drawRect(0, 0, stat.getWidth()*image.getWidth()/250, stat.getHeight()*image.getHeight()/350);
+					}else{
+						g.drawRect(0, 0, stat.getHeight()*image.getWidth()/350, stat.getWidth()*image.getHeight()/250);
+					}
 				}
 			}
 		}

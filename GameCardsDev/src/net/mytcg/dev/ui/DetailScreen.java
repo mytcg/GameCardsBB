@@ -31,7 +31,7 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 	ListLabelField lbltrans = new ListLabelField("No transactions yet.");
 	ListItemField lblTransactions = new ListItemField("Last Transactions", -1, false, 0);
 	ColorLabelField lbltmp = new ColorLabelField("");
-	CheckboxField cbxtmp = new CheckboxField();
+	CheckboxField cbxtmp = new CheckboxField("",false,CheckboxField.NON_FOCUSABLE);
 	Vector answers = new Vector();
 	int count =0;
 	int credits = 0;
@@ -124,10 +124,10 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 	    			if(answerid != -1){
 	    				try{
 	    				lbltmp = new ColorLabelField(" "+desc);
-	    				cbxtmp = new CheckboxField("",false);
+	    				cbxtmp = new CheckboxField("",false,CheckboxField.NON_FOCUSABLE);
 	    				cbxtmp.setChecked(answered.equals("1"));
 		    			cbxtmp.setEditable(false);
-		    			cbxtmp.setEnabled(false);
+		    			//cbxtmp.setEnabled(false);
 	    				tmp = new SexyEditField((Const.getWidth()-25),username.getHeight());
 	    				tmp.setText(answer);
 	        			tmp.setChangeListener(this);

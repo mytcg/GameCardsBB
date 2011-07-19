@@ -5,7 +5,8 @@ import net.rim.device.api.util.Persistable;
 public class Stat implements Persistable {
 	private String description = "";
 	private String value = "";
-	private int val, top, left, width, height, frontOrBack, colorRed, colorGreen, colorBlue;
+	private String stattype = "";
+	private int val, top, left, width, height, frontOrBack, colorRed, colorGreen, colorBlue, cardstatid, categorystatid;
 	
 	public Stat(String description, String value, int val, int top, int left, int width, int height, int frontOrBack, int colorRed, int colorGreen, int colorBlue) {
 		setDesc(description);
@@ -35,8 +36,17 @@ public class Stat implements Persistable {
 	public void setDesc(String description) {
 		this.description = description;
 	}
+	public void setStatType(String type) {
+		this.stattype = type;
+	}
 	public void setValue(String value) {
 		this.value = value;
+	}
+	public void setStatId(int id) {
+		this.cardstatid = id;
+	}
+	public void setCategoryStatId(int id) {
+		this.categorystatid = id;
 	}
 	public void setVal(int val) {
 		this.val = val;
@@ -69,8 +79,17 @@ public class Stat implements Persistable {
 	public String getDesc() {
 		return description;
 	}
+	public String getStatType() {
+		return stattype;
+	}
 	public String getValue() {
 		return value;
+	}
+	public int getStatId() {
+		return cardstatid;
+	}
+	public int getCategoryStatId() {
+		return categorystatid;
 	}
 	public int getVal() {
 		return val;

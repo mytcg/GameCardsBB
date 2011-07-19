@@ -6,11 +6,14 @@ import net.rim.device.api.util.Persistable;
 
 public class Card implements Persistable {
 	private int id, categoryid = -1;
+	private int gameplayercardid = -1;
 	private String description = "";
 	private int quantity = -1;
 	private String thumburl = "";
 	private String fronturl = "";
 	private String backurl = "";
+	private String frontflipurl = "";
+	private String backflipurl = "";
 	private String note = "";
 	private int updated = 0;
 	private Vector stats = new Vector();
@@ -77,6 +80,9 @@ public class Card implements Persistable {
 	public void setCategoryId(int categoryid) {
 		this.categoryid = categoryid;
 	}
+	public void setGamePlayerCardId(int id) {
+		this.gameplayercardid = id;
+	}
 	public void setDesc(String description) {
 		this.description = description;
 	}
@@ -92,6 +98,12 @@ public class Card implements Persistable {
 	public void setBackurl(String url) {
 		backurl = url;
 	}
+	public void setFrontFlipurl(String url) {
+		frontflipurl = url;
+	}
+	public void setBackFlipurl(String url) {
+		backflipurl = url;
+	}
 	public void setNote(String note) {
 		this.note = note;
 	}
@@ -104,6 +116,9 @@ public class Card implements Persistable {
 	}
 	public int getCategoryId() {
 		return categoryid;
+	}
+	public int getGamePlayerCardId() {
+		return gameplayercardid;
 	}
 	public String getDesc() {
 		return description;
@@ -119,6 +134,12 @@ public class Card implements Persistable {
 	}
 	public String getBackurl() {
 		return backurl;
+	}
+	public String getFrontFlipurl() {
+		return frontflipurl;
+	}
+	public String getBackFlipurl() {
+		return backflipurl;
 	}
 	public String getNote() {
 		return note;
