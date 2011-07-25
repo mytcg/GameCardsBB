@@ -28,6 +28,8 @@ public class VerticalGamePlayManager extends VerticalFieldManager
 	int nStatusHeight = 0;
 	int nTitleHeight = 0;
 	boolean useall = true;
+	public boolean drawbox = false;
+	String color = "";
 	
 	public VerticalGamePlayManager(boolean useall)
 	{
@@ -60,6 +62,11 @@ public class VerticalGamePlayManager extends VerticalFieldManager
 	public void setImage(Bitmap image){
 		this.image = image;
 	}
+	public void draw(boolean draw,String color){
+		drawbox = draw;
+		this.color = color;
+		this.invalidate();
+	}
 	public void paint(Graphics g)
 	{
 		int xPts[] = {0,0,getPreferredWidth(),getPreferredWidth()};
@@ -68,6 +75,16 @@ public class VerticalGamePlayManager extends VerticalFieldManager
 		
 		//g.drawBitmap(((getPreferredWidth()-(image.getWidth()))/2), (((getPreferredHeight())-((image.getHeight())))/2), image.getWidth(), image.getHeight(), image, 0, 0);
 		g.drawBitmap(5, 5, image.getWidth(), image.getHeight(), image, 0, 0);
+		if(drawbox){
+			if(color.equals("RED")){
+				g.setColor(65536*144);
+			}else if(color.equals("GREEN")){
+				g.setColor(256*144);
+			}else if(color.equals("YELLOW")){
+				g.setColor(65536*144+256*144);
+			}
+			g.drawRect(5, 5, image.getWidth(), image.getHeight());
+		}
 		super.paint(g);
 	}
 	public void setTitleHeight(int height) {

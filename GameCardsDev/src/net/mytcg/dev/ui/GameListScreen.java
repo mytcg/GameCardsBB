@@ -63,6 +63,11 @@ public class GameListScreen extends AppScreen implements FieldChangeListener
 		       		}
 	    		}
 	    	}
+	    	if(gameid == -1){
+	    		synchronized(UiApplication.getEventLock()) {
+	    			add(tmp);
+	    		}
+	    	}
 	    }
 	    invalidate();		
 	}
