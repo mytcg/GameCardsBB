@@ -78,7 +78,7 @@ public class GameCategoryScreen extends AppScreen implements FieldChangeListener
 			UiApplication.getUiApplication().popScreen(this);
 		}else if(f instanceof ListItemField){
 			int category = ((ListItemField)(f)).getId();
-			if(category == 1){
+			if(category != -1){
 				screen = new PlayMenuScreen(category);
 				UiApplication.getUiApplication().pushScreen(screen);
 			}

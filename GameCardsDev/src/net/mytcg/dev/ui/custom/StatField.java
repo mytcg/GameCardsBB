@@ -53,7 +53,10 @@ public final class StatField extends Field {
 	public void focusRemove() {
 		
 	}
-	
+	public void draw(boolean draw){
+		focus = draw;
+		invalidate();
+	}
 	public int getPreferredWidth() {
 		return Const.getWidth();
 	}
@@ -72,7 +75,7 @@ public final class StatField extends Field {
     }
 	
 	public void setFocusable(boolean focusable) {
-		focusable = focusable;
+		this.focusable = focusable;
     }
 	
 	public void paint(Graphics g) {

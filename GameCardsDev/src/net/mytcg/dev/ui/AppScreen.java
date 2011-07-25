@@ -176,7 +176,7 @@ public class AppScreen extends MainScreen {
 	}
 	
 	public AppScreen(boolean noheader, boolean gameplay) {
-		super();
+		super(NO_VERTICAL_SCROLL | NO_VERTICAL_SCROLLBAR);
 		
 		add(bgManager);
 		

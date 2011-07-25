@@ -45,7 +45,7 @@ public class VerticalGamePlayManager extends VerticalFieldManager
 		if ((Const.getPortrait())) {
 			return (Const.getHeight()-Const.getButtonCentre().getHeight())/2;
 		}else
-		return (Const.getHeight()-Const.getButtonCentre().getHeight()-20);
+		return (Const.getHeight()-Const.getButtonCentre().getHeight()-25);
 	}
 	public int getPreferredWidth() {
 		if ((Const.getPortrait())) {
@@ -90,7 +90,13 @@ public class VerticalGamePlayManager extends VerticalFieldManager
 	}
 	public void construct() {
 		int font = Const.FONT;
-		image = Const.getLoading();
+		EncodedImage loading = EncodedImage.getEncodedImageResource("loading.png");
+		Bitmap temp = loading.getBitmap();
+		if ((Const.getPortrait())) {
+			image = Const.getScaledBitmapImage((loading),((double)(getPreferredHeight()-20)/temp.getWidth()),((double)(getPreferredWidth()-20)/temp.getHeight()));
+		}else{
+			image = Const.getScaledBitmapImage((loading),((double)(getPreferredWidth()-20)/temp.getWidth()),((double)(getPreferredHeight()-20)/temp.getHeight()));
+		}
 		landscape();
 		if (file != null) {
 			getData();
@@ -115,9 +121,9 @@ public class VerticalGamePlayManager extends VerticalFieldManager
 				_file.close();
 				Bitmap temp = (EncodedImage.createEncodedImage(data, 0, data.length)).getBitmap();
 				if ((Const.getPortrait())) {
-					image = Const.getScaledBitmapImage((EncodedImage.createEncodedImage(data, 0, data.length)),((double)(getPreferredHeight()-20)/temp.getWidth()),((double)(getPreferredWidth()-20)/temp.getHeight()));
+					image = Const.getScaledBitmapImage((EncodedImage.createEncodedImage(data, 0, data.length)),((double)(getPreferredHeight()-20)/temp.getWidth()),((double)(getPreferredWidth()-25)/temp.getHeight()));
 				}else{
-					image = Const.getScaledBitmapImage((EncodedImage.createEncodedImage(data, 0, data.length)),((double)(getPreferredWidth()-20)/temp.getWidth()),((double)(getPreferredHeight()-20)/temp.getHeight()));
+					image = Const.getScaledBitmapImage((EncodedImage.createEncodedImage(data, 0, data.length)),((double)(getPreferredWidth()-20)/temp.getWidth()),((double)(getPreferredHeight()-25)/temp.getHeight()));
 				}
 				landscape();
 				invalidate();
@@ -143,9 +149,9 @@ public class VerticalGamePlayManager extends VerticalFieldManager
 	public void process(byte[] data) {
 		Bitmap temp = (EncodedImage.createEncodedImage(data, 0, data.length)).getBitmap();
 		if ((Const.getPortrait())) {
-			image = Const.getScaledBitmapImage((EncodedImage.createEncodedImage(data, 0, data.length)),((double)(getPreferredHeight()-20)/temp.getWidth()),((double)(getPreferredWidth()-20)/temp.getHeight()));
+			image = Const.getScaledBitmapImage((EncodedImage.createEncodedImage(data, 0, data.length)),((double)(getPreferredHeight()-20)/temp.getWidth()),((double)(getPreferredWidth()-25)/temp.getHeight()));
 		}else{
-			image = Const.getScaledBitmapImage((EncodedImage.createEncodedImage(data, 0, data.length)),((double)(getPreferredWidth()-20)/temp.getWidth()),((double)(getPreferredHeight()-20)/temp.getHeight()));
+			image = Const.getScaledBitmapImage((EncodedImage.createEncodedImage(data, 0, data.length)),((double)(getPreferredWidth()-20)/temp.getWidth()),((double)(getPreferredHeight()-25)/temp.getHeight()));
 		}
 		//image = (EncodedImage.createEncodedImage(data, 0, data.length)).getBitmap();
 		landscape();
@@ -173,7 +179,7 @@ public class VerticalGamePlayManager extends VerticalFieldManager
             field = getField(i); //get the field
             if(field instanceof StatField){
             	StatField sField = (StatField)field;
-            	setPositionChild(field, ((getPreferredWidth()-(image.getWidth()))/2)+sField.stat.getLeft()*image.getWidth()/250-5, (((getPreferredHeight())-((image.getHeight())))/2)+sField.stat.getTop()*image.getHeight()/350);  //set the position for the field
+            	setPositionChild(field, ((getPreferredWidth()-(image.getWidth()))/2)+sField.stat.getLeft()*image.getWidth()/250-5, -5+(((getPreferredHeight())-((image.getHeight())))/2)+sField.stat.getTop()*image.getHeight()/350);  //set the position for the field
             	layoutChild( field, sField.stat.getWidth()*image.getWidth()/250, sField.stat.getHeight()*image.getHeight()/350 ); //lay out the field
             } 	
         }
@@ -182,7 +188,7 @@ public class VerticalGamePlayManager extends VerticalFieldManager
 	
 	private void setExtent()
 	{
-		setExtent(getPreferredWidth(), getPreferredHeight()-40);
-		setVirtualExtent(getPreferredWidth(), super.getPreferredHeight()-40);
+		setExtent(getPreferredWidth(), getPreferredHeight());
+		setVirtualExtent(getPreferredWidth(), super.getPreferredHeight());
 	}
 }

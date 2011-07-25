@@ -88,7 +88,13 @@ public class HorizontalGamePlayManager extends HorizontalFieldManager
 	}
 	public void construct() {
 		int font = Const.FONT;
-		image = Const.getLoading();
+		EncodedImage loading = EncodedImage.getEncodedImageResource("loading.png");
+		Bitmap temp = loading.getBitmap();
+		if ((Const.getPortrait())) {
+			image = Const.getScaledBitmapImage((loading),((double)(getPreferredHeight()-20)/temp.getWidth()),((double)(getPreferredWidth()-20)/temp.getHeight()));
+		}else{
+			image = Const.getScaledBitmapImage((loading),((double)(getPreferredWidth()-20)/temp.getWidth()),((double)(getPreferredHeight()-20)/temp.getHeight()));
+		}
 		landscape();
 		if (file != null) {
 			getData();

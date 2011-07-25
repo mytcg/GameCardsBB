@@ -589,9 +589,9 @@ public class GamePlayScreen extends AppScreen implements FieldChangeListener
 		        		}
 		        	}
 	    			phase = "loadgame";
-					try{
-						Thread.sleep(4000);
-					}catch(Exception e){};
+					//try{
+					//	Thread.sleep(4000);
+					//}catch(Exception e){};
 					System.out.println(Const.continuegame+"&gameid="+gameid+"&lastmove="+lastmove64+Const.height+Const.getCardHeight()+"&width=250");
 		    		doConnect(Const.continuegame+"&gameid="+gameid+"&lastmove="+lastmove64+Const.height+Const.getCardHeight()+"&width=250");
 				} else if(phase.equals("oppmove")){
@@ -605,12 +605,30 @@ public class GamePlayScreen extends AppScreen implements FieldChangeListener
 					}
 					if(categorystatid!=-1){
 						synchronized(UiApplication.getEventLock()) {
-							oppuistats[categorystatid-1].setFocus();
+							uistats[categorystatid-1].draw(true);
+							oppuistats[categorystatid-1].draw(true);
+							try{
+								Thread.sleep(1000);
+							}catch(Exception e){};
+							uistats[categorystatid-1].draw(false);
+							oppuistats[categorystatid-1].draw(false);
+							try{
+								Thread.sleep(1000);
+							}catch(Exception e){};
+							uistats[categorystatid-1].draw(true);
+							oppuistats[categorystatid-1].draw(true);
+							try{
+								Thread.sleep(1000);
+							}catch(Exception e){};
+							uistats[categorystatid-1].draw(false);
+							oppuistats[categorystatid-1].draw(false);
+							try{
+								Thread.sleep(1000);
+							}catch(Exception e){};
+							uistats[categorystatid-1].draw(true);
+							oppuistats[categorystatid-1].draw(true);
 						}
 					}
-					try{
-						Thread.sleep(4000);
-					}catch(Exception e){};
 					doConnect(Const.loadgame+"&gameid="+gameid+Const.height+Const.getCardHeight()+"&width=250");
 					//doConnect(Const.continuegame+"&gameid="+gameid+"&lastmove="+lastmove64+Const.height+Const.getCardHeight()+"&width=250");
 				} else if(phase.equals("result")){
@@ -713,9 +731,27 @@ public class GamePlayScreen extends AppScreen implements FieldChangeListener
 							}else{
 								opphgamemanager.setUrl(card2.getBackurl());
 							}
+							oppuistats[j].draw(true);
 							try{
-								Thread.sleep(4000);
+								Thread.sleep(1000);
 							}catch(Exception e){};
+							oppuistats[j].draw(false);
+							uistats[j].draw(false);
+							try{
+								Thread.sleep(1000);
+							}catch(Exception e){};
+							oppuistats[j].draw(true);
+							uistats[j].draw(true);
+							try{
+								Thread.sleep(1000);
+							}catch(Exception e){};
+							oppuistats[j].draw(false);
+							uistats[j].draw(false);
+							try{
+								Thread.sleep(1000);
+							}catch(Exception e){};
+							oppuistats[j].draw(true);
+							uistats[j].draw(true);
 							System.out.println(Const.selectstat+"&gameid="+gameid+"&statid="+temp.getStatId()+Const.height+Const.getCardHeight()+"&width=250");
 							phase = "loadgame";
 							doConnect(Const.selectstat+"&gameid="+gameid+"&statid="+temp.getStatId()+Const.height+Const.getCardHeight()+"&width=250");

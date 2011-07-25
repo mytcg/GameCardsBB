@@ -16,7 +16,7 @@ public class BackgroundManager extends VerticalFieldManager
 	
 	public BackgroundManager(boolean useall)
 	{
-		super(VerticalFieldManager.USE_ALL_WIDTH);
+		super(VerticalFieldManager.USE_ALL_WIDTH |NO_VERTICAL_SCROLL | NO_VERTICAL_SCROLLBAR);
 		this.useall = useall;
 	}
 	protected boolean navigationMovement(int dx, int dy, int status, int time)

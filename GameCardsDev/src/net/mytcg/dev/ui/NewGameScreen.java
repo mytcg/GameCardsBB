@@ -14,6 +14,7 @@ public class NewGameScreen extends AppScreen implements FieldChangeListener
 	ListItemField newgame = new ListItemField("Empty", -1, false, 0);
 	ListItemField tmp = new ListItemField("Empty", -1, false, 0);
 	String games = null;
+	boolean skip = false;
 
 	public NewGameScreen()
 	{
@@ -47,6 +48,15 @@ public class NewGameScreen extends AppScreen implements FieldChangeListener
 	        			tmp.setChangeListener(this);
 	        			add(tmp);
 	        		}
+	    		} else {
+	    			try{
+	    			skip = true;
+	    			synchronized(UiApplication.getEventLock()) {
+		    			screen = new GameCategoryScreen();
+		    			UiApplication.getUiApplication().pushScreen(screen);
+	    			}
+	    			}catch(Exception e){};
+	    			return;
 	    		}
 	    	}
 	    	invalidate();
@@ -54,6 +64,12 @@ public class NewGameScreen extends AppScreen implements FieldChangeListener
 		}		
 	}
 	
+	public void onExposed(){
+		if(skip){
+			screen = null;
+			UiApplication.getUiApplication().popScreen(this);
+		}
+	}
 	public void fieldChanged(Field f, int i) {
 		if (f == exit) {
 			screen = null;

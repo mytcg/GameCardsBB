@@ -25,12 +25,7 @@ public class HorizontalBackgroundManager extends HorizontalFieldManager
 	        return super.navigationMovement(dx, dy, status, time);
 	}
 	public int getPreferredHeight() {
-		int maxheight = Const.getHeight()-(Const.getButtonCentre().getHeight()+nTitleHeight);
-		if ((maxheight >= super.getPreferredHeight())&&(super.getPreferredHeight() != 0)) {
-			return maxheight;
-		} else {
-			return super.getPreferredHeight();
-		}
+		return Const.getHeight()-(Const.getButtonCentre().getHeight()+nTitleHeight)-40;
 	}
 	public int getPreferredWidth() {
 		return Const.getWidth();
