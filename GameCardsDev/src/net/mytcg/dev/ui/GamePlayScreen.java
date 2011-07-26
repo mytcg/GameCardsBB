@@ -622,163 +622,42 @@ public class GamePlayScreen extends AppScreen implements FieldChangeListener
 						}
 					}
 					if(categorystatid!=-1){
-						synchronized(UiApplication.getEventLock()) {
-							uistats[categorystatid-1].draw(true);
-							oppuistats[categorystatid-1].draw(true);
-							System.out.println("stats.elementAt(categorystatid-1)).getVal() "+((Stat)stats.elementAt(categorystatid-1)).getVal());
-							System.out.println("oppstats.elementAt(categorystatid-1)).getVal() "+((Stat)oppstats.elementAt(categorystatid-1)).getVal());
-							if(((Stat)stats.elementAt(categorystatid-1)).getVal()>((Stat)oppstats.elementAt(categorystatid-1)).getVal()){
-								if(!(Const.getPortrait())){
-					    			vGameManager.draw(true,"GREEN");
-					    			oppvgamemanager.draw(true,"RED");
+						boolean draw = false;
+						for(int u = 0; u < 5; u++){
+							draw = !draw;
+							synchronized(UiApplication.getEventLock()) {
+								uistats[categorystatid-1].draw(draw);
+								oppuistats[categorystatid-1].draw(draw);
+								if(((Stat)stats.elementAt(categorystatid-1)).getVal()>((Stat)oppstats.elementAt(categorystatid-1)).getVal()){
+									if(!(Const.getPortrait())){
+						    			vGameManager.draw(draw,"GREEN");
+						    			oppvgamemanager.draw(draw,"RED");
+									}else{
+										hGameManager.draw(draw,"GREEN");
+						    			opphgamemanager.draw(draw,"RED");
+									}
+								}else if(((Stat)stats.elementAt(categorystatid-1)).getVal()<((Stat)oppstats.elementAt(categorystatid-1)).getVal()){
+									if(!(Const.getPortrait())){
+										vGameManager.draw(draw,"RED");
+						    			oppvgamemanager.draw(draw,"GREEN");
+									}else{
+										hGameManager.draw(draw,"RED");
+						    			opphgamemanager.draw(draw,"GREEN");
+									}
 								}else{
-									hGameManager.draw(true,"GREEN");
-					    			opphgamemanager.draw(true,"RED");
-								}
-							}else if(((Stat)stats.elementAt(categorystatid-1)).getVal()<((Stat)oppstats.elementAt(categorystatid-1)).getVal()){
-								if(!(Const.getPortrait())){
-									vGameManager.draw(true,"RED");
-					    			oppvgamemanager.draw(true,"GREEN");
-								}else{
-									hGameManager.draw(true,"RED");
-					    			opphgamemanager.draw(true,"GREEN");
-								}
-							}else{
-								if(!(Const.getPortrait())){
-									vGameManager.draw(true,"YELLOW");
-					    			oppvgamemanager.draw(true,"YELLOW");
-								}else{
-									hGameManager.draw(true,"YELLOW");
-					    			opphgamemanager.draw(true,"YELLOW");
-								}
-							}
-						}
-						try{
-							Thread.sleep(1000);
-						}catch(Exception e){};
-						synchronized(UiApplication.getEventLock()) {
-							uistats[categorystatid-1].draw(false);
-							oppuistats[categorystatid-1].draw(false);
-							if(((Stat)stats.elementAt(categorystatid-1)).getVal()>((Stat)oppstats.elementAt(categorystatid-1)).getVal()){
-								if(!(Const.getPortrait())){
-					    			vGameManager.draw(false,"GREEN");
-					    			oppvgamemanager.draw(false,"RED");
-								}else{
-									hGameManager.draw(false,"GREEN");
-					    			opphgamemanager.draw(false,"RED");
-								}
-							}else if(((Stat)stats.elementAt(categorystatid-1)).getVal()<((Stat)oppstats.elementAt(categorystatid-1)).getVal()){
-								if(!(Const.getPortrait())){
-									vGameManager.draw(false,"RED");
-					    			oppvgamemanager.draw(false,"GREEN");
-								}else{
-									hGameManager.draw(false,"RED");
-					    			opphgamemanager.draw(false,"GREEN");
-								}
-							}else{
-								if(!(Const.getPortrait())){
-									vGameManager.draw(false,"YELLOW");
-					    			oppvgamemanager.draw(false,"YELLOW");
-								}else{
-									hGameManager.draw(false,"YELLOW");
-					    			opphgamemanager.draw(false,"YELLOW");
+									if(!(Const.getPortrait())){
+										vGameManager.draw(draw,"YELLOW");
+						    			oppvgamemanager.draw(draw,"YELLOW");
+									}else{
+										hGameManager.draw(draw,"YELLOW");
+						    			opphgamemanager.draw(draw,"YELLOW");
+									}
 								}
 							}
-						}
-						synchronized(UiApplication.getEventLock()) {
-						try{
-							Thread.sleep(1000);
-						}catch(Exception e){};
-							uistats[categorystatid-1].draw(true);
-							oppuistats[categorystatid-1].draw(true);
-							if(((Stat)stats.elementAt(categorystatid-1)).getVal()>((Stat)oppstats.elementAt(categorystatid-1)).getVal()){
-								if(!(Const.getPortrait())){
-					    			vGameManager.draw(true,"GREEN");
-					    			oppvgamemanager.draw(true,"RED");
-								}else{
-									hGameManager.draw(true,"GREEN");
-					    			opphgamemanager.draw(true,"RED");
-								}
-							}else if(((Stat)stats.elementAt(categorystatid-1)).getVal()<((Stat)oppstats.elementAt(categorystatid-1)).getVal()){
-								if(!(Const.getPortrait())){
-									vGameManager.draw(true,"RED");
-					    			oppvgamemanager.draw(true,"GREEN");
-								}else{
-									hGameManager.draw(true,"RED");
-					    			opphgamemanager.draw(true,"GREEN");
-								}
-							}else{
-								if(!(Const.getPortrait())){
-									vGameManager.draw(true,"YELLOW");
-					    			oppvgamemanager.draw(true,"YELLOW");
-								}else{
-									hGameManager.draw(true,"YELLOW");
-					    			opphgamemanager.draw(true,"YELLOW");
-								}
-							}
-						}
-						try{
-							Thread.sleep(1000);
-						}catch(Exception e){};
-						synchronized(UiApplication.getEventLock()) {
-							uistats[categorystatid-1].draw(false);
-							oppuistats[categorystatid-1].draw(false);
-							if(((Stat)stats.elementAt(categorystatid-1)).getVal()>((Stat)oppstats.elementAt(categorystatid-1)).getVal()){
-								if(!(Const.getPortrait())){
-					    			vGameManager.draw(false,"GREEN");
-					    			oppvgamemanager.draw(false,"RED");
-								}else{
-									hGameManager.draw(false,"GREEN");
-					    			opphgamemanager.draw(false,"RED");
-								}
-							}else if(((Stat)stats.elementAt(categorystatid-1)).getVal()<((Stat)oppstats.elementAt(categorystatid-1)).getVal()){
-								if(!(Const.getPortrait())){
-									vGameManager.draw(false,"RED");
-					    			oppvgamemanager.draw(false,"GREEN");
-								}else{
-									hGameManager.draw(false,"RED");
-					    			opphgamemanager.draw(false,"GREEN");
-								}
-							}else{
-								if(!(Const.getPortrait())){
-									vGameManager.draw(false,"YELLOW");
-					    			oppvgamemanager.draw(false,"YELLOW");
-								}else{
-									hGameManager.draw(false,"YELLOW");
-					    			opphgamemanager.draw(false,"YELLOW");
-								}
-							}
-						}
-						try{
-							Thread.sleep(1000);
-						}catch(Exception e){};
-						synchronized(UiApplication.getEventLock()) {
-							uistats[categorystatid-1].draw(true);
-							oppuistats[categorystatid-1].draw(true);
-							if(((Stat)stats.elementAt(categorystatid-1)).getVal()>((Stat)oppstats.elementAt(categorystatid-1)).getVal()){
-								if(!(Const.getPortrait())){
-					    			vGameManager.draw(true,"GREEN");
-					    			oppvgamemanager.draw(true,"RED");
-								}else{
-									hGameManager.draw(true,"GREEN");
-					    			opphgamemanager.draw(true,"RED");
-								}
-							}else if(((Stat)stats.elementAt(categorystatid-1)).getVal()<((Stat)oppstats.elementAt(categorystatid-1)).getVal()){
-								if(!(Const.getPortrait())){
-									vGameManager.draw(true,"RED");
-					    			oppvgamemanager.draw(true,"GREEN");
-								}else{
-									hGameManager.draw(true,"RED");
-					    			opphgamemanager.draw(true,"GREEN");
-								}
-							}else{
-								if(!(Const.getPortrait())){
-									vGameManager.draw(true,"YELLOW");
-					    			oppvgamemanager.draw(true,"YELLOW");
-								}else{
-									hGameManager.draw(true,"YELLOW");
-					    			opphgamemanager.draw(true,"YELLOW");
-								}
+							if(u != 4){
+								try{
+									Thread.sleep(1000);
+								}catch(Exception e){};
 							}
 						}
 					}
@@ -893,160 +772,42 @@ public class GamePlayScreen extends AppScreen implements FieldChangeListener
 							}else{
 								opphgamemanager.setUrl(card2.getBackurl());
 							}
-							synchronized(UiApplication.getEventLock()) {
-								oppuistats[j].draw(true);
-								if(((Stat)stats.elementAt(j)).getVal()>((Stat)oppstats.elementAt(j)).getVal()){
-									if(!(Const.getPortrait())){
-						    			vGameManager.draw(true,"GREEN");
-						    			oppvgamemanager.draw(true,"RED");
+							boolean draw = false;
+							for(int h = 0; h < 5;h++){
+								draw = !draw;
+								synchronized(UiApplication.getEventLock()) {
+									oppuistats[j].draw(draw);
+									uistats[j].draw(draw);
+									if(((Stat)stats.elementAt(j)).getVal()>((Stat)oppstats.elementAt(j)).getVal()){
+										if(!(Const.getPortrait())){
+							    			vGameManager.draw(draw,"GREEN");
+							    			oppvgamemanager.draw(draw,"RED");
+										}else{
+											hGameManager.draw(draw,"GREEN");
+							    			opphgamemanager.draw(draw,"RED");
+										}
+									}else if(((Stat)stats.elementAt(j)).getVal()<((Stat)oppstats.elementAt(j)).getVal()){
+										if(!(Const.getPortrait())){
+											vGameManager.draw(draw,"RED");
+							    			oppvgamemanager.draw(draw,"GREEN");
+										}else{
+											hGameManager.draw(draw,"RED");
+							    			opphgamemanager.draw(draw,"GREEN");
+										}
 									}else{
-										hGameManager.draw(true,"GREEN");
-						    			opphgamemanager.draw(true,"RED");
-									}
-								}else if(((Stat)stats.elementAt(j)).getVal()<((Stat)oppstats.elementAt(j)).getVal()){
-									if(!(Const.getPortrait())){
-										vGameManager.draw(true,"RED");
-						    			oppvgamemanager.draw(true,"GREEN");
-									}else{
-										hGameManager.draw(true,"RED");
-						    			opphgamemanager.draw(true,"GREEN");
-									}
-								}else{
-									if(!(Const.getPortrait())){
-										vGameManager.draw(true,"YELLOW");
-						    			oppvgamemanager.draw(true,"YELLOW");
-									}else{
-										hGameManager.draw(true,"YELLOW");
-						    			opphgamemanager.draw(true,"YELLOW");
-									}
-								}
-							}
-							try{
-								Thread.sleep(1000);
-							}catch(Exception e){};
-							synchronized(UiApplication.getEventLock()) {
-								oppuistats[j].draw(false);
-								uistats[j].draw(false);
-								if(((Stat)stats.elementAt(j)).getVal()>((Stat)oppstats.elementAt(j)).getVal()){
-									if(!(Const.getPortrait())){
-						    			vGameManager.draw(false,"GREEN");
-						    			oppvgamemanager.draw(false,"RED");
-									}else{
-										hGameManager.draw(false,"GREEN");
-						    			opphgamemanager.draw(false,"RED");
-									}
-								}else if(((Stat)stats.elementAt(j)).getVal()<((Stat)oppstats.elementAt(j)).getVal()){
-									if(!(Const.getPortrait())){
-										vGameManager.draw(false,"RED");
-						    			oppvgamemanager.draw(false,"GREEN");
-									}else{
-										hGameManager.draw(false,"RED");
-						    			opphgamemanager.draw(false,"GREEN");
-									}
-								}else{
-									if(!(Const.getPortrait())){
-										vGameManager.draw(false,"YELLOW");
-						    			oppvgamemanager.draw(false,"YELLOW");
-									}else{
-										hGameManager.draw(false,"YELLOW");
-						    			opphgamemanager.draw(false,"YELLOW");
+										if(!(Const.getPortrait())){
+											vGameManager.draw(draw,"YELLOW");
+							    			oppvgamemanager.draw(draw,"YELLOW");
+										}else{
+											hGameManager.draw(draw,"YELLOW");
+							    			opphgamemanager.draw(draw,"YELLOW");
+										}
 									}
 								}
-							}
-							try{
-								Thread.sleep(1000);
-							}catch(Exception e){};
-							synchronized(UiApplication.getEventLock()) {
-								oppuistats[j].draw(true);
-								uistats[j].draw(true);
-								if(((Stat)stats.elementAt(j)).getVal()>((Stat)oppstats.elementAt(j)).getVal()){
-									if(!(Const.getPortrait())){
-						    			vGameManager.draw(true,"GREEN");
-						    			oppvgamemanager.draw(true,"RED");
-									}else{
-										hGameManager.draw(true,"GREEN");
-						    			opphgamemanager.draw(true,"RED");
-									}
-								}else if(((Stat)stats.elementAt(j)).getVal()<((Stat)oppstats.elementAt(j)).getVal()){
-									if(!(Const.getPortrait())){
-										vGameManager.draw(true,"RED");
-						    			oppvgamemanager.draw(true,"GREEN");
-									}else{
-										hGameManager.draw(true,"RED");
-						    			opphgamemanager.draw(true,"GREEN");
-									}
-								}else{
-									if(!(Const.getPortrait())){
-										vGameManager.draw(true,"YELLOW");
-						    			oppvgamemanager.draw(true,"YELLOW");
-									}else{
-										hGameManager.draw(true,"YELLOW");
-						    			opphgamemanager.draw(true,"YELLOW");
-									}
-								}
-							}
-							try{
-								Thread.sleep(1000);
-							}catch(Exception e){};
-							synchronized(UiApplication.getEventLock()) {
-								oppuistats[j].draw(false);
-								uistats[j].draw(false);
-								if(((Stat)stats.elementAt(j)).getVal()>((Stat)oppstats.elementAt(j)).getVal()){
-									if(!(Const.getPortrait())){
-						    			vGameManager.draw(false,"GREEN");
-						    			oppvgamemanager.draw(false,"RED");
-									}else{
-										hGameManager.draw(false,"GREEN");
-						    			opphgamemanager.draw(false,"RED");
-									}
-								}else if(((Stat)stats.elementAt(j)).getVal()<((Stat)oppstats.elementAt(j)).getVal()){
-									if(!(Const.getPortrait())){
-										vGameManager.draw(false,"RED");
-						    			oppvgamemanager.draw(false,"GREEN");
-									}else{
-										hGameManager.draw(false,"RED");
-						    			opphgamemanager.draw(false,"GREEN");
-									}
-								}else{
-									if(!(Const.getPortrait())){
-										vGameManager.draw(false,"YELLOW");
-						    			oppvgamemanager.draw(false,"YELLOW");
-									}else{
-										hGameManager.draw(false,"YELLOW");
-						    			opphgamemanager.draw(false,"YELLOW");
-									}
-								}
-							}
-							try{
-								Thread.sleep(1000);
-							}catch(Exception e){};
-							synchronized(UiApplication.getEventLock()) {
-								oppuistats[j].draw(true);
-								uistats[j].draw(true);
-								if(((Stat)stats.elementAt(j)).getVal()>((Stat)oppstats.elementAt(j)).getVal()){
-									if(!(Const.getPortrait())){
-						    			vGameManager.draw(true,"GREEN");
-						    			oppvgamemanager.draw(true,"RED");
-									}else{
-										hGameManager.draw(true,"GREEN");
-						    			opphgamemanager.draw(true,"RED");
-									}
-								}else if(((Stat)stats.elementAt(j)).getVal()<((Stat)oppstats.elementAt(j)).getVal()){
-									if(!(Const.getPortrait())){
-										vGameManager.draw(true,"RED");
-						    			oppvgamemanager.draw(true,"GREEN");
-									}else{
-										hGameManager.draw(true,"RED");
-						    			opphgamemanager.draw(true,"GREEN");
-									}
-								}else{
-									if(!(Const.getPortrait())){
-										vGameManager.draw(true,"YELLOW");
-						    			oppvgamemanager.draw(true,"YELLOW");
-									}else{
-										hGameManager.draw(true,"YELLOW");
-						    			opphgamemanager.draw(true,"YELLOW");
-									}
+								if(h != 4){
+									try{
+										Thread.sleep(1000);
+									}catch(Exception e){};
 								}
 							}
 							System.out.println(Const.selectstat+"&gameid="+gameid+"&statid="+temp.getStatId()+Const.height+Const.getCardHeight()+"&width=250");
