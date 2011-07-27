@@ -304,7 +304,7 @@ public final class ThumbnailField extends Field {
 		if (focus) {
 			g.setColor(Const.SELECTEDCOLOR);
 			g.drawTexturedPath(xPts2,yPts2,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,button_centre);
-			//g.drawBitmap(Const.getWidth() - (button_sel_right_edge.getWidth() + 5), 0, button_sel_right_edge.getWidth(), getPreferredHeight(), button_sel_right_edge, 0, 0);
+			g.drawBitmap(Const.getWidth() - (button_sel_centre.getWidth() + 5), 0, button_sel_centre.getWidth(), getPreferredHeight(), button_sel_centre, 0, 0);
 		} else {
 			//int xPts1[] = {2,2,getPreferredWidth()-2,getPreferredWidth()-2};
 			//int yPts1[] = {0,getPreferredHeight(),getPreferredHeight(),0};
