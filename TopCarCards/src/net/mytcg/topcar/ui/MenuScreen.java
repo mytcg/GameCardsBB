@@ -23,6 +23,7 @@ public class MenuScreen extends AppScreen implements FieldChangeListener
 	ListItemField rankings = new ListItemField("Empty", -1, false, 0);
 	ListItemField friendranks = new ListItemField("Empty", -1, false, 0);
 	ListItemField friends = new ListItemField("Empty", -1, false, 0);
+	ListItemField invitefriend = new ListItemField("Empty", -1, false, 0);
 	ListItemField logout = new ListItemField("Empty", -1, false, 0);
 	public MenuScreen()
 	{
@@ -43,6 +44,7 @@ public class MenuScreen extends AppScreen implements FieldChangeListener
 		rankings = new ListItemField(Const.rankings, Const.RANKINGS, false, 0);
 		friendranks = new ListItemField(Const.friendranks, Const.RANKINGS, false, 0);
 		friends = new ListItemField(Const.friend, Const.FRIENDS, false, 0);
+		invitefriend  = new ListItemField(Const.invitefriend, Const.FRIENDS, false, 0);
 		logout = new ListItemField(Const.logOut, Const.LOGOUT, false, 0);
 		
 		
@@ -59,6 +61,7 @@ public class MenuScreen extends AppScreen implements FieldChangeListener
 		rankings.setChangeListener(this);
 		friendranks.setChangeListener(this);
 		friends.setChangeListener(this);
+		invitefriend.setChangeListener(this);
 		logout.setChangeListener(this);
 		exit.setChangeListener(this);
 		
@@ -66,14 +69,15 @@ public class MenuScreen extends AppScreen implements FieldChangeListener
 		add(play);
 		add(decks);
 		add(shop);
-		add(auctions);
-		add(redeem);
+		add(auctions);	
 		add(balance);
 		add(profile);
 		add(notifications);
 		add(rankings);
 		add(friendranks);
 		add(friends);
+		add(invitefriend);
+		add(redeem);
 		add(logout);
 		addButton(new FixedButtonField(""));
 		addButton(new FixedButtonField(""));
@@ -118,6 +122,9 @@ public class MenuScreen extends AppScreen implements FieldChangeListener
 			UiApplication.getUiApplication().pushScreen(screen);
 		} else if(f == friends){
 			screen = new DetailScreen(this, Const.FRIENDSSCREEN);
+			UiApplication.getUiApplication().pushScreen(screen);
+		} else if(f == invitefriend){
+			screen = new InviteFriendScreen();
 			UiApplication.getUiApplication().pushScreen(screen);
 		} else if(f == logout){
 			screen = new LogOutScreen();

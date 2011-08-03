@@ -27,7 +27,8 @@ public class RankingsScreen extends AppScreen implements FieldChangeListener
 		if(!friends){
 			doConnect(Const.leaderboard+categoryId);
 		}else{
-			doConnect(Const.leaderboard+categoryId+Const.friends);
+			System.out.println(Const.leaderboard+categoryId+Const.friends);
+			doConnect(Const.leaderboard+categoryId+"&"+Const.friends);
 		}
 		
 		exit.setChangeListener(this);
