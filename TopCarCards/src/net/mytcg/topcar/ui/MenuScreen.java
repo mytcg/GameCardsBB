@@ -3,6 +3,7 @@ package net.mytcg.topcar.ui;
 import net.mytcg.topcar.ui.custom.FixedButtonField;
 import net.mytcg.topcar.ui.custom.ListItemField;
 import net.mytcg.topcar.util.Const;
+import net.mytcg.topcar.util.SettingsBean;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.FieldChangeListener;
 import net.rim.device.api.ui.UiApplication;
@@ -86,6 +87,9 @@ public class MenuScreen extends AppScreen implements FieldChangeListener
 	
 	public void fieldChanged(Field f, int i) {
 		if (f == exit) {
+			SettingsBean _instance = SettingsBean.getSettings();
+			_instance.lastloaded();
+			SettingsBean.saveSettings(_instance);
 			System.exit(0);
 		} else if(f == albums){
 			screen = new AlbumScreen(0);

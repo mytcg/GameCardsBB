@@ -53,6 +53,7 @@ public class LoginScreen extends AppScreen implements FieldChangeListener
 		
 		SettingsBean _instance = SettingsBean.getSettings();
 		_instance.setAuthenticated(false);
+		_instance.lastloaded();
 		SettingsBean.saveSettings(_instance);
 		
 		add(new ColorLabelField(Const.user));
