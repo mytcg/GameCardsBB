@@ -45,13 +45,13 @@ public class HorizontalGamePlayManager extends HorizontalFieldManager
 	}
 	public int getPreferredHeight() {
 		if ((Const.getPortrait())) {
-			return (Const.getHeight()-Const.getButtonCentre().getHeight())/2-22;
+			return (Const.getHeight()-Const.getButtonCentre().getHeight())/2-17;
 		}else
 		return (Const.getHeight()-Const.getButtonCentre().getHeight());
 	}
 	public int getPreferredWidth() {
 		if ((Const.getPortrait())) {
-			return Const.getWidth()-22;
+			return Const.getWidth()-15;
 		}else return Const.getWidth()/2;
 	}
 	

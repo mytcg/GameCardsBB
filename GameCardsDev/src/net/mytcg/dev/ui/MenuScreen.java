@@ -13,6 +13,7 @@ public class MenuScreen extends AppScreen implements FieldChangeListener
 	
 	ListItemField albums = new ListItemField("Empty", -1, false, 0);
 	ListItemField play = new ListItemField("Empty", -1, false, 0);
+	ListItemField decks = new ListItemField("Empty", -1, false, 0);
 	ListItemField shop = new ListItemField("Empty", -1, false, 0);
 	ListItemField auctions = new ListItemField("Empty", -1, false, 0);
 	ListItemField redeem = new ListItemField("Empty", -1, false, 0);
@@ -28,6 +29,7 @@ public class MenuScreen extends AppScreen implements FieldChangeListener
 		}
 		albums = new ListItemField(Const.albums, Const.ALBUMS, false, 0);
 		play = new ListItemField(Const.play, Const.PLAY, false, 0);
+		decks = new ListItemField(Const.decks, Const.DECKS, false, 0);
 		shop = new ListItemField(Const.shop, Const.SHOP, false, 0);
 		auctions = new ListItemField(Const.auctions, Const.AUCTIONS, false, 0);
 		redeem = new ListItemField(Const.redeem, Const.REDEEM, false, 0);
@@ -39,6 +41,7 @@ public class MenuScreen extends AppScreen implements FieldChangeListener
 		
 		albums.setChangeListener(this);
 		play.setChangeListener(this);
+		decks.setChangeListener(this);
 		shop.setChangeListener(this);
 		auctions.setChangeListener(this);
 		redeem.setChangeListener(this);
@@ -49,6 +52,7 @@ public class MenuScreen extends AppScreen implements FieldChangeListener
 		
 		add(albums);
 		add(play);
+		add(decks);
 		add(shop);
 		add(auctions);
 		add(redeem);
@@ -68,6 +72,9 @@ public class MenuScreen extends AppScreen implements FieldChangeListener
 			UiApplication.getUiApplication().pushScreen(screen);
 		} else if(f == play){
 			screen = new NewGameScreen();
+			UiApplication.getUiApplication().pushScreen(screen);
+		} else if(f == decks){
+			screen = new DecksScreen();
 			UiApplication.getUiApplication().pushScreen(screen);
 		} else if(f == shop){
 			screen = new ShopCategoriesScreen();

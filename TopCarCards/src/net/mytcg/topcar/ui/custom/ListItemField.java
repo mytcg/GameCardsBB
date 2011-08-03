@@ -108,7 +108,7 @@ public final class ListItemField extends Field {
 			//g.drawBitmap(getPreferredWidth()-(button_right_edge.getWidth()+5), 0, getPreferredWidth(), getPreferredHeight(), button_right_edge, 0, 0);
 		}
 		//g.drawText(label, 5, (int)((getPreferredHeight()-Const.FONT)/2));
-		g.drawText(label, (getPreferredWidth()/2-label.length()*8/2), (int)((getPreferredHeight()-Const.FONT)/2-5));
+		g.drawText(label, (getPreferredWidth()/2-label.length()*8/2-4), (int)((getPreferredHeight()-Const.FONT)/2-5));
 	}
 	protected void onFocus(int direction) {
 		focus = true;

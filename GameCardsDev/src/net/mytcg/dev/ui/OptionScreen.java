@@ -28,7 +28,7 @@ public class OptionScreen extends AppScreen implements FieldChangeListener
 	private ListItemField auction = new ListItemField("Auction Card", 3, false, 0);
 	private ListItemField compare = new ListItemField("Compare With", 4, false, 0);
 	private ListItemField details = new ListItemField("Card Details", 5, false, 0);
-	private ListItemField deck = new ListItemField("Add to Deck", 6, false, 0);
+	//private ListItemField deck = new ListItemField("Add to Deck", 6, false, 0);
 	//private ListItemField contact = new ListItemField("Contact", 5, false, 0);
 	private ListItemField delete = new ListItemField("Delete Card", 7, false, 0);
 	
@@ -50,7 +50,7 @@ public class OptionScreen extends AppScreen implements FieldChangeListener
 		auction.setChangeListener(this);
 		compare.setChangeListener(this);
 		details.setChangeListener(this);
-		deck.setChangeListener(this);
+		//deck.setChangeListener(this);
 		//contact.setChangeListener(this);
 		delete.setChangeListener(this);
 		
@@ -59,7 +59,7 @@ public class OptionScreen extends AppScreen implements FieldChangeListener
 		add(auction);
 		add(compare);
 		add(details);
-		add(deck);
+		//add(deck);
 		//add(contact);
 		add(delete);
 		
@@ -88,7 +88,7 @@ public class OptionScreen extends AppScreen implements FieldChangeListener
 		} else if (f == details) {
 			screen = new CardDetailScreen(card);
 			UiApplication.getUiApplication().pushScreen(screen);
-		} else if (f == deck) {
+		}/* else if (f == deck) {
 			screen = new AddCardToDeckScreen(card, cardthumb);
 			UiApplication.getUiApplication().pushScreen(screen);
 		} /*else if (f == contact) {

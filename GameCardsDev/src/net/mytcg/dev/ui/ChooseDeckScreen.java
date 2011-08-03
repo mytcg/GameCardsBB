@@ -79,7 +79,7 @@ public class ChooseDeckScreen extends AppScreen implements FieldChangeListener
 			screen = null;
 			UiApplication.getUiApplication().popScreen(this);
 		} else if(f == createNewDeck){
-			screen = new CreateNewDeckScreen();
+			screen = new DeckCategoryScreen();
 			UiApplication.getUiApplication().pushScreen(screen);
 		} else if(f instanceof ListItemField){
 			int category = ((ListItemField)(f)).getId();

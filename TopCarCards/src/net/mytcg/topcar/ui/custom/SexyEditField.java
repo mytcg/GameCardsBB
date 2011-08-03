@@ -39,9 +39,6 @@ public final class SexyEditField extends Manager {
 	private Bitmap editbox_sel_middle_middle;
 	private Bitmap editbox_sel_middle_bottom;
 	
-	private Bitmap editbox_background;
-	private Bitmap editbox_background_sel;
-	
 	private boolean focus;
 	private boolean focusable = true;
 	
@@ -159,6 +156,11 @@ public final class SexyEditField extends Manager {
 		return managerHeight;
 	}
 
+	public void setEdit(boolean edit){
+		editField.setEditable(edit);
+		editField.setDirty(true);
+	}
+	
 	protected void sublayout(int w, int h) {
 		if (managerWidth == 0) {
 			managerWidth = w;

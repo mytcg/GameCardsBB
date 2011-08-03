@@ -15,9 +15,11 @@ public final class ListLabelField extends LabelField {
 	private int _backColor;
 	private int _width;
 	private Bitmap button_centre;
+	private boolean focus = false;
 
 	public ListLabelField(String text) {
 		super(text);
+		super.setPadding(5, 5, 5, 5);
 		construct(Const.FONT, 0, Font.PLAIN, Const.FONTCOLOR, Const.BACKCOLOR, Const.SELECTEDCOLOR);
 	}
 	
@@ -74,22 +76,29 @@ public final class ListLabelField extends LabelField {
 		return _width == 0 ? super.getPreferredWidth() : _width;
 	}
 	public int getPreferredHeight() {
-		return Const.getButtonHeight()+40;
+		return Const.getButtonHeight()+100;
 	}
 	
 	public void paint(Graphics g) {
-		super.paint(g);
+		if(!focus){
+			g.setColor(Const.FONTCOLOR);
+		}else{
+			g.setColor(Const.SELECTEDCOLOR);
+		}
 		int xPts[] = {0,0,getPreferredWidth(),getPreferredWidth()};
-		int yPts[] = {0,getPreferredHeight(),getPreferredHeight(),0};
+		int yPts[] = {40,getPreferredHeight()+20,getPreferredHeight()+20,40};
 		g.drawTexturedPath(xPts,yPts,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,button_centre);
+		super.paint(g);
 	}
 	
 	protected void onFocus(int direction) {
 		_currentColor = _changeColor;
+		focus = true;
 		invalidate();
 	}
 	protected void onUnfocus() {
 		_currentColor = _backColor;
+		focus = false;
 		invalidate();
 	}
 	protected void drawFocus(Graphics graphics, boolean on) {

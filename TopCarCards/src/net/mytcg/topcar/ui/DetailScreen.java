@@ -5,6 +5,7 @@ import java.util.Vector;
 import net.rim.device.api.ui.container.HorizontalFieldManager;
 import net.mytcg.topcar.ui.custom.ColorLabelField;
 import net.mytcg.topcar.ui.custom.FixedButtonField;
+import net.mytcg.topcar.ui.custom.FriendField;
 import net.mytcg.topcar.ui.custom.ListItemField;
 import net.mytcg.topcar.ui.custom.ListLabelField;
 import net.mytcg.topcar.ui.custom.SexyEditField;
@@ -28,7 +29,11 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 	ColorLabelField lblUsername = new ColorLabelField(Const.usern);
 	ColorLabelField lblEmail = new ColorLabelField(Const.email);
 	ListItemField lblBalance = new ListItemField(Const.credits, -1, false, 0);
+	ListItemField lblNotifications = new ListItemField(Const.notification, Const.NOTIFICATIONS, false, 0);
+	ListItemField lblFriends = new ListItemField(Const.friend, Const.FRIENDS, false, 0);
 	ListLabelField lbltrans = new ListLabelField("No transactions yet.");
+	ListLabelField lblnote = new ListLabelField("No notifications yet.");
+	FriendField lblfriend = new FriendField("","","");
 	ListItemField lblTransactions = new ListItemField("Last Transactions", -1, false, 0);
 	ColorLabelField lbltmp = new ColorLabelField("");
 	CheckboxField cbxtmp = new CheckboxField("",false,CheckboxField.NON_FOCUSABLE);
@@ -66,6 +71,16 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 			balance.setFocusable(false);
 			addButton(new FixedButtonField(""));
 			doConnect(Const.creditlog);
+		} else if(screenType == Const.NOTIFICATIONSCREEN){
+			add(lblNotifications);
+			lblNotifications.setFocusable(false);
+			addButton(new FixedButtonField(""));
+			doConnect(Const.notifications);
+		} else if(screenType == Const.FRIENDSSCREEN){
+			add(lblFriends);
+			lblFriends.setFocusable(false);
+			addButton(new FixedButtonField(""));
+			doConnect(Const.friends);
 		}
 		exit.setChangeListener(this);
 		
@@ -205,6 +220,85 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 	    				break;
 	    			}
 	    		}
+	    	} else if (((fromIndex = val.indexOf(Const.xml_notifications)) != -1)) {
+	    		int noteid = -1;
+	    		String desc = "";
+	    		String date = "";
+	    		
+	    		int endIndex = -1;
+	    		String note = "";
+	    		while ((fromIndex = val.indexOf(Const.xml_id)) != -1){
+	    			
+	    			endIndex = val.indexOf(Const.xml_note_end);
+	    			try{
+	    				note = val.substring(fromIndex, endIndex+Const.xml_note_end_length);
+	    			}catch(Exception e){};
+	    			fromIndex = note.indexOf(Const.xml_id);
+	    			
+	    			try {
+	    				noteid = Integer.parseInt(note.substring(fromIndex+Const.xml_id_length, note.indexOf(Const.xml_id_end, fromIndex)));
+	    			} catch (Exception e) {
+	    				noteid = -1;
+	    			}
+	    			if ((fromIndex = note.indexOf(Const.xml_descr)) != -1) {
+	    				desc = note.substring(fromIndex+Const.xml_descr_length, note.indexOf(Const.xml_descr_end, fromIndex));
+	    			}
+	    			if ((fromIndex = note.indexOf(Const.xml_date)) != -1) {
+	    				date = note.substring(fromIndex+Const.xml_date_length, note.indexOf(Const.xml_date_end, fromIndex));
+	    			}
+	    			val = val.substring(val.indexOf(Const.xml_note_end)+Const.xml_note_end_length);
+	    			if(noteid != -1){
+	    				try{
+	    					lblnote = new ListLabelField(date+": "+desc);
+			    			synchronized(UiApplication.getEventLock()) {
+			    				add(lblnote);
+			    			}
+	    				}catch(Exception e){};
+	    			} 
+	    		}
+	    		if(noteid == -1){
+    				synchronized(UiApplication.getEventLock()) {
+	    				add(lblnote);
+	    			}
+    			}
+	    	} else if (((fromIndex = val.indexOf(Const.xml_friends)) != -1)) {
+	    		String desc = "";
+	    		String usr = "";
+	    		String value = "";
+	    		
+	    		int endIndex = -1;
+	    		String friend = "";
+	    		while ((fromIndex = val.indexOf(Const.xml_usr)) != -1){
+	    			
+	    			endIndex = val.indexOf(Const.xml_friend_end);
+	    			try{
+	    				friend = val.substring(fromIndex, endIndex+Const.xml_friend_end_length);
+	    			}catch(Exception e){};
+	    			fromIndex = friend.indexOf(Const.xml_usr);
+	    			if ((fromIndex = friend.indexOf(Const.xml_usr)) != -1) {
+	    				usr = friend.substring(fromIndex+Const.xml_usr_length, friend.indexOf(Const.xml_usr_end, fromIndex));
+	    			}
+	    			if ((fromIndex = friend.indexOf(Const.xml_valt)) != -1) {
+	    				value = friend.substring(fromIndex+Const.xml_valt_length, friend.indexOf(Const.xml_valt_end, fromIndex));
+	    			}
+	    			if ((fromIndex = friend.indexOf(Const.xml_descr)) != -1) {
+	    				desc = friend.substring(fromIndex+Const.xml_descr_length, friend.indexOf(Const.xml_descr_end, fromIndex));
+	    			}
+	    			
+	    			val = val.substring(val.indexOf(Const.xml_friend_end)+Const.xml_friend_end_length);
+	    			if(!usr.equals("")){
+	    				try{
+	    					lblfriend = new FriendField(usr,value,desc);
+			    			synchronized(UiApplication.getEventLock()) {
+			    				add(lblfriend);
+			    			}
+	    				}catch(Exception e){};
+	    			}
+	    		} if(usr.equals("")){
+    				synchronized(UiApplication.getEventLock()) {
+	    				add(new ColorLabelField("No friends found."));
+	    			}
+    			}
 	    	}
 	    	invalidate();
 	    	setDisplaying(true);

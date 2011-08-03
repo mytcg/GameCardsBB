@@ -186,6 +186,8 @@ public final class Const {
 	public static final short REGISTERSCREEN = 3;
 	public static final short PROFILESCREEN = 4;
 	public static final short BALANCESCREEN = 5;
+	public static final short NOTIFICATIONSCREEN = 6;
+	public static final short FRIENDSSCREEN = 7;
 	
 	public static final short USERDET = 0;
 	public static final short USERCAT = 1;
@@ -200,6 +202,9 @@ public final class Const {
 	public static final short AUCTIONS = -14;
 	public static final short BALANCE = -15;
 	public static final short PROFILE = -16;
+	public static final short NOTIFICATIONS = -17;
+	public static final short RANKINGS = -18;
+	public static final short FRIENDS = -19;
 	public static final short REDEEM = -10;
 	
 	public static final short CACHE = -1;
@@ -352,6 +357,10 @@ public final class Const {
 	public static String redeem = "Redeem";
 	public static String balance = "My Balance";
 	public static String profile = "My Profile";
+	public static String notification = "Notifications";
+	public static String friend = "Friends";
+	public static String rankings = "Rankings";
+	public static String friendranks = "Friend Ranks";
 	public static String all_auctions = "All Auctions";
 	public static String my_auctions = "My Auctions";
 	public static String create_auction = "Create New Auction";
@@ -425,6 +434,8 @@ public final class Const {
 	public static String userdetails = "userdetails=1";
 	public static String profiledetails = "profiledetails=1";
 	public static String creditlog = "creditlog=1";
+	public static String notifications = "notifications=1";
+	public static String friends = "friends=1";
 	public static String saveprofiledetail = "saveprofiledetail=1";
 	public static String viewgamelog = "viewgamelog=1";
 	public static String registeruser = "registeruser=1";
@@ -443,6 +454,8 @@ public final class Const {
 	public static String userpassword = "&password=";
 	public static String usercategories = "usercategories=1";
 	public static String productcategories = "productcategories=1";
+	public static String leaders = "leaders=1";
+	public static String leaderboard = "leaderboard=";
 	public static String categoryproducts = "categoryproducts=1";
 	public static String auctioncategories="auctioncategories=1";
 	public static String getusergames="getusergames=1";
@@ -1077,6 +1090,18 @@ public final class Const {
 	public static final int xml_transactions_length = xml_transactions.length(); 
 	public static final String xml_transactions_end = "</transactions>";
 	public static final int xml_transactions_end_length = xml_transactions_end.length();
+	public static final String xml_notifications = "<notifications>";
+	public static final int xml_notifications_length = xml_notifications.length(); 
+	public static final String xml_notifications_end = "</notifications>";
+	public static final int xml_notifications_end_length = xml_notifications_end.length();
+	public static final String xml_friends = "<friends>";
+	public static final int xml_friends_length = xml_friends.length(); 
+	public static final String xml_friends_end = "</friends>";
+	public static final int xml_friends_end_length = xml_friends_end.length();
+	public static final String xml_leaderboard = "<leaderboard>";
+	public static final int xml_leaderboard_length = xml_leaderboard.length(); 
+	public static final String xml_leaderboard_end = "</leaderboard>";
+	public static final int xml_leaderboard_end_length = xml_leaderboard_end.length();
 	public static final String xml_decks = "<decks>";
 	public static final int xml_decks_length = xml_decks.length(); 
 	public static final String xml_decks_end = "</decks>";
@@ -1215,6 +1240,10 @@ public final class Const {
 	public static final int xml_descr_length = xml_descr.length();
 	public static final String xml_descr_end = "</desc>";
 	public static final int xml_descr_end_length = xml_descr_end.length();
+	public static final String xml_usr = "<usr>";
+	public static final int xml_usr_length = xml_usr.length();
+	public static final String xml_usr_end = "</usr>";
+	public static final int xml_usr_end_length = xml_usr_end.length();
 	public static final String xml_date = "<date>";
 	public static final int xml_date_length = xml_date.length();
 	public static final String xml_date_end = "</date>";
@@ -1310,6 +1339,10 @@ public final class Const {
 	public static final int xml_id_length = xml_id.length();
 	public static final String xml_id_end = "</id>";
 	public static final int xml_id_end_length = xml_id_end.length();
+	public static final String xml_valt = "<val>";
+	public static final int xml_valt_length = xml_valt.length();
+	public static final String xml_valt_end = "</val>";
+	public static final int xml_valt_end_length = xml_valt_end.length();
 	public static final String xml_description = "<description>";
 	public static final int xml_description_length = xml_description.length();
 	public static final String xml_description_end = "</description>";
@@ -1362,6 +1395,14 @@ public final class Const {
 	public static final int xml_note_length = xml_note.length();
 	public static final String xml_note_end = "</note>";
 	public static final int xml_note_end_length = xml_note_end.length();
+	public static final String xml_friend = "<friend>";
+	public static final int xml_friend_length = xml_friend.length();
+	public static final String xml_friend_end = "</friend>";
+	public static final int xml_friend_end_length = xml_friend_end.length();
+	public static final String xml_leader = "<leader>";
+	public static final int xml_leader_length = xml_leader.length();
+	public static final String xml_leader_end = "</leader>";
+	public static final int xml_leader_end_length = xml_leader_end.length();
 	public static final String xml_updated = "<updated>";
 	public static final int xml_updated_length = xml_updated.length();
 	public static final String xml_updated_end = "</updated>";

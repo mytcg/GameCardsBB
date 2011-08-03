@@ -19,6 +19,10 @@ public class MenuScreen extends AppScreen implements FieldChangeListener
 	ListItemField redeem = new ListItemField("Empty", -1, false, 0);
 	ListItemField balance = new ListItemField("Empty", -1, false, 0);
 	ListItemField profile = new ListItemField("Empty", -1, false, 0);
+	ListItemField notifications = new ListItemField("Empty", -1, false, 0);
+	ListItemField rankings = new ListItemField("Empty", -1, false, 0);
+	ListItemField friendranks = new ListItemField("Empty", -1, false, 0);
+	ListItemField friends = new ListItemField("Empty", -1, false, 0);
 	ListItemField logout = new ListItemField("Empty", -1, false, 0);
 	public MenuScreen()
 	{
@@ -35,6 +39,10 @@ public class MenuScreen extends AppScreen implements FieldChangeListener
 		redeem = new ListItemField(Const.redeem, Const.REDEEM, false, 0);
 		balance = new ListItemField(Const.balance, Const.BALANCE, false, 0);
 		profile = new ListItemField(Const.profile, Const.PROFILE, false, 0);
+		notifications = new ListItemField(Const.notification, Const.NOTIFICATIONS, false, 0);
+		rankings = new ListItemField(Const.rankings, Const.RANKINGS, false, 0);
+		friendranks = new ListItemField(Const.friendranks, Const.RANKINGS, false, 0);
+		friends = new ListItemField(Const.friend, Const.FRIENDS, false, 0);
 		logout = new ListItemField(Const.logOut, Const.LOGOUT, false, 0);
 		
 		
@@ -47,6 +55,10 @@ public class MenuScreen extends AppScreen implements FieldChangeListener
 		redeem.setChangeListener(this);
 		balance.setChangeListener(this);
 		profile.setChangeListener(this);
+		notifications.setChangeListener(this);
+		rankings.setChangeListener(this);
+		friendranks.setChangeListener(this);
+		friends.setChangeListener(this);
 		logout.setChangeListener(this);
 		exit.setChangeListener(this);
 		
@@ -58,6 +70,10 @@ public class MenuScreen extends AppScreen implements FieldChangeListener
 		add(redeem);
 		add(balance);
 		add(profile);
+		add(notifications);
+		add(rankings);
+		add(friendranks);
+		add(friends);
 		add(logout);
 		addButton(new FixedButtonField(""));
 		addButton(new FixedButtonField(""));
@@ -90,6 +106,18 @@ public class MenuScreen extends AppScreen implements FieldChangeListener
 			UiApplication.getUiApplication().pushScreen(screen);
 		} else if(f == profile){
 			screen = new DetailScreen(this, Const.PROFILESCREEN);
+			UiApplication.getUiApplication().pushScreen(screen);
+		} else if(f == notifications){
+			screen = new DetailScreen(this, Const.NOTIFICATIONSCREEN);
+			UiApplication.getUiApplication().pushScreen(screen);
+		} else if(f == rankings){
+			screen = new RankingsCategoriesScreen(false);
+			UiApplication.getUiApplication().pushScreen(screen);
+		} else if(f == friendranks){
+			screen = new RankingsCategoriesScreen(true);
+			UiApplication.getUiApplication().pushScreen(screen);
+		} else if(f == friends){
+			screen = new DetailScreen(this, Const.FRIENDSSCREEN);
 			UiApplication.getUiApplication().pushScreen(screen);
 		} else if(f == logout){
 			screen = new LogOutScreen();

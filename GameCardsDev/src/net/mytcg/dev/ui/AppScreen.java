@@ -146,7 +146,7 @@ public class AppScreen extends MainScreen {
 		setStatus(statusManager);
 	}
 	public AppScreen(AppScreen parent, boolean noheader) {
-		super();
+		super(NO_VERTICAL_SCROLL | NO_VERTICAL_SCROLLBAR);
 		if(!(Const.getPortrait())){
 			super.add(hStatManager);
 		}else{
