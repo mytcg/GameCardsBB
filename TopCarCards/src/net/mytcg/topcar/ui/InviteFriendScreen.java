@@ -15,6 +15,7 @@ public class InviteFriendScreen extends AppScreen implements FieldChangeListener
 	SexyEditField username = new SexyEditField("");
 	SexyEditField email = new SexyEditField("");
 	SexyEditField phonenumber = new SexyEditField("");
+	ColorLabelField lblTop = new ColorLabelField("");
 	ColorLabelField lblPhone = new ColorLabelField(" Invite by Phone Number");
 	ColorLabelField lblUsername = new ColorLabelField(" Invite by Username");
 	ColorLabelField lblEmail = new ColorLabelField(" Invite by Email");
@@ -24,6 +25,7 @@ public class InviteFriendScreen extends AppScreen implements FieldChangeListener
 		super(null);
 		bgManager.setStatusHeight(exit.getContentHeight());
 		
+		add(lblTop);
 		add(lblUsername);
 		add(username);
 		add(lblEmail);
@@ -43,7 +45,9 @@ public class InviteFriendScreen extends AppScreen implements FieldChangeListener
 		System.out.println("weo "+val);
 		int fromIndex;
 	    if ((fromIndex = val.indexOf(Const.xml_result)) != -1) {
-	    	setText(val.substring(fromIndex+Const.xml_result_length, val.indexOf(Const.xml_result_end, fromIndex)));
+	    	synchronized(UiApplication.getEventLock()) {
+	    		lblTop.setText(" "+val.substring(fromIndex+Const.xml_result_length, val.indexOf(Const.xml_result_end, fromIndex)));
+	    	}
 	    } 
 	}
 	
@@ -57,7 +61,7 @@ public class InviteFriendScreen extends AppScreen implements FieldChangeListener
 			if (username.getText().equals("")
 				&& email.getText().equals("")
 				&& phonenumber.getText().equals("")) {
-				setText("Fill in at least one field.");
+				lblTop.setText(" Fill in at least one field.");
 			}
 			else {
 				if (!username.getText().equals(""))
@@ -75,7 +79,7 @@ public class InviteFriendScreen extends AppScreen implements FieldChangeListener
 					friendDetail = phonenumber.getText();
 					method = "phone_number";
 				}
-				setText("Inviting friend...");
+				lblTop.setText(" Inviting friend...");
 				doConnect("friendinvite=1&trademethod="+method+"&detail="+friendDetail);	
 			}
 		}

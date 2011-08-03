@@ -85,9 +85,9 @@ public final class ListLabelField extends LabelField {
 		}else{
 			g.setColor(Const.SELECTEDCOLOR);
 		}
-		int xPts[] = {0,0,getPreferredWidth(),getPreferredWidth()};
-		int yPts[] = {40,getPreferredHeight()+20,getPreferredHeight()+20,40};
-		g.drawTexturedPath(xPts,yPts,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,button_centre);
+		//int xPts[] = {0,0,getPreferredWidth(),getPreferredWidth()};
+		//int yPts[] = {40,getPreferredHeight()+20,getPreferredHeight()+20,40};
+		//g.drawTexturedPath(xPts,yPts,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,button_centre);
 		super.paint(g);
 	}
 	
