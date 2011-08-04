@@ -55,10 +55,10 @@ public class BidOrBuyScreen extends AppScreen implements FieldChangeListener
 			screen = null;
 			UiApplication.getUiApplication().popScreen(this);
 		} else if(f == placebid){
-			screen = new PlaceBidScreen(this, auction);
+			//screen = new PlaceBidScreen(this, auction);
 			UiApplication.getUiApplication().pushScreen(screen);
 		} else if(f == buynow){
-			screen = new BuyNowScreen(this, auction);
+			//screen = new BuyNowScreen(this, auction);
 			UiApplication.getUiApplication().pushScreen(screen);
 		} 
 	}

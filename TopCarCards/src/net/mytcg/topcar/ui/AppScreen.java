@@ -113,7 +113,7 @@ public class AppScreen extends MainScreen {
 		titleManager.add(new BitmapField(logo, BitmapField.FIELD_HCENTER));
 		titleManager.add(status);
 		
-		bgManager.setTitleHeight(Const.getLogoHeight()+(Const.FONT+1));
+		bgManager.setTitleHeight(Const.getLogoHeight()+(Const.FONT));
 		
 		//status setup
 		statusManager.add(hManager1);

@@ -57,7 +57,7 @@ public final class ThumbnailField extends Field {
 		if(card != null){
 			label2 = card.getQuality();
 			label3 = "Rating: " + card.getRating();
-			return card.getDesc() + " (" + card.getQuantity() + ")";
+			return card.getDesc();
 		}else if(product != null){
 			return product.getDesc();
 		}else if(auction != null){

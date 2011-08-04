@@ -14,10 +14,10 @@ public class BuyNowScreen extends AppScreen implements FieldChangeListener
 	FixedButtonField confirm = new FixedButtonField(Const.confirm);
 	ColorLabelField lblbuynow = null;
 	Auction auction = null;
-	BidOrBuyScreen screen = null;
+	AuctionInfoScreen screen = null;
 	boolean purchased = false;
 	
-	public BuyNowScreen(BidOrBuyScreen screen, Auction auction)
+	public BuyNowScreen(AuctionInfoScreen screen, Auction auction)
 	{
 		super(null);
 		this.auction = auction;

@@ -18,11 +18,11 @@ public class PlaceBidScreen extends AppScreen implements FieldChangeListener
 	ColorLabelField lblBuyNowPrice = null;
 	ColorLabelField lblEndDate = null;
 	ColorLabelField lblYourBid = null;
-	BidOrBuyScreen screen;
+	AuctionInfoScreen screen;
 	Auction auction;
 	boolean purchased = false;
 	
-	public PlaceBidScreen(BidOrBuyScreen screen, Auction auction)
+	public PlaceBidScreen(AuctionInfoScreen screen, Auction auction)
 	{
 		super(null);
 		this.auction = auction;

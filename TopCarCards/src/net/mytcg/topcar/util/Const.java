@@ -358,8 +358,8 @@ public final class Const {
 	public static String shop = "Shop";
 	public static String auctions = "Auctions";
 	public static String redeem = "Redeem";
-	public static String balance = "My Balance";
-	public static String profile = "My Profile";
+	public static String balance = "Credits";
+	public static String profile = "Profile";
 	public static String notification = "Notifications";
 	public static String friend = "Friends";
 	public static String invitefriend = "Invite Friends";
@@ -386,6 +386,7 @@ public final class Const {
 	public static String cell = " Cell Number";
 	public static String age = " Email Address";
 	public static String gender = " Password";
+	public static String referrer = " Referrer";
 	
 	public static String remove = "Are you sure you wish to delete this card?";
 	
@@ -451,11 +452,10 @@ public final class Const {
 	$cell = $_REQUEST['cell'];
 	 * 
 	 */
-	public static String username = "&name=";
 	public static String userfullname = "&username=";
-	public static String usercell = "&cell=";
 	public static String useremail = "&email=";
 	public static String userpassword = "&password=";
+	public static String userreferrer = "&referer=";
 	public static String usercategories = "usercategories=1";
 	public static String productcategories = "productcategories=2";
 	public static String freebiecategories = "productcategories=1";

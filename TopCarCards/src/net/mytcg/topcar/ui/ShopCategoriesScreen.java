@@ -25,6 +25,8 @@ public class ShopCategoriesScreen extends AppScreen implements FieldChangeListen
 			SettingsBean.saveSettings(_instance);
 		}
 		
+		int count = 0;
+		
 		if ((!(isDisplaying()))||(update)) {
 			int fromIndex;
 	    	if ((fromIndex = val.indexOf(Const.xml_result)) != -1) {
@@ -55,6 +57,7 @@ public class ShopCategoriesScreen extends AppScreen implements FieldChangeListen
 	    				tmp = new ListItemField(albumname, albumid, true, 0);
 	        			tmp.setChangeListener(this);
 	        			add(tmp);
+	        			count++;
 	        		}
 	    			empty = false;
 	    		}
@@ -62,6 +65,10 @@ public class ShopCategoriesScreen extends AppScreen implements FieldChangeListen
 	    			synchronized(UiApplication.getEventLock()) {
 	        			add(new ListItemField("Empty", -1, false, 0));
 	        		}
+	    		} else if (count == 1) {
+	    			synchronized(UiApplication.getEventLock()) {
+	    				fieldChanged(tmp, 0);
+	    			}
 	    		}
 	    	}
 	    	invalidate();
@@ -81,7 +88,7 @@ public class ShopCategoriesScreen extends AppScreen implements FieldChangeListen
 		addButton(exit);
 		
 		if(freebie){
-			add(new ColorLabelField("To say thank you for joining we have given you 300 credits and you get to choose a free booster to start out with"));
+			add(new ColorLabelField("Received: 300 credits and a free starter pack."));
 			doConnect(Const.freebiecategories);
 		}else{
 			add(new ColorLabelField("Choose a category."));

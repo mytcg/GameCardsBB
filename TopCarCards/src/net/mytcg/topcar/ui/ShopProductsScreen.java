@@ -109,7 +109,11 @@ public class ShopProductsScreen extends AppScreen implements FieldChangeListener
 		addButton(new FixedButtonField(""));
 		addButton(exit);
 		
-		add(new ColorLabelField("Current credits:" + SettingsBean.getSettings().getCredits()));
+		if (!freebie) {
+			add(new ColorLabelField("Current credits:" + SettingsBean.getSettings().getCredits()));
+		} else {
+			add(new ColorLabelField("Received: 300 credits and a free starter pack."));
+		}
 		
 		if (!freebie) {
 			doConnect(Const.categoryproducts+"&categoryId="+id);

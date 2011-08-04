@@ -1,11 +1,16 @@
 package net.mytcg.topcar.ui;
 
+import java.util.Date;
+
+import net.mytcg.topcar.ui.custom.ColorLabelField;
 import net.mytcg.topcar.ui.custom.FixedButtonField;
 import net.mytcg.topcar.ui.custom.ListItemField;
 import net.mytcg.topcar.ui.custom.ThumbnailField;
 import net.mytcg.topcar.util.Auction;
 import net.mytcg.topcar.util.Const;
 import net.mytcg.topcar.util.SettingsBean;
+import net.rim.device.api.i18n.SimpleDateFormat;
+import net.rim.device.api.io.http.HttpDateParser;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.FieldChangeListener;
 import net.rim.device.api.ui.UiApplication;
@@ -96,11 +101,39 @@ public class AuctionListScreen extends AppScreen implements FieldChangeListener
 	    			synchronized(UiApplication.getEventLock()) {
 	    				tmp = new ThumbnailField(new Auction(auctionid, cardid, usercardid, description, auctionthumb, openingbid, buynowprice, price, username, endDate, lastBidUser));
 	    				if(!price.equals("")){
-	    					tmp.setSecondLabel("Current bid: "+price);
+	    					if (lastBidUser.equals(SettingsBean.getSettings().getUsername())) {
+	    						tmp.setSecondLabel("Current bid: "+price+ " (Yours)");
+	    					} else {
+	    						tmp.setSecondLabel("Current bid: "+price);
+	    					}
 	    				}else{
 	    					tmp.setSecondLabel("Opening bid: "+openingbid);
 	    				}
-	    				tmp.setThirdLabel("Buy now price: "+buynowprice);
+	    					    
+	    				long end = new Date(HttpDateParser.parse(endDate)).getTime();
+	    				long current = System.currentTimeMillis();
+	    				
+	    				long diff = end - current;
+	    				
+	    				Date test = new Date(diff);
+	    				
+	    				SimpleDateFormat days = new SimpleDateFormat("d");
+	    				SimpleDateFormat hours = new SimpleDateFormat("H");
+	    				String day = days.format(test);
+	    				String hour = hours.format(test);
+	    				if (day.equals("1")) {
+	    					day = day + " Day ";
+	    				} else {
+	    					day = day + " Days ";
+	    				}
+	    				
+	    				if (hour.equals("1")) {
+	    					hour = hour + " Hour";
+	    				} else {
+	    					hour = hour + " Hours";
+	    				}
+	    				
+	    				tmp.setThirdLabel(day + hour);
 	        			tmp.setChangeListener(this);
 	        			add(tmp);
 	        		}
@@ -124,6 +157,8 @@ public class AuctionListScreen extends AppScreen implements FieldChangeListener
 		bgManager.setStatusHeight(exit.getContentHeight());
 		
 		exit.setChangeListener(this);
+		
+		add(new ColorLabelField(""));
 		
 		addButton(new FixedButtonField(""));
 		addButton(new FixedButtonField(""));
@@ -153,7 +188,8 @@ public class AuctionListScreen extends AppScreen implements FieldChangeListener
 		} else if(f instanceof ThumbnailField){
 			ThumbnailField auction = ((ThumbnailField)(f));
 			if(type==0){
-				screen = new BidOrBuyScreen(this, auction.getAuction());
+				//screen = new BidOrBuyScreen(this, auction.getAuction());
+				screen = new AuctionInfoScreen(auction.getAuction(), auction.getThumbnail(), true);
 				UiApplication.getUiApplication().pushScreen(screen);
 			}else{
 				screen = new AuctionInfoScreen(auction.getAuction(), auction.getThumbnail());
