@@ -25,7 +25,7 @@ public final class Const {
 	public static String VERSION = "1.0";
 	private static boolean PORTRAIT = true;
 	private static final double ratio = 1.40625;
-	public static String PREFIX = "dex_";
+	public static String PREFIX = "topcar_";
 	public static int THREADS = 0;
 	public static ConnectionHandler connect = null;
 	
@@ -358,8 +358,8 @@ public final class Const {
 	public static String shop = "Shop";
 	public static String auctions = "Auctions";
 	public static String redeem = "Redeem";
-	public static String balance = "My Balance";
-	public static String profile = "My Profile";
+	public static String balance = "Credits";
+	public static String profile = "Profile";
 	public static String notification = "Notifications";
 	public static String friend = "Friends";
 	public static String invitefriend = "Invite Friends";

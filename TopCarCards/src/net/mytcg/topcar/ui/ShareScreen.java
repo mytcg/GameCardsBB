@@ -47,7 +47,7 @@ public class ShareScreen extends AppScreen implements FieldChangeListener
 	
 		this.card = card;
 		temp = new ThumbnailField(card);
-		temp.setSecondLabel("Quality: "+ card.getQuality());
+		temp.setSecondLabel(card.getQuality());
 		temp.setThirdLabel("Rating: "+ card.getRating());
 		
 		temp.setFocusable(false);
