@@ -25,7 +25,7 @@ public final class FriendField extends Field {
 		int font = Const.FONT;
 		
 		Font _font = getFont();
-		_font = _font.derive(Font.BOLD,font);
+		_font = _font.derive(Const.TYPE,font);
 		setFont(_font);
 	}
 	
@@ -71,14 +71,14 @@ public final class FriendField extends Field {
 		}
 		
 		Font _font = getFont();
-		_font = _font.derive(Font.BOLD,Const.FONT+2);
+		_font = _font.derive(Const.TYPE,Const.FONT+2);
 		g.setFont(_font);
 		
 		g.drawText(label1, 5, 0);
 		
-		g.drawText(label2, 5, 24);
+		g.drawText(label2, 5, Const.FONT+4);
 		
-		g.drawText(label3, 5, 48);
+		g.drawText(label3, 5, (Const.FONT*2)+8);
 
 		_font = _font.derive(Font.PLAIN,Const.FONT);
 		g.setFont(_font);

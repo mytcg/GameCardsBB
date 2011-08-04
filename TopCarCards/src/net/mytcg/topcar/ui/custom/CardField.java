@@ -27,7 +27,7 @@ public final class CardField extends Field {
 		button_sel_centre = Const.getThumbRightEdge();
 		
 		Font _font = getFont();
-		_font = _font.derive(Font.BOLD,font);
+		_font = _font.derive(Const.TYPE,font);
 		setFont(_font);
 	}
 	
@@ -67,7 +67,7 @@ public final class CardField extends Field {
 		g.drawBitmap(5, 5, image.getWidth(), getPreferredHeight(), image, 0, 0);
 		
 		Font _font = getFont();
-		_font = _font.derive(Font.BOLD,Const.FONT+2);
+		_font = _font.derive(Const.TYPE,Const.FONT+2);
 		g.setFont(_font);
 		
 		g.drawText(card.getDesc(), image.getWidth()+10, 4);

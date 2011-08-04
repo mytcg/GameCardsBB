@@ -11,7 +11,7 @@ import net.rim.device.api.ui.component.ButtonField;
 public final class FixedButtonField extends Field {
 	private boolean focus;
 	private String label;
-	private boolean empty;
+	public boolean empty;
 	
 	private Bitmap button_centre;
 	private Bitmap button_left_edge;
@@ -52,7 +52,7 @@ public final class FixedButtonField extends Field {
 		button_sel_right_edge = Const.getButtonSelRightEdge();
 		
 		Font _font = getFont();
-		_font = _font.derive(Font.BOLD,Const.FONT);
+		_font = _font.derive(Const.TYPE,Const.FONT);
 		setFont(_font);
 		this.label = label;
 		if ((label == null)||(label.length() <= 0)) {

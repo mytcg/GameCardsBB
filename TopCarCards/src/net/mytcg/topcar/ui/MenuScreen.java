@@ -68,9 +68,9 @@ public class MenuScreen extends AppScreen implements FieldChangeListener
 		
 		add(albums);
 		add(play);
-		add(decks);
+		//add(decks);
 		add(shop);
-		add(auctions);	
+		add(auctions);
 		add(balance);
 		add(profile);
 		add(notifications);
@@ -131,8 +131,13 @@ public class MenuScreen extends AppScreen implements FieldChangeListener
 			screen = new InviteFriendScreen();
 			UiApplication.getUiApplication().pushScreen(screen);
 		} else if(f == logout){
-			screen = new LogOutScreen();
-			UiApplication.getUiApplication().pushScreen(screen);
+			close();
+			Const.GOTOSCREEN = Const.LOGINSCREEN;
+			Const.FROMSCREEN = Const.LOGINSCREEN;
+			Const.app.previousScreen();
+			System.exit(0);
+			/*screen = new LogOutScreen();
+			UiApplication.getUiApplication().pushScreen(screen);*/
 		}
 	}
 }

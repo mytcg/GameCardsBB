@@ -55,7 +55,9 @@ public final class ThumbnailField extends Field {
 	}
 	public String getDescription() {
 		if(card != null){
-			return card.getDesc();
+			label2 = card.getQuality();
+			label3 = "Rating: " + card.getRating();
+			return card.getDesc() + " (" + card.getQuantity() + ")";
 		}else if(product != null){
 			return product.getDesc();
 		}else if(auction != null){
@@ -141,7 +143,6 @@ public final class ThumbnailField extends Field {
 		if ((getBackUrl() != null)&&(getBackUrl().length() > 0)){
 			backfile  = getBackUrl().substring(getBackUrl().indexOf(Const.cards)+Const.cards_length, getBackUrl().indexOf(Const.png));
 		}
-		
 		construct(getDescription());
 	}
 	public ThumbnailField(Product product){
@@ -243,7 +244,7 @@ public final class ThumbnailField extends Field {
 			getData(0);
 		}
 		Font _font = getFont();
-		_font = _font.derive(Font.BOLD,font);
+		_font = _font.derive(Const.TYPE,font);
 		setFont(_font);
 		this.label1 = label;
 	}
@@ -325,7 +326,7 @@ public final class ThumbnailField extends Field {
 		g.drawBitmap(5, 3, button_thumbnail.getWidth(), getPreferredHeight(), button_thumbnail, 0, 0);
 		
 		Font _font = getFont();
-		_font = _font.derive(Font.BOLD,Const.FONT+2);
+		_font = _font.derive(Const.TYPE,Const.FONT+2);
 		g.setFont(_font);
 		if(card != null){
 			if ((card.getNote() != null)&&(card.getNote().length() > 0)) {
@@ -343,10 +344,10 @@ public final class ThumbnailField extends Field {
 			g.drawText(label1, button_thumbnail.getWidth()+10, 4);
 		}
 		if(!label2.equals("")){
-			g.drawText(label2, button_thumbnail.getWidth()+10, 26);
+			g.drawText(label2, button_thumbnail.getWidth()+10, Const.FONT+6);
 		}
 		if(!label3.equals("")){
-			g.drawText(label3, button_thumbnail.getWidth()+10, 48);
+			g.drawText(label3, button_thumbnail.getWidth()+10, (Const.FONT*2)+8);
 		}
 		
 		_font = _font.derive(Font.PLAIN,Const.FONT);

@@ -43,7 +43,6 @@ public class LogOutScreen extends AppScreen implements FieldChangeListener
 	}
 	
 	public void fieldChanged(Field f, int i) {
-		System.out.println("FIELD: "+f.toString()+ " i "+i);
 		if (f == exit) {
 			screen = null;
 			UiApplication.getUiApplication().popScreen(this);

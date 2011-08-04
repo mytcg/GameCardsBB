@@ -15,7 +15,7 @@ import net.rim.device.api.ui.UiApplication;
 public class ShopPurchaseScreen extends AppScreen implements FieldChangeListener
 {
 	FixedButtonField exit = new FixedButtonField(Const.back);
-	FixedButtonField confirm = new FixedButtonField(Const.confirm);
+	FixedButtonField confirm = new FixedButtonField(Const.purchase);
 	ColorLabelField lblConfirm = null;
 	
 	boolean update = true;
@@ -35,12 +35,12 @@ public class ShopPurchaseScreen extends AppScreen implements FieldChangeListener
 		this.freebie = freebie;
 		bgManager.setStatusHeight(exit.getContentHeight());
 		Font _font = getFont();
-		_font = _font.derive(Font.BOLD,Const.FONT+2);
+		_font = _font.derive(Const.TYPE,Const.FONT+2);
 		setFont(_font);
 		if(freebie){
 			lblConfirm = new ColorLabelField("Are you sure you want this free booster pack?");
 		}else{
-			lblConfirm = new ColorLabelField("Are you sure you want to purchase this Booster?");
+			lblConfirm = new ColorLabelField("Current credits: " + SettingsBean.getSettings().getCredits());
 		}
 		exit.setChangeListener(this);
 		confirm.setChangeListener(this);

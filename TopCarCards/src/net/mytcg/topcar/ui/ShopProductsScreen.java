@@ -1,5 +1,6 @@
 package net.mytcg.topcar.ui;
 
+import net.mytcg.topcar.ui.custom.ColorLabelField;
 import net.mytcg.topcar.ui.custom.FixedButtonField;
 import net.mytcg.topcar.ui.custom.ListItemField;
 import net.mytcg.topcar.ui.custom.ThumbnailField;
@@ -108,7 +109,13 @@ public class ShopProductsScreen extends AppScreen implements FieldChangeListener
 		addButton(new FixedButtonField(""));
 		addButton(exit);
 		
-		doConnect(Const.categoryproducts+"&categoryId="+id);
+		add(new ColorLabelField("Current credits:" + SettingsBean.getSettings().getCredits()));
+		
+		if (!freebie) {
+			doConnect(Const.categoryproducts+"&categoryId="+id);
+		} else {
+			doConnect(Const.freebieproducts+"&categoryId="+id);
+		}
 	}
 	
 	protected void onExposed() {

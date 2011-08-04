@@ -3,6 +3,7 @@ package net.mytcg.topcar.ui;
 import net.mytcg.topcar.ui.custom.ColorLabelField;
 import net.mytcg.topcar.ui.custom.FixedButtonField;
 import net.mytcg.topcar.ui.custom.SexyEditField;
+import net.mytcg.topcar.ui.custom.ThumbnailField;
 import net.mytcg.topcar.util.Card;
 import net.mytcg.topcar.util.Const;
 import net.mytcg.topcar.util.SettingsBean;
@@ -22,6 +23,7 @@ public class NoteScreen extends AppScreen implements FieldChangeListener
 	public NoteScreen(Card card, AppScreen screen)
 	{
 		super(screen);
+		add(new ThumbnailField(card));
 		add(new ColorLabelField(Const.notes));
 		this.card = card;
 		if (card.getNote().length() >= 0) {

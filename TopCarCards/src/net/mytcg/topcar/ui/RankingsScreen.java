@@ -69,7 +69,7 @@ public class RankingsScreen extends AppScreen implements FieldChangeListener
 	    			val = val.substring(val.indexOf(Const.xml_leader_end)+Const.xml_leader_end_length);
 	    			if(value != -1){
 	    				try{
-	    					lblType = new ColorLabelField(usr);
+	    					lblType = new ColorLabelField(" " + usr);
 			    			synchronized(UiApplication.getEventLock()) {
 			    				add(lblType);
 			    				amount = new SexyEditField(""+value);

@@ -451,11 +451,12 @@ public class GamePlayScreen extends AppScreen implements FieldChangeListener
 	    		if ((fromIndex = game.indexOf(Const.xml_phase)) != -1) {
 	    			phase = game.substring(fromIndex+Const.xml_phase_length, game.indexOf(Const.xml_phase_end, fromIndex));
 	    		}
-	    		card1 = new Card(cardid, "", 1, "", fronturl, backurl, "", 0, stats);
+	    		card1 = new Card(cardid, "", 1, "", fronturl, backurl, "", 0, stats, -1, "", "");
+	    	
 	    		card1.setGamePlayerCardId(gameplaycardid);
 	    		card1.setFrontFlipurl(frontflipurl);
 	    		card1.setBackFlipurl(backflipurl);
-				card2 = new Card(oppcardid, "", 1, "", oppfronturl, oppbackurl, "", 0, oppstats);
+				card2 = new Card(oppcardid, "", 1, "", oppfronturl, oppbackurl, "", 0, oppstats, -1, "", "");
 				card2.setGamePlayerCardId(oppgameplaycardid);
 				card2.setFrontFlipurl(oppfrontflipurl);
 	    		card2.setBackFlipurl(oppbackflipurl);

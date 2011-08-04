@@ -26,7 +26,7 @@ public final class ProductField extends Field {
 		int font = Const.FONT;
 		
 		Font _font = getFont();
-		_font = _font.derive(Font.BOLD,font);
+		_font = _font.derive(Const.TYPE,font);
 		setFont(_font);
 	}
 	
@@ -66,16 +66,16 @@ public final class ProductField extends Field {
 		g.drawBitmap(5, 5, image.getWidth(), getPreferredHeight(), image, 0, 0);
 		
 		Font _font = getFont();
-		_font = _font.derive(Font.BOLD,Const.FONT+2);
+		_font = _font.derive(Const.TYPE,Const.FONT+2);
 		g.setFont(_font);
 		
 		g.drawText(product.getDesc(), image.getWidth()+10, 4);
 		
-		g.drawText("Price: "+product.getPrice(), 5, image.getHeight() + 10);
+		g.drawText("Credits: "+product.getPrice(), image.getWidth()+10, Const.FONT+6);
 		
-		g.drawText("Cards in pack: "+product.getNumCards(), 5, image.getHeight() + 35);
+		g.drawText("Cards: "+product.getNumCards(), image.getWidth()+10, (Const.FONT*2)+8);
 		
-		g.drawText("Pack Type: "+product.getType(), 5, image.getHeight() + 60);
+		g.drawText("Type: "+product.getType(), image.getWidth()+10, (Const.FONT*3)+12);
 
 		_font = _font.derive(Font.PLAIN,Const.FONT);
 		g.setFont(_font);
