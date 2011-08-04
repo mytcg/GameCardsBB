@@ -69,9 +69,6 @@ public class OptionScreen extends AppScreen implements FieldChangeListener
 			UiApplication.getUiApplication().popScreen(this);
 		}
 		if(SettingsBean.getSettings().shared){
-			SettingsBean _instance = SettingsBean.getSettings();
-			_instance.shared = false;
-			SettingsBean.saveSettings(_instance);
 			UiApplication.getUiApplication().popScreen(this);
 		}
 	}
