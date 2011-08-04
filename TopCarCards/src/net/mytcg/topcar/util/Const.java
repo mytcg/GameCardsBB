@@ -25,7 +25,7 @@ public final class Const {
 	public static String VERSION = "1.0";
 	private static boolean PORTRAIT = true;
 	private static final double ratio = 1.40625;
-	public static String PREFIX = "dex_";
+	public static String PREFIX = "topcar_";
 	public static int THREADS = 0;
 	public static ConnectionHandler connect = null;
 	

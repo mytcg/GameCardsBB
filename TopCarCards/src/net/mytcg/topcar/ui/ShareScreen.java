@@ -15,6 +15,7 @@ import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.FieldChangeListener;
 import net.rim.device.api.ui.Font;
 import net.rim.device.api.ui.UiApplication;
+import net.rim.device.api.ui.component.ButtonField;
 import net.rim.device.api.ui.component.EditField;
 
 public class ShareScreen extends AppScreen implements FieldChangeListener
@@ -46,7 +47,7 @@ public class ShareScreen extends AppScreen implements FieldChangeListener
 	
 		this.card = card;
 		temp = new ThumbnailField(card);
-		temp.setSecondLabel("Quality: "+ card.getQuality());
+		temp.setSecondLabel(card.getQuality());
 		temp.setThirdLabel("Rating: "+ card.getRating());
 		
 		temp.setFocusable(false);
@@ -100,16 +101,16 @@ public class ShareScreen extends AppScreen implements FieldChangeListener
 				}
 				synchronized(UiApplication.getEventLock()) {
 					try{
-						hManager1.deleteAll();
 						bgManager.deleteAll();
-						addButton(confirm);
-						addButton(new FixedButtonField(""));
-						addButton(exit);
-						lblTop.setText("");
-						add(lblTop);
-						add(new ColorLabelField("Send " + card.getDesc() + " to " + friendDetail + "?"));
-						add(temp);
-					}catch(Exception e){};
+						hManager1.deleteAll();
+					}catch(Exception e){System.out.println(e);};
+					addButton(confirm);
+					addButton(new FixedButtonField(""));
+					addButton(exit);
+					lblTop.setText("");
+					add(lblTop);
+					add(new ColorLabelField(" \n Send " + card.getDesc() + " to " + friendDetail + "?\n\n\n"));
+					add(temp);
 				}
 			}
 		}  else if (f == confirm) {
@@ -118,8 +119,11 @@ public class ShareScreen extends AppScreen implements FieldChangeListener
 			SettingsBean.saveSettings(_instance);
 			synchronized(UiApplication.getEventLock()) {
 				try{
-					hManager1.delete(confirm);
+					hManager1.deleteAll();
 				}catch(Exception e){};
+				addButton(new FixedButtonField(""));
+				addButton(new FixedButtonField(""));
+				addButton(exit);
 			}
 			doConnect("tradecard="+card.getId()+"&trademethod="+method+"&detail="+friendDetail);
 		}
