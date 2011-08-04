@@ -474,8 +474,8 @@ public class GamePlayScreen extends AppScreen implements FieldChangeListener
 							hGameManager.drawbox = false;
 			    			opphgamemanager.drawbox = false;
 						}
-		        		user = new ColorLabelField(" User: "+usercards+" cards, selecting stat");
-		        		opponent = new ColorLabelField(" Opponent: "+oppcards+" cards, waiting");
+		        		user = new ColorLabelField(" "+username+": "+usercards+" cards, selecting stat");
+		        		opponent = new ColorLabelField(" "+oppname+": "+oppcards+" cards, waiting");
 		        		if(!(Const.getPortrait())){
 		        			bgManager.add(user);
 			    			vGameManager.setStatusHeight(options.getContentHeight());
@@ -546,8 +546,8 @@ public class GamePlayScreen extends AppScreen implements FieldChangeListener
 							hGameManager.drawbox = false;
 			    			opphgamemanager.drawbox = false;
 						}
-		        		user = new ColorLabelField(" User: "+usercards+" cards, waiting");
-		        		opponent = new ColorLabelField(" Opponent: "+oppcards+" cards, selecting stat");
+		        		user = new ColorLabelField(" "+username+": "+usercards+" cards, waiting");
+		        		opponent = new ColorLabelField(" "+oppname+": "+oppcards+" cards, selecting stat");
 		        		if(!(Const.getPortrait())){
 		        			bgManager.add(user);
 			    			vGameManager.setStatusHeight(options.getContentHeight());

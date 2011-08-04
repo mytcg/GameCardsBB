@@ -35,6 +35,7 @@ public final class SettingsBean implements Persistable {
 	private Hashtable images;
 	
 	public boolean created = false;
+	public boolean shared = false;
 	public boolean added = false;
 	public boolean deleted = false;
 	public boolean leavegame = false;

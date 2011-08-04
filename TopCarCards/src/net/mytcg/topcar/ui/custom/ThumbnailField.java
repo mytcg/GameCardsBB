@@ -23,6 +23,7 @@ public final class ThumbnailField extends Field {
 	private String backfile;
 	
 	private boolean focus;
+	private boolean focusable = true;
 	private String label1;
 	private String label2;
 	private String label3;
@@ -289,8 +290,11 @@ public final class ThumbnailField extends Field {
 		setExtent(getPreferredWidth(),getPreferredHeight());
     }
 	public boolean isFocusable() {
-    	return true;
+    	return focusable;
     }
+	public void setFocusable(boolean focusable){
+		this.focusable = focusable;
+	}
 	public void paint(Graphics g) {
 		//int _xPts[] = {0,0,getPreferredWidth(),getPreferredWidth()};
 		//int _yPts[] = {0,Const.getHeight(),Const.getHeight(),0};
@@ -329,9 +333,9 @@ public final class ThumbnailField extends Field {
 			}
 			
 			if (card.getUpdated() == 1) {
-				g.drawText("*" +label1, button_thumbnail.getWidth()+10, 4);
+				g.drawText("*" +label1 +(card.getQuantity()>-1?" ("+card.getQuantity()+")":""), button_thumbnail.getWidth()+10, 4);
 			} else {
-				g.drawText(label1, button_thumbnail.getWidth()+10, 4);
+				g.drawText(label1 +(card.getQuantity()>-1?" ("+card.getQuantity()+")":""), button_thumbnail.getWidth()+10, 4);
 			}
 		}else if(product != null){
 			g.drawText(label1, button_thumbnail.getWidth()+10, 4);

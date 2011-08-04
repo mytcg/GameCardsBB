@@ -2,6 +2,9 @@ package net.mytcg.topcar.ui;
 
 import java.util.Vector;
 
+import javax.microedition.io.Connector;
+import javax.microedition.io.file.FileConnection;
+
 import net.mytcg.topcar.ui.custom.FixedButtonField;
 import net.mytcg.topcar.ui.custom.ListItemField;
 import net.mytcg.topcar.ui.custom.ThumbnailField;
@@ -52,9 +55,12 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 	    		String description = "";
 	    		String quality = "";
 	    		int quantity = -1;
+	    		int rating = -1;
 	    		String thumburl = "";
 	    		String fronturl = "";
 	    		String backurl = "";
+	    		String frontflipurl = "";
+	    		String backflipurl = "";
 	    		String note = "";
 	    		int updated = 0;
 	    		Vector stats = null;
@@ -79,9 +85,12 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 	    			description = "";
 	    			quality = "";
 	    			quantity = -1;
+	    			rating = -1;
 	    			thumburl = "";
 	    			fronturl = "";
 	    			backurl = "";
+	    			frontflipurl = "";
+	    			backflipurl = "";
 	    			note = "";
 	    			updated = 0;
 	    			stats = new Vector();
@@ -100,7 +109,14 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 	    				try {
 	    					quantity = Integer.parseInt(card.substring(fromIndex+Const.xml_quantity_length, card.indexOf(Const.xml_quantity_end, fromIndex)));
 	    				} catch (Exception e) {
-	        				quantity = 0;
+	        				quantity = -1;
+	        			}
+	    			}
+	    			if ((fromIndex = card.indexOf(Const.xml_rating)) != -1) {
+	    				try {
+	    					rating = Integer.parseInt(card.substring(fromIndex+Const.xml_rating_length, card.indexOf(Const.xml_rating_end, fromIndex)));
+	    				} catch (Exception e) {
+	        				rating = -1;
 	        			}
 	    			}
 	    			if ((fromIndex = card.indexOf(Const.xml_thumburl)) != -1) {
@@ -112,6 +128,12 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 	    			if ((fromIndex = card.indexOf(Const.xml_backurl)) != -1) {
 	    				backurl = card.substring(fromIndex+Const.xml_backurl_length, card.indexOf(Const.xml_backurl_end, fromIndex));
 	    			}
+	    			if ((fromIndex = card.indexOf(Const.xml_frontflipurl)) != -1) {
+		    			frontflipurl = card.substring(fromIndex+Const.xml_frontflipurl_length, card.indexOf(Const.xml_frontflipurl_end, fromIndex));
+		    		}
+		    		if ((fromIndex = card.indexOf(Const.xml_backflipurl)) != -1) {
+		    			backflipurl = card.substring(fromIndex+Const.xml_backflipurl_length, card.indexOf(Const.xml_backflipurl_end, fromIndex));
+		    		}
 	    			if ((fromIndex = card.indexOf(Const.xml_note)) != -1) {
 	    				note = card.substring(fromIndex+Const.xml_note_length, card.indexOf(Const.xml_note_end, fromIndex));
 	    			}
@@ -203,8 +225,74 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 	    			System.out.println("...");
 	    			Card cardobject = new Card(cardid, description, quantity, thumburl, fronturl, backurl, note, updated, stats);
 	    			cardobject.setCategoryId(id);
+	    			cardobject.setQuality(quality);
+	    			cardobject.setRating(rating);
+	    			cardobject.setFrontFlipurl(frontflipurl);
+	    			cardobject.setBackFlipurl(backflipurl);
 	    			_instance.setImages(cardid, cardobject);
-		    		
+	    			if(updated == 1){
+	    				String thumbfile = "";
+	    				String frontfile = "";
+	    				String backfile = "";
+	    				String backflipfile = "";
+	    				String frontflipfile = "";
+	    				FileConnection _file = null;
+						if ((cardobject.getThumburl() != null)&&(cardobject.getThumburl().length() > 0)){
+							thumbfile = cardobject.getThumburl().substring(cardobject.getThumburl().indexOf(Const.cards)+Const.cards_length, cardobject.getThumburl().indexOf(Const.png));
+							try{	
+								_file = (FileConnection)Connector.open(Const.getStorage()+Const.PREFIX+thumbfile);
+								if(_file.exists()){
+									_file.delete();
+								}
+								_file.close();
+								_file = null;
+							}catch(Exception e){System.out.println(e);};
+						}
+						if ((cardobject.getFronturl() != null)&&(cardobject.getFronturl().length() > 0)){
+							frontfile = cardobject.getFronturl().substring(cardobject.getFronturl().indexOf(Const.cards)+Const.cards_length, cardobject.getFronturl().indexOf(Const.png));
+							try{	
+								_file = (FileConnection)Connector.open(Const.getStorage()+Const.PREFIX+frontfile);
+								if(_file.exists()){
+									_file.delete();
+								}
+								_file.close();
+								_file = null;
+							}catch(Exception e){System.out.println(e);};
+						}
+						if ((cardobject.getBackurl() != null)&&(cardobject.getBackurl().length() > 0)){
+							backfile  = cardobject.getBackurl().substring(cardobject.getBackurl().indexOf(Const.cards)+Const.cards_length, cardobject.getBackurl().indexOf(Const.png));
+							try{	
+								_file = (FileConnection)Connector.open(Const.getStorage()+Const.PREFIX+backfile);
+								if(_file.exists()){
+									_file.delete();
+								}
+								_file.close();
+								_file = null;
+							}catch(Exception e){System.out.println(e);};
+						}
+						if ((cardobject.getBackFlipurl() != null)&&(cardobject.getBackFlipurl().length() > 0)){
+							backflipfile  = cardobject.getBackFlipurl().substring(cardobject.getBackFlipurl().indexOf(Const.cards)+Const.cards_length, cardobject.getBackFlipurl().indexOf(Const.png));
+							try{	
+								_file = (FileConnection)Connector.open(Const.getStorage()+Const.PREFIX+backflipfile);
+								if(_file.exists()){
+									_file.delete();
+								}
+								_file.close();
+								_file = null;
+							}catch(Exception e){System.out.println(e);};
+						}
+						if ((cardobject.getFrontFlipurl() != null)&&(cardobject.getFrontFlipurl().length() > 0)){
+							frontflipfile  = cardobject.getFrontFlipurl().substring(cardobject.getFrontFlipurl().indexOf(Const.cards)+Const.cards_length, cardobject.getFrontFlipurl().indexOf(Const.png));
+							try{	
+								_file = (FileConnection)Connector.open(Const.getStorage()+Const.PREFIX+frontflipfile);
+								if(_file.exists()){
+									_file.delete();
+								}
+								_file.close();
+								_file = null;
+							}catch(Exception e){System.out.println(e);};
+						}
+					}
 	    			val = val.substring(val.indexOf(Const.xml_card_end)+Const.xml_card_end_length);
 	    			
 	    			empty = false;
@@ -214,9 +302,11 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 	    				} else {
 	    					tmp = new ThumbnailField(_instance.getImages(cardid));
 	    				}
-	    				tmp.setSecondLabel("Quantity: "+ quantity);
 	    				if(!quality.equals("")){
 	    					tmp.setSecondLabel("Quality: "+ quality);
+	    				}
+	    				if(rating != -1){
+	    					tmp.setThirdLabel("Rating: "+ rating);
 	    				}
 	        			tmp.setChangeListener(this);
 	        			add(tmp);

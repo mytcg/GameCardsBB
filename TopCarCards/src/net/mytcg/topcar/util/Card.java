@@ -9,6 +9,8 @@ public class Card implements Persistable {
 	private int gameplayercardid = -1;
 	private String description = "";
 	private int quantity = -1;
+	private int rating = -1;
+	private String quality = "";
 	private String thumburl = "";
 	private String fronturl = "";
 	private String backurl = "";
@@ -89,6 +91,12 @@ public class Card implements Persistable {
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
+	public void setQuality(String quality) {
+		this.quality = quality;
+	}
+	public void setRating(int rating) {
+		this.rating = rating;
+	}
 	public void setThumburl(String url) {
 		thumburl = url;
 	}
@@ -125,6 +133,12 @@ public class Card implements Persistable {
 	}
 	public int getQuantity() {
 		return quantity;
+	}
+	public int getRating() {
+		return rating;
+	}
+	public String getQuality() {
+		return quality;
 	}
 	public String getThumburl() {
 		return thumburl;

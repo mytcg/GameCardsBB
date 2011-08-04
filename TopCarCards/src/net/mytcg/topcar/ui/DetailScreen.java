@@ -21,13 +21,9 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 {
 	FixedButtonField exit = new FixedButtonField(Const.back);
 	FixedButtonField save = new FixedButtonField(Const.save);
-	SexyEditField username = new SexyEditField("");
-	SexyEditField email = new SexyEditField("");
 	SexyEditField balance = new SexyEditField("");
 	SexyEditField tmp = new SexyEditField("");
 	ColorLabelField lbltop = null;
-	ColorLabelField lblUsername = new ColorLabelField(Const.usern);
-	ColorLabelField lblEmail = new ColorLabelField(Const.email);
 	ListItemField lblBalance = new ListItemField(Const.credits, -1, false, 0);
 	ListItemField lblNotifications = new ListItemField(Const.notification, Const.NOTIFICATIONS, false, 0);
 	ListItemField lblFriends = new ListItemField(Const.friend, Const.FRIENDS, false, 0);
@@ -48,14 +44,6 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 		if(screenType == Const.PROFILESCREEN){
 			lbltop = new ColorLabelField("Earn credits by filling in profile details.");
 			add(lbltop);
-			add(lblUsername);
-			add(username);
-			username.setText(SettingsBean.getSettings().getUsername());
-			username.setFocusable(false);
-			add(lblEmail);
-			add(email);
-			email.setText(SettingsBean.getSettings().getEmail());
-			email.setFocusable(false);
 			save.setChangeListener(this);
 			addButton(save);
 			doConnect(Const.profiledetails);
@@ -143,7 +131,7 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 	    				cbxtmp.setChecked(answered.equals("1"));
 		    			cbxtmp.setEditable(false);
 		    			//cbxtmp.setEnabled(false);
-	    				tmp = new SexyEditField((Const.getWidth()-25),username.getHeight());
+	    				tmp = new SexyEditField((Const.getWidth()-25),Const.getButtonHeight());
 	    				tmp.setText(answer);
 	        			tmp.setChangeListener(this);
 	    				}catch(Exception e){

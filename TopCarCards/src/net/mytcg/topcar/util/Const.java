@@ -1372,6 +1372,10 @@ public final class Const {
 	public static final int xml_quantity_length = xml_quantity.length();
 	public static final String xml_quantity_end = "</quantity>";
 	public static final int xml_quantity_end_length = xml_quantity_end.length();
+	public static final String xml_rating = "<ranking>";
+	public static final int xml_rating_length = xml_rating.length();
+	public static final String xml_rating_end = "</ranking>";
+	public static final int xml_rating_end_length = xml_rating_end.length();
 	public static final String xml_thumburl = "<thumburl>";
 	public static final int xml_thumburl_length = xml_thumburl.length();
 	public static final String xml_thumburl_end = "</thumburl>";
