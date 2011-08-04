@@ -63,11 +63,12 @@ public class GameOptionsScreen extends AppScreen implements FieldChangeListener{
 		        		}
 	    			}
 	    		}
-	    	} else {
-	    		synchronized(UiApplication.getEventLock()) {
-        			add(tmp);
-        		}
-	    	}
+	    		if(log.equals("")) {
+		    		synchronized(UiApplication.getEventLock()) {
+	        			add(tmp);
+	        		}
+		    	}
+	    	} 
 	    	invalidate();
 	    	setDisplaying(true);
 		}		

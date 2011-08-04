@@ -3,12 +3,10 @@ package net.mytcg.topcar.ui;
 import java.util.Vector;
 
 import net.rim.device.api.io.Base64OutputStream;
-import net.mytcg.topcar.ui.custom.BackgroundManager;
 import net.mytcg.topcar.ui.custom.ColorLabelField;
 import net.mytcg.topcar.ui.custom.FixedButtonField;
 import net.mytcg.topcar.ui.custom.HorizontalGamePlayManager;
 import net.mytcg.topcar.ui.custom.ImageField;
-import net.mytcg.topcar.ui.custom.ListItemField;
 import net.mytcg.topcar.ui.custom.SexyEditField;
 import net.mytcg.topcar.ui.custom.StatField;
 import net.mytcg.topcar.ui.custom.VerticalGamePlayManager;

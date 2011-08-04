@@ -362,6 +362,7 @@ public final class Const {
 	public static String profile = "My Profile";
 	public static String notification = "Notifications";
 	public static String friend = "Friends";
+	public static String invitefriend = "Invite Friends";
 	public static String rankings = "Rankings";
 	public static String friendranks = "Friend Ranks";
 	public static String all_auctions = "All Auctions";

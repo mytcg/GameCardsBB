@@ -210,7 +210,6 @@ public class AppScreen extends MainScreen {
 		}
 	}
 	
-	
 	public void doConnect(String url, boolean autoclean) {
 		setText("Attempting Connection, Please Wait...");
 		ConnectionGet cG = new ConnectionGet(url, this, autoclean);
