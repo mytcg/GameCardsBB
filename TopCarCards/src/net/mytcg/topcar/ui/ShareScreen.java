@@ -53,7 +53,7 @@ public class ShareScreen extends AppScreen implements FieldChangeListener
 		add(note);
 		
 		Font _font = getFont();
-		_font = _font.derive(Font.BOLD, Const.FONT);
+		_font = _font.derive(Const.TYPE, Const.FONT);
 		setFont(_font);
 		
 		bgManager.setStatusHeight(exit.getContentHeight());

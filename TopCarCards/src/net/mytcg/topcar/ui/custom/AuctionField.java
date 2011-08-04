@@ -26,7 +26,7 @@ public final class AuctionField extends Field {
 		int font = Const.FONT;
 		
 		Font _font = getFont();
-		_font = _font.derive(Font.BOLD,font);
+		_font = _font.derive(Const.TYPE,font);
 		setFont(_font);
 	}
 	
@@ -66,20 +66,30 @@ public final class AuctionField extends Field {
 		g.drawBitmap(5, 5, image.getWidth(), getPreferredHeight(), image, 0, 0);
 		
 		Font _font = getFont();
-		_font = _font.derive(Font.BOLD,Const.FONT+2);
+		_font = _font.derive(Const.TYPE,Const.FONT+2);
 		g.setFont(_font);
 		
-		g.drawText(auction.getDesc(), image.getWidth()+10, 4);
+		int height = 4;
+		
+		g.drawText(auction.getDesc(), image.getWidth()+10, height);
+		
+		height += Const.FONT+4;
 		if(!auction.getPrice().equals("")){
-			g.drawText("Current bid: "+auction.getPrice(), 5, image.getHeight() + 10);
+			g.drawText("Current bid: "+auction.getPrice(), image.getWidth()+10, height);
 		}else{
-			g.drawText("Opening bid: "+auction.getOpeningBid(), 5, image.getHeight() + 10);
+			g.drawText("Opening bid: "+auction.getOpeningBid(), image.getWidth()+10, height);
 		}
 		
-		g.drawText("By: "+auction.getUsername(), 5, image.getHeight() + 35);
-		
-		g.drawText("Buy now price: "+auction.getBuyNowPrice(), 5, image.getHeight() + 60);
-		g.drawText("End date: "+auction.getEndDate(), 5, image.getHeight() + 85);
+		height += Const.FONT+4;
+		g.drawText("Buy Out: "+auction.getBuyNowPrice(), image.getWidth()+10, height);
+		if(!auction.getPrice().equals("")){
+			height += Const.FONT+4;
+			g.drawText("Bidder: "+auction.getLastBidUser(), image.getWidth()+10, height);
+		}
+		height += Const.FONT+4;
+		g.drawText("Seller: "+auction.getUsername(), image.getWidth()+10, height);
+		height += Const.FONT+4;
+		g.drawText(""+auction.getEndDate(), image.getWidth()+10, height);
 
 		_font = _font.derive(Font.PLAIN,Const.FONT);
 		g.setFont(_font);

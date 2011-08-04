@@ -18,6 +18,7 @@ import net.rim.device.api.system.IDENInfo;
 import net.rim.device.api.system.RadioInfo;
 import net.rim.device.api.system.SIMCardInfo;
 import net.rim.device.api.ui.Color;
+import net.rim.device.api.ui.Font;
 
 public final class Const {
 	
@@ -218,10 +219,11 @@ public final class Const {
 	/*
 	 * DISPLAY VALUES
 	 */
-	public static final int SMALL_FONT = 12;
-	public static final int MEDIUM_FONT = 14;
-	public static final int LARGE_FONT = 16;
+	public static final int SMALL_FONT = 10;
+	public static final int MEDIUM_FONT = 12;
+	public static final int LARGE_FONT = 14;
 	public static int FONT = LARGE_FONT;
+	public static int TYPE = Font.PLAIN;
 	public static final int INCREASE_FONT = 2;
 	
 	public static final int FONTCOLOR = Color.GRAY;
@@ -318,6 +320,7 @@ public final class Const {
 	public static String register = "Register";
 	public static String exit = "Exit";
 	public static String back = "Back";
+	public static String purchase = "purchase";
 	public static String home = "Home";
 	public static String confirm = "Confirm";
 	public static String bid = "Bid";
@@ -376,7 +379,7 @@ public final class Const {
 	
 	public static String quantity = "Quantity: ";
 	
-	public static String notes = " Message";
+	public static String notes = " Note";
 	public static String name = " Full Name";
 	public static String surname = " Username";
 	public static String cell = " Cell Number";
@@ -430,12 +433,12 @@ public final class Const {
 	public static String http = "http";
 	public static String err_url_htt = "URL not http or https";
 	
-	public static String url = "http://dev.mytcg.net/_phone/?";
+	public static String url = "http://www.mytcg.net/_phone/topcar/?";
 	public static String userdetails = "userdetails=1";
 	public static String profiledetails = "profiledetails=1";
 	public static String creditlog = "creditlog=1";
 	public static String notifications = "notifications=1";
-	public static String friends = "friends=1";
+	public static String friends = "&friends=1";
 	public static String saveprofiledetail = "saveprofiledetail=1";
 	public static String viewgamelog = "viewgamelog=1";
 	public static String registeruser = "registeruser=1";
@@ -453,10 +456,12 @@ public final class Const {
 	public static String useremail = "&email=";
 	public static String userpassword = "&password=";
 	public static String usercategories = "usercategories=1";
-	public static String productcategories = "productcategories=1";
+	public static String productcategories = "productcategories=2";
+	public static String freebiecategories = "productcategories=1";
 	public static String leaders = "leaders=1";
 	public static String leaderboard = "leaderboard=";
-	public static String categoryproducts = "categoryproducts=1";
+	public static String categoryproducts = "categoryproducts=2";
+	public static String freebieproducts = "categoryproducts=1";
 	public static String auctioncategories="auctioncategories=1";
 	public static String getusergames="getusergames=1";
 	public static String playablecategories="playablecategories=1";
@@ -1248,10 +1253,6 @@ public final class Const {
 	public static final int xml_date_length = xml_date.length();
 	public static final String xml_date_end = "</date>";
 	public static final int xml_date_end_length = xml_date_end.length();
-	public static final String xml_value = "<value>";
-	public static final int xml_value_length = xml_value.length();
-	public static final String xml_value_end = "</value>";
-	public static final int xml_value_end_length = xml_value_end.length();
 	public static final String xml_answer = "<answer>";
 	public static final int xml_answer_length = xml_answer.length();
 	public static final String xml_answer_end = "</answer>";
@@ -1391,6 +1392,12 @@ public final class Const {
 	public static final int xml_backflipurl_length = xml_backflipurl.length();
 	public static final String xml_backflipurl_end = "</backflipurl>";
 	public static final int xml_backflipurl_end_length = xml_backflipurl_end.length();
+	public static final String xml_value = "<value>";
+	public static final int xml_value_length = xml_value.length();
+	public static final String xml_value_end = "</value>";
+	public static final String xml_rating = "<ranking>";
+	public static final int xml_rating_length = xml_rating.length();
+	public static final String xml_rating_end = "</ranking>";
 	public static final String xml_note = "<note>";
 	public static final int xml_note_length = xml_note.length();
 	public static final String xml_note_end = "</note>";

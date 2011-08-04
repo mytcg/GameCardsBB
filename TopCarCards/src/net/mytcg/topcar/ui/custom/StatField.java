@@ -32,7 +32,7 @@ public final class StatField extends Field {
 		int font = Const.FONT;
 
 		Font _font = getFont();
-		_font = _font.derive(Font.BOLD,font);
+		_font = _font.derive(Const.TYPE,font);
 		setFont(_font);
 	}
 	

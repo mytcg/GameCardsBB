@@ -94,7 +94,7 @@ public class HorizontalStatManager extends HorizontalFieldManager
 			getData();
 		}
 		Font _font = getFont();
-		_font = _font.derive(Font.BOLD,font);
+		_font = _font.derive(Const.TYPE,font);
 		setFont(_font);
 	}
 	public void getData() {

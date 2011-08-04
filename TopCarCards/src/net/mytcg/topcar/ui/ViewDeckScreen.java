@@ -19,7 +19,7 @@ public class ViewDeckScreen extends AppScreen implements FieldChangeListener
 	
 	ListItemField addcard = new ListItemField("Empty", -1, false, 0);
 	ListItemField deletedeck = new ListItemField("Empty", -1, false, 0);
-	ThumbnailField tmp = new ThumbnailField(new Card(-1, "", 0, "", "", "", "", 0, null));
+	ThumbnailField tmp = new ThumbnailField(new Card(-1, "", 0, "", "", "", "", 0, null, "", "", ""));
 	String cards = null;
 	int deckid = -1;
 	int categoryid = -1;
@@ -71,6 +71,8 @@ public class ViewDeckScreen extends AppScreen implements FieldChangeListener
     		String fronturl = "";
     		String backurl = "";
     		String note = "";
+    		String value = "";
+    		String rating = "";
     		int updated = 0;
     		Vector stats = null;
     		String statdesc = "";
@@ -104,7 +106,9 @@ public class ViewDeckScreen extends AppScreen implements FieldChangeListener
     			thumburl = "";
     			fronturl = "";
     			backurl = "";
+    			rating = "";
     			note = "";
+    			value = "";
     			updated = 0;
     			stats = new Vector();
     			try {
@@ -117,6 +121,9 @@ public class ViewDeckScreen extends AppScreen implements FieldChangeListener
     			}
     			if ((fromIndex = card.indexOf(Const.xml_quality)) != -1) {
     				quality = card.substring(fromIndex+Const.xml_quality_length, card.indexOf(Const.xml_quality_end, fromIndex));
+    			}
+    			if ((fromIndex = card.indexOf(Const.xml_value)) != -1) {
+    				value = card.substring(fromIndex+Const.xml_value_length, card.indexOf(Const.xml_value_end, fromIndex));
     			}
     			if ((fromIndex = card.indexOf(Const.xml_quantity)) != -1) {
     				try {
@@ -136,6 +143,9 @@ public class ViewDeckScreen extends AppScreen implements FieldChangeListener
     			}
     			if ((fromIndex = card.indexOf(Const.xml_note)) != -1) {
     				note = card.substring(fromIndex+Const.xml_note_length, card.indexOf(Const.xml_note_end, fromIndex));
+    			}
+    			if ((fromIndex = card.indexOf(Const.xml_rating)) != -1) {
+    				rating = card.substring(fromIndex+Const.xml_rating_length, card.indexOf(Const.xml_rating_end, fromIndex));
     			}
     			if ((fromIndex = card.indexOf(Const.xml_updated)) != -1) {
     				try {
@@ -222,8 +232,7 @@ public class ViewDeckScreen extends AppScreen implements FieldChangeListener
     					card = card.substring(card.indexOf(Const.xml_stat_end)+Const.xml_stat_end_length);
     				}
     			}
-    			System.out.println("...");
-    			Card cardobject = new Card(cardid, description, quantity, thumburl, fronturl, backurl, note, updated, stats);
+    			Card cardobject = new Card(cardid, description, quantity, thumburl, fronturl, backurl, note, updated, stats, rating, quality, value);
     			_instance.setImages(cardid, cardobject);
 
     			val = val.substring(val.indexOf(Const.xml_card_end)+Const.xml_card_end_length);

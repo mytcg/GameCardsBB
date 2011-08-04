@@ -72,11 +72,6 @@ public class ShopCategoriesScreen extends AppScreen implements FieldChangeListen
 	public ShopCategoriesScreen(boolean freebie) {
 		super(null);
 		this.freebie = freebie;
-		if(freebie){
-			add(new ColorLabelField("To say thank you for joining we have given you 150 credits and you get to choose a free booster to start out with"));
-		}else{
-			add(new ColorLabelField("Choose a category."));
-		}
 		bgManager.setStatusHeight(exit.getContentHeight());
 		
 		exit.setChangeListener(this);
@@ -85,7 +80,13 @@ public class ShopCategoriesScreen extends AppScreen implements FieldChangeListen
 		addButton(new FixedButtonField(""));
 		addButton(exit);
 		
-		doConnect(Const.productcategories);
+		if(freebie){
+			add(new ColorLabelField("To say thank you for joining we have given you 300 credits and you get to choose a free booster to start out with"));
+			doConnect(Const.freebiecategories);
+		}else{
+			add(new ColorLabelField("Choose a category."));
+			doConnect(Const.productcategories);
+		}
 	}
 	public ShopCategoriesScreen() {
 		this(false);

@@ -26,7 +26,7 @@ public class DownloadScreen extends AppScreen implements FieldChangeListener
 		super(screen);
 		this.url = message;
 		Font _font = getFont();
-		_font = _font.derive(Font.BOLD, Const.FONT);
+		_font = _font.derive(Const.TYPE, Const.FONT);
 		setFont(_font); 
 		
 		add(new ColorLabelField(Const.newupdate));

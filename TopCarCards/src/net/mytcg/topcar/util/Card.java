@@ -16,9 +16,13 @@ public class Card implements Persistable {
 	private String backflipurl = "";
 	private String note = "";
 	private int updated = 0;
+	private String quality = "";
+	private String rating = "";
+	private String value = "";
 	private Vector stats = new Vector();
 	
-	public Card(int id, String description, int quantity, String thumburl, String fronturl, String backurl, String note, int updated, Vector stats) {
+	public Card(int id, String description, int quantity, String thumburl, String fronturl, String backurl, String note, int updated, Vector stats, String rating, String quality, String value) {
+		System.out.println("value " + value);
 		setId(id);
 		setDesc(description);
 		setQuantity(quantity);
@@ -28,6 +32,9 @@ public class Card implements Persistable {
 		setNote(note);
 		setUpdated(updated);
 		setStats(stats);
+		setRating(rating);
+		setQuality(quality);
+		setValue(value);
 	}
 	
 	public boolean equals(Card compare) {
@@ -38,18 +45,23 @@ public class Card implements Persistable {
 						if (this.fronturl.equals(compare.fronturl)) {
 							if (this.backurl.equals(compare.backurl)){
 								if (this.note.equals(compare.note)) {
-									if (this.updated == compare.updated){
-										if ((this.stats.size() == compare.stats.size())&&this.stats.size() > 0) {
-											boolean cmp = false;
-											for (int i = 0; i < this.stats.size(); i++) {
-												if (((Stat)(this.stats.elementAt(i))).equals((Stat)(compare.stats.elementAt(i)))) {
-													cmp = true;
+									if (this.rating.equals(compare.rating)) {
+										if (this.quality.equals(compare.quality)) {
+											if (this.value.equals(compare.value)) {
+												if (this.updated == compare.updated){
+													if ((this.stats.size() == compare.stats.size())&&this.stats.size() > 0) {
+														boolean cmp = false;
+														for (int i = 0; i < this.stats.size(); i++) {
+															if (((Stat)(this.stats.elementAt(i))).equals((Stat)(compare.stats.elementAt(i)))) {
+																cmp = true;
+															}
+														}
+														return !cmp;
+													}
 												}
 											}
-											return !cmp;
 										}
 									}
-									
 								}
 							}
 						}
@@ -71,6 +83,16 @@ public class Card implements Persistable {
 	}
 	public int statsCount() {
 		return stats.size();
+	}
+	
+	public void setRating(String rating) {
+		this.rating = rating;
+	}
+	public void setQuality(String quality) {
+		this.quality = quality;
+	}
+	public void setValue(String value) {
+		this.value = value;
 	}
 	
 	
@@ -111,6 +133,15 @@ public class Card implements Persistable {
 		this.updated = updated;
 	}
 	
+	public String getValue() {
+		return value;
+	}
+	public String getRating() {
+		return rating;
+	}
+	public String getQuality() {
+		return quality;
+	}
 	public int getId() {
 		return id;
 	}

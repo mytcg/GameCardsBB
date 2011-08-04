@@ -18,7 +18,7 @@ public class AddCardToDeckListScreen extends AppScreen implements FieldChangeLis
 {
 	FixedButtonField exit = new FixedButtonField(Const.back);
 	
-	ThumbnailField tmp = new ThumbnailField(new Card(-1, "", 0, "", "", "", "", 0, null));
+	ThumbnailField tmp = new ThumbnailField(new Card(-1, "", 0, "", "", "", "", 0, null, "", "", ""));
 	ColorLabelField label = new ColorLabelField(" Choose a card to add to your deck.");
 	String cards = null;
 	int deckid = -1;
@@ -71,12 +71,14 @@ public class AddCardToDeckListScreen extends AppScreen implements FieldChangeLis
     		String description = "";
     		String quality = "";
     		int quantity = -1;
+    		String rating = "";
     		String thumburl = "";
     		String fronturl = "";
     		String backurl = "";
     		String note = "";
     		int updated = 0;
     		Vector stats = null;
+    		String value = "";
     		String statdesc = "";
     		int statival = -1;
     		int stattop = 0;
@@ -100,7 +102,9 @@ public class AddCardToDeckListScreen extends AppScreen implements FieldChangeLis
     			quantity = -1;
     			thumburl = "";
     			fronturl = "";
+    			rating = "";
     			backurl = "";
+    			value = "";
     			note = "";
     			updated = 0;
     			stats = new Vector();
@@ -122,6 +126,9 @@ public class AddCardToDeckListScreen extends AppScreen implements FieldChangeLis
     					quantity = 0;
     				}
     			}
+    			if ((fromIndex = card.indexOf(Const.xml_value)) != -1) {
+    				value = card.substring(fromIndex+Const.xml_value_length, card.indexOf(Const.xml_value_end, fromIndex));
+    			}
     			if ((fromIndex = card.indexOf(Const.xml_thumburl)) != -1) {
     				thumburl = card.substring(fromIndex+Const.xml_thumburl_length, card.indexOf(Const.xml_thumburl_end, fromIndex));
     			}
@@ -133,6 +140,9 @@ public class AddCardToDeckListScreen extends AppScreen implements FieldChangeLis
     			}
     			if ((fromIndex = card.indexOf(Const.xml_note)) != -1) {
     				note = card.substring(fromIndex+Const.xml_note_length, card.indexOf(Const.xml_note_end, fromIndex));
+    			}
+    			if ((fromIndex = card.indexOf(Const.xml_rating)) != -1) {
+    				rating = card.substring(fromIndex+Const.xml_rating_length, card.indexOf(Const.xml_rating_end, fromIndex));
     			}
     			if ((fromIndex = card.indexOf(Const.xml_updated)) != -1) {
     				try {
@@ -220,7 +230,7 @@ public class AddCardToDeckListScreen extends AppScreen implements FieldChangeLis
     				}
     			}
     			System.out.println("...");
-    			Card cardobject = new Card(cardid, description, quantity, thumburl, fronturl, backurl, note, updated, stats);
+    			Card cardobject = new Card(cardid, description, quantity, thumburl, fronturl, backurl, note, updated, stats, rating, quality, value);
     			_instance.setImages(cardid, cardobject);
 
     			val = val.substring(val.indexOf(Const.xml_card_end)+Const.xml_card_end_length);
