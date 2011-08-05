@@ -16,6 +16,7 @@ public class ShopProductsScreen extends AppScreen implements FieldChangeListener
 	FixedButtonField exit = new FixedButtonField(Const.back);
 	
 	ThumbnailField tmp = new ThumbnailField(new Product(-1, "", 0, "", "", "", "", 0, null));
+	ColorLabelField header = new ColorLabelField("");
 	
 	boolean update = true;
 	boolean freebie = false;
@@ -42,6 +43,18 @@ public class ShopProductsScreen extends AppScreen implements FieldChangeListener
 	    		String productthumb = "";
 	    		int endIndex = -1;
 	    		String product = "";
+	    		
+	    		if ((fromIndex = val.indexOf(Const.xml_credits)) != -1) {
+    				String credits = val.substring(fromIndex+Const.xml_credits_length, val.indexOf(Const.xml_credits_end, fromIndex));
+    				_instance = SettingsBean.getSettings();
+    				_instance.setCredits(credits);
+    				SettingsBean.saveSettings(_instance);
+    				synchronized(UiApplication.getEventLock()) {
+    					header.setText("Current credits:" + SettingsBean.getSettings().getCredits());
+    	    		}
+    				
+    			}
+	    		
 	    		while ((fromIndex = val.indexOf(Const.xml_productid)) != -1){
 	    			endIndex = val.indexOf(Const.xml_product_end);
 	    			product = val.substring(fromIndex, endIndex+Const.xml_product_end_length);
@@ -110,9 +123,11 @@ public class ShopProductsScreen extends AppScreen implements FieldChangeListener
 		addButton(exit);
 		
 		if (!freebie) {
-			add(new ColorLabelField("Current credits:" + SettingsBean.getSettings().getCredits()));
+			header.setText("Current credits:" + SettingsBean.getSettings().getCredits());
+			add(header);
 		} else {
-			add(new ColorLabelField("Received: 300 credits and a free starter pack."));
+			header.setText("Received: 300 credits and a free starter pack.");
+			add(header);
 		}
 		
 		if (!freebie) {

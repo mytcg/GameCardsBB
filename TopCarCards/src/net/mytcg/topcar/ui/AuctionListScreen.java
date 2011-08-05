@@ -18,6 +18,7 @@ import net.rim.device.api.ui.UiApplication;
 public class AuctionListScreen extends AppScreen implements FieldChangeListener
 {
 	FixedButtonField exit = new FixedButtonField(Const.back);
+	ColorLabelField header = new ColorLabelField("");
 	
 	ThumbnailField tmp = null;
 	
@@ -38,6 +39,23 @@ public class AuctionListScreen extends AppScreen implements FieldChangeListener
 	    	if ((fromIndex = val.indexOf(Const.xml_result)) != -1) {
 	    		setText(val.substring(fromIndex+Const.xml_result_length, val.indexOf(Const.xml_result_end, fromIndex)));
 	    	} else if (((fromIndex = val.indexOf(Const.xml_auctionsincategory)) != -1)) {
+	    		
+	    		if ((fromIndex = val.indexOf(Const.xml_credits)) != -1) {
+    				String credits = val.substring(fromIndex+Const.xml_credits_length, val.indexOf(Const.xml_credits_end, fromIndex));
+    				_instance = SettingsBean.getSettings();
+    				_instance.setCredits(credits);
+    				SettingsBean.saveSettings(_instance);
+    				synchronized(UiApplication.getEventLock()) {
+    					header.setText("Current credits:" + SettingsBean.getSettings().getCredits());
+    	    		}
+    				
+    			}
+	    		
+	    		synchronized(UiApplication.getEventLock()) {
+	    			clear();
+	    			header.setText("Current credits:" + SettingsBean.getSettings().getCredits());
+	    			add(header);
+	    		}
 	    		int auctionid = -1;
 	    		int usercardid = -1;
 	    		int cardid = -1;
@@ -50,6 +68,8 @@ public class AuctionListScreen extends AppScreen implements FieldChangeListener
 	    		String endDate = "";
 	    		String lastBidUser = "";
 	    		String auctionthumb = "";
+	    		String fronturl = "";
+	    		String backurl = "";
 	    		int endIndex = -1;
 	    		String auction = "";
 	    		while ((fromIndex = val.indexOf(Const.xml_auctioncardid)) != -1){
@@ -96,10 +116,19 @@ public class AuctionListScreen extends AppScreen implements FieldChangeListener
 	    			if ((fromIndex = auction.indexOf(Const.xml_thumburl)) != -1) {
 	    				auctionthumb = auction.substring(fromIndex+Const.xml_thumburl_length, auction.indexOf(Const.xml_thumburl_end, fromIndex));
 	    			}
+	    			if ((fromIndex = auction.indexOf(Const.xml_fronturl)) != -1) {
+	    				fronturl = auction.substring(fromIndex+Const.xml_fronturl_length, auction.indexOf(Const.xml_fronturl_end, fromIndex));
+	    			}
+	    			if ((fromIndex = auction.indexOf(Const.xml_backurl)) != -1) {
+	    				backurl = auction.substring(fromIndex+Const.xml_backurl_length, auction.indexOf(Const.xml_backurl_end, fromIndex));
+	    			}
 	    			val = val.substring(val.indexOf(Const.xml_auction_end)+Const.xml_auction_end_length);
 	    			
 	    			synchronized(UiApplication.getEventLock()) {
-	    				tmp = new ThumbnailField(new Auction(auctionid, cardid, usercardid, description, auctionthumb, openingbid, buynowprice, price, username, endDate, lastBidUser));
+	    				Auction tmpAuc = new Auction(auctionid, cardid, usercardid, description, auctionthumb, openingbid, buynowprice, price, username, endDate, lastBidUser);
+	    				tmpAuc.setFronturl(fronturl);
+	    				tmpAuc.setBackurl(backurl);
+	    				tmp = new ThumbnailField(tmpAuc);
 	    				if(!price.equals("")){
 	    					if (lastBidUser.equals(SettingsBean.getSettings().getUsername())) {
 	    						tmp.setSecondLabel("Current bid: "+price+ " (Yours)");
@@ -158,7 +187,8 @@ public class AuctionListScreen extends AppScreen implements FieldChangeListener
 		
 		exit.setChangeListener(this);
 		
-		add(new ColorLabelField(""));
+		header.setText("Current credits:" + SettingsBean.getSettings().getCredits());
+		add(header);
 		
 		addButton(new FixedButtonField(""));
 		addButton(new FixedButtonField(""));
@@ -172,8 +202,10 @@ public class AuctionListScreen extends AppScreen implements FieldChangeListener
 	}
 	
 	protected void onExposed() {
-		if(purchased){
-			UiApplication.getUiApplication().popScreen(this);
+		if (!isVisible()) {
+			if(type == 0){
+				doConnect(Const.categoryauction+"&category_id="+id+Const.height+Const.getCardHeight());
+			}
 		}
 	}
 	public boolean onClose() {
