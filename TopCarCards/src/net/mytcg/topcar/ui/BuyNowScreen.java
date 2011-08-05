@@ -1,9 +1,12 @@
 package net.mytcg.topcar.ui;
 
+import net.mytcg.topcar.ui.custom.AuctionField;
 import net.mytcg.topcar.ui.custom.ColorLabelField;
 import net.mytcg.topcar.ui.custom.FixedButtonField;
 import net.mytcg.topcar.util.Auction;
+import net.mytcg.topcar.util.Card;
 import net.mytcg.topcar.util.Const;
+import net.rim.device.api.ui.Color;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.FieldChangeListener;
 import net.rim.device.api.ui.UiApplication;
@@ -17,6 +20,12 @@ public class BuyNowScreen extends AppScreen implements FieldChangeListener
 	AuctionInfoScreen screen = null;
 	boolean purchased = false;
 	
+	protected void onExposed() {
+		if (!isVisible()) {
+			UiApplication.getUiApplication().popScreen(this);
+		}
+	}
+	
 	public BuyNowScreen(AuctionInfoScreen screen, Auction auction)
 	{
 		super(null);
@@ -24,8 +33,11 @@ public class BuyNowScreen extends AppScreen implements FieldChangeListener
 		this.screen = screen;
 		bgManager.setStatusHeight(exit.getContentHeight());
 		lblbuynow = new ColorLabelField("Are you sure you want to buy out the auction of "+auction.getDesc()+" for "+auction.getBuyNowPrice()+" credits?");
+		lblbuynow.setColor(Color.RED);
 		
 		add(lblbuynow);
+		
+		add(new AuctionField(auction, screen.auctionthumb));
 
 		exit.setChangeListener(this);
 		confirm.setChangeListener(this);
@@ -41,7 +53,8 @@ public class BuyNowScreen extends AppScreen implements FieldChangeListener
 			if(val.substring(fromIndex+Const.xml_result_length, val.indexOf(Const.xml_result_end, fromIndex)).equals("1")){
 				synchronized(UiApplication.getEventLock()) {
 					try{
-						lblbuynow.setText(" Purchase success!");
+						super.screen = new ImageScreen(new Card(auction.getCardId(), auction.getDesc(), 1, auction.getThumburl(), auction.getFronturl(), auction.getBackurl(), "", 0, null, 0, "", ""), this, null);
+						UiApplication.getUiApplication().pushScreen(super.screen);
 					}catch(Exception e){
 						
 					}
@@ -49,7 +62,7 @@ public class BuyNowScreen extends AppScreen implements FieldChangeListener
 			}else{
 				synchronized(UiApplication.getEventLock()) {
 					try{
-						lblbuynow.setText(" Purchase failed.");
+						lblbuynow.setText(" Purchase could not be made at this.");
 					}catch(Exception e){
 						
 					}
@@ -66,8 +79,12 @@ public class BuyNowScreen extends AppScreen implements FieldChangeListener
 			screen.purchased = true;
 			synchronized(UiApplication.getEventLock()) {
 				try{
-					this.removeButton(confirm);
-					addButton(new FixedButtonField(""));
+					//super.screen = new ImageScreen(new Card(auction.getCardId(), auction.getDesc(), 1, auction.getThumburl(), auction.getFronturl(), auction.getBackurl(), "", 0, null, 0, "", ""), this, null);
+					//UiApplication.getUiApplication().pushScreen(super.screen);
+					
+					confirm.empty = true;
+					confirm.setLabel("");
+					lblbuynow.setText("");
 				}catch(Exception e){
 					
 				}

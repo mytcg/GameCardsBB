@@ -23,11 +23,11 @@ public class AuctionInfoScreen extends AppScreen implements FieldChangeListener
 	
 	boolean update = true;
 	Auction auction = null;
+	Bitmap auctionthumb = null;
 	
 	public void process(String val) {
 		int fromIndex;
 		if ((fromIndex = val.indexOf(Const.xml_result)) != -1) {
-			System.out.println("test " + val.substring(fromIndex+Const.xml_result_length, val.indexOf(Const.xml_result_end, fromIndex)));
 			if(val.substring(fromIndex+Const.xml_result_length, val.indexOf(Const.xml_result_end, fromIndex)).equals("1")){
 				synchronized(UiApplication.getEventLock()) {
 					try{
@@ -51,6 +51,7 @@ public class AuctionInfoScreen extends AppScreen implements FieldChangeListener
 	public AuctionInfoScreen(Auction auction, Bitmap auctionthumbnail) {
 		super(null);
 		this.auction = auction;
+		auctionthumb = auctionthumbnail;
 		bgManager.setStatusHeight(exit.getContentHeight());
 		
 		exit.setChangeListener(this);
@@ -65,6 +66,7 @@ public class AuctionInfoScreen extends AppScreen implements FieldChangeListener
 	public AuctionInfoScreen(Auction auction, Bitmap auctionthumbnail, boolean biddingtrue) {
 		super(null);
 		this.auction = auction;
+		auctionthumb = auctionthumbnail;
 		bgManager.setStatusHeight(exit.getContentHeight());
 		
 		exit.setChangeListener(this);
@@ -100,7 +102,9 @@ public class AuctionInfoScreen extends AppScreen implements FieldChangeListener
 	}
 	
 	protected void onExposed() {
-		super.onExposed();
+		if (!isVisible()) {
+			UiApplication.getUiApplication().popScreen(this);
+		}
 	}
 	public boolean onClose() {
 		screen = null;

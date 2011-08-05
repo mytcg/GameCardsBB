@@ -2,7 +2,6 @@ package net.mytcg.topcar.ui;
 
 import java.util.Vector;
 
-import net.rim.device.api.ui.container.HorizontalFieldManager;
 import net.mytcg.topcar.ui.custom.ColorLabelField;
 import net.mytcg.topcar.ui.custom.FixedButtonField;
 import net.mytcg.topcar.ui.custom.FriendField;
@@ -12,10 +11,12 @@ import net.mytcg.topcar.ui.custom.SexyEditField;
 import net.mytcg.topcar.util.Answer;
 import net.mytcg.topcar.util.Const;
 import net.mytcg.topcar.util.SettingsBean;
+import net.rim.device.api.ui.Color;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.FieldChangeListener;
 import net.rim.device.api.ui.UiApplication;
 import net.rim.device.api.ui.component.CheckboxField;
+import net.rim.device.api.ui.container.HorizontalFieldManager;
 
 public class DetailScreen extends AppScreen implements FieldChangeListener
 {
@@ -49,6 +50,7 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 			doConnect(Const.profiledetails);
 		} else if(screenType == Const.BALANCESCREEN){
 			lbltop = new ColorLabelField("Go to www.mytcg.net to find out how to get more credits.");
+			lbltop.setColor(Color.RED);
 			add(lbltop);
 			add(lblBalance);
 			add(balance);
@@ -164,13 +166,18 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 	    		String credits = "";
 	    		int endIndex = -1;
 	    		String transaction = "";
+	    		
+	    		
 	    		if ((fromIndex = val.indexOf(Const.xml_credits)) != -1) {
-		    		try{
-		    			synchronized(UiApplication.getEventLock()) {
-		    				balance.setText(val.substring(fromIndex, endIndex+Const.xml_credits_end_length));
-		    			}
-		    		}catch(Exception e){};
-		    	}
+    				credits = val.substring(fromIndex+Const.xml_credits_length, val.indexOf(Const.xml_credits_end, fromIndex));
+    				SettingsBean _instance = SettingsBean.getSettings();
+    				_instance.setCredits(credits);
+    				SettingsBean.saveSettings(_instance);
+    				synchronized(UiApplication.getEventLock()) {
+    					balance.setText(SettingsBean.getSettings().getCredits());
+    	    		}
+    				
+    			}
 	    		while ((fromIndex = val.indexOf(Const.xml_id)) != -1){
 	    			
 	    			endIndex = val.indexOf(Const.xml_transaction_end);
