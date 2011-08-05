@@ -1,11 +1,10 @@
 package net.mytcg.topcar.ui;
 
+import net.mytcg.topcar.ui.custom.ColorLabelField;
 import net.mytcg.topcar.ui.custom.FixedButtonField;
 import net.mytcg.topcar.ui.custom.ListItemField;
-import net.mytcg.topcar.util.Card;
 import net.mytcg.topcar.util.Const;
 import net.mytcg.topcar.util.SettingsBean;
-import net.rim.device.api.system.Bitmap;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.FieldChangeListener;
 import net.rim.device.api.ui.UiApplication;
@@ -24,6 +23,8 @@ public class PlayMenuScreen extends AppScreen implements FieldChangeListener
 		this.categoryId = categoryId;
 		bgManager.setStatusHeight(exit.getContentHeight());
 		exit.setChangeListener(this);
+		
+		add(new ColorLabelField(""));
 		
 		addButton(new FixedButtonField(""));
 		addButton(new FixedButtonField(""));

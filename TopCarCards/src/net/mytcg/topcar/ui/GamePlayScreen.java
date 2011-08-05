@@ -56,6 +56,8 @@ public class GamePlayScreen extends AppScreen implements FieldChangeListener
 		flips.setChangeListener(this);
 		options.setChangeListener(this);
 		friendback.setChangeListener(this);
+		add(new ColorLabelField(""));
+		
 		if(newGame){
 			phase = "newgame";
 			if(againstFriend){

@@ -1,5 +1,6 @@
 package net.mytcg.topcar.ui;
 
+import net.mytcg.topcar.ui.custom.ColorLabelField;
 import net.mytcg.topcar.ui.custom.FixedButtonField;
 import net.mytcg.topcar.ui.custom.ListItemField;
 import net.mytcg.topcar.util.Const;
@@ -17,6 +18,8 @@ public class GameCategoryScreen extends AppScreen implements FieldChangeListener
 		super(null);
 		bgManager.setStatusHeight(exit.getContentHeight());
 		
+		add(new ColorLabelField(""));
+		
 		exit.setChangeListener(this); 
 		
 		addButton(new FixedButtonField(""));
@@ -28,6 +31,7 @@ public class GameCategoryScreen extends AppScreen implements FieldChangeListener
 	
 	public void process(String val) {
 		System.out.println("wawawa "+val);
+		int count = 0;
 		if (!(isDisplaying())) {
 			int fromIndex;
 	    	if ((fromIndex = val.indexOf(Const.xml_result)) != -1) {
@@ -58,7 +62,13 @@ public class GameCategoryScreen extends AppScreen implements FieldChangeListener
 		    				tmp.setLabel(categoryname);
 		        			tmp.setChangeListener(this);
 		        			add(tmp);
+		        			count++;
 		        		}
+	    			}
+	    		}
+	    		if (count == 1) {
+	    			synchronized(UiApplication.getEventLock()) {
+	    				fieldChanged(tmp, 0);
 	    			}
 	    		}
 	    	} else {
