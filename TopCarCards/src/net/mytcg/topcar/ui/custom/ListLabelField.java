@@ -76,7 +76,7 @@ public final class ListLabelField extends LabelField {
 		return _width == 0 ? super.getPreferredWidth() : _width;
 	}
 	public int getPreferredHeight() {
-		return Const.getButtonHeight();
+		return this.getContentHeight();
 	}
 	
 	public void paint(Graphics g) {
