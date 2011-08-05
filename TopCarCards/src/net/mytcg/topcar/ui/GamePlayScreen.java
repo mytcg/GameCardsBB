@@ -133,7 +133,7 @@ public class GamePlayScreen extends AppScreen implements FieldChangeListener
 	    		String statdesc = "";
 	    		int statid = -1;
 	    		int categorystatid = -1;
-	    		int statival = -1;
+	    		double statival = -1;
 				int stattop = 0;
 	    		int statleft = 0;
 	    		int statwidth = 0;
@@ -191,7 +191,7 @@ public class GamePlayScreen extends AppScreen implements FieldChangeListener
 	    		if ((fromIndex = game.indexOf(Const.xml_cardstats)) != -1){
 	    			stats = new Vector();
 	    			int k=0;
-    				while ((fromIndex = game.indexOf(Const.xml_cardstat)) != -1 && k < 6){
+    				while ((fromIndex = game.indexOf(Const.xml_cardstat)) != -1 && k < 7){
     					k++;
     					statdesc = "";
     	    			statival = -1;
@@ -257,7 +257,7 @@ public class GamePlayScreen extends AppScreen implements FieldChangeListener
     					}
     					if ((fromIndex = game.indexOf(Const.xml_ival)) != -1) {
     						try {
-    							statival = Integer.parseInt(game.substring(fromIndex+Const.xml_ival_length, game.indexOf(Const.xml_end, fromIndex+Const.xml_ival_length)));
+    							statival = Double.parseDouble(game.substring(fromIndex+Const.xml_ival_length, game.indexOf(Const.xml_end, fromIndex+Const.xml_ival_length)));
     						} catch (Exception e) {
     							statival = -1;
     						}
@@ -383,7 +383,7 @@ public class GamePlayScreen extends AppScreen implements FieldChangeListener
     					}
     					if ((fromIndex = game.indexOf(Const.xml_ival)) != -1) {
     						try {
-    							statival = Integer.parseInt(game.substring(fromIndex+Const.xml_ival_length, game.indexOf(Const.xml_end, fromIndex+Const.xml_ival_length)));
+    							statival = Double.parseDouble(game.substring(fromIndex+Const.xml_ival_length, game.indexOf(Const.xml_end, fromIndex+Const.xml_ival_length)));
     						} catch (Exception e) {
     							statival = -1;
     						}
