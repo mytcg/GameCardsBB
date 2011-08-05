@@ -52,7 +52,7 @@ public class VerticalGamePlayManager extends VerticalFieldManager
 	public int getPreferredWidth() {
 		if ((Const.getPortrait())) {
 			return Const.getWidth();
-		}else return Const.getWidth()/2-20;
+		}else return Const.getWidth()/2-25;
 	}
 	
 	public VerticalGamePlayManager()
@@ -112,7 +112,7 @@ public class VerticalGamePlayManager extends VerticalFieldManager
 		if ((Const.getPortrait())) {
 			image = Const.getScaledBitmapImage((loading),((double)(getPreferredHeight()-20)/temp.getWidth()),((double)(getPreferredWidth()-20)/temp.getHeight()));
 		}else{
-			image = Const.getScaledBitmapImage((loading),((double)(getPreferredWidth()-20)/temp.getWidth()),((double)(getPreferredHeight()-20)/temp.getHeight()));
+			image = Const.getScaledBitmapImage((loading),((double)(getPreferredHeight()-20)/temp.getHeight()),((double)(getPreferredHeight()-20)/temp.getHeight()));
 		}
 		landscape();
 		if (file != null) {
@@ -136,12 +136,13 @@ public class VerticalGamePlayManager extends VerticalFieldManager
 				input.read(data);
 				input.close();
 				_file.close();
-				Bitmap temp = (EncodedImage.createEncodedImage(data, 0, data.length)).getBitmap();
-				if ((Const.getPortrait())) {
-					image = Const.getScaledBitmapImage((EncodedImage.createEncodedImage(data, 0, data.length)),((double)(getPreferredHeight()-20)/temp.getWidth()),((double)(getPreferredWidth()-25)/temp.getHeight()));
-				}else{
-					image = Const.getScaledBitmapImage((EncodedImage.createEncodedImage(data, 0, data.length)),((double)(getPreferredWidth()-20)/temp.getWidth()),((double)(getPreferredHeight()-25)/temp.getHeight()));
-				}
+				image = (EncodedImage.createEncodedImage(data, 0, data.length)).getBitmap();
+				//Bitmap temp = (EncodedImage.createEncodedImage(data, 0, data.length)).getBitmap();
+				//if ((Const.getPortrait())) {
+				//	image = Const.getScaledBitmapImage((EncodedImage.createEncodedImage(data, 0, data.length)),((double)(getPreferredHeight()-20)/temp.getWidth()),((double)(getPreferredWidth()-25)/temp.getHeight()));
+				//}else{
+				//	image = Const.getScaledBitmapImage((EncodedImage.createEncodedImage(data, 0, data.length)),((double)(getPreferredHeight()-20)/temp.getHeight()),((double)(getPreferredHeight()-25)/temp.getHeight()));
+				//}
 				landscape();
 				invalidate();
 			}
@@ -154,9 +155,9 @@ public class VerticalGamePlayManager extends VerticalFieldManager
 		cG.start();
 	}
 	public void landscape() {
-		if ((Const.getPortrait())) {
+		if (!(Const.getPortrait())) {
 			try {
-				image = Const.rotate(image, 90);
+				image = Const.rotate(image, 270);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -164,13 +165,13 @@ public class VerticalGamePlayManager extends VerticalFieldManager
 		}
 	}
 	public void process(byte[] data) {
-		Bitmap temp = (EncodedImage.createEncodedImage(data, 0, data.length)).getBitmap();
-		if ((Const.getPortrait())) {
-			image = Const.getScaledBitmapImage((EncodedImage.createEncodedImage(data, 0, data.length)),((double)(getPreferredHeight()-20)/temp.getWidth()),((double)(getPreferredWidth()-25)/temp.getHeight()));
-		}else{
-			image = Const.getScaledBitmapImage((EncodedImage.createEncodedImage(data, 0, data.length)),((double)(getPreferredWidth()-20)/temp.getWidth()),((double)(getPreferredHeight()-25)/temp.getHeight()));
-		}
-		//image = (EncodedImage.createEncodedImage(data, 0, data.length)).getBitmap();
+		//Bitmap temp = (EncodedImage.createEncodedImage(data, 0, data.length)).getBitmap();
+		//if ((Const.getPortrait())) {
+		//	image = Const.getScaledBitmapImage((EncodedImage.createEncodedImage(data, 0, data.length)),((double)(getPreferredHeight()-20)/temp.getWidth()),((double)(getPreferredWidth()-25)/temp.getHeight()));
+		//}else{
+		//	image = Const.getScaledBitmapImage((EncodedImage.createEncodedImage(data, 0, data.length)),((double)(getPreferredHeight()-20)/temp.getHeight()),((double)(getPreferredHeight()-25)/temp.getHeight()));
+		//}
+		image = (EncodedImage.createEncodedImage(data, 0, data.length)).getBitmap();
 		landscape();
 		invalidate();
 		saveData(data);

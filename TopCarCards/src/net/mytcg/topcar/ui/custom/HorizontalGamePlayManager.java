@@ -51,7 +51,7 @@ public class HorizontalGamePlayManager extends HorizontalFieldManager
 	}
 	public int getPreferredWidth() {
 		if ((Const.getPortrait())) {
-			return Const.getWidth()-15;
+			return Const.getWidth()-17;
 		}else return Const.getWidth()/2;
 	}
 	
@@ -108,11 +108,15 @@ public class HorizontalGamePlayManager extends HorizontalFieldManager
 		EncodedImage loading = EncodedImage.getEncodedImageResource("loading.png");
 		Bitmap temp = loading.getBitmap();
 		if ((Const.getPortrait())) {
-			image = Const.getScaledBitmapImage((loading),((double)(getPreferredHeight()-20)/temp.getWidth()),((double)(getPreferredWidth()-20)/temp.getHeight()));
+			image = Const.getScaledBitmapImage((loading),((double)(getPreferredHeight()-20)/temp.getWidth()),((double)(getPreferredHeight()-20)/temp.getWidth()));
 		}else{
 			image = Const.getScaledBitmapImage((loading),((double)(getPreferredWidth()-20)/temp.getWidth()),((double)(getPreferredHeight()-20)/temp.getHeight()));
 		}
-		landscape();
+		try {
+			image = Const.rotate(image, 270);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		if (file != null) {
 			getData();
 		}
@@ -134,12 +138,13 @@ public class HorizontalGamePlayManager extends HorizontalFieldManager
 				input.read(data);
 				input.close();
 				_file.close();
-				Bitmap temp = (EncodedImage.createEncodedImage(data, 0, data.length)).getBitmap();
-				if ((Const.getPortrait())) {
-					image = Const.getScaledBitmapImage((EncodedImage.createEncodedImage(data, 0, data.length)),((double)(getPreferredHeight()-20)/temp.getWidth()),((double)(getPreferredWidth()-20)/temp.getHeight()));
-				}else{
-					image = Const.getScaledBitmapImage((EncodedImage.createEncodedImage(data, 0, data.length)),((double)(getPreferredWidth()-20)/temp.getWidth()),((double)(getPreferredHeight()-20)/temp.getHeight()));
-				}
+				image = (EncodedImage.createEncodedImage(data, 0, data.length)).getBitmap();
+				//Bitmap temp = (EncodedImage.createEncodedImage(data, 0, data.length)).getBitmap();
+				//if ((Const.getPortrait())) {
+				//	image = Const.getScaledBitmapImage((EncodedImage.createEncodedImage(data, 0, data.length)),((double)(getPreferredHeight()-20)/temp.getWidth()),((double)(getPreferredHeight()-20)/temp.getWidth()));
+				//}else{
+				//	image = Const.getScaledBitmapImage((EncodedImage.createEncodedImage(data, 0, data.length)),((double)(getPreferredWidth()-20)/temp.getWidth()),((double)(getPreferredHeight()-20)/temp.getHeight()));
+				//}
 				landscape();
 				invalidate();
 			}
@@ -154,7 +159,7 @@ public class HorizontalGamePlayManager extends HorizontalFieldManager
 	public void landscape() {
 		if ((Const.getPortrait())) {
 			try {
-				image = Const.rotate(image, 270);
+				image = Const.rotate(image, 180);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -162,13 +167,13 @@ public class HorizontalGamePlayManager extends HorizontalFieldManager
 		}
 	}
 	public void process(byte[] data) {
-		Bitmap temp = (EncodedImage.createEncodedImage(data, 0, data.length)).getBitmap();
-		if ((Const.getPortrait())) {
-			image = Const.getScaledBitmapImage((EncodedImage.createEncodedImage(data, 0, data.length)),((double)(getPreferredHeight()-20)/temp.getWidth()),((double)(getPreferredWidth()-20)/temp.getHeight()));
-		}else{
-			image = Const.getScaledBitmapImage((EncodedImage.createEncodedImage(data, 0, data.length)),((double)(getPreferredWidth()-20)/temp.getWidth()),((double)(getPreferredHeight()-20)/temp.getHeight()));
-		}
-		//image = (EncodedImage.createEncodedImage(data, 0, data.length)).getBitmap();
+		//Bitmap temp = (EncodedImage.createEncodedImage(data, 0, data.length)).getBitmap();
+		//if ((Const.getPortrait())) {
+		//	image = Const.getScaledBitmapImage((EncodedImage.createEncodedImage(data, 0, data.length)),((double)(getPreferredHeight()-20)/temp.getWidth()),((double)(getPreferredHeight()-20)/temp.getWidth()));
+		//}else{
+		//	image = Const.getScaledBitmapImage((EncodedImage.createEncodedImage(data, 0, data.length)),((double)(getPreferredWidth()-20)/temp.getWidth()),((double)(getPreferredHeight()-20)/temp.getHeight()));
+		//}
+		image = (EncodedImage.createEncodedImage(data, 0, data.length)).getBitmap();
 		landscape();
 		invalidate();
 		saveData(data);
@@ -194,8 +199,8 @@ public class HorizontalGamePlayManager extends HorizontalFieldManager
             field = getField(i); //get the field
             if(field instanceof StatField){
             	StatField sField = (StatField) field;
-            	setPositionChild(field, ((getPreferredWidth()-(image.getWidth()))/2)+(sField.stat.getTop())*image.getWidth()/350, -5+(((getPreferredHeight())-((image.getHeight())))/2)+(250 - sField.stat.getLeft() - sField.stat.getWidth())*image.getHeight()/250);  //set the position for the field
-            	layoutChild( field, sField.stat.getHeight()*image.getWidth()/350-22, sField.stat.getWidth()*image.getHeight()/250); //lay out the field
+            	setPositionChild(field,((14)/2)+sField.stat.getTop()*image.getWidth()/350, ((10)/2)+(250 - sField.stat.getLeft() - sField.stat.getWidth())*image.getHeight()/250);  //set the position for the field
+            	layoutChild( field, sField.stat.getHeight()*image.getHeight()/250, sField.stat.getWidth()*image.getWidth()/350); //lay out the field
             }
         }
 		setExtent();
