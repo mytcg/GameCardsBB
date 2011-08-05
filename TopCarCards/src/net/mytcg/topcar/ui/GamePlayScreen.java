@@ -480,11 +480,11 @@ public class GamePlayScreen extends AppScreen implements FieldChangeListener
 		        		if(!(Const.getPortrait())){
 		        			bgManager.add(user);
 			    			vGameManager.setStatusHeight(options.getContentHeight());
-			    			vGameManager.setUrl(card1.getBackurl());
+			    			vGameManager.setUrl(card1.getBackFlipurl());
 			    			System.out.println("setting vGameManager url");
 			    			hbgManager.add(vGameManager);
 			    			oppvgamemanager = new VerticalGamePlayManager();
-			    			oppvgamemanager.setUrl(gcurl);
+			    			oppvgamemanager.setUrl(gcurlflip);
 			    			hbgManager.add(oppvgamemanager);
 			    			try{
 			    			bgManager.add(hbgManager);
@@ -493,10 +493,10 @@ public class GamePlayScreen extends AppScreen implements FieldChangeListener
 			    		}else{
 			    			bgManager.add(opponent);
 			    			opphgamemanager = new HorizontalGamePlayManager();
-			    			opphgamemanager.setUrl(gcurl);
+			    			opphgamemanager.setUrl(gcurlflip);
 			    			bgManager.add(opphgamemanager);
 			    			hGameManager.setStatusHeight(options.getContentHeight());
-			    			hGameManager.setUrl(card1.getBackurl());
+			    			hGameManager.setUrl(card1.getBackFlipurl());
 			    			System.out.println("setting hGameManager url");
 			    			bgManager.add(hGameManager);
 			    			bgManager.add(user);
@@ -552,21 +552,21 @@ public class GamePlayScreen extends AppScreen implements FieldChangeListener
 		        		if(!(Const.getPortrait())){
 		        			bgManager.add(user);
 			    			vGameManager.setStatusHeight(options.getContentHeight());
-			    			vGameManager.setUrl(card1.getBackurl());
+			    			vGameManager.setUrl(card1.getBackFlipurl());
 			    			System.out.println("setting vGameManager url");
 			    			hbgManager.add(vGameManager);
 			    			oppvgamemanager = new VerticalGamePlayManager();
-			    			oppvgamemanager.setUrl(card2.getBackurl());
+			    			oppvgamemanager.setUrl(card2.getBackFlipurl());
 			    			hbgManager.add(oppvgamemanager);
 			    			bgManager.add(hbgManager);
 			    			bgManager.add(opponent);
 			    		}else{
 			    			bgManager.add(opponent);
 			    			opphgamemanager = new HorizontalGamePlayManager();
-			    			opphgamemanager.setUrl(card2.getBackurl());
+			    			opphgamemanager.setUrl(card2.getBackFlipurl());
 			    			bgManager.add(opphgamemanager);
 			    			hGameManager.setStatusHeight(options.getContentHeight());
-			    			hGameManager.setUrl(card1.getBackurl());
+			    			hGameManager.setUrl(card1.getBackFlipurl());
 			    			System.out.println("setting hGameManager url");
 			    			bgManager.add(hGameManager);
 			    			bgManager.add(user);
@@ -716,19 +716,19 @@ public class GamePlayScreen extends AppScreen implements FieldChangeListener
 			}
 			if (flip) {
 				if(!(Const.getPortrait())){
-					vGameManager.setUrl(card1.getBackurl());
+					vGameManager.setUrl(card1.getBackFlipurl());
 					vGameManager.invalidate();
 				}else{
-					hGameManager.setUrl(card1.getBackurl());
+					hGameManager.setUrl(card1.getBackFlipurl());
 					hGameManager.invalidate();
 					
 				}
 			} else {
 				if(!(Const.getPortrait())){
-					vGameManager.setUrl(card1.getFronturl());
+					vGameManager.setUrl(card1.getFrontFlipurl());
 					vGameManager.invalidate();
 				}else{
-					hGameManager.setUrl(card1.getFronturl());
+					hGameManager.setUrl(card1.getFrontFlipurl());
 					hGameManager.invalidate();
 				}
 			}
@@ -767,9 +767,9 @@ public class GamePlayScreen extends AppScreen implements FieldChangeListener
 					if((temp.getFrontOrBack()==0&&!flip)||(temp.getFrontOrBack()==1&&flip)){
 						if(f == uistats[j]){
 							if(!(Const.getPortrait())){
-								oppvgamemanager.setUrl(card2.getBackurl());
+								oppvgamemanager.setUrl(card2.getBackFlipurl());
 							}else{
-								opphgamemanager.setUrl(card2.getBackurl());
+								opphgamemanager.setUrl(card2.getBackFlipurl());
 							}
 							boolean draw = false;
 							for(int h = 0; h < 5;h++){
@@ -777,6 +777,8 @@ public class GamePlayScreen extends AppScreen implements FieldChangeListener
 								synchronized(UiApplication.getEventLock()) {
 									oppuistats[j].draw(draw);
 									uistats[j].draw(draw);
+									System.out.println("(Stat)stats.elementAt(j)).getVal() "+((Stat)stats.elementAt(j)).getVal());
+									System.out.println("(Stat)stats.elementAt(j)).getVal() "+((Stat)oppstats.elementAt(j)).getVal());
 									if(((Stat)stats.elementAt(j)).getVal()>((Stat)oppstats.elementAt(j)).getVal()){
 										if(!(Const.getPortrait())){
 							    			vGameManager.draw(draw,"GREEN");
