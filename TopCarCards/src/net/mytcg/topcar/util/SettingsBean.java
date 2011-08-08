@@ -3,6 +3,7 @@ package net.mytcg.topcar.util;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
+import net.rim.device.api.system.Bitmap;
 import net.rim.device.api.system.PersistentObject;
 import net.rim.device.api.system.PersistentStore;
 import net.rim.device.api.util.Persistable;
@@ -39,6 +40,10 @@ public final class SettingsBean implements Persistable {
 	public boolean added = false;
 	public boolean deleted = false;
 	public boolean leavegame = false;
+	
+	public boolean loadingimage = false;
+	public String loading;
+	public String loadingflip;
 	
 	//saves precache xml data
 	private String all;

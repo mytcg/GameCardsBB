@@ -5,6 +5,7 @@ import java.util.Vector;
 import net.mytcg.topcar.ui.custom.CompareField;
 import net.mytcg.topcar.ui.custom.HorizontalStatManager;
 import net.mytcg.topcar.ui.custom.ImageField;
+import net.mytcg.topcar.ui.custom.ImageLoader;
 import net.mytcg.topcar.ui.custom.ThumbnailField;
 import net.mytcg.topcar.ui.custom.VerticalStatManager;
 
@@ -13,6 +14,7 @@ class ThumbConnection {
 	private int type = -1;
 	private ThumbnailField thumb = null;
 	private ImageField img = null;
+	private ImageLoader imgload = null;
 	private CompareField com = null;
 	private VerticalStatManager vert = null;
 	private HorizontalStatManager hori = null;
@@ -39,6 +41,11 @@ class ThumbConnection {
 		this.filename = filename;
 		this.img = img;
 	}
+	public ThumbConnection(String url, String filename, ImageLoader img) {
+		this.url = url;
+		this.filename = filename;
+		this.imgload = img;
+	}
 	public ThumbConnection(String url, String filename, CompareField com) {
 		this.url = url;
 		this.filename = filename;
@@ -55,6 +62,9 @@ class ThumbConnection {
 	}
 	public ImageField getImg() {
 		return img;
+	}
+	public ImageLoader getImgLoad() {
+		return imgload;
 	}
 	public String getFilename() {
 		return filename;

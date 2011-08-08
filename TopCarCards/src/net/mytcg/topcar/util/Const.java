@@ -1,10 +1,15 @@
 package net.mytcg.topcar.util;
 
+import java.io.InputStream;
+import java.io.OutputStream;
+
 import javax.microedition.io.Connector;
 import javax.microedition.io.file.FileConnection;
 
+import net.mytcg.topcar.http.ConnectionGet;
 import net.mytcg.topcar.http.ConnectionHandler;
 import net.mytcg.topcar.ui.GameCardsHome;
+import net.mytcg.topcar.ui.custom.ImageLoader;
 import net.rim.blackberry.api.phone.Phone;
 import net.rim.device.api.io.file.FileIOException;
 import net.rim.device.api.math.Fixed32;
@@ -28,6 +33,8 @@ public final class Const {
 	public static String PREFIX = "topcar_";
 	public static int THREADS = 0;
 	public static ConnectionHandler connect = null;
+	public static ImageLoader load = null;
+	public static ImageLoader load2 = null;
 	
 	public static ConnectionHandler getConnection() {
 		
@@ -249,12 +256,10 @@ public final class Const {
 	}
 	public static final int getCardWidth() {
 		if (Const.PORTRAIT) {
-
 			return (int)((((double)((Const.getWidth()-getButtonCentre().getHeight())-Const.PADDING))*ratio));
 		} else {
 			return Const.getHeight()+(40-getButtonCentre().getHeight());
 			//return ((Const.getWidth()-getButtonCentre().getHeight())-Const.PADDING);
-			
 		}
 	}
 	public static final int getUsableHeight() {
@@ -598,6 +603,8 @@ public final class Const {
 	public static String internet = "internet";
 	
 	public static String download_url = "";
+	public static String loadingurl = "";
+	public static String loadingurlflip = "";
 	
 	public static boolean processUserDetails(String val) {
 		int fromIndex;
@@ -609,6 +616,16 @@ public final class Const {
     		if ((fromIndex = val.indexOf(xml_credits)) != -1) {
     			_instance.setCredits(val.substring(fromIndex+xml_credits_length, val.indexOf(xml_credits_end, fromIndex)));
     		}
+    		if ((fromIndex = val.indexOf(Const.xml_loadingurl)) != -1) {
+				loadingurl = val.substring(fromIndex+Const.xml_loadingurl_length, val.indexOf(Const.xml_loadingurl_end, fromIndex));
+			}
+			if ((fromIndex = val.indexOf(Const.xml_loadingflipurl)) != -1) {
+    			loadingurlflip = val.substring(fromIndex+Const.xml_loadingflipurl_length, val.indexOf(Const.xml_loadingflipurl_end, fromIndex));
+    		}
+			load = new ImageLoader(loadingurl);
+			load2 = new ImageLoader(loadingurlflip);
+			_instance.loading = loadingurl.substring(loadingurl.indexOf(Const.cards)+Const.cards_length, loadingurl.indexOf(Const.png));
+			_instance.loadingflip = loadingurlflip.substring(loadingurlflip.indexOf(Const.cards)+Const.cards_length, loadingurlflip.indexOf(Const.png));
     		_instance.setAuthenticated(true);
     		SettingsBean.saveSettings(_instance);
     		_instance = null;
@@ -1407,6 +1424,14 @@ public final class Const {
 	public static final int xml_backflipurl_length = xml_backflipurl.length();
 	public static final String xml_backflipurl_end = "</backflipurl>";
 	public static final int xml_backflipurl_end_length = xml_backflipurl_end.length();
+	public static final String xml_loadingurl = "<loadingurl>";
+	public static final int xml_loadingurl_length = xml_loadingurl.length();
+	public static final String xml_loadingurl_end = "</loadingurl>";
+	public static final int xml_loadingurl_end_length = xml_loadingurl_end.length();
+	public static final String xml_loadingflipurl = "<loadingurlflip>";
+	public static final int xml_loadingflipurl_length = xml_loadingflipurl.length();
+	public static final String xml_loadingflipurl_end = "</loadingurlflip>";
+	public static final int xml_loadingflipurl_end_length = xml_loadingflipurl_end.length();
 	public static final String xml_value = "<value>";
 	public static final int xml_value_length = xml_value.length();
 	public static final String xml_value_end = "</value>";

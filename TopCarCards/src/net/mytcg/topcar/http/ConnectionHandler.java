@@ -5,6 +5,7 @@ import java.util.Vector;
 import net.mytcg.topcar.ui.custom.CompareField;
 import net.mytcg.topcar.ui.custom.HorizontalStatManager;
 import net.mytcg.topcar.ui.custom.ImageField;
+import net.mytcg.topcar.ui.custom.ImageLoader;
 import net.mytcg.topcar.ui.custom.ThumbnailField;
 import net.mytcg.topcar.ui.custom.VerticalStatManager;
 import net.mytcg.topcar.util.Const;
@@ -42,6 +43,14 @@ public class ConnectionHandler extends Thread {
 	}
 	public void removeUrl(String url) {
 		urls.removeElement(url);
+	}
+	public synchronized void process(byte[] data, ImageLoader img, String filename, String url) {
+		removeUrl(url);
+		img.process(data, filename);
+		Const.THREADS--;
+		if ((Const.THREADS == 0)&&(connections.size()==0)) {
+			close();
+		}
 	}
 	public synchronized void process(byte[] data, VerticalStatManager img, String filename, String url) {
 		removeUrl(url);
@@ -87,6 +96,23 @@ public class ConnectionHandler extends Thread {
 			}
 		}
 	}
+	public synchronized void addConnect(String url, String filename, ImageLoader img) {
+		if (urls.contains(url)) {
+			
+		} else {
+			urls.addElement(url);
+			ThumbConnection tmp = new ThumbConnection(url, filename, img);
+			if (!connections.contains(tmp)) {
+				connections.addElement(tmp);
+				if (!busy) {
+					busy = true;
+					start();
+				}
+				
+				checkRun();
+			}
+		}
+	}
 	public synchronized void addConnect(String url, String filename, HorizontalStatManager img) {
 		if (urls.contains(url)) {
 			
@@ -105,7 +131,7 @@ public class ConnectionHandler extends Thread {
 		}
 	}
 	public synchronized void addConnect(String url, String filename, VerticalStatManager img) {
-if (urls.contains(url)) {
+		if (urls.contains(url)) {
 			
 		} else {
 			urls.addElement(url);
@@ -189,6 +215,9 @@ if (urls.contains(url)) {
 			cG.start();
 		} else if (thumb.getHort() != null) {
 			ConnectionGet cG = new ConnectionGet(thumb.getUrl(), this, thumb.getHort(), thumb.getFilename());
+			cG.start();
+		} else if (thumb.getImgLoad() != null) {
+			ConnectionGet cG = new ConnectionGet(thumb.getUrl(), this, thumb.getImgLoad(), thumb.getFilename());
 			cG.start();
 		}
 	}
