@@ -192,6 +192,7 @@ public class AppScreen extends MainScreen {
 			bgManager.delete(field);
 	}
 	
+	
 	public void addStat(Field field) {
 		if(!(Const.getPortrait())){
 			hStatManager.add(field);

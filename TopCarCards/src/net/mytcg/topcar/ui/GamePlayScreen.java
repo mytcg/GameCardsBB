@@ -69,7 +69,7 @@ public class GamePlayScreen extends AppScreen implements FieldChangeListener
 				addButton(friendback);
 			}else{
 				setText("Initialising new game...");
-				doConnect(Const.startnewgame+"&categoryid="+categoryId+"&newgametype="+newGameType+Const.height+Const.getCardHeight()+"&width=250");
+				doConnect(Const.startnewgame+"&categoryid="+categoryId+"&newgametype="+newGameType+Const.height+Const.getCardHeight()+Const.width+Const.getCardWidth());
 				addButton(new FixedButtonField(""));
 				addButton(new FixedButtonField(""));
 				addButton(options);
@@ -77,7 +77,7 @@ public class GamePlayScreen extends AppScreen implements FieldChangeListener
 		}else{
 			phase = "loadgame";
 			gameid = categoryId;
-			doConnect(Const.loadgame+"&gameid="+gameid+Const.height+Const.getCardHeight()+"&width=250");
+			doConnect(Const.loadgame+"&gameid="+gameid+Const.height+Const.getCardHeight()+Const.width+Const.getCardWidth());
 			addButton(new FixedButtonField(""));
 			addButton(new FixedButtonField(""));
 			addButton(options);
@@ -121,7 +121,7 @@ public class GamePlayScreen extends AppScreen implements FieldChangeListener
 		        	}
 		    		setText("Loading game...");
 		    		phase = "loadgame";
-		    		doConnect(Const.loadgame+"&gameid="+gameid+Const.height+Const.getCardHeight()+"&width=250");
+		    		doConnect(Const.loadgame+"&gameid="+gameid+Const.height+Const.getCardHeight()+Const.width+Const.getCardWidth());
 	    		}
 			}
 		} else if (phase.equals("loadgame")){
@@ -611,8 +611,8 @@ public class GamePlayScreen extends AppScreen implements FieldChangeListener
 					//try{
 					//	Thread.sleep(4000);
 					//}catch(Exception e){};
-					System.out.println(Const.continuegame+"&gameid="+gameid+"&lastmove="+lastmove64+Const.height+Const.getCardHeight()+"&width=250");
-		    		doConnect(Const.continuegame+"&gameid="+gameid+"&lastmove="+lastmove64+Const.height+Const.getCardHeight()+"&width=250");
+					System.out.println(Const.continuegame+"&gameid="+gameid+"&lastmove="+lastmove64+Const.height+Const.getCardHeight()+Const.width+Const.getCardWidth());
+		    		doConnect(Const.continuegame+"&gameid="+gameid+"&lastmove="+lastmove64+Const.height+Const.getCardHeight()+Const.width+Const.getCardWidth());
 				} else if(phase.equals("oppmove")){
 					phase = "loadgame";
 					if ((fromIndex = game.indexOf(Const.xml_categorystatid)) != -1) {
@@ -662,14 +662,13 @@ public class GamePlayScreen extends AppScreen implements FieldChangeListener
 							}
 						}
 					}
-					doConnect(Const.loadgame+"&gameid="+gameid+Const.height+Const.getCardHeight()+"&width=250");
-					//doConnect(Const.continuegame+"&gameid="+gameid+"&lastmove="+lastmove64+Const.height+Const.getCardHeight()+"&width=250");
+					doConnect(Const.loadgame+"&gameid="+gameid+Const.height+Const.getCardHeight()+Const.width+Const.getCardWidth());
 				} else if(phase.equals("lfm")){
 					try{
 						Thread.sleep(4000);
 					}catch(Exception e){};
 					phase = "loadgame";
-					doConnect(Const.loadgame+"&gameid="+gameid+Const.height+Const.getCardHeight()+"&width=250");
+					doConnect(Const.loadgame+"&gameid="+gameid+Const.height+Const.getCardHeight()+Const.width+Const.getCardWidth());
 				}
 				else if(phase.equals("result")){
 					synchronized(UiApplication.getEventLock()) {
@@ -755,7 +754,7 @@ public class GamePlayScreen extends AppScreen implements FieldChangeListener
 				try{
 					friend64 = new String(Base64OutputStream.encode(username.getText().getBytes(), 0, username.getText().length(), false, false), "UTF-8");
 				}catch(Exception e){};
-				doConnect(Const.startnewgame+"&categoryid="+categoryId+"&newgametype="+newGameType+"&friend="+friend64+"&height="+Const.height+Const.getCardHeight()+"&width=250");
+				doConnect(Const.startnewgame+"&categoryid="+categoryId+"&newgametype="+newGameType+"&friend="+friend64+"&height="+Const.height+Const.getCardHeight()+Const.width+Const.getCardWidth());
 			}
 		} else if (f == options){
 			screen = new GameOptionsScreen(gameid);
@@ -813,9 +812,9 @@ public class GamePlayScreen extends AppScreen implements FieldChangeListener
 									}catch(Exception e){};
 								}
 							}
-							System.out.println(Const.selectstat+"&gameid="+gameid+"&statid="+temp.getStatId()+Const.height+Const.getCardHeight()+"&width=250");
+							System.out.println(Const.selectstat+"&gameid="+gameid+"&statid="+temp.getStatId()+Const.height+Const.getCardHeight()+Const.width+Const.getCardWidth());
 							phase = "loadgame";
-							doConnect(Const.selectstat+"&gameid="+gameid+"&statid="+temp.getStatId()+Const.height+Const.getCardHeight()+"&width=250");
+							doConnect(Const.selectstat+"&gameid="+gameid+"&statid="+temp.getStatId()+Const.height+Const.getCardHeight()+Const.width+Const.getCardWidth());
 						}
 					}
 				}

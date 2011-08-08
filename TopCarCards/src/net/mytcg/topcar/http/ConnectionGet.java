@@ -63,6 +63,7 @@ public final class ConnectionGet extends Connection implements Runnable {
 	}
 	public ConnectionGet(String url, ConnectionHandler field, HorizontalStatManager image, String filename) {
 		this(url);
+		System.out.println("url " + url + " filename " + filename);
 		this.hStat = image;
 		this.field = field;
 		this.filename = filename;
@@ -117,7 +118,7 @@ public final class ConnectionGet extends Connection implements Runnable {
 		}
 	}
 	public void connect() {
-		
+		System.out.println("starting connect for " + _url);
 		factory = new HttpConnectionFactory(_url);
     	int lengt;
     	byte[] data;
@@ -127,6 +128,9 @@ public final class ConnectionGet extends Connection implements Runnable {
 	        	_s = factory.getNextConnection();
 	        	
 	        	try {
+	        		
+	        		System.out.println("start download for " + _url);
+	        		
 		        	_s.setRequestMethod(HttpConnection.GET);
 		        	SettingsBean _instance = SettingsBean.getSettings();
 		        	_s.setRequestProperty("AUTH_USER", _instance.getUsername());
@@ -140,27 +144,35 @@ public final class ConnectionGet extends Connection implements Runnable {
 		        		screen.setText("Loading...");
 		        	}
 		        	
-		        	if (lengt != -1) {
+		        	/*if (lengt != -1) {
+		        		System.out.println("initializing data");
 						data = new byte[lengt];
+						System.out.println("created byte array");
 						_input.readFully(data);
-						
+						System.out.println("reading in fully");
 						_text = new String(data);
-		        	} else {
+						System.out.println("readFully completed");
+		        	} else {*/
 	                    _output = new ByteArrayOutputStream();
 	                    int ch;
+	                    System.out.println("start reading");
 	                    while((ch = _input.read()) != -1)
 	                        _output.write(ch);
+	                    System.out.println("finished reading");
 	                    data = _output.toByteArray();
 	                    try {
 	                    	_output.close();
 	                    } catch (Exception e) {
+	                    	System.out.println("error e " + e.toString());
 	                    	
 	                    }
-		        	}
+		        	//}
 		        	
 		        	if (data.length <= 2048) {
 		        		System.out.println("LALALA "+new String(data));
 		        	}
+		        	
+		        	System.out.println("starting process requests for " + _url);
 		        	
 		        	if (screen != null) {
 		        		screen.process(new String(data));
@@ -173,18 +185,18 @@ public final class ConnectionGet extends Connection implements Runnable {
 		        	}
 		        	if ((field != null)&&(thumb != null)) {
 		        		saveData(data, type);
-		        		field.process(data, type, thumb);
+		        		field.process(data, type, thumb, _url);
 		        	}
 		        	if ((field != null)&&(image != null)) {
-		        		field.process(data, image, filename);
+		        		field.process(data, image, filename, _url);
 		        	}
 		        	if ((field != null)&&(vStat != null)) {
-		        		field.process(data, vStat, filename);
+		        		field.process(data, vStat, filename, _url);
 		        	}
 		        	System.out.println("check for hStat");
 		        	if ((field != null)&&(hStat != null)) {
 		        		System.out.println("process " );
-		        		field.process(data, hStat, filename);
+		        		field.process(data, hStat, filename, _url);
 		        	}
 		        	if ((home != null)&&(data.length > 0)) {
 		        		String val = new String(data);
@@ -195,11 +207,23 @@ public final class ConnectionGet extends Connection implements Runnable {
 		        	}
 					_isBusy = false;
 					close();
-	        	} catch (EOFException ex) {}
+	        	} catch (EOFException ex) {
+	        		if (field != null) {
+	        			field.removeUrl(_url);
+	        		}
+	        	}
 	        } catch (IOException e) {
+	        	if (field != null) {
+        			field.removeUrl(_url);
+        		}
+	        	System.out.println("2");
 	        	cleanup();
 	        	close(true);
 	        } catch (NoMoreTransportsException e) {
+	        	if (field != null) {
+        			field.removeUrl(_url);
+        		}
+	        	System.out.println("3");
 	        	cleanup();
 	        	close(false);
 	        }

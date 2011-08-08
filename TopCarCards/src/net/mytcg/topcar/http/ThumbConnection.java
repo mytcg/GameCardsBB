@@ -1,5 +1,7 @@
 package net.mytcg.topcar.http;
 
+import java.util.Vector;
+
 import net.mytcg.topcar.ui.custom.CompareField;
 import net.mytcg.topcar.ui.custom.HorizontalStatManager;
 import net.mytcg.topcar.ui.custom.ImageField;

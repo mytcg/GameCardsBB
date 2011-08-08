@@ -40,7 +40,7 @@ public class AddCardToDeckListScreen extends AppScreen implements FieldChangeLis
 		addButton(new FixedButtonField(""));
 		addButton(exit);
 		System.out.println(Const.cardsincategorynotdeck+categoryid+Const.deck_id+deckid+Const.height+Const.getCardHeight());
-		doConnect(Const.cardsincategorynotdeck+categoryid+Const.deck_id+deckid+Const.height+Const.getCardHeight());
+		doConnect(Const.cardsincategorynotdeck+categoryid+Const.deck_id+deckid+Const.height+Const.getCardHeight()+Const.width+Const.getCardWidth());
 	}
 	
 	public void process(String val) {

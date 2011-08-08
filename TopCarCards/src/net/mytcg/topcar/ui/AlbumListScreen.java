@@ -346,7 +346,7 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 		this.id = id;
 		
 		process(SettingsBean.getSettings().getCards(id));
-		doConnect(Const.cardsincategory+id+Const.height+Const.getCardHeight()+Const.second+SettingsBean.getSettings().getLoaded());
+		doConnect(Const.cardsincategory+id+Const.height+Const.getCardHeight()+Const.width+Const.getCardWidth()+Const.second+SettingsBean.getSettings().getLoaded());
 	}
 	
 	public AlbumListScreen(int id, int type, Card card) {
@@ -368,7 +368,7 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 		this.id = id;
 		
 		process(SettingsBean.getSettings().getCards(id));
-		doConnect(Const.cardsincategory+id+Const.height+Const.getCardHeight()+Const.second+SettingsBean.getSettings().getLoaded());
+		doConnect(Const.cardsincategory+id+Const.height+Const.getCardHeight()+Const.width+Const.getCardWidth()+Const.second+SettingsBean.getSettings().getLoaded());
 	}
 	
 	public AlbumListScreen(String val) {
@@ -411,7 +411,7 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 		screen = null;
 		System.out.println("isVisible " + isVisible());
 		if (!isVisible()) {
-			doConnect(Const.cardsincategory+id+Const.height+Const.getCardHeight()+Const.second+SettingsBean.getSettings().getLoaded());
+			doConnect(Const.cardsincategory+id+Const.height+Const.getCardHeight()+Const.width+Const.getCardWidth()+Const.second+SettingsBean.getSettings().getLoaded());
 		}
 		super.onExposed();
 	}

@@ -136,6 +136,7 @@ public class HorizontalStatManager extends HorizontalFieldManager
 		}
 	}
 	public void process(byte[] data, String filename) {
+		System.out.println("process filename " + filename);
 		image = (EncodedImage.createEncodedImage(data, 0, data.length)).getBitmap();
 		landscape();
 		invalidate();

@@ -247,6 +247,16 @@ public final class Const {
 			return (int)((((double)((Const.getHeight()-getButtonCentre().getHeight())-Const.PADDING))*ratio));
 		}
 	}
+	public static final int getCardWidth() {
+		if (Const.PORTRAIT) {
+
+			return (int)((((double)((Const.getWidth()-getButtonCentre().getHeight())-Const.PADDING))*ratio));
+		} else {
+			return Const.getHeight()+(40-getButtonCentre().getHeight());
+			//return ((Const.getWidth()-getButtonCentre().getHeight())-Const.PADDING);
+			
+		}
+	}
 	public static final int getUsableHeight() {
 		return getHeight()-(getButtonCentre().getHeight()+getLogo().getHeight()+PADDING);
 	}

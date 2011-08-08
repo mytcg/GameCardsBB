@@ -69,7 +69,7 @@ public class ShopPurchaseScreen extends AppScreen implements FieldChangeListener
 			screen = null;
 			UiApplication.getUiApplication().popScreen(this);
 		} else if(f == confirm){
-			doConnect(Const.buyproduct+product.getId()+Const.height+Const.getCardHeight()+Const.freebie+(freebie?"1":"0"));
+			doConnect(Const.buyproduct+product.getId()+Const.height+Const.getCardHeight()+Const.width+Const.getCardWidth()+Const.freebie+(freebie?"1":"0"));
 		}
 	}
 }
