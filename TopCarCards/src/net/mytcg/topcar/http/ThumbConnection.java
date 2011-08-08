@@ -1,8 +1,10 @@
 package net.mytcg.topcar.http;
 
 import net.mytcg.topcar.ui.custom.CompareField;
+import net.mytcg.topcar.ui.custom.HorizontalStatManager;
 import net.mytcg.topcar.ui.custom.ImageField;
 import net.mytcg.topcar.ui.custom.ThumbnailField;
+import net.mytcg.topcar.ui.custom.VerticalStatManager;
 
 class ThumbConnection {
 	private String url = "";
@@ -10,27 +12,34 @@ class ThumbConnection {
 	private ThumbnailField thumb = null;
 	private ImageField img = null;
 	private CompareField com = null;
+	private VerticalStatManager vert = null;
+	private HorizontalStatManager hori = null;
 	private String filename = "";
 	
 	public ThumbConnection(String url, int type, ThumbnailField thumb) {
 		this.url = url;
 		this.type = type;
 		this.thumb = thumb;
-		this.img = null;
-		this.com = null;
+	}
+	public ThumbConnection(String url, String filename, HorizontalStatManager img) {
+		System.out.println("horizontalStatManager added");
+		this.url = url;
+		this.filename = filename;
+		this.hori = img;
+	}
+	public ThumbConnection(String url, String filename, VerticalStatManager img) {
+		this.url = url;
+		this.filename = filename;
+		this.vert = img;
 	}
 	public ThumbConnection(String url, String filename, ImageField img) {
 		this.url = url;
 		this.filename = filename;
-		this.thumb = null;
 		this.img = img;
-		this.com = null;
 	}
 	public ThumbConnection(String url, String filename, CompareField com) {
 		this.url = url;
 		this.filename = filename;
-		this.thumb = null;
-		this.img = null;
 		this.com = com;
 	}
 	public int getType() {
@@ -47,5 +56,11 @@ class ThumbConnection {
 	}
 	public String getFilename() {
 		return filename;
+	}
+	public VerticalStatManager getVert() {
+		return vert;
+	}
+	public HorizontalStatManager getHort() {
+		return hori;
 	}
 }

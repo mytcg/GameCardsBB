@@ -123,8 +123,9 @@ public class VerticalStatManager extends VerticalFieldManager
 	ConnectionGet cG;
 	int timeout = 0;
 	public void doConnect(String url) {
-		cG = new ConnectionGet(url, this);
-		cG.start();
+		if ((url != null)&&(url.length() > 0)) {
+			(Const.getConnection()).addConnect(url, file, this);
+		}
 	}
 	public void landscape() {
 		if (!(Const.getPortrait())) {
@@ -136,17 +137,17 @@ public class VerticalStatManager extends VerticalFieldManager
 			
 		}
 	}
-	public void process(byte[] data) {
+	public void process(byte[] data, String filename) {
 		image = (EncodedImage.createEncodedImage(data, 0, data.length)).getBitmap();
 		landscape();
 		invalidate();
-		saveData(data);
+		saveData(data, filename);
 	}
-	public void saveData(byte[] data) {
+	public synchronized void saveData(byte[] data, String filename) {
 		FileConnection _file = null;
 		OutputStream output = null;
 		try {
-			_file = (FileConnection)Connector.open(Const.getStorage()+Const.PREFIX+file);
+			_file = (FileConnection)Connector.open(Const.getStorage()+Const.PREFIX+filename);
 			_file.create();
 			output = _file.openOutputStream();
 			output.write(data);

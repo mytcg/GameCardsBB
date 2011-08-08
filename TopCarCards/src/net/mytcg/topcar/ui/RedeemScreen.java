@@ -43,7 +43,7 @@ public class RedeemScreen extends AppScreen implements FieldChangeListener
 			screen = null;
 			UiApplication.getUiApplication().popScreen(this);
 		} else if (f == redeem) {
-			doConnect(Const.rdm+number.getText(), false);
+			doConnect(Const.rdm+number.getText());
 		}
 	}
 }

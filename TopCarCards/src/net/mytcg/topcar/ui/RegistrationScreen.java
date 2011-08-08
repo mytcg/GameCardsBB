@@ -76,18 +76,14 @@ public class RegistrationScreen extends AppScreen implements FieldChangeListener
 		//add(new ColorLabelField(Const.name));
 		//add(fullname);
 		add(new ColorLabelField(Const.surname));
-		username.setText("test01");
 		add(username);
 		//add(new ColorLabelField(Const.cell));
 		//add(cell);
 		add(new ColorLabelField(Const.age));
-		email.setText("test01@gmail.com");
 		add(email);
 		add(new ColorLabelField(Const.gender));
-		password.setText("aaaaaa");
 		add(password);
 		add(new ColorLabelField(Const.referrer));
-		referrer.setText("andre1");
 		add(referrer);
 		
 		//bgManager.setStatusHeight(Const.getButtonHeight());
