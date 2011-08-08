@@ -15,6 +15,7 @@ import net.mytcg.topcar.ui.GameCardsHome;
 import net.mytcg.topcar.ui.custom.HorizontalGamePlayManager;
 import net.mytcg.topcar.ui.custom.HorizontalStatManager;
 import net.mytcg.topcar.ui.custom.ImageField;
+import net.mytcg.topcar.ui.custom.ImageLoader;
 import net.mytcg.topcar.ui.custom.ThumbnailField;
 import net.mytcg.topcar.ui.custom.VerticalGamePlayManager;
 import net.mytcg.topcar.ui.custom.VerticalStatManager;
@@ -28,6 +29,7 @@ public final class ConnectionGet extends Connection implements Runnable {
 	private ConnectionHandler field = null;
 	private ThumbnailField thumb = null;
 	private ImageField image = null;
+	private ImageLoader imageload = null;
 	private VerticalStatManager vStat = null;
 	private HorizontalStatManager hStat = null;
 	private VerticalGamePlayManager vGame = null;
@@ -52,6 +54,12 @@ public final class ConnectionGet extends Connection implements Runnable {
 	public ConnectionGet(String url, ConnectionHandler field, ImageField image, String filename) {
 		this(url);
 		this.image = image;
+		this.field = field;
+		this.filename = filename;
+	}
+	public ConnectionGet(String url, ConnectionHandler field, ImageLoader image, String filename) {
+		this(url);
+		this.imageload = image;
 		this.field = field;
 		this.filename = filename;
 	}
@@ -177,6 +185,9 @@ public final class ConnectionGet extends Connection implements Runnable {
 		        	}
 		        	if ((field != null)&&(image != null)) {
 		        		field.process(data, image, filename);
+		        	}
+		        	if ((field != null)&&(imageload != null)) {
+		        		field.process(data, imageload, filename);
 		        	}
 		        	if ((field != null)&&(vStat != null)) {
 		        		field.process(data, vStat, filename);

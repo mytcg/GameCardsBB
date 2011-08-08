@@ -90,7 +90,7 @@ public class LoginScreen extends AppScreen implements FieldChangeListener
 				_instance.setPassword(password64);
 				SettingsBean.saveSettings(_instance);
 				_instance = null;
-				doConnect(Const.userdetails, false);
+				doConnect(Const.userdetails+Const.height+Const.getCardHeight()+Const.width+Const.getCardWidth(), false);
 			}
 		}
 	}
