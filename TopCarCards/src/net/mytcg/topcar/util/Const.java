@@ -256,9 +256,9 @@ public final class Const {
 	}
 	public static final int getCardWidth() {
 		if (Const.PORTRAIT) {
-			return (int)((((double)((Const.getWidth()-getButtonCentre().getHeight())-Const.PADDING))*ratio));
+			return Const.getWidth();
 		} else {
-			return Const.getHeight()+(40-getButtonCentre().getHeight());
+			return Const.getHeight();
 			//return ((Const.getWidth()-getButtonCentre().getHeight())-Const.PADDING);
 		}
 	}

@@ -152,7 +152,7 @@ public final class ConnectionGet extends Connection implements Runnable {
 		        		screen.setText("Loading...");
 		        	}
 		        	
-		        	/*if (lengt != -1) {
+		        	if (lengt != -1) {
 		        		System.out.println("initializing data");
 						data = new byte[lengt];
 						System.out.println("created byte array");
@@ -160,7 +160,7 @@ public final class ConnectionGet extends Connection implements Runnable {
 						System.out.println("reading in fully");
 						_text = new String(data);
 						System.out.println("readFully completed");
-		        	} else {*/
+		        	} else {
 	                    _output = new ByteArrayOutputStream();
 	                    int ch;
 	                    System.out.println("start reading");
@@ -174,7 +174,7 @@ public final class ConnectionGet extends Connection implements Runnable {
 	                    	System.out.println("error e " + e.toString());
 	                    	
 	                    }
-		        	//}
+		        	}
 		        	
 		        	if (data.length <= 2048) {
 		        		System.out.println("LALALA "+new String(data));

@@ -11,6 +11,7 @@ import net.rim.device.api.ui.UiApplication;
 public class MenuScreen extends AppScreen implements FieldChangeListener
 {
 	FixedButtonField exit = new FixedButtonField(Const.back);
+
 	
 	ListItemField albums = new ListItemField("Empty", -1, false, 0);
 	ListItemField play = new ListItemField("Empty", -1, false, 0);
