@@ -113,13 +113,14 @@ public class VerticalGamePlayManager extends VerticalFieldManager
 		InputStream input = null;
 		try {
 			SettingsBean _instance = SettingsBean.getSettings();
-			_file = (FileConnection)Connector.open(Const.getStorage()+Const.PREFIX+_instance.loading);
+			_file = (FileConnection)Connector.open(Const.getStorage()+Const.PREFIX+_instance.loadingflip);
 			input = _file.openInputStream();
 			byte[] data = new byte[(int) _file.fileSize()];
 			input.read(data);
 			input.close();
 			_file.close();
 			image = (EncodedImage.createEncodedImage(data, 0, data.length)).getBitmap();
+			landscape();
 		} catch (Exception e) {}
 		if (file != null) {
 			getData();

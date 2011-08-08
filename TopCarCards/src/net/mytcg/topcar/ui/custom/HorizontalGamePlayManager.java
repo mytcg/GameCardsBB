@@ -118,6 +118,7 @@ public class HorizontalGamePlayManager extends HorizontalFieldManager
 			input.close();
 			_file.close();
 			image = (EncodedImage.createEncodedImage(data, 0, data.length)).getBitmap();
+			landscape();
 		} catch (Exception e) {}
 		if (file != null) {
 			getData();
