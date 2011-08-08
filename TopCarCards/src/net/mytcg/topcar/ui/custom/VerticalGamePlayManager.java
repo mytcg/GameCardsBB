@@ -108,6 +108,7 @@ public class VerticalGamePlayManager extends VerticalFieldManager
 	}
 	public void construct() {
 		int font = Const.FONT;
+		image = Const.getThumbLoading();
 		FileConnection _file = null;
 		InputStream input = null;
 		try {

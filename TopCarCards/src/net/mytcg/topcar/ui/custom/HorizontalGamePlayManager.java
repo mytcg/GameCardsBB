@@ -106,6 +106,7 @@ public class HorizontalGamePlayManager extends HorizontalFieldManager
 	}
 	public void construct() {
 		int font = Const.FONT;
+		image = Const.getThumbLoading();
 		FileConnection _file = null;
 		InputStream input = null;
 		try {
