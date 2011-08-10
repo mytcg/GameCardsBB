@@ -52,6 +52,14 @@ public class ConnectionHandler extends Thread {
 			close();
 		}
 	}
+	public synchronized void process(byte[] data, CompareField com, String filename, String url) {
+		removeUrl(url);
+		com.process(data, filename);
+		Const.THREADS--;
+		if ((Const.THREADS == 0)&&(connections.size()==0)) {
+			close();
+		}
+	}
 	public synchronized void process(byte[] data, VerticalStatManager img, String filename, String url) {
 		removeUrl(url);
 		img.process(data, filename);
@@ -218,6 +226,9 @@ public class ConnectionHandler extends Thread {
 			cG.start();
 		} else if (thumb.getImgLoad() != null) {
 			ConnectionGet cG = new ConnectionGet(thumb.getUrl(), this, thumb.getImgLoad(), thumb.getFilename());
+			cG.start();
+		} else if (thumb.getCom() != null) {
+			ConnectionGet cG = new ConnectionGet(thumb.getUrl(), this, thumb.getCom(), thumb.getFilename());
 			cG.start();
 		}
 	}

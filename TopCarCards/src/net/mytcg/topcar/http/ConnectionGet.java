@@ -12,6 +12,7 @@ import javax.microedition.io.file.FileConnection;
 
 import net.mytcg.topcar.ui.AppScreen;
 import net.mytcg.topcar.ui.GameCardsHome;
+import net.mytcg.topcar.ui.custom.CompareField;
 import net.mytcg.topcar.ui.custom.HorizontalGamePlayManager;
 import net.mytcg.topcar.ui.custom.HorizontalStatManager;
 import net.mytcg.topcar.ui.custom.ImageField;
@@ -30,6 +31,7 @@ public final class ConnectionGet extends Connection implements Runnable {
 	private ThumbnailField thumb = null;
 	private ImageField image = null;
 	private ImageLoader imageload = null;
+	private CompareField com = null;
 	private VerticalStatManager vStat = null;
 	private HorizontalStatManager hStat = null;
 	private VerticalGamePlayManager vGame = null;
@@ -60,6 +62,12 @@ public final class ConnectionGet extends Connection implements Runnable {
 	public ConnectionGet(String url, ConnectionHandler field, ImageLoader image, String filename) {
 		this(url);
 		this.imageload = image;
+		this.field = field;
+		this.filename = filename;
+	}
+	public ConnectionGet(String url, ConnectionHandler field, CompareField com, String filename) {
+		this(url);
+		this.com = com;
 		this.field = field;
 		this.filename = filename;
 	}
@@ -200,6 +208,9 @@ public final class ConnectionGet extends Connection implements Runnable {
 		        	}
 		        	if ((field != null)&&(imageload != null)) {
 		        		field.process(data, imageload, filename, _url);
+		        	}
+		        	if ((field != null)&&(com != null)) {
+		        		field.process(data, com, filename, _url);
 		        	}
 		        	if ((field != null)&&(vStat != null)) {
 		        		field.process(data, vStat, filename, _url);

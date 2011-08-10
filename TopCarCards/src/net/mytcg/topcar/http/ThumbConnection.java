@@ -1,7 +1,5 @@
 package net.mytcg.topcar.http;
 
-import java.util.Vector;
-
 import net.mytcg.topcar.ui.custom.CompareField;
 import net.mytcg.topcar.ui.custom.HorizontalStatManager;
 import net.mytcg.topcar.ui.custom.ImageField;
@@ -65,6 +63,9 @@ class ThumbConnection {
 	}
 	public ImageLoader getImgLoad() {
 		return imgload;
+	}
+	public CompareField getCom() {
+		return com;
 	}
 	public String getFilename() {
 		return filename;
