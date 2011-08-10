@@ -16,6 +16,7 @@ import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.Font;
 import net.rim.device.api.ui.Graphics;
 import net.rim.device.api.ui.Manager;
+import net.rim.device.api.ui.UiApplication;
 import net.rim.device.api.ui.component.NullField;
 import net.rim.device.api.ui.container.VerticalFieldManager;
 
@@ -31,6 +32,8 @@ public class VerticalGamePlayManager extends VerticalFieldManager
 	boolean useall = true;
 	public boolean drawbox = false;
 	String color = "";
+	
+	public boolean loaded = false;
 	
 	public VerticalGamePlayManager(boolean useall)
 	{
@@ -107,11 +110,13 @@ public class VerticalGamePlayManager extends VerticalFieldManager
 		construct();
 	}
 	public void construct() {
+		loaded = false;
 		int font = Const.FONT;
 		image = Const.getThumbLoading();
 		FileConnection _file = null;
 		InputStream input = null;
 		try {
+			System.out.println("starting loading thumb");
 			SettingsBean _instance = SettingsBean.getSettings();
 			_file = (FileConnection)Connector.open(Const.getStorage()+Const.PREFIX+_instance.loadingflip);
 			input = _file.openInputStream();
@@ -121,6 +126,8 @@ public class VerticalGamePlayManager extends VerticalFieldManager
 			_file.close();
 			image = (EncodedImage.createEncodedImage(data, 0, data.length)).getBitmap();
 			landscape();
+			invalidate();
+			System.out.println("setting the card to loading...");
 		} catch (Exception e) {}
 		if (file != null) {
 			getData();
@@ -144,6 +151,7 @@ public class VerticalGamePlayManager extends VerticalFieldManager
 				input.close();
 				_file.close();
 				image = (EncodedImage.createEncodedImage(data, 0, data.length)).getBitmap();
+				loaded = true;
 				//Bitmap temp = (EncodedImage.createEncodedImage(data, 0, data.length)).getBitmap();
 				//if ((Const.getPortrait())) {
 				//	image = Const.getScaledBitmapImage((EncodedImage.createEncodedImage(data, 0, data.length)),((double)(getPreferredHeight()-20)/temp.getWidth()),((double)(getPreferredWidth()-25)/temp.getHeight()));
@@ -179,6 +187,7 @@ public class VerticalGamePlayManager extends VerticalFieldManager
 		//	image = Const.getScaledBitmapImage((EncodedImage.createEncodedImage(data, 0, data.length)),((double)(getPreferredHeight()-20)/temp.getHeight()),((double)(getPreferredHeight()-25)/temp.getHeight()));
 		//}
 		image = (EncodedImage.createEncodedImage(data, 0, data.length)).getBitmap();
+		loaded = true;
 		landscape();
 		invalidate();
 		saveData(data);

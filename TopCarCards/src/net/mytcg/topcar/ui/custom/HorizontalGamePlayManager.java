@@ -110,6 +110,7 @@ public class HorizontalGamePlayManager extends HorizontalFieldManager
 		FileConnection _file = null;
 		InputStream input = null;
 		try {
+			System.out.println("starting loading thumb");
 			SettingsBean _instance = SettingsBean.getSettings();
 			_file = (FileConnection)Connector.open(Const.getStorage()+Const.PREFIX+_instance.loadingflip);
 			input = _file.openInputStream();
@@ -119,7 +120,11 @@ public class HorizontalGamePlayManager extends HorizontalFieldManager
 			_file.close();
 			image = (EncodedImage.createEncodedImage(data, 0, data.length)).getBitmap();
 			landscape();
-		} catch (Exception e) {}
+			invalidate();
+			System.out.println("setting the card to loading...");
+		} catch (Exception e) {
+			System.out.println("stacktrace" + e.getMessage());
+		}
 		if (file != null) {
 			getData();
 		}

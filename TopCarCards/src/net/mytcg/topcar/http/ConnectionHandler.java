@@ -81,9 +81,9 @@ public class ConnectionHandler extends Thread {
 		current = null;
 	}
 	public synchronized void addConnect(String url, int type, ThumbnailField thumb) {
-		if (urls.contains(url)) {
+		//if (urls.contains(url)) {
 			
-		} else {
+		//} else {
 			urls.addElement(url);
 			ThumbConnection tmp = new ThumbConnection(url, type, thumb);
 			if (!connections.contains(tmp)) {
@@ -94,12 +94,12 @@ public class ConnectionHandler extends Thread {
 				}
 				checkRun();
 			}
-		}
+		//}
 	}
 	public synchronized void addConnect(String url, String filename, ImageLoader img) {
-		if (urls.contains(url)) {
+		//if (urls.contains(url)) {
 			
-		} else {
+		//} else {
 			urls.addElement(url);
 			ThumbConnection tmp = new ThumbConnection(url, filename, img);
 			if (!connections.contains(tmp)) {
@@ -111,12 +111,12 @@ public class ConnectionHandler extends Thread {
 				
 				checkRun();
 			}
-		}
+		//}
 	}
 	public synchronized void addConnect(String url, String filename, HorizontalStatManager img) {
-		if (urls.contains(url)) {
+		//if (urls.contains(url)) {
 			
-		} else {
+		//} else {
 			urls.addElement(url);
 			ThumbConnection tmp = new ThumbConnection(url, filename, img);
 			if (!connections.contains(tmp)) {
@@ -128,12 +128,12 @@ public class ConnectionHandler extends Thread {
 				
 				checkRun();
 			}
-		}
+		//}
 	}
 	public synchronized void addConnect(String url, String filename, VerticalStatManager img) {
-		if (urls.contains(url)) {
+		//if (urls.contains(url)) {
 			
-		} else {
+		//} else {
 			urls.addElement(url);
 			ThumbConnection tmp = new ThumbConnection(url, filename, img);
 			if (!connections.contains(tmp)) {
@@ -145,12 +145,12 @@ public class ConnectionHandler extends Thread {
 				
 				checkRun();
 			}
-		}
+		//}
 	}
 	public synchronized void addConnect(String url, String filename, ImageField img) {
-		if (urls.contains(url)) {
+		//if (urls.contains(url)) {
 			
-		} else {
+		//} else {
 			urls.addElement(url);
 			ThumbConnection tmp = new ThumbConnection(url, filename, img);
 			if (!connections.contains(tmp)) {
@@ -162,12 +162,12 @@ public class ConnectionHandler extends Thread {
 				
 				checkRun();
 			}
-		}
+		//}
 	}
 	public synchronized void addConnect(String url, String filename, CompareField img) {
-		if (urls.contains(url)) {
+		//if (urls.contains(url)) {
 			
-		} else {
+		//} else {
 			urls.addElement(url);
 			ThumbConnection tmp = new ThumbConnection(url, filename, img);
 			if (!connections.contains(tmp)) {
@@ -179,7 +179,7 @@ public class ConnectionHandler extends Thread {
 				
 				checkRun();
 			}
-		}
+		//}
 	}
 	public synchronized void checkRun() {
 		if (Thread.activeCount() <= 14) {

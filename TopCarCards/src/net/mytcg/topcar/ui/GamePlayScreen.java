@@ -1,8 +1,8 @@
 package net.mytcg.topcar.ui;
 
+import java.util.Date;
 import java.util.Vector;
 
-import net.rim.device.api.io.Base64OutputStream;
 import net.mytcg.topcar.ui.custom.ColorLabelField;
 import net.mytcg.topcar.ui.custom.FixedButtonField;
 import net.mytcg.topcar.ui.custom.HorizontalGamePlayManager;
@@ -14,6 +14,7 @@ import net.mytcg.topcar.util.Card;
 import net.mytcg.topcar.util.Const;
 import net.mytcg.topcar.util.SettingsBean;
 import net.mytcg.topcar.util.Stat;
+import net.rim.device.api.io.Base64OutputStream;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.FieldChangeListener;
 import net.rim.device.api.ui.UiApplication;
@@ -701,6 +702,49 @@ public class GamePlayScreen extends AppScreen implements FieldChangeListener
 		}
 	}
 	
+	public void drawRun(int j) {
+		boolean draw = false;
+		for(int h = 0; h < 5;h++){
+			draw = !draw;
+			//synchronized(UiApplication.getEventLock()) {
+				oppuistats[j].draw(draw);
+				uistats[j].draw(draw);
+				System.out.println("flashing the stat values " + new Date());
+				if(((Stat)stats.elementAt(j)).getVal()>((Stat)oppstats.elementAt(j)).getVal()){
+					if(!(Const.getPortrait())){
+		    			vGameManager.draw(draw,"GREEN");
+		    			oppvgamemanager.draw(draw,"RED");
+					}else{
+						hGameManager.draw(draw,"GREEN");
+		    			opphgamemanager.draw(draw,"RED");
+					}
+				}else if(((Stat)stats.elementAt(j)).getVal()<((Stat)oppstats.elementAt(j)).getVal()){
+					if(!(Const.getPortrait())){
+						vGameManager.draw(draw,"RED");
+		    			oppvgamemanager.draw(draw,"GREEN");
+					}else{
+						hGameManager.draw(draw,"RED");
+		    			opphgamemanager.draw(draw,"GREEN");
+					}
+				}else{
+					if(!(Const.getPortrait())){
+						vGameManager.draw(draw,"YELLOW");
+		    			oppvgamemanager.draw(draw,"YELLOW");
+					}else{
+						hGameManager.draw(draw,"YELLOW");
+		    			opphgamemanager.draw(draw,"YELLOW");
+					}
+				}
+				invalidate();
+				if(h != 4){
+					try{
+						Thread.sleep(1000);
+					}catch(Exception e){};
+				}
+			//}
+		}
+	}
+	
 	public void fieldChanged(Field f, int i) {
 		System.out.println("FIELD: "+f.toString()+ " i "+i);
 		if (f == con || f == friendback) {
@@ -767,51 +811,27 @@ public class GamePlayScreen extends AppScreen implements FieldChangeListener
 					Stat temp = (Stat)stats.elementAt(j);
 					if((temp.getFrontOrBack()==0&&!flip)||(temp.getFrontOrBack()==1&&flip)){
 						if(f == uistats[j]){
-							if(!(Const.getPortrait())){
-								oppvgamemanager.setUrl(card2.getBackFlipurl());
-							}else{
-								opphgamemanager.setUrl(card2.getBackFlipurl());
-							}
-							boolean draw = false;
-							for(int h = 0; h < 5;h++){
-								draw = !draw;
-								synchronized(UiApplication.getEventLock()) {
-									oppuistats[j].draw(draw);
-									uistats[j].draw(draw);
-									System.out.println("(Stat)stats.elementAt(j)).getVal() "+((Stat)stats.elementAt(j)).getVal());
-									System.out.println("(Stat)stats.elementAt(j)).getVal() "+((Stat)oppstats.elementAt(j)).getVal());
-									if(((Stat)stats.elementAt(j)).getVal()>((Stat)oppstats.elementAt(j)).getVal()){
-										if(!(Const.getPortrait())){
-							    			vGameManager.draw(draw,"GREEN");
-							    			oppvgamemanager.draw(draw,"RED");
-										}else{
-											hGameManager.draw(draw,"GREEN");
-							    			opphgamemanager.draw(draw,"RED");
-										}
-									}else if(((Stat)stats.elementAt(j)).getVal()<((Stat)oppstats.elementAt(j)).getVal()){
-										if(!(Const.getPortrait())){
-											vGameManager.draw(draw,"RED");
-							    			oppvgamemanager.draw(draw,"GREEN");
-										}else{
-											hGameManager.draw(draw,"RED");
-							    			opphgamemanager.draw(draw,"GREEN");
-										}
-									}else{
-										if(!(Const.getPortrait())){
-											vGameManager.draw(draw,"YELLOW");
-							    			oppvgamemanager.draw(draw,"YELLOW");
-										}else{
-											hGameManager.draw(draw,"YELLOW");
-							    			opphgamemanager.draw(draw,"YELLOW");
-										}
-									}
+							
+							System.out.println("setting the url " + new Date());
+							synchronized(UiApplication.getEventLock()) {
+								if(!(Const.getPortrait())){
+									oppvgamemanager.setUrl(card2.getBackFlipurl());
+								}else{
+									opphgamemanager.setUrl(card2.getBackFlipurl());
 								}
-								if(h != 4){
-									try{
-										Thread.sleep(1000);
-									}catch(Exception e){};
-								}
+							
+							
+								invalidate();
 							}
+							final int val = j;
+							Thread tmp = new Thread() {
+								public void run() {
+									drawRun(val);
+								}
+							};
+							tmp.start();
+							//drawRun(j);
+							
 							System.out.println(Const.selectstat+"&gameid="+gameid+"&statid="+temp.getStatId()+Const.height+Const.getCardHeight()+Const.width+Const.getCardWidth());
 							phase = "loadgame";
 							doConnect(Const.selectstat+"&gameid="+gameid+"&statid="+temp.getStatId()+Const.height+Const.getCardHeight()+Const.width+Const.getCardWidth());
