@@ -8,6 +8,7 @@ import javax.microedition.io.file.FileConnection;
 
 import net.mytcg.topcar.http.ConnectionGet;
 import net.mytcg.topcar.util.Const;
+import net.mytcg.topcar.util.SettingsBean;
 import net.rim.device.api.math.Fixed32;
 import net.rim.device.api.system.Bitmap;
 import net.rim.device.api.system.EncodedImage;
@@ -20,7 +21,6 @@ public final class CompareField extends Field {
 	private String url;
 	private String file;
 	private Bitmap image;
-	private EncodedImage eimage;
 	
 	public CompareField(String url) {
 		this.url = url;
@@ -67,12 +67,7 @@ public final class CompareField extends Field {
 				input.read(data);
 				input.close();
 				_file.close();
-				Bitmap temp = (EncodedImage.createEncodedImage(data, 0, data.length)).getBitmap();
-				if ((Const.getPortrait())) {
-					image = Const.getScaledBitmapImage((EncodedImage.createEncodedImage(data, 0, data.length)),((double)(getPreferredHeight()-20)/temp.getWidth()),((double)(getPreferredWidth()-20)/temp.getHeight()));
-				}else{
-					image = Const.getScaledBitmapImage((EncodedImage.createEncodedImage(data, 0, data.length)),((double)(getPreferredWidth()-20)/temp.getWidth()),((double)(getPreferredHeight()-20)/temp.getHeight()));
-				}
+				image = (EncodedImage.createEncodedImage(data, 0, data.length)).getBitmap();
 				landscape();
 				invalidate();
 			}
@@ -81,7 +76,22 @@ public final class CompareField extends Field {
 	
 	public void construct() {
 		int font = Const.FONT;
-		image = Const.getLoading();
+		image = Const.getThumbLoading();
+		FileConnection _file = null;
+		InputStream input = null;
+		try {
+			SettingsBean _instance = SettingsBean.getSettings();
+			_file = (FileConnection)Connector.open(Const.getStorage()+Const.PREFIX+_instance.loadingflip);
+			input = _file.openInputStream();
+			byte[] data = new byte[(int) _file.fileSize()];
+			input.read(data);
+			input.close();
+			_file.close();
+			image = (EncodedImage.createEncodedImage(data, 0, data.length)).getBitmap();
+		} catch (Exception e) {}
+		if (file != null) {
+			getData();
+		}
 		landscape();
 		if (file != null) {
 			getData();
@@ -145,20 +155,21 @@ public final class CompareField extends Field {
 	public void landscape() {
 		if ((Const.getPortrait())) {
 			try {
-				image = Const.rotate(image, 270);
+				image = Const.rotate(image, 180);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			
+		}else {
+			try {
+				image = Const.rotate(image, 270);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	public void process(byte[] data, String filename) {
-		Bitmap temp = (EncodedImage.createEncodedImage(data, 0, data.length)).getBitmap();
-		if ((Const.getPortrait())) {
-			image = Const.getScaledBitmapImage((EncodedImage.createEncodedImage(data, 0, data.length)),((double)(getPreferredHeight()-20)/temp.getWidth()),((double)(getPreferredWidth()-20)/temp.getHeight()));
-		}else{
-			image = Const.getScaledBitmapImage((EncodedImage.createEncodedImage(data, 0, data.length)),((double)(getPreferredWidth()-20)/temp.getWidth()),((double)(getPreferredHeight()-20)/temp.getHeight()));
-		}
+		image = (EncodedImage.createEncodedImage(data, 0, data.length)).getBitmap();
 		landscape();
 		invalidate();
 		saveData(data, filename);

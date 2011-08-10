@@ -86,7 +86,7 @@ public class OptionScreen extends AppScreen implements FieldChangeListener
 			screen = new AuctionCreateScreen(card, cardthumb);
 			UiApplication.getUiApplication().pushScreen(screen);
 		} else if (f == compare) {
-			screen = new AlbumListScreen(card.getCategoryId(), 2, card);
+			screen = new AlbumScreen(2, card);
 			UiApplication.getUiApplication().pushScreen(screen);
 		} else if (f == details) {
 			screen = new CardDetailScreen(card);

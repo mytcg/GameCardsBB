@@ -14,7 +14,6 @@ public class CompareScreen extends AppScreen implements FieldChangeListener
 {
 	private FixedButtonField exit = new FixedButtonField(Const.back);
 	private FixedButtonField flips = new FixedButtonField(Const.flip);
-	private FixedButtonField option = new FixedButtonField(Const.options);
 	
 	private CompareField image1 = null;
 	private CompareField image2 = null;
@@ -31,10 +30,10 @@ public class CompareScreen extends AppScreen implements FieldChangeListener
 		exit.setChangeListener(this);
 		flips.setChangeListener(this);
 		
-		image1 = new CompareField(card1.getFronturl());
+		image1 = new CompareField(card1.getFrontFlipurl());
 		image1.setChangeListener(this);
 		
-		image2 = new CompareField(card2.getFronturl());
+		image2 = new CompareField(card2.getFrontFlipurl());
 		image2.setChangeListener(this);
 		
 		if(!(Const.getPortrait())){
@@ -72,12 +71,12 @@ public class CompareScreen extends AppScreen implements FieldChangeListener
 		} else if ((f == flips)) {
 			flip = !flip;
 			if (flip) {
-				image1.setUrl(card1.getBackurl());
-				image2.setUrl(card2.getBackurl());
+				image1.setUrl(card1.getBackFlipurl());
+				image2.setUrl(card2.getBackFlipurl());
 				this.invalidate();
 			} else {
-				image1.setUrl(card1.getFronturl());
-				image2.setUrl(card2.getFronturl());
+				image1.setUrl(card1.getFrontFlipurl());
+				image2.setUrl(card2.getFrontFlipurl());
 				this.invalidate();
 			}
 		}
