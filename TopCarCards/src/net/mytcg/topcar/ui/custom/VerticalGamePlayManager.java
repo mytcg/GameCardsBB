@@ -16,7 +16,6 @@ import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.Font;
 import net.rim.device.api.ui.Graphics;
 import net.rim.device.api.ui.Manager;
-import net.rim.device.api.ui.UiApplication;
 import net.rim.device.api.ui.component.NullField;
 import net.rim.device.api.ui.container.VerticalFieldManager;
 
@@ -209,7 +208,7 @@ public class VerticalGamePlayManager extends VerticalFieldManager
             field = getField(i); //get the field
             if(field instanceof StatField){
             	StatField sField = (StatField)field;
-            	setPositionChild(field, ((getPreferredWidth()-(image.getWidth()))/2)+sField.stat.getLeft()*image.getWidth()/250-5, -5+(((getPreferredHeight())-((image.getHeight())))/2)+sField.stat.getTop()*image.getHeight()/350);  //set the position for the field
+            	setPositionChild(field, ((14)/2)+sField.stat.getLeft()*image.getWidth()/250, (((14)/2))+sField.stat.getTop()*image.getHeight()/350);  //set the position for the field
             	layoutChild( field, sField.stat.getWidth()*image.getWidth()/250, sField.stat.getHeight()*image.getHeight()/350 ); //lay out the field
             } 	
         }
