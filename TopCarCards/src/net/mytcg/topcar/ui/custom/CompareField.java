@@ -123,7 +123,7 @@ public final class CompareField extends Field {
 	}
 	public int getPreferredHeight() {
 		if ((Const.getPortrait())) {
-			return (Const.getHeight()-Const.getButtonCentre().getHeight());
+			return (Const.getHeight()-Const.getButtonCentre().getHeight())/2-5;
 		}else
 		return (Const.getHeight()-Const.getButtonCentre().getHeight());
 	}
