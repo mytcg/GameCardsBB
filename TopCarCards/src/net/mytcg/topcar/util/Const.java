@@ -1,12 +1,8 @@
 package net.mytcg.topcar.util;
 
-import java.io.InputStream;
-import java.io.OutputStream;
-
 import javax.microedition.io.Connector;
 import javax.microedition.io.file.FileConnection;
 
-import net.mytcg.topcar.http.ConnectionGet;
 import net.mytcg.topcar.http.ConnectionHandler;
 import net.mytcg.topcar.ui.GameCardsHome;
 import net.mytcg.topcar.ui.custom.ImageLoader;
