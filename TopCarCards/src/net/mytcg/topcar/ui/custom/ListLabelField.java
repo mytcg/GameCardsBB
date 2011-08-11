@@ -3,6 +3,7 @@ package net.mytcg.topcar.ui.custom;
 import net.mytcg.topcar.util.Const;
 import net.rim.device.api.math.Fixed32;
 import net.rim.device.api.system.Bitmap;
+import net.rim.device.api.ui.DrawStyle;
 import net.rim.device.api.ui.Font;
 import net.rim.device.api.ui.Graphics;
 import net.rim.device.api.ui.component.LabelField;
@@ -85,10 +86,12 @@ public final class ListLabelField extends LabelField {
 		}else{
 			g.setColor(Const.SELECTEDCOLOR);
 		}
-		//int xPts[] = {0,0,getPreferredWidth(),getPreferredWidth()};
-		//int yPts[] = {40,getPreferredHeight()+20,getPreferredHeight()+20,40};
-		//g.drawTexturedPath(xPts,yPts,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,button_centre);
+		
 		super.paint(g);
+		
+		int xPts[] = {1,1,getPreferredWidth(),getPreferredWidth()};
+		int yPts[] = {1,2,2,1};
+		g.drawTexturedPath(xPts,yPts,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,button_centre);
 	}
 	
 	protected void onFocus(int direction) {

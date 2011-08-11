@@ -16,6 +16,7 @@ import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.FieldChangeListener;
 import net.rim.device.api.ui.UiApplication;
 import net.rim.device.api.ui.component.CheckboxField;
+import net.rim.device.api.ui.component.SeparatorField;
 import net.rim.device.api.ui.container.HorizontalFieldManager;
 
 public class DetailScreen extends AppScreen implements FieldChangeListener
@@ -202,9 +203,12 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 	    			val = val.substring(val.indexOf(Const.xml_transaction_end)+Const.xml_transaction_end_length);
 	    			if(transactionid != -1){
 	    				try{
+	    					//ListItemField tmp = new ListItemField(date+": "+desc, -1, false, 0);
 		    				lbltrans = new ListLabelField(date+": "+desc);
 			    			synchronized(UiApplication.getEventLock()) {
+			    				//add(tmp);
 			    				add(lbltrans);
+			    				add(new SeparatorField());
 			    			}
 	    				}catch(Exception e){};
 	    			} else{
@@ -246,6 +250,7 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 	    					lblnote = new ListLabelField(date+": "+desc);
 			    			synchronized(UiApplication.getEventLock()) {
 			    				add(lblnote);
+			    				add(new SeparatorField());
 			    			}
 	    				}catch(Exception e){};
 	    			} 
@@ -285,6 +290,7 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 	    					lblfriend = new FriendField(usr,value,desc);
 			    			synchronized(UiApplication.getEventLock()) {
 			    				add(lblfriend);
+			    				//add(new SeparatorField());
 			    			}
 	    				}catch(Exception e){};
 	    			}

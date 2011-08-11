@@ -494,6 +494,7 @@ public class GamePlayScreen extends AppScreen implements FieldChangeListener
 		        		user = new ColorLabelField(" "+username+": "+usercards+" cards, selecting stat");
 		        		opponent = new ColorLabelField(" "+oppname+": "+oppcards+" cards, waiting");
 		        		if(!(Const.getPortrait())){
+		        			user = new ColorLabelField(" "+username+": "+usercards+" cards, selecting stat, "+oppname+" has "+oppcards+" cards");
 		        			//user = new ColorLabelField(" "+username+": "+usercards+" cards, selecting stat" + "    "+oppname+": "+oppcards+" cards, waiting");
 		        			bgManager.add(user);
 			    			vGameManager.setStatusHeight(options.getContentHeight());
@@ -565,6 +566,7 @@ public class GamePlayScreen extends AppScreen implements FieldChangeListener
 		        		user = new ColorLabelField(" "+username+": "+usercards+" cards, waiting");
 		        		opponent = new ColorLabelField(" "+oppname+": "+oppcards+" cards, selecting stat");
 		        		if(!(Const.getPortrait())){
+		        			user = new ColorLabelField(" "+oppname+": "+oppcards+" cards, selecting stat, You have "+usercards+" cards.");
 		        			bgManager.add(user);
 			    			vGameManager.setStatusHeight(options.getContentHeight());
 			    			vGameManager.setUrl(card1.getBackFlipurl());
@@ -573,7 +575,7 @@ public class GamePlayScreen extends AppScreen implements FieldChangeListener
 			    			oppvgamemanager.setUrl(card2.getBackFlipurl());
 			    			hbgManager.add(oppvgamemanager);
 			    			bgManager.add(hbgManager);
-			    			bgManager.add(opponent);
+			    			//bgManager.add(opponent);
 			    		}else{
 			    			bgManager.add(opponent);
 			    			opphgamemanager = new HorizontalGamePlayManager();
