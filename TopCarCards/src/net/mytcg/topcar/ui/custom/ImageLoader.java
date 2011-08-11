@@ -19,7 +19,6 @@ public final class ImageLoader extends Field {
 	private String file;
 	
 	public ImageLoader(String url) {
-		System.out.println("WTFWTF "+url);
 		this.url = url;
 		if ((url != null)&&(url.length() > 0)){
 			file = url.substring(url.indexOf(Const.cards)+Const.cards_length, url.indexOf(Const.png));
@@ -56,7 +55,6 @@ public final class ImageLoader extends Field {
 			_file = (FileConnection)Connector.open(Const.getStorage()+Const.PREFIX+file);
 			if (!_file.exists()) {
 				_file.close();
-				System.out.println("WEOWEOWEO");
 				doConnect(url);
 			} else {
 				_file.close();
@@ -65,7 +63,6 @@ public final class ImageLoader extends Field {
 	}
 	
 	public void construct() {
-		System.out.println("TTTTTT "+file);
 		if (file != null) {
 			getData();
 		}
@@ -115,7 +112,6 @@ public final class ImageLoader extends Field {
 	}
 	
 	public void process(byte[] data, String filename) {
-		System.out.println("SUPSUPSUP");
 		saveData(data, filename);
 	}
 }

@@ -24,7 +24,6 @@ class ThumbConnection {
 		this.thumb = thumb;
 	}
 	public ThumbConnection(String url, String filename, HorizontalStatManager img) {
-		System.out.println("horizontalStatManager added");
 		this.url = url;
 		this.filename = filename;
 		this.hori = img;

@@ -27,7 +27,6 @@ public class RankingsScreen extends AppScreen implements FieldChangeListener
 		if(!friends){
 			doConnect(Const.leaderboard+categoryId);
 		}else{
-			System.out.println(Const.leaderboard+categoryId+Const.friends);
 			doConnect(Const.leaderboard+categoryId+"&"+Const.friends);
 		}
 		
@@ -39,7 +38,6 @@ public class RankingsScreen extends AppScreen implements FieldChangeListener
 	}
 	
 	public void process(String val) {
-		System.out.println("weo "+val);
 		if (!(isDisplaying())) {
 			int fromIndex;
 	    	if ((fromIndex = val.indexOf(Const.xml_result)) != -1) {

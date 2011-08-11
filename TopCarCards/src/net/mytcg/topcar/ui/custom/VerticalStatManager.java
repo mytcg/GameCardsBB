@@ -48,7 +48,6 @@ public class VerticalStatManager extends VerticalFieldManager
 		//} else {
 		//	return super.getPreferredHeight();
 		//}
-		//System.out.println("FFFFFFFFF "+(Const.getHeight()-Const.getButtonCentre().getHeight()));
 		return Const.getHeight()-Const.getButtonCentre().getHeight();
 	}
 	public int getPreferredWidth() {
@@ -81,12 +80,10 @@ public class VerticalStatManager extends VerticalFieldManager
 		setExtent();
 	}
 	public void setUrl(String url) {
-		System.out.println("url " + url);
 		this.url = url;
 		if ((url != null)&&(url.length() > 0)){
 			file = url.substring(url.indexOf(Const.cards)+Const.cards_length, url.indexOf(Const.png));
 		}
-		System.out.println("construct(); ");
 		construct();
 	}
 	public void construct() {

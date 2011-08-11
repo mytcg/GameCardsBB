@@ -28,7 +28,6 @@ public class DeckCategoryScreen extends AppScreen implements FieldChangeListener
 	}
 	
 	public void process(String val) {
-		System.out.println("wawawa "+val);
 		if (!(isDisplaying())) {
 			int fromIndex;
 	    	if ((fromIndex = val.indexOf(Const.xml_result)) != -1) {

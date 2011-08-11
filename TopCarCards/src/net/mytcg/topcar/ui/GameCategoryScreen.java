@@ -30,7 +30,6 @@ public class GameCategoryScreen extends AppScreen implements FieldChangeListener
 	}
 	
 	public void process(String val) {
-		System.out.println("wawawa "+val);
 		int count = 0;
 		if (!(isDisplaying())) {
 			int fromIndex;

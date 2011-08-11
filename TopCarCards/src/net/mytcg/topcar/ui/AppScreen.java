@@ -218,7 +218,6 @@ public class AppScreen extends MainScreen {
 	}
 	public void doConnect(String url) {
 		setText("Attempting Connection, Please Wait...");
-		System.out.println("URL " + url);
 		ConnectionGet cG = new ConnectionGet(url, this);
 		cG.start();
 	}

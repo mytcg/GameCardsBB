@@ -120,7 +120,6 @@ public class HorizontalStatManager extends HorizontalFieldManager
 	ConnectionGet cG;
 	int timeout = 0;
 	public void doConnect(String url) {
-		System.out.println("doConnect url " + url);
 		if ((url != null)&&(url.length() > 0)) {
 			(Const.getConnection()).addConnect(url, file, this);
 		}
@@ -136,14 +135,12 @@ public class HorizontalStatManager extends HorizontalFieldManager
 		}
 	}
 	public void process(byte[] data, String filename) {
-		System.out.println("process filename " + filename);
 		image = (EncodedImage.createEncodedImage(data, 0, data.length)).getBitmap();
 		landscape();
 		invalidate();
 		saveData(data, filename);
 	}
 	public synchronized void saveData(byte[] data, String filename) {
-		System.out.println("saveData " + filename);
 		FileConnection _file = null;
 		OutputStream output = null;
 		try {

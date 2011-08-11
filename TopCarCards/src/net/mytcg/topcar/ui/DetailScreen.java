@@ -80,7 +80,6 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 	}
 	
 	public void process(String val) {
-		System.out.println("weo "+val);
 		if (!(isDisplaying())) {
 			int fromIndex;
 	    	if ((fromIndex = val.indexOf(Const.xml_result)) != -1) {

@@ -72,8 +72,6 @@ public final class GameCardsHome extends UiApplication {
 			GameCardsHome app = new GameCardsHome();
 			app.enterEventDispatcher();
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			System.out.println(e.toString());
 			e.printStackTrace();
 		}
 	}

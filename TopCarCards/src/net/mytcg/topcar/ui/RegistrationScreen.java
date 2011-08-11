@@ -112,7 +112,7 @@ public class RegistrationScreen extends AppScreen implements FieldChangeListener
 			} else if ((email.getText() == null)||email.getText().length() <= 0) {
 				setText("Email cannot be blank.");
 			} else {
-				String url = Const.registeruser+Const.userfullname+username.getText()+Const.useremail+email.getText()+Const.userpassword+password.getText()+Const.userreferrer+referrer.getText()+Const.height+Const.getCardHeight()+Const.width+Const.getCardWidth();
+				String url = Const.registeruser+Const.userfullname+username.getText()+Const.useremail+email.getText()+Const.userpassword+password.getText()+Const.userreferrer+referrer.getText()+Const.height+Const.getCardHeight()+Const.bbheight+Const.getAppHeight()+Const.width+Const.getCardWidth();
 				url = Const.removeSpaces(url);
 				doConnect(url, false);
 			}

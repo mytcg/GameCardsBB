@@ -24,7 +24,6 @@ public class ShopProductsScreen extends AppScreen implements FieldChangeListener
 	
 	public void process(String val) {
 		SettingsBean _instance = SettingsBean.getSettings();
-		System.out.println(val);
 		if (update) {
 			SettingsBean.saveSettings(_instance);
 		}

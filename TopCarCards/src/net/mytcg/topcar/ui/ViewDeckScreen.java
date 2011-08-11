@@ -45,11 +45,10 @@ public class ViewDeckScreen extends AppScreen implements FieldChangeListener
 		addButton(new FixedButtonField(""));
 		addButton(exit);
 		
-		doConnect(Const.getcardsindeck+Const.deck_id+deckid+Const.height+Const.getCardHeight()+Const.width+Const.getCardWidth());
+		doConnect(Const.getcardsindeck+Const.deck_id+deckid+Const.height+Const.getCardHeight()+Const.bbheight+Const.getAppHeight()+Const.width+Const.getCardWidth());
 	}
 	
 	public void process(String val) {
-		System.out.println("wawawa "+val);
 		SettingsBean _instance = SettingsBean.getSettings();
     	update = _instance.setCards(val, -1);
 		
@@ -276,7 +275,7 @@ public class ViewDeckScreen extends AppScreen implements FieldChangeListener
 			add(addcard);
 			add(deletedeck);
 		}
-		doConnect(Const.getcardsindeck+Const.deck_id+deckid+Const.height+Const.getCardHeight()+Const.width+Const.getCardWidth());
+		doConnect(Const.getcardsindeck+Const.deck_id+deckid+Const.height+Const.getCardHeight()+Const.bbheight+Const.getAppHeight()+Const.width+Const.getCardWidth());
 	}
 	public void fieldChanged(Field f, int i) {
 		if (f == exit) {

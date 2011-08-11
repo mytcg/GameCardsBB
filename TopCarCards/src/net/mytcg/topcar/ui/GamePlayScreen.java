@@ -48,6 +48,19 @@ public class GamePlayScreen extends AppScreen implements FieldChangeListener
 	private Vector stats = new Vector();
 	private Vector oppstats = new Vector();
 	
+	private boolean loaded = false;
+	
+	public synchronized void loaded() {
+		loaded = true;
+	}
+	public synchronized void unload() {
+		loaded = false;
+	}
+	
+	public synchronized boolean load() {
+		return loaded;
+	}
+	
 	public GamePlayScreen(boolean newGame, int categoryId, int newGameType, boolean againstFriend) {
 		super(true,true);
 		this.categoryId = categoryId;
@@ -70,7 +83,7 @@ public class GamePlayScreen extends AppScreen implements FieldChangeListener
 				addButton(friendback);
 			}else{
 				setText("Initialising new game...");
-				doConnect(Const.startnewgame+"&categoryid="+categoryId+"&newgametype="+newGameType+Const.height+Const.getCardHeight()+Const.width+Const.getCardWidth());
+				doConnect(Const.startnewgame+"&categoryid="+categoryId+"&newgametype="+newGameType+Const.height+Const.getCardHeight()+Const.bbheight+Const.getAppHeight()+Const.width+Const.getCardWidth());
 				addButton(new FixedButtonField(""));
 				addButton(new FixedButtonField(""));
 				addButton(options);
@@ -78,7 +91,7 @@ public class GamePlayScreen extends AppScreen implements FieldChangeListener
 		}else{
 			phase = "loadgame";
 			gameid = categoryId;
-			doConnect(Const.loadgame+"&gameid="+gameid+Const.height+Const.getCardHeight()+Const.width+Const.getCardWidth());
+			doConnect(Const.loadgame+"&gameid="+gameid+Const.height+Const.getCardHeight()+Const.bbheight+Const.getAppHeight()+Const.width+Const.getCardWidth());
 			addButton(new FixedButtonField(""));
 			addButton(new FixedButtonField(""));
 			addButton(options);
@@ -86,7 +99,7 @@ public class GamePlayScreen extends AppScreen implements FieldChangeListener
 	}
 	
 	public void process(String val) {
-		//System.out.println("PLEI "+val);
+		invalidate();
 		int fromIndex;
 		if(phase.equals("newgame")){
 			if (((fromIndex = val.indexOf(Const.xml_game)) != -1)) {
@@ -122,7 +135,7 @@ public class GamePlayScreen extends AppScreen implements FieldChangeListener
 		        	}
 		    		setText("Loading game...");
 		    		phase = "loadgame";
-		    		doConnect(Const.loadgame+"&gameid="+gameid+Const.height+Const.getCardHeight()+Const.width+Const.getCardWidth());
+		    		doConnect(Const.loadgame+"&gameid="+gameid+Const.height+Const.getCardHeight()+Const.bbheight+Const.getAppHeight()+Const.width+Const.getCardWidth());
 	    		}
 			}
 		} else if (phase.equals("loadgame")){
@@ -481,18 +494,18 @@ public class GamePlayScreen extends AppScreen implements FieldChangeListener
 		        		user = new ColorLabelField(" "+username+": "+usercards+" cards, selecting stat");
 		        		opponent = new ColorLabelField(" "+oppname+": "+oppcards+" cards, waiting");
 		        		if(!(Const.getPortrait())){
+		        			//user = new ColorLabelField(" "+username+": "+usercards+" cards, selecting stat" + "    "+oppname+": "+oppcards+" cards, waiting");
 		        			bgManager.add(user);
 			    			vGameManager.setStatusHeight(options.getContentHeight());
 			    			vGameManager.setUrl(card1.getBackFlipurl());
-			    			System.out.println("setting vGameManager url");
 			    			hbgManager.add(vGameManager);
 			    			oppvgamemanager = new VerticalGamePlayManager();
 			    			oppvgamemanager.setUrl(gcurlflip);
 			    			hbgManager.add(oppvgamemanager);
 			    			try{
 			    			bgManager.add(hbgManager);
-			    			}catch(Exception e){System.out.println(e.toString());};
-			    			bgManager.add(opponent);
+			    			}catch(Exception e){};
+			    			//bgManager.add(opponent);
 			    		}else{
 			    			bgManager.add(opponent);
 			    			opphgamemanager = new HorizontalGamePlayManager();
@@ -500,7 +513,6 @@ public class GamePlayScreen extends AppScreen implements FieldChangeListener
 			    			bgManager.add(opphgamemanager);
 			    			hGameManager.setStatusHeight(options.getContentHeight());
 			    			hGameManager.setUrl(card1.getBackFlipurl());
-			    			System.out.println("setting hGameManager url");
 			    			bgManager.add(hGameManager);
 			    			bgManager.add(user);
 			    		}
@@ -556,7 +568,6 @@ public class GamePlayScreen extends AppScreen implements FieldChangeListener
 		        			bgManager.add(user);
 			    			vGameManager.setStatusHeight(options.getContentHeight());
 			    			vGameManager.setUrl(card1.getBackFlipurl());
-			    			System.out.println("setting vGameManager url");
 			    			hbgManager.add(vGameManager);
 			    			oppvgamemanager = new VerticalGamePlayManager();
 			    			oppvgamemanager.setUrl(card2.getBackFlipurl());
@@ -570,7 +581,6 @@ public class GamePlayScreen extends AppScreen implements FieldChangeListener
 			    			bgManager.add(opphgamemanager);
 			    			hGameManager.setStatusHeight(options.getContentHeight());
 			    			hGameManager.setUrl(card1.getBackFlipurl());
-			    			System.out.println("setting hGameManager url");
 			    			bgManager.add(hGameManager);
 			    			bgManager.add(user);
 			    			
@@ -612,8 +622,7 @@ public class GamePlayScreen extends AppScreen implements FieldChangeListener
 					//try{
 					//	Thread.sleep(4000);
 					//}catch(Exception e){};
-					System.out.println(Const.continuegame+"&gameid="+gameid+"&lastmove="+lastmove64+Const.height+Const.getCardHeight()+Const.width+Const.getCardWidth());
-		    		doConnect(Const.continuegame+"&gameid="+gameid+"&lastmove="+lastmove64+Const.height+Const.getCardHeight()+Const.width+Const.getCardWidth());
+		    		doConnect(Const.continuegame+"&gameid="+gameid+"&lastmove="+lastmove64+Const.height+Const.getCardHeight()+Const.bbheight+Const.getAppHeight()+Const.width+Const.getCardWidth());
 				} else if(phase.equals("oppmove")){
 					phase = "loadgame";
 					if ((fromIndex = game.indexOf(Const.xml_categorystatid)) != -1) {
@@ -663,13 +672,13 @@ public class GamePlayScreen extends AppScreen implements FieldChangeListener
 							}
 						}
 					}
-					doConnect(Const.loadgame+"&gameid="+gameid+Const.height+Const.getCardHeight()+Const.width+Const.getCardWidth());
+					doConnect(Const.loadgame+"&gameid="+gameid+Const.height+Const.getCardHeight()+Const.bbheight+Const.getAppHeight()+Const.width+Const.getCardWidth());
 				} else if(phase.equals("lfm")){
 					try{
 						Thread.sleep(4000);
 					}catch(Exception e){};
 					phase = "loadgame";
-					doConnect(Const.loadgame+"&gameid="+gameid+Const.height+Const.getCardHeight()+Const.width+Const.getCardWidth());
+					doConnect(Const.loadgame+"&gameid="+gameid+Const.height+Const.getCardHeight()+Const.bbheight+Const.getAppHeight()+Const.width+Const.getCardWidth());
 				}
 				else if(phase.equals("result")){
 					synchronized(UiApplication.getEventLock()) {
@@ -706,10 +715,9 @@ public class GamePlayScreen extends AppScreen implements FieldChangeListener
 		boolean draw = false;
 		for(int h = 0; h < 5;h++){
 			draw = !draw;
-			//synchronized(UiApplication.getEventLock()) {
+			if (!load()) {
 				oppuistats[j].draw(draw);
 				uistats[j].draw(draw);
-				System.out.println("flashing the stat values " + new Date());
 				if(((Stat)stats.elementAt(j)).getVal()>((Stat)oppstats.elementAt(j)).getVal()){
 					if(!(Const.getPortrait())){
 		    			vGameManager.draw(draw,"GREEN");
@@ -735,18 +743,32 @@ public class GamePlayScreen extends AppScreen implements FieldChangeListener
 		    			opphgamemanager.draw(draw,"YELLOW");
 					}
 				}
-				invalidate();
 				if(h != 4){
 					try{
 						Thread.sleep(1000);
 					}catch(Exception e){};
 				}
-			//}
+			}
+			invalidate();
 		}
+		if(!(Const.getPortrait())){
+			vGameManager.draw(false,"YELLOW");
+			oppvgamemanager.draw(false,"YELLOW");
+		}else{
+			hGameManager.draw(false,"YELLOW");
+			opphgamemanager.draw(false,"YELLOW");
+		}
+		oppuistats[j].draw(false);
+		uistats[j].draw(false);
+		invalidate();
+		unload();
+
+		phase = "loadgame";
+		Stat temp = (Stat)stats.elementAt(j);
+		doConnect(Const.selectstat+"&gameid="+gameid+"&statid="+temp.getStatId()+Const.height+Const.getCardHeight()+Const.bbheight+Const.getAppHeight()+Const.width+Const.getCardWidth());
 	}
 	
 	public void fieldChanged(Field f, int i) {
-		System.out.println("FIELD: "+f.toString()+ " i "+i);
 		if (f == con || f == friendback) {
 			screen = null;
 			UiApplication.getUiApplication().popScreen(this);
@@ -798,21 +820,18 @@ public class GamePlayScreen extends AppScreen implements FieldChangeListener
 				try{
 					friend64 = new String(Base64OutputStream.encode(username.getText().getBytes(), 0, username.getText().length(), false, false), "UTF-8");
 				}catch(Exception e){};
-				doConnect(Const.startnewgame+"&categoryid="+categoryId+"&newgametype="+newGameType+"&friend="+friend64+"&height="+Const.height+Const.getCardHeight()+Const.width+Const.getCardWidth());
+				doConnect(Const.startnewgame+"&categoryid="+categoryId+"&newgametype="+newGameType+"&friend="+friend64+"&height="+Const.height+Const.getCardHeight()+Const.bbheight+Const.getAppHeight()+Const.width+Const.getCardWidth());
 			}
 		} else if (f == options){
 			screen = new GameOptionsScreen(gameid);
 			UiApplication.getUiApplication().pushScreen(screen);
 		} else{
-			System.out.println("wawawa active "+ active + " phase "+phase);
-			System.out.println("stats.size() "+ stats.size() + " oppuistats "+oppuistats.length);
 			if(active.equals("1")&&phase.equals("stat")){
 				for(int j = 0; j < stats.size(); j++){
 					Stat temp = (Stat)stats.elementAt(j);
 					if((temp.getFrontOrBack()==0&&!flip)||(temp.getFrontOrBack()==1&&flip)){
 						if(f == uistats[j]){
 							
-							System.out.println("setting the url " + new Date());
 							synchronized(UiApplication.getEventLock()) {
 								if(!(Const.getPortrait())){
 									oppvgamemanager.setUrl(card2.getBackFlipurl());
@@ -831,10 +850,6 @@ public class GamePlayScreen extends AppScreen implements FieldChangeListener
 							};
 							tmp.start();
 							//drawRun(j);
-							
-							System.out.println(Const.selectstat+"&gameid="+gameid+"&statid="+temp.getStatId()+Const.height+Const.getCardHeight()+Const.width+Const.getCardWidth());
-							phase = "loadgame";
-							doConnect(Const.selectstat+"&gameid="+gameid+"&statid="+temp.getStatId()+Const.height+Const.getCardHeight()+Const.width+Const.getCardWidth());
 						}
 					}
 				}

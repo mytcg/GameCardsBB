@@ -103,7 +103,7 @@ public class ShareScreen extends AppScreen implements FieldChangeListener
 					try{
 						bgManager.deleteAll();
 						hManager1.deleteAll();
-					}catch(Exception e){System.out.println(e);};
+					}catch(Exception e){};
 					addButton(confirm);
 					addButton(new FixedButtonField(""));
 					addButton(exit);
@@ -131,7 +131,6 @@ public class ShareScreen extends AppScreen implements FieldChangeListener
 	
 	public void process(String val) {
 		int fromIndex = -1;
-		System.out.println(val);
 		if ((fromIndex = val.indexOf(Const.xml_result)) != -1) {
 			synchronized(UiApplication.getEventLock()) {
 				lblTop.setText(" "+val.substring(fromIndex+Const.xml_result_length, val.indexOf(Const.xml_result_end, fromIndex)));

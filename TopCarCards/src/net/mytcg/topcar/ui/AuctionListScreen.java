@@ -29,7 +29,6 @@ public class AuctionListScreen extends AppScreen implements FieldChangeListener
 	
 	public void process(String val) {
 		SettingsBean _instance = SettingsBean.getSettings();
-		System.out.println(val);
 		if (update) {
 			SettingsBean.saveSettings(_instance);
 		}
@@ -193,18 +192,17 @@ public class AuctionListScreen extends AppScreen implements FieldChangeListener
 		addButton(new FixedButtonField(""));
 		addButton(new FixedButtonField(""));
 		addButton(exit);
-		System.out.println("AAA "+Const.categoryauction+"&category_id="+id+Const.height+Const.getCardHeight());
 		if(type == 0){
-			doConnect(Const.categoryauction+"&category_id="+id+Const.height+Const.getCardHeight()+Const.width+Const.getCardWidth());
+			doConnect(Const.categoryauction+"&category_id="+id+Const.height+Const.getCardHeight()+Const.bbheight+Const.getAppHeight()+Const.width+Const.getCardWidth());
 		}else{
-			doConnect(Const.userauction+"&username="+SettingsBean.getSettings().getUsername()+Const.height+Const.getCardHeight()+Const.width+Const.getCardWidth());
+			doConnect(Const.userauction+"&username="+SettingsBean.getSettings().getUsername()+Const.height+Const.getCardHeight()+Const.bbheight+Const.getAppHeight()+Const.width+Const.getCardWidth());
 		}
 	}
 	
 	protected void onExposed() {
 		if (!isVisible()) {
 			if(type == 0){
-				doConnect(Const.categoryauction+"&category_id="+id+Const.height+Const.getCardHeight()+Const.width+Const.getCardWidth());
+				doConnect(Const.categoryauction+"&category_id="+id+Const.height+Const.getCardHeight()+Const.bbheight+Const.getAppHeight()+Const.width+Const.getCardWidth());
 			}
 		}
 	}

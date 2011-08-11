@@ -60,11 +60,9 @@ public class ImageScreen extends AppScreen implements FieldChangeListener
 		if(!(Const.getPortrait())){
 			hStatManager.setStatusHeight(exit.getContentHeight());
 			hStatManager.setUrl(card.getFronturl());
-			System.out.println("setting hStatManager url");
 		}else{
 			vStatManager.setStatusHeight(exit.getContentHeight());
 			vStatManager.setUrl(card.getFronturl());
-			System.out.println("setting vStatManager url");
 		}
 		
 		cardStats = card.getStats();
@@ -112,7 +110,6 @@ public class ImageScreen extends AppScreen implements FieldChangeListener
 	}
 	
 	public void fieldChanged(Field f, int i) {
-		System.out.println("FIELD: "+f.toString()+ " i "+i);
 		if (f == exit) {
 			if (confirm) {
 				doConnect(Const.savecard+card.getId());

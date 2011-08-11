@@ -42,7 +42,6 @@ public class InviteFriendScreen extends AppScreen implements FieldChangeListener
 	}
 	
 	public void process(String val) {
-		System.out.println("weo "+val);
 		int fromIndex;
 	    if ((fromIndex = val.indexOf(Const.xml_result)) != -1) {
 	    	synchronized(UiApplication.getEventLock()) {

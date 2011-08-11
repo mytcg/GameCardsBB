@@ -101,12 +101,10 @@ public class VerticalGamePlayManager extends VerticalFieldManager
 		setExtent();
 	}
 	public void setUrl(String url) {
-		System.out.println("url " + url);
 		this.url = url;
 		if ((url != null)&&(url.length() > 0)){
 			file = url.substring(url.indexOf(Const.cards)+Const.cards_length, url.indexOf(Const.png));
 		}
-		System.out.println("construct(); ");
 		construct();
 	}
 	public void construct() {
@@ -116,7 +114,6 @@ public class VerticalGamePlayManager extends VerticalFieldManager
 		FileConnection _file = null;
 		InputStream input = null;
 		try {
-			System.out.println("starting loading thumb");
 			SettingsBean _instance = SettingsBean.getSettings();
 			_file = (FileConnection)Connector.open(Const.getStorage()+Const.PREFIX+_instance.loadingflip);
 			input = _file.openInputStream();
@@ -127,7 +124,6 @@ public class VerticalGamePlayManager extends VerticalFieldManager
 			image = (EncodedImage.createEncodedImage(data, 0, data.length)).getBitmap();
 			landscape();
 			invalidate();
-			System.out.println("setting the card to loading...");
 		} catch (Exception e) {}
 		if (file != null) {
 			getData();

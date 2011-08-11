@@ -22,7 +22,6 @@ public class Card implements Persistable {
 	private Vector stats = new Vector();
 	
 	public Card(int id, String description, int quantity, String thumburl, String fronturl, String backurl, String note, int updated, Vector stats, int rating, String quality, String value) {
-		System.out.println("value " + value);
 		setId(id);
 		setDesc(description);
 		setQuantity(quantity);

@@ -35,11 +35,6 @@ public class MenuScreen extends AppScreen implements FieldChangeListener
 			exit.setLabel(Const.exit);
 		}
 		
-		System.out.println("height " + Const.getHeight());
-		System.out.println("width " + Const.getWidth());
-		System.out.println("getCardHeight " + Const.getCardHeight());
-		System.out.println("getCardWidht " + Const.getCardWidth());
-		
 		albums = new ListItemField(Const.albums, Const.ALBUMS, false, 0);
 		play = new ListItemField(Const.play, Const.PLAY, false, 0);
 		decks = new ListItemField(Const.decks, Const.DECKS, false, 0);

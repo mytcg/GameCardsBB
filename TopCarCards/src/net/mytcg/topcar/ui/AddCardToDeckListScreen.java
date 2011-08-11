@@ -39,12 +39,10 @@ public class AddCardToDeckListScreen extends AppScreen implements FieldChangeLis
 		addButton(new FixedButtonField(""));
 		addButton(new FixedButtonField(""));
 		addButton(exit);
-		System.out.println(Const.cardsincategorynotdeck+categoryid+Const.deck_id+deckid+Const.height+Const.getCardHeight());
-		doConnect(Const.cardsincategorynotdeck+categoryid+Const.deck_id+deckid+Const.height+Const.getCardHeight()+Const.width+Const.getCardWidth());
+		doConnect(Const.cardsincategorynotdeck+categoryid+Const.deck_id+deckid+Const.height+Const.getCardHeight()+Const.width+Const.getCardWidth()+Const.bbheight+Const.getAppHeight());
 	}
 	
 	public void process(String val) {
-		System.out.println("wawawa "+val);
 		SettingsBean _instance = SettingsBean.getSettings();
     	update = _instance.setCards(val, -1);
 		
@@ -233,7 +231,6 @@ public class AddCardToDeckListScreen extends AppScreen implements FieldChangeLis
     					card = card.substring(card.indexOf(Const.xml_stat_end)+Const.xml_stat_end_length);
     				}
     			}
-    			System.out.println("...");
     			Card cardobject = new Card(cardid, description, quantity, thumburl, fronturl, backurl, note, updated, stats, rating, quality, value);
     			_instance.setImages(cardid, cardobject);
 
@@ -271,7 +268,6 @@ public class AddCardToDeckListScreen extends AppScreen implements FieldChangeLis
 			synchronized(UiApplication.getEventLock()) {
     			label.setText("Adding card to deck...");
     		}
-			System.out.println(Const.addtodeck+Const.deck_id+deckid+Const.card_id+card.getId());
 			doConnect(Const.addtodeck+Const.deck_id+deckid+Const.card_id+card.getId());
 		}
 	}

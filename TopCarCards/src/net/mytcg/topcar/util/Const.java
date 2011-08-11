@@ -249,9 +249,16 @@ public final class Const {
 	}
 	public static final int getCardHeight() {
 		if (Const.PORTRAIT) {
-			return ((Const.getHeight()-getButtonCentre().getHeight())-Const.PADDING);
+			return ((Const.getHeight()-getButtonCentre().getHeight()));
 		} else {
-			return (int)((((double)((Const.getHeight()-getButtonCentre().getHeight())-Const.PADDING))*ratio));
+			return Const.getHeight();
+		}
+	}
+	public static final int getAppHeight() {
+		if (Const.PORTRAIT) {
+			return ((Const.getHeight()-getButtonCentre().getHeight()));
+		} else {
+			return (int)((((double)((Const.getHeight()-getButtonCentre().getHeight())))*ratio));
 		}
 	}
 	public static final int getCardWidth() {
@@ -450,7 +457,7 @@ public final class Const {
 	public static String http = "http";
 	public static String err_url_htt = "URL not http or https";
 	
-	public static String url = "http://www.mytcg.net/_phone/topcar/?";
+	public static String url = "http://dev.mytcg.net/_phone/topcar/?";
 	public static String userdetails = "userdetails=1";
 	public static String profiledetails = "profiledetails=1";
 	public static String creditlog = "creditlog=1";
@@ -521,6 +528,7 @@ public final class Const {
 	public static String description = "&description=";
 	public static String category_id = "&category_id=";
 	public static String height = "&height=";
+	public static String bbheight = "&bbheight=";
 	public static String width = "&width=";
 	public static String freebie = "&freebie=";
 	public static String subcategories = "usersubcategories=1&category=";
