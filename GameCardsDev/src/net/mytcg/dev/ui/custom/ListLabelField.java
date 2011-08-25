@@ -3,6 +3,7 @@ package net.mytcg.dev.ui.custom;
 import net.mytcg.dev.util.Const;
 import net.rim.device.api.math.Fixed32;
 import net.rim.device.api.system.Bitmap;
+import net.rim.device.api.ui.DrawStyle;
 import net.rim.device.api.ui.Font;
 import net.rim.device.api.ui.Graphics;
 import net.rim.device.api.ui.component.LabelField;
@@ -15,9 +16,11 @@ public final class ListLabelField extends LabelField {
 	private int _backColor;
 	private int _width;
 	private Bitmap button_centre;
+	private boolean focus = false;
 
 	public ListLabelField(String text) {
 		super(text);
+		super.setPadding(5, 5, 5, 5);
 		construct(Const.FONT, 0, Font.PLAIN, Const.FONTCOLOR, Const.BACKCOLOR, Const.SELECTEDCOLOR);
 	}
 	
@@ -74,22 +77,31 @@ public final class ListLabelField extends LabelField {
 		return _width == 0 ? super.getPreferredWidth() : _width;
 	}
 	public int getPreferredHeight() {
-		return Const.getButtonHeight()+40;
+		return this.getContentHeight();
 	}
 	
 	public void paint(Graphics g) {
+		if(!focus){
+			g.setColor(Const.FONTCOLOR);
+		}else{
+			g.setColor(Const.SELECTEDCOLOR);
+		}
+		
 		super.paint(g);
-		int xPts[] = {0,0,getPreferredWidth(),getPreferredWidth()};
-		int yPts[] = {0,getPreferredHeight(),getPreferredHeight(),0};
+		
+		int xPts[] = {1,1,getPreferredWidth(),getPreferredWidth()};
+		int yPts[] = {1,2,2,1};
 		g.drawTexturedPath(xPts,yPts,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,button_centre);
 	}
 	
 	protected void onFocus(int direction) {
 		_currentColor = _changeColor;
+		focus = true;
 		invalidate();
 	}
 	protected void onUnfocus() {
 		_currentColor = _backColor;
+		focus = false;
 		invalidate();
 	}
 	protected void drawFocus(Graphics graphics, boolean on) {

@@ -2,6 +2,7 @@ package net.mytcg.sport.ui;
 
 import net.mytcg.sport.ui.custom.ColorLabelField;
 import net.mytcg.sport.ui.custom.FixedButtonField;
+import net.mytcg.sport.ui.custom.NonEditableField;
 import net.mytcg.sport.util.Const;
 import net.mytcg.sport.util.SettingsBean;
 import net.rim.device.api.ui.Field;

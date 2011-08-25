@@ -23,11 +23,11 @@ public class OptionScreen extends AppScreen implements FieldChangeListener
 		
 	}
 	
-	private ListItemField notes = new ListItemField("Add Notes", 1, false, 0);
-	private ListItemField share = new ListItemField("Share Card", 2, false, 0);
-	private ListItemField auction = new ListItemField("Auction Card", 3, false, 0);
-	private ListItemField compare = new ListItemField("Compare With", 4, false, 0);
-	private ListItemField details = new ListItemField("Card Details", 5, false, 0);
+	private ListItemField notes = new ListItemField("Notes", 1, false, 0);
+	private ListItemField share = new ListItemField("Share", 2, false, 0);
+	private ListItemField auction = new ListItemField("Auction", 3, false, 0);
+	private ListItemField compare = new ListItemField("Compare", 4, false, 0);
+	private ListItemField details = new ListItemField("Details", 5, false, 0);
 	//private ListItemField deck = new ListItemField("Add to Deck", 6, false, 0);
 	//private ListItemField contact = new ListItemField("Contact", 5, false, 0);
 	private ListItemField delete = new ListItemField("Delete Card", 7, false, 0);
@@ -41,9 +41,9 @@ public class OptionScreen extends AppScreen implements FieldChangeListener
 		bgManager.setStatusHeight(exit.getContentHeight());
 		exit.setChangeListener(this);
 		
+		addButton(new FixedButtonField(""));
+		addButton(new FixedButtonField(""));
 		addButton(exit);
-		addButton(new FixedButtonField(""));
-		addButton(new FixedButtonField(""));
 		
 		notes.setChangeListener(this);
 		share.setChangeListener(this);
@@ -61,11 +61,14 @@ public class OptionScreen extends AppScreen implements FieldChangeListener
 		add(details);
 		//add(deck);
 		//add(contact);
-		add(delete);
+		//add(delete);
 		
 	}
 	protected void onExposed() {
 		if(SettingsBean.getSettings().created){
+			UiApplication.getUiApplication().popScreen(this);
+		}
+		if(SettingsBean.getSettings().shared){
 			UiApplication.getUiApplication().popScreen(this);
 		}
 	}
@@ -83,7 +86,7 @@ public class OptionScreen extends AppScreen implements FieldChangeListener
 			screen = new AuctionCreateScreen(card, cardthumb);
 			UiApplication.getUiApplication().pushScreen(screen);
 		} else if (f == compare) {
-			screen = new AlbumListScreen(card.getCategoryId(), 2, card);
+			screen = new AlbumScreen(2, card);
 			UiApplication.getUiApplication().pushScreen(screen);
 		} else if (f == details) {
 			screen = new CardDetailScreen(card);

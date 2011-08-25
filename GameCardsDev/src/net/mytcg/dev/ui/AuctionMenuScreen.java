@@ -11,8 +11,6 @@ public class AuctionMenuScreen extends AppScreen implements FieldChangeListener
 {
 	FixedButtonField exit = new FixedButtonField(Const.back);
 	
-	//ListItemField all_auctions = new ListItemField("Empty", -1, false, 0);
-	ListItemField my_auctions = new ListItemField("Empty", -1, false, 0);
 	ListItemField createauction = new ListItemField("Empty", -1, false, 0);
 	ListItemField tmp = new ListItemField("Empty", -1, false, 0);
 
@@ -21,21 +19,15 @@ public class AuctionMenuScreen extends AppScreen implements FieldChangeListener
 		super(null);
 		bgManager.setStatusHeight(exit.getContentHeight());
 		
-		//all_auctions = new ListItemField(Const.all_auctions, 0, false, 0);
-		my_auctions = new ListItemField(Const.my_auctions, 0, false, 0);
 		createauction = new ListItemField(Const.create_auction, 0, false, 0);
 		
 		exit.setChangeListener(this); 
-		//all_auctions.setChangeListener(this);
-		my_auctions.setChangeListener(this);
 		createauction.setChangeListener(this);
-		
-		//add(all_auctions);
-		add(my_auctions);
+
 		add(createauction);
+		addButton(new FixedButtonField(""));
+		addButton(new FixedButtonField(""));
 		addButton(exit);
-		addButton(new FixedButtonField(""));
-		addButton(new FixedButtonField(""));
 		
 		doConnect(Const.auctioncategories);
 	}
@@ -83,13 +75,6 @@ public class AuctionMenuScreen extends AppScreen implements FieldChangeListener
 		if (f == exit) {
 			screen = null;
 			UiApplication.getUiApplication().popScreen(this);
-		}/* else if(f == all_auctions){
-			screen = new AuctionCategoriesScreen();
-			UiApplication.getUiApplication().pushScreen(screen);
-		}*/ else if(f == my_auctions){
-			int category = ((ListItemField)(f)).getId();
-			screen = new AuctionListScreen(category,1);
-			UiApplication.getUiApplication().pushScreen(screen);
 		} else if(f == createauction){
 			screen = new AlbumScreen(1);
 			UiApplication.getUiApplication().pushScreen(screen);
@@ -97,6 +82,9 @@ public class AuctionMenuScreen extends AppScreen implements FieldChangeListener
 			int category = ((ListItemField)(f)).getId();
 			if(category > -1){
 				screen = new AuctionListScreen(category,0);
+				UiApplication.getUiApplication().pushScreen(screen);
+			} else if (category == -2) {
+				screen = new AuctionListScreen(category,1);
 				UiApplication.getUiApplication().pushScreen(screen);
 			}
 		}

@@ -1,8 +1,12 @@
 package net.mytcg.dev.util;
 
-import java.util.Enumeration;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Hashtable;
+import java.util.TimeZone;
 
+import net.rim.device.api.i18n.SimpleDateFormat;
+import net.rim.device.api.io.http.HttpDateParser;
 import net.rim.device.api.system.PersistentObject;
 import net.rim.device.api.system.PersistentStore;
 import net.rim.device.api.util.Persistable;
@@ -10,7 +14,7 @@ import net.rim.device.api.util.Persistable;
 public final class SettingsBean implements Persistable {
 	private static SettingsBean _instance;
 	
-	private static final long GUID = 0x658b459c6e127645L;
+	private static final long GUID = 0x8802af5a5d602a5eL;
 	
 	
 	//the users username for the server
@@ -35,9 +39,15 @@ public final class SettingsBean implements Persistable {
 	private Hashtable images;
 	
 	public boolean created = false;
+	public boolean shared = false;
 	public boolean added = false;
 	public boolean deleted = false;
 	public boolean leavegame = false;
+	public boolean notifications = false;
+	
+	public boolean loadingimage = false;
+	public String loading;
+	public String loadingflip;
 	
 	//saves precache xml data
 	private String all;
@@ -52,12 +62,26 @@ public final class SettingsBean implements Persistable {
 	}
 	
 	private int lastloaded = 0;
+	private int noteloaded = 0;
 	
 	public void lastloaded() {
 		lastloaded=(int)((System.currentTimeMillis())/1000);
 	}
 	public int getLoaded() {
 		return lastloaded;
+	}
+	
+	public void noteloaded() {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Calendar calender = Calendar.getInstance();
+		Date date = new Date(HttpDateParser.parse(dateFormat.format(calender.getTime())));
+		System.out.println("noteloaded "+date);
+		System.out.println("noteloaded "+date.getTime()/1000);
+		
+		noteloaded=(int)(date.getTime()/1000);
+	}
+	public int getNoteLoaded() {
+		return noteloaded;
 	}
 	
 	public static SettingsBean getSettings() {

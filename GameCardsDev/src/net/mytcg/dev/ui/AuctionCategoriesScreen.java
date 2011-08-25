@@ -79,9 +79,9 @@ public class AuctionCategoriesScreen extends AppScreen implements FieldChangeLis
 		
 		exit.setChangeListener(this);
 		
+		addButton(new FixedButtonField(""));
+		addButton(new FixedButtonField(""));
 		addButton(exit);
-		addButton(new FixedButtonField(""));
-		addButton(new FixedButtonField(""));
 		process(SettingsBean.getSettings().getUsercategories());
 		
 		doConnect(Const.auctioncategories);

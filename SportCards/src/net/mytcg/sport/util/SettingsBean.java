@@ -1,8 +1,12 @@
 package net.mytcg.sport.util;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
+import net.rim.device.api.i18n.SimpleDateFormat;
+import net.rim.device.api.io.http.HttpDateParser;
 import net.rim.device.api.system.Bitmap;
 import net.rim.device.api.system.PersistentObject;
 import net.rim.device.api.system.PersistentStore;
@@ -40,6 +44,7 @@ public final class SettingsBean implements Persistable {
 	public boolean added = false;
 	public boolean deleted = false;
 	public boolean leavegame = false;
+	public boolean notifications = false;
 	
 	public boolean loadingimage = false;
 	public String loading;
@@ -58,12 +63,26 @@ public final class SettingsBean implements Persistable {
 	}
 	
 	private int lastloaded = 0;
+	private int noteloaded = 0;
 	
 	public void lastloaded() {
 		lastloaded=(int)((System.currentTimeMillis())/1000);
 	}
 	public int getLoaded() {
 		return lastloaded;
+	}
+	
+	public void noteloaded() {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Calendar calender = Calendar.getInstance();
+		Date date = new Date(HttpDateParser.parse(dateFormat.format(calender.getTime())));
+		System.out.println("noteloaded "+date);
+		System.out.println("noteloaded "+date.getTime()/1000);
+		
+		noteloaded=(int)(date.getTime()/1000);
+	}
+	public int getNoteLoaded() {
+		return noteloaded;
 	}
 	
 	public static SettingsBean getSettings() {

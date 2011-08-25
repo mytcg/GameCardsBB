@@ -9,6 +9,8 @@ public class Card implements Persistable {
 	private int gameplayercardid = -1;
 	private String description = "";
 	private int quantity = -1;
+	private int rating = -1;
+	private String quality = "";
 	private String thumburl = "";
 	private String fronturl = "";
 	private String backurl = "";
@@ -16,9 +18,10 @@ public class Card implements Persistable {
 	private String backflipurl = "";
 	private String note = "";
 	private int updated = 0;
+	private String value = "";
 	private Vector stats = new Vector();
 	
-	public Card(int id, String description, int quantity, String thumburl, String fronturl, String backurl, String note, int updated, Vector stats) {
+	public Card(int id, String description, int quantity, String thumburl, String fronturl, String backurl, String note, int updated, Vector stats, int rating, String quality, String value) {
 		setId(id);
 		setDesc(description);
 		setQuantity(quantity);
@@ -28,6 +31,9 @@ public class Card implements Persistable {
 		setNote(note);
 		setUpdated(updated);
 		setStats(stats);
+		setRating(rating);
+		setQuality(quality);
+		setValue(value);
 	}
 	
 	public boolean equals(Card compare) {
@@ -38,18 +44,23 @@ public class Card implements Persistable {
 						if (this.fronturl.equals(compare.fronturl)) {
 							if (this.backurl.equals(compare.backurl)){
 								if (this.note.equals(compare.note)) {
-									if (this.updated == compare.updated){
-										if ((this.stats.size() == compare.stats.size())&&this.stats.size() > 0) {
-											boolean cmp = false;
-											for (int i = 0; i < this.stats.size(); i++) {
-												if (((Stat)(this.stats.elementAt(i))).equals((Stat)(compare.stats.elementAt(i)))) {
-													cmp = true;
+									if (this.rating ==(compare.rating)) {
+										if (this.quality.equals(compare.quality)) {
+											if (this.value.equals(compare.value)) {
+												if (this.updated == compare.updated){
+													if ((this.stats.size() == compare.stats.size())&&this.stats.size() > 0) {
+														boolean cmp = false;
+														for (int i = 0; i < this.stats.size(); i++) {
+															if (((Stat)(this.stats.elementAt(i))).equals((Stat)(compare.stats.elementAt(i)))) {
+																cmp = true;
+															}
+														}
+														return !cmp;
+													}
 												}
 											}
-											return !cmp;
 										}
 									}
-									
 								}
 							}
 						}
@@ -72,6 +83,9 @@ public class Card implements Persistable {
 	public int statsCount() {
 		return stats.size();
 	}
+	public void setValue(String value) {
+		this.value = value;
+	}
 	
 	
 	public void setId(int id) {
@@ -88,6 +102,12 @@ public class Card implements Persistable {
 	}
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
+	}
+	public void setQuality(String quality) {
+		this.quality = quality;
+	}
+	public void setRating(int rating) {
+		this.rating = rating;
 	}
 	public void setThumburl(String url) {
 		thumburl = url;
@@ -111,6 +131,9 @@ public class Card implements Persistable {
 		this.updated = updated;
 	}
 	
+	public String getValue() {
+		return value;
+	}
 	public int getId() {
 		return id;
 	}
@@ -125,6 +148,12 @@ public class Card implements Persistable {
 	}
 	public int getQuantity() {
 		return quantity;
+	}
+	public int getRating() {
+		return rating;
+	}
+	public String getQuality() {
+		return quality;
 	}
 	public String getThumburl() {
 		return thumburl;

@@ -1,12 +1,16 @@
 package net.mytcg.dev.ui;
 
-import net.mytcg.dev.ui.custom.FixedButtonField;
+import net.mytcg.dev.ui.custom.ColorLabelField;
 import net.mytcg.dev.ui.custom.CompareField;
+import net.mytcg.dev.ui.custom.FixedButtonField;
 import net.mytcg.dev.util.Card;
 import net.mytcg.dev.util.Const;
 import net.mytcg.dev.util.SettingsBean;
+import net.rim.device.api.math.Fixed32;
+import net.rim.device.api.system.Bitmap;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.FieldChangeListener;
+import net.rim.device.api.ui.Graphics;
 import net.rim.device.api.ui.UiApplication;
 
 
@@ -14,13 +18,21 @@ public class CompareScreen extends AppScreen implements FieldChangeListener
 {
 	private FixedButtonField exit = new FixedButtonField(Const.back);
 	private FixedButtonField flips = new FixedButtonField(Const.flip);
-	private FixedButtonField option = new FixedButtonField(Const.options);
 	
 	private CompareField image1 = null;
 	private CompareField image2 = null;
 	private boolean flip = false;
 	private Card card1 = null;
 	private Card card2 = null;
+	
+	Bitmap img = Const.getBackground();
+	public void paint(Graphics g)
+	{
+		int xPts[] = {0,0,getPreferredWidth(),getPreferredWidth()};
+		int yPts[] = {0,getPreferredHeight(),getPreferredHeight(),0};
+		g.drawTexturedPath(xPts,yPts,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,img);
+		super.paint(g);
+	}
 	
 	public CompareScreen(Card card1, Card card2) {
 		super(true);
@@ -31,10 +43,12 @@ public class CompareScreen extends AppScreen implements FieldChangeListener
 		exit.setChangeListener(this);
 		flips.setChangeListener(this);
 		
-		image1 = new CompareField(card1.getFronturl());
+		add(new ColorLabelField(""));
+		
+		image1 = new CompareField(card1.getFrontFlipurl());
 		image1.setChangeListener(this);
 		
-		image2 = new CompareField(card2.getFronturl());
+		image2 = new CompareField(card2.getFrontFlipurl());
 		image2.setChangeListener(this);
 		
 		if(!(Const.getPortrait())){
@@ -46,9 +60,9 @@ public class CompareScreen extends AppScreen implements FieldChangeListener
 		}
 		
 		
-		addButton(exit);
-		addButton(new FixedButtonField(""));
 		addButton(flips);
+		addButton(new FixedButtonField(""));
+		addButton(exit);
 	}
 	
 	public void process(String val) {
@@ -65,19 +79,18 @@ public class CompareScreen extends AppScreen implements FieldChangeListener
 	}
 	
 	public void fieldChanged(Field f, int i) {
-		System.out.println("FIELD: "+f.toString()+ " i "+i);
 		if (f == exit) {
 			screen = null;
 			UiApplication.getUiApplication().popScreen(this);
 		} else if ((f == flips)) {
 			flip = !flip;
 			if (flip) {
-				image1.setUrl(card1.getBackurl());
-				image2.setUrl(card2.getBackurl());
+				image1.setUrl(card1.getBackFlipurl());
+				image2.setUrl(card2.getBackFlipurl());
 				this.invalidate();
 			} else {
-				image1.setUrl(card1.getFronturl());
-				image2.setUrl(card2.getFronturl());
+				image1.setUrl(card1.getFrontFlipurl());
+				image2.setUrl(card2.getFrontFlipurl());
 				this.invalidate();
 			}
 		}

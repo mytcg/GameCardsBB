@@ -35,9 +35,9 @@ public class BidOrBuyScreen extends AppScreen implements FieldChangeListener
 		add(placebid);
 		add(buynow);
 		
+		addButton(new FixedButtonField(""));
+		addButton(new FixedButtonField(""));
 		addButton(exit);
-		addButton(new FixedButtonField(""));
-		addButton(new FixedButtonField(""));
 	}
 	public boolean onClose() {
 		screen = null;
@@ -55,10 +55,10 @@ public class BidOrBuyScreen extends AppScreen implements FieldChangeListener
 			screen = null;
 			UiApplication.getUiApplication().popScreen(this);
 		} else if(f == placebid){
-			screen = new PlaceBidScreen(this, auction);
+			//screen = new PlaceBidScreen(this, auction);
 			UiApplication.getUiApplication().pushScreen(screen);
 		} else if(f == buynow){
-			screen = new BuyNowScreen(this, auction);
+			//screen = new BuyNowScreen(this, auction);
 			UiApplication.getUiApplication().pushScreen(screen);
 		} 
 	}

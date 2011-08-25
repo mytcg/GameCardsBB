@@ -35,9 +35,10 @@ public class ShareMenuScreen extends AppScreen implements FieldChangeListener
 		
 		add(sendauction);
 		add(sendfriend);
+		
+		addButton(new FixedButtonField(""));
+		addButton(new FixedButtonField(""));
 		addButton(exit);
-		addButton(new FixedButtonField(""));
-		addButton(new FixedButtonField(""));
 	}
 	protected void onExposed() {
 		if(SettingsBean.getSettings().created){

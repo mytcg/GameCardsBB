@@ -3,6 +3,7 @@ package net.mytcg.dev.ui;
 import net.mytcg.dev.ui.custom.ColorLabelField;
 import net.mytcg.dev.ui.custom.FixedButtonField;
 import net.mytcg.dev.ui.custom.SexyEditField;
+import net.mytcg.dev.ui.custom.ThumbnailField;
 import net.mytcg.dev.util.Card;
 import net.mytcg.dev.util.Const;
 import net.mytcg.dev.util.SettingsBean;
@@ -16,12 +17,13 @@ public class NoteScreen extends AppScreen implements FieldChangeListener
 {
 	FixedButtonField exit = new FixedButtonField(Const.back);
 	FixedButtonField save = new FixedButtonField(Const.save);
-	SexyEditField note = new SexyEditField(Const.getWidth(),Const.getUsableHeight());
+	SexyEditField note = new SexyEditField(Const.getWidth(),Const.getUsableHeight()-90);
 	Card card = null;
 	
 	public NoteScreen(Card card, AppScreen screen)
 	{
 		super(screen);
+		add(new ThumbnailField(card));
 		add(new ColorLabelField(Const.notes));
 		this.card = card;
 		if (card.getNote().length() >= 0) {
@@ -40,9 +42,9 @@ public class NoteScreen extends AppScreen implements FieldChangeListener
 		exit.setChangeListener(this);
 		save.setChangeListener(this);
 		
-		addButton(exit);
-		addButton(new FixedButtonField(""));
 		addButton(save);
+		addButton(new FixedButtonField(""));
+		addButton(exit);
 	}
 	
 	public void fieldChanged(Field f, int i) {

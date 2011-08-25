@@ -22,6 +22,10 @@ public final class ColorLabelField extends LabelField {
 		super(text, style);
 		construct(Const.FONT, 0, Font.PLAIN, Const.FONTCOLOR, Const.BACKCOLOR, Const.BACKCOLOR);
 	}
+	public ColorLabelField(String text, int color) {
+		super(text);
+		construct(Const.FONT, 0, Font.PLAIN, color, color, color);
+	}
 	public ColorLabelField(String text, long style, int font) {
 		super(text, style);
 		construct(font, 0, Font.PLAIN, Const.FONTCOLOR, Const.BACKCOLOR, Const.BACKCOLOR);
@@ -69,10 +73,15 @@ public final class ColorLabelField extends LabelField {
 		return super.getPreferredHeight()+5;
 	}
 	
+	public void setColor(int color) {
+		_normalColor = color;
+	}
+	
 	public void paint(Graphics g) {
 		//g.setColor(_currentColor);
 		//g.fillRect(-1, -1, getPreferredWidth()+2, getPreferredHeight()+2);
 		//g.setColor(_normalColor);
+		g.setColor(_normalColor);
 		super.paint(g);
 	}
 	

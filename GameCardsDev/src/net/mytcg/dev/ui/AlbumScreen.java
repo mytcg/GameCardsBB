@@ -2,6 +2,7 @@ package net.mytcg.dev.ui;
 
 import net.mytcg.dev.ui.custom.FixedButtonField;
 import net.mytcg.dev.ui.custom.ListItemField;
+import net.mytcg.dev.util.Card;
 import net.mytcg.dev.util.Const;
 import net.mytcg.dev.util.SettingsBean;
 import net.rim.device.api.ui.Field;
@@ -18,6 +19,7 @@ public class AlbumScreen extends AppScreen implements FieldChangeListener
 	int type = 0;
 	boolean update = true;
 	int deckid = -1;
+	Card card = null;
 	
 	public void process(String val) {
 		SettingsBean _instance = SettingsBean.getSettings();
@@ -95,11 +97,24 @@ public class AlbumScreen extends AppScreen implements FieldChangeListener
 		
 		exit.setChangeListener(this);
 		
+		addButton(new FixedButtonField(""));
+		addButton(new FixedButtonField(""));
 		addButton(exit);
-		addButton(new FixedButtonField(""));
-		addButton(new FixedButtonField(""));
 		process(SettingsBean.getSettings().getUsercategories());
+		doConnect(Const.usercategories+Const.second+SettingsBean.getSettings().getLoaded());
+	}
+	public AlbumScreen(int type, Card card) {
+		super(null);
+		this.type = type;
+		this.card = card;
+		bgManager.setStatusHeight(exit.getContentHeight());
 		
+		exit.setChangeListener(this);
+		
+		addButton(new FixedButtonField(""));
+		addButton(new FixedButtonField(""));
+		addButton(exit);
+		process(SettingsBean.getSettings().getUsercategories());
 		doConnect(Const.usercategories+Const.second+SettingsBean.getSettings().getLoaded());
 	}
 	public AlbumScreen(int id, int type) {
@@ -109,10 +124,25 @@ public class AlbumScreen extends AppScreen implements FieldChangeListener
 		
 		exit.setChangeListener(this);
 		
+		addButton(new FixedButtonField(""));
+		addButton(new FixedButtonField(""));
 		addButton(exit);
+		
+		this.id = id;
+		process(SettingsBean.getSettings().getUsercategories(id));
+		doConnect(Const.subcategories+id+Const.second+SettingsBean.getSettings().getLoaded());
+	}
+	public AlbumScreen(int id, int type, Card card) {
+		super(null);
+		this.type = type;
+		this.card = card;
+		bgManager.setStatusHeight(exit.getContentHeight());
+		
+		exit.setChangeListener(this);
 		
 		addButton(new FixedButtonField(""));
 		addButton(new FixedButtonField(""));
+		addButton(exit);
 		
 		this.id = id;
 		process(SettingsBean.getSettings().getUsercategories(id));
@@ -126,10 +156,9 @@ public class AlbumScreen extends AppScreen implements FieldChangeListener
 		
 		exit.setChangeListener(this);
 		
+		addButton(new FixedButtonField(""));
+		addButton(new FixedButtonField(""));
 		addButton(exit);
-		
-		addButton(new FixedButtonField(""));
-		addButton(new FixedButtonField(""));
 		
 		this.id = id;
 		process(SettingsBean.getSettings().getUsercategories(id));
@@ -165,6 +194,16 @@ public class AlbumScreen extends AppScreen implements FieldChangeListener
 				UiApplication.getUiApplication().pushScreen(screen);
 			} else {
 				screen = new AddCardToDeckListScreen(deckid,id);
+				UiApplication.getUiApplication().pushScreen(screen);
+			}
+		} else if(type == 2){
+			int id = ((ListItemField)(f)).getId();
+			boolean hascards = ((ListItemField)(f)).hasCards();
+			if (!hascards) {
+				screen = new AlbumScreen(id, type, card);
+				UiApplication.getUiApplication().pushScreen(screen);
+			} else {
+				screen = new AlbumListScreen(id, type, card);
 				UiApplication.getUiApplication().pushScreen(screen);
 			}
 		} else {

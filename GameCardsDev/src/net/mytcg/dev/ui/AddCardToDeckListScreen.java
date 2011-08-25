@@ -18,7 +18,7 @@ public class AddCardToDeckListScreen extends AppScreen implements FieldChangeLis
 {
 	FixedButtonField exit = new FixedButtonField(Const.back);
 	
-	ThumbnailField tmp = new ThumbnailField(new Card(-1, "", 0, "", "", "", "", 0, null));
+	ThumbnailField tmp = new ThumbnailField(new Card(-1, "", 0, "", "", "", "", 0, null, -1, "", ""));
 	ColorLabelField label = new ColorLabelField(" Choose a card to add to your deck.");
 	String cards = null;
 	int deckid = -1;
@@ -39,12 +39,10 @@ public class AddCardToDeckListScreen extends AppScreen implements FieldChangeLis
 		addButton(new FixedButtonField(""));
 		addButton(new FixedButtonField(""));
 		addButton(exit);
-		System.out.println(Const.cardsincategorynotdeck+categoryid+Const.deck_id+deckid+Const.height+Const.getCardHeight());
-		doConnect(Const.cardsincategorynotdeck+categoryid+Const.deck_id+deckid+Const.height+Const.getCardHeight());
+		doConnect(Const.cardsincategorynotdeck+categoryid+Const.deck_id+deckid+Const.height+Const.getCardHeight()+Const.width+Const.getCardWidth()+Const.bbheight+Const.getAppHeight());
 	}
 	
 	public void process(String val) {
-		System.out.println("wawawa "+val);
 		SettingsBean _instance = SettingsBean.getSettings();
     	update = _instance.setCards(val, -1);
 		
@@ -71,12 +69,14 @@ public class AddCardToDeckListScreen extends AppScreen implements FieldChangeLis
     		String description = "";
     		String quality = "";
     		int quantity = -1;
+    		int rating = -1;
     		String thumburl = "";
     		String fronturl = "";
     		String backurl = "";
     		String note = "";
     		int updated = 0;
     		Vector stats = null;
+    		String value = "";
     		String statdesc = "";
     		int statival = -1;
     		int stattop = 0;
@@ -100,7 +100,9 @@ public class AddCardToDeckListScreen extends AppScreen implements FieldChangeLis
     			quantity = -1;
     			thumburl = "";
     			fronturl = "";
+    			rating = -1;
     			backurl = "";
+    			value = "";
     			note = "";
     			updated = 0;
     			stats = new Vector();
@@ -122,6 +124,9 @@ public class AddCardToDeckListScreen extends AppScreen implements FieldChangeLis
     					quantity = 0;
     				}
     			}
+    			if ((fromIndex = card.indexOf(Const.xml_value)) != -1) {
+    				value = card.substring(fromIndex+Const.xml_value_length, card.indexOf(Const.xml_value_end, fromIndex));
+    			}
     			if ((fromIndex = card.indexOf(Const.xml_thumburl)) != -1) {
     				thumburl = card.substring(fromIndex+Const.xml_thumburl_length, card.indexOf(Const.xml_thumburl_end, fromIndex));
     			}
@@ -133,6 +138,13 @@ public class AddCardToDeckListScreen extends AppScreen implements FieldChangeLis
     			}
     			if ((fromIndex = card.indexOf(Const.xml_note)) != -1) {
     				note = card.substring(fromIndex+Const.xml_note_length, card.indexOf(Const.xml_note_end, fromIndex));
+    			}
+    			if ((fromIndex = card.indexOf(Const.xml_rating)) != -1) {
+    				try {
+    					rating = Integer.parseInt(card.substring(fromIndex+Const.xml_rating_length, card.indexOf(Const.xml_rating_end, fromIndex)));
+    				} catch (Exception e) {
+        				rating = -1;
+        			}
     			}
     			if ((fromIndex = card.indexOf(Const.xml_updated)) != -1) {
     				try {
@@ -219,8 +231,7 @@ public class AddCardToDeckListScreen extends AppScreen implements FieldChangeLis
     					card = card.substring(card.indexOf(Const.xml_stat_end)+Const.xml_stat_end_length);
     				}
     			}
-    			System.out.println("...");
-    			Card cardobject = new Card(cardid, description, quantity, thumburl, fronturl, backurl, note, updated, stats);
+    			Card cardobject = new Card(cardid, description, quantity, thumburl, fronturl, backurl, note, updated, stats, rating, quality, value);
     			_instance.setImages(cardid, cardobject);
 
     			val = val.substring(val.indexOf(Const.xml_card_end)+Const.xml_card_end_length);
@@ -257,7 +268,6 @@ public class AddCardToDeckListScreen extends AppScreen implements FieldChangeLis
 			synchronized(UiApplication.getEventLock()) {
     			label.setText("Adding card to deck...");
     		}
-			System.out.println(Const.addtodeck+Const.deck_id+deckid+Const.card_id+card.getId());
 			doConnect(Const.addtodeck+Const.deck_id+deckid+Const.card_id+card.getId());
 		}
 	}

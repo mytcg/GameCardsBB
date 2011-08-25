@@ -30,7 +30,6 @@ public class GameListScreen extends AppScreen implements FieldChangeListener
 	}
 	
 	public void process(String val) {
-		System.out.println("wawawa "+val);
 		int fromIndex;
 	    if ((fromIndex = val.indexOf(Const.xml_result)) != -1) {
 	    	setText(val.substring(fromIndex+Const.xml_result_length, val.indexOf(Const.xml_result_end, fromIndex)));
@@ -77,6 +76,7 @@ public class GameListScreen extends AppScreen implements FieldChangeListener
 			synchronized(UiApplication.getEventLock()) {
 				bgManager.deleteAll();
 			}
+			add(new ColorLabelField(" Please choose a game to continue."));
 			doConnect(Const.getusergames);
 		}
 	}

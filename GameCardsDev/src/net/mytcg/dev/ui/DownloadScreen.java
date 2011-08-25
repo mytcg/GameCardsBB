@@ -26,7 +26,7 @@ public class DownloadScreen extends AppScreen implements FieldChangeListener
 		super(screen);
 		this.url = message;
 		Font _font = getFont();
-		_font = _font.derive(Font.BOLD, Const.FONT);
+		_font = _font.derive(Const.TYPE, Const.FONT);
 		setFont(_font); 
 		
 		add(new ColorLabelField(Const.newupdate));
@@ -38,9 +38,9 @@ public class DownloadScreen extends AppScreen implements FieldChangeListener
 		download.setChangeListener(this);
 		later.setChangeListener(this);
 		
-		addButton(later);
-		addButton(new FixedButtonField(""));
 		addButton(download);
+		addButton(new FixedButtonField(""));
+		addButton(later);
 	}
 	public void fieldChanged(Field f, int i) {
 		if (f == later) {

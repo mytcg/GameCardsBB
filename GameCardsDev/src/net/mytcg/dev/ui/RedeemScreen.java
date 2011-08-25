@@ -27,9 +27,9 @@ public class RedeemScreen extends AppScreen implements FieldChangeListener
 		exit.setChangeListener(this);
 		redeem.setChangeListener(this);
 		
-		addButton(exit);
-		addButton(new FixedButtonField(""));
 		addButton(redeem);
+		addButton(new FixedButtonField(""));
+		addButton(exit);
 	}
 /*	public void process(String val) {
 		synchronized(UiApplication.getEventLock()) {
@@ -43,7 +43,7 @@ public class RedeemScreen extends AppScreen implements FieldChangeListener
 			screen = null;
 			UiApplication.getUiApplication().popScreen(this);
 		} else if (f == redeem) {
-			doConnect(Const.rdm+number.getText(), false);
+			doConnect(Const.rdm+number.getText());
 		}
 	}
 }

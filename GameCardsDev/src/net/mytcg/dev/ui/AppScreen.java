@@ -2,23 +2,19 @@ package net.mytcg.dev.ui;
 
 import net.mytcg.dev.http.ConnectionGet;
 import net.mytcg.dev.ui.custom.BackgroundManager;
+import net.mytcg.dev.ui.custom.ColorLabelField;
 import net.mytcg.dev.ui.custom.HorizontalBackgroundManager;
 import net.mytcg.dev.ui.custom.HorizontalGamePlayManager;
+import net.mytcg.dev.ui.custom.HorizontalStatManager;
 import net.mytcg.dev.ui.custom.VerticalGamePlayManager;
 import net.mytcg.dev.ui.custom.VerticalStatManager;
-import net.mytcg.dev.ui.custom.HorizontalStatManager;
-import net.mytcg.dev.ui.custom.ColorLabelField;
 import net.mytcg.dev.util.Const;
-import net.mytcg.dev.util.SettingsBean;
-import net.rim.device.api.math.Fixed32;
 import net.rim.device.api.system.Bitmap;
 import net.rim.device.api.ui.Color;
 import net.rim.device.api.ui.Field;
-import net.rim.device.api.ui.Font;
 import net.rim.device.api.ui.Graphics;
 import net.rim.device.api.ui.UiApplication;
 import net.rim.device.api.ui.component.BitmapField;
-import net.rim.device.api.ui.component.LabelField;
 import net.rim.device.api.ui.container.HorizontalFieldManager;
 import net.rim.device.api.ui.container.MainScreen;
 
@@ -29,29 +25,7 @@ public class AppScreen extends MainScreen {
 	protected HorizontalStatManager hStatManager = new HorizontalStatManager();
 	protected VerticalGamePlayManager vGameManager = new VerticalGamePlayManager();
 	protected HorizontalGamePlayManager hGameManager = new HorizontalGamePlayManager();
-	protected BackgroundManager titleManager = new BackgroundManager(false) {
-		
-		/*public int getPreferredHeight() {
-			return logo.getHeight()+(Const.FONT);
-		}*/
-		/*public void paint(Graphics g) {
-			g.setColor(Color.RED);
-			Font _font = getFont();
-			_font = _font.derive(Font.PLAIN, Const.FONT-2);
-			g.setFont(_font);
-			setFont(_font);
-			//super.paint(g);
-			
-			int xPts1[] = {0,0,padding,padding};
-			int yPts1[] = {0,logoleft.getHeight(),logoright.getHeight(),0};
-			g.drawTexturedPath(xPts1,yPts1,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,logoleft);
-			
-			int xPts2[] = {padding+logo.getWidth(),padding+logo.getWidth(),getPreferredWidth(),getPreferredWidth()};
-			int yPts2[] = {0,logoright.getHeight(),logoright.getHeight(),0};
-			g.drawTexturedPath(xPts2,yPts2,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,logoright);
-			
-		}*/
-	};
+	protected BackgroundManager titleManager = new BackgroundManager(false);
 	
 	protected boolean navigationMovement(int dx, int dy, int status, int time)
     {
@@ -62,7 +36,7 @@ public class AppScreen extends MainScreen {
 	protected BackgroundManager statusManager = new BackgroundManager(false);
 	protected HorizontalFieldManager hManager1 = new HorizontalFieldManager();
 	
-	protected ColorLabelField status = new ColorLabelField("", LabelField.FIELD_HCENTER);
+	protected ColorLabelField status = new ColorLabelField("", Color.RED);
 	protected Bitmap logo = Const.getLogo();
 	protected Bitmap logoleft = Const.getLogoLeft();
 	protected Bitmap logoright = Const.getLogoRight();
@@ -139,7 +113,7 @@ public class AppScreen extends MainScreen {
 		titleManager.add(new BitmapField(logo, BitmapField.FIELD_HCENTER));
 		titleManager.add(status);
 		
-		bgManager.setTitleHeight(Const.getLogoHeight()+(Const.FONT-2));
+		bgManager.setTitleHeight(Const.getLogoHeight()+(Const.FONT));
 		
 		//status setup
 		statusManager.add(hManager1);
@@ -218,6 +192,7 @@ public class AppScreen extends MainScreen {
 			bgManager.delete(field);
 	}
 	
+	
 	public void addStat(Field field) {
 		if(!(Const.getPortrait())){
 			hStatManager.add(field);
@@ -235,7 +210,6 @@ public class AppScreen extends MainScreen {
 	    	}
 		}
 	}
-	
 	
 	public void doConnect(String url, boolean autoclean) {
 		setText("Attempting Connection, Please Wait...");

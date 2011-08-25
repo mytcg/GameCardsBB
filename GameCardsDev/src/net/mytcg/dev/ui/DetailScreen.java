@@ -4,31 +4,34 @@ import java.util.Vector;
 
 import net.mytcg.dev.ui.custom.ColorLabelField;
 import net.mytcg.dev.ui.custom.FixedButtonField;
+import net.mytcg.dev.ui.custom.FriendField;
 import net.mytcg.dev.ui.custom.ListItemField;
 import net.mytcg.dev.ui.custom.ListLabelField;
-import net.rim.device.api.ui.container.HorizontalFieldManager;
 import net.mytcg.dev.ui.custom.SexyEditField;
 import net.mytcg.dev.util.Answer;
 import net.mytcg.dev.util.Const;
 import net.mytcg.dev.util.SettingsBean;
+import net.rim.device.api.ui.Color;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.FieldChangeListener;
 import net.rim.device.api.ui.UiApplication;
 import net.rim.device.api.ui.component.CheckboxField;
+import net.rim.device.api.ui.component.SeparatorField;
+import net.rim.device.api.ui.container.HorizontalFieldManager;
 
 public class DetailScreen extends AppScreen implements FieldChangeListener
 {
 	FixedButtonField exit = new FixedButtonField(Const.back);
 	FixedButtonField save = new FixedButtonField(Const.save);
-	SexyEditField username = new SexyEditField("");
-	SexyEditField email = new SexyEditField("");
 	SexyEditField balance = new SexyEditField("");
 	SexyEditField tmp = new SexyEditField("");
 	ColorLabelField lbltop = null;
-	ColorLabelField lblUsername = new ColorLabelField(Const.usern);
-	ColorLabelField lblEmail = new ColorLabelField(Const.email);
 	ListItemField lblBalance = new ListItemField(Const.credits, -1, false, 0);
+	ListItemField lblNotifications = new ListItemField(Const.notification, Const.NOTIFICATIONS, false, 0);
+	ListItemField lblFriends = new ListItemField(Const.friend, Const.FRIENDS, false, 0);
 	ListLabelField lbltrans = new ListLabelField("No transactions yet.");
+	ListLabelField lblnote = new ListLabelField("No notifications yet.");
+	FriendField lblfriend = new FriendField("","","");
 	ListItemField lblTransactions = new ListItemField("Last Transactions", -1, false, 0);
 	ColorLabelField lbltmp = new ColorLabelField("");
 	CheckboxField cbxtmp = new CheckboxField("",false,CheckboxField.NON_FOCUSABLE);
@@ -43,19 +46,12 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 		if(screenType == Const.PROFILESCREEN){
 			lbltop = new ColorLabelField("Earn credits by filling in profile details.");
 			add(lbltop);
-			add(lblUsername);
-			add(username);
-			username.setText(SettingsBean.getSettings().getUsername());
-			username.setFocusable(false);
-			add(lblEmail);
-			add(email);
-			email.setText(SettingsBean.getSettings().getEmail());
-			email.setFocusable(false);
 			save.setChangeListener(this);
 			addButton(save);
 			doConnect(Const.profiledetails);
 		} else if(screenType == Const.BALANCESCREEN){
 			lbltop = new ColorLabelField("Go to www.mytcg.net to find out how to get more credits.");
+			lbltop.setColor(Color.RED);
 			add(lbltop);
 			add(lblBalance);
 			add(balance);
@@ -66,6 +62,16 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 			balance.setFocusable(false);
 			addButton(new FixedButtonField(""));
 			doConnect(Const.creditlog);
+		} else if(screenType == Const.NOTIFICATIONSCREEN){
+			add(lblNotifications);
+			lblNotifications.setFocusable(false);
+			addButton(new FixedButtonField(""));
+			doConnect(Const.notifications);
+		} else if(screenType == Const.FRIENDSSCREEN){
+			add(lblFriends);
+			lblFriends.setFocusable(false);
+			addButton(new FixedButtonField(""));
+			doConnect(Const.friends);
 		}
 		exit.setChangeListener(this);
 		
@@ -75,7 +81,6 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 	}
 	
 	public void process(String val) {
-		System.out.println("weo "+val);
 		if (!(isDisplaying())) {
 			int fromIndex;
 	    	if ((fromIndex = val.indexOf(Const.xml_result)) != -1) {
@@ -128,7 +133,7 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 	    				cbxtmp.setChecked(answered.equals("1"));
 		    			cbxtmp.setEditable(false);
 		    			//cbxtmp.setEnabled(false);
-	    				tmp = new SexyEditField((Const.getWidth()-25),username.getHeight());
+	    				tmp = new SexyEditField((Const.getWidth()-25),Const.getButtonHeight());
 	    				tmp.setText(answer);
 	        			tmp.setChangeListener(this);
 	    				}catch(Exception e){
@@ -161,13 +166,18 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 	    		String credits = "";
 	    		int endIndex = -1;
 	    		String transaction = "";
+	    		
+	    		
 	    		if ((fromIndex = val.indexOf(Const.xml_credits)) != -1) {
-		    		try{
-		    			synchronized(UiApplication.getEventLock()) {
-		    				balance.setText(val.substring(fromIndex, endIndex+Const.xml_credits_end_length));
-		    			}
-		    		}catch(Exception e){};
-		    	}
+    				credits = val.substring(fromIndex+Const.xml_credits_length, val.indexOf(Const.xml_credits_end, fromIndex));
+    				SettingsBean _instance = SettingsBean.getSettings();
+    				_instance.setCredits(credits);
+    				SettingsBean.saveSettings(_instance);
+    				synchronized(UiApplication.getEventLock()) {
+    					balance.setText(SettingsBean.getSettings().getCredits());
+    	    		}
+    				
+    			}
 	    		while ((fromIndex = val.indexOf(Const.xml_id)) != -1){
 	    			
 	    			endIndex = val.indexOf(Const.xml_transaction_end);
@@ -193,9 +203,12 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 	    			val = val.substring(val.indexOf(Const.xml_transaction_end)+Const.xml_transaction_end_length);
 	    			if(transactionid != -1){
 	    				try{
+	    					//ListItemField tmp = new ListItemField(date+": "+desc, -1, false, 0);
 		    				lbltrans = new ListLabelField(date+": "+desc);
 			    			synchronized(UiApplication.getEventLock()) {
+			    				//add(tmp);
 			    				add(lbltrans);
+			    				add(new SeparatorField());
 			    			}
 	    				}catch(Exception e){};
 	    			} else{
@@ -205,6 +218,90 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 	    				break;
 	    			}
 	    		}
+	    	} else if (((fromIndex = val.indexOf(Const.xml_notifications)) != -1)) {
+	    		int noteid = -1;
+	    		String desc = "";
+	    		String date = "";
+	    		SettingsBean _instance = SettingsBean.getSettings();
+	    		_instance.noteloaded();
+	    		_instance.notifications = false;
+	    		SettingsBean.saveSettings(_instance);
+	    		int endIndex = -1;
+	    		String note = "";
+	    		while ((fromIndex = val.indexOf(Const.xml_id)) != -1){
+	    			
+	    			endIndex = val.indexOf(Const.xml_note_end);
+	    			try{
+	    				note = val.substring(fromIndex, endIndex+Const.xml_note_end_length);
+	    			}catch(Exception e){};
+	    			fromIndex = note.indexOf(Const.xml_id);
+	    			
+	    			try {
+	    				noteid = Integer.parseInt(note.substring(fromIndex+Const.xml_id_length, note.indexOf(Const.xml_id_end, fromIndex)));
+	    			} catch (Exception e) {
+	    				noteid = -1;
+	    			}
+	    			if ((fromIndex = note.indexOf(Const.xml_descr)) != -1) {
+	    				desc = note.substring(fromIndex+Const.xml_descr_length, note.indexOf(Const.xml_descr_end, fromIndex));
+	    			}
+	    			if ((fromIndex = note.indexOf(Const.xml_date)) != -1) {
+	    				date = note.substring(fromIndex+Const.xml_date_length, note.indexOf(Const.xml_date_end, fromIndex));
+	    			}
+	    			val = val.substring(val.indexOf(Const.xml_note_end)+Const.xml_note_end_length);
+	    			if(noteid != -1){
+	    				try{
+	    					lblnote = new ListLabelField(date+": "+desc);
+			    			synchronized(UiApplication.getEventLock()) {
+			    				add(lblnote);
+			    				add(new SeparatorField());
+			    			}
+	    				}catch(Exception e){};
+	    			} 
+	    		}
+	    		if(noteid == -1){
+    				synchronized(UiApplication.getEventLock()) {
+	    				add(lblnote);
+	    			}
+    			}
+	    	} else if (((fromIndex = val.indexOf(Const.xml_friends)) != -1)) {
+	    		String desc = "";
+	    		String usr = "";
+	    		String value = "";
+	    		
+	    		int endIndex = -1;
+	    		String friend = "";
+	    		while ((fromIndex = val.indexOf(Const.xml_usr)) != -1){
+	    			
+	    			endIndex = val.indexOf(Const.xml_friend_end);
+	    			try{
+	    				friend = val.substring(fromIndex, endIndex+Const.xml_friend_end_length);
+	    			}catch(Exception e){};
+	    			fromIndex = friend.indexOf(Const.xml_usr);
+	    			if ((fromIndex = friend.indexOf(Const.xml_usr)) != -1) {
+	    				usr = friend.substring(fromIndex+Const.xml_usr_length, friend.indexOf(Const.xml_usr_end, fromIndex));
+	    			}
+	    			if ((fromIndex = friend.indexOf(Const.xml_valt)) != -1) {
+	    				value = friend.substring(fromIndex+Const.xml_valt_length, friend.indexOf(Const.xml_valt_end, fromIndex));
+	    			}
+	    			if ((fromIndex = friend.indexOf(Const.xml_descr)) != -1) {
+	    				desc = friend.substring(fromIndex+Const.xml_descr_length, friend.indexOf(Const.xml_descr_end, fromIndex));
+	    			}
+	    			
+	    			val = val.substring(val.indexOf(Const.xml_friend_end)+Const.xml_friend_end_length);
+	    			if(!usr.equals("")){
+	    				try{
+	    					lblfriend = new FriendField(usr,value,desc);
+			    			synchronized(UiApplication.getEventLock()) {
+			    				add(lblfriend);
+			    				//add(new SeparatorField());
+			    			}
+	    				}catch(Exception e){};
+	    			}
+	    		} if(usr.equals("")){
+    				synchronized(UiApplication.getEventLock()) {
+	    				add(new ColorLabelField("No friends found."));
+	    			}
+    			}
 	    	}
 	    	invalidate();
 	    	setDisplaying(true);

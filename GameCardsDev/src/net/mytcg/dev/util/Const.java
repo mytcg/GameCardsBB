@@ -1,12 +1,16 @@
 package net.mytcg.dev.util;
 
+import java.util.Date;
+
 import javax.microedition.io.Connector;
 import javax.microedition.io.file.FileConnection;
 
 import net.mytcg.dev.http.ConnectionHandler;
 import net.mytcg.dev.ui.GameCardsHome;
+import net.mytcg.dev.ui.custom.ImageLoader;
 import net.rim.blackberry.api.phone.Phone;
 import net.rim.device.api.io.file.FileIOException;
+import net.rim.device.api.io.http.HttpDateParser;
 import net.rim.device.api.math.Fixed32;
 import net.rim.device.api.system.Bitmap;
 import net.rim.device.api.system.CDMAInfo;
@@ -18,15 +22,18 @@ import net.rim.device.api.system.IDENInfo;
 import net.rim.device.api.system.RadioInfo;
 import net.rim.device.api.system.SIMCardInfo;
 import net.rim.device.api.ui.Color;
+import net.rim.device.api.ui.Font;
 
 public final class Const {
 	
 	public static String VERSION = "1.0";
 	private static boolean PORTRAIT = true;
 	private static final double ratio = 1.40625;
-	public static String PREFIX = "dex_";
+	public static String PREFIX = "dev_";
 	public static int THREADS = 0;
 	public static ConnectionHandler connect = null;
+	public static ImageLoader load = null;
+	public static ImageLoader load2 = null;
 	
 	public static ConnectionHandler getConnection() {
 		
@@ -186,6 +193,8 @@ public final class Const {
 	public static final short REGISTERSCREEN = 3;
 	public static final short PROFILESCREEN = 4;
 	public static final short BALANCESCREEN = 5;
+	public static final short NOTIFICATIONSCREEN = 6;
+	public static final short FRIENDSSCREEN = 7;
 	
 	public static final short USERDET = 0;
 	public static final short USERCAT = 1;
@@ -200,6 +209,9 @@ public final class Const {
 	public static final short AUCTIONS = -14;
 	public static final short BALANCE = -15;
 	public static final short PROFILE = -16;
+	public static final short NOTIFICATIONS = -17;
+	public static final short RANKINGS = -18;
+	public static final short FRIENDS = -19;
 	public static final short REDEEM = -10;
 	
 	public static final short CACHE = -1;
@@ -213,10 +225,11 @@ public final class Const {
 	/*
 	 * DISPLAY VALUES
 	 */
-	public static final int SMALL_FONT = 12;
-	public static final int MEDIUM_FONT = 14;
-	public static final int LARGE_FONT = 16;
+	public static final int SMALL_FONT = 10;
+	public static final int MEDIUM_FONT = 12;
+	public static final int LARGE_FONT = 14;
 	public static int FONT = LARGE_FONT;
+	public static int TYPE = Font.PLAIN;
 	public static final int INCREASE_FONT = 2;
 	
 	public static final int FONTCOLOR = Color.BLACK;
@@ -235,9 +248,24 @@ public final class Const {
 	}
 	public static final int getCardHeight() {
 		if (Const.PORTRAIT) {
-			return ((Const.getHeight()-getButtonCentre().getHeight())-Const.PADDING);
+			return ((Const.getHeight()-getButtonCentre().getHeight()));
 		} else {
-			return (int)((((double)((Const.getHeight()-getButtonCentre().getHeight())-Const.PADDING))*ratio));
+			return Const.getHeight();
+		}
+	}
+	public static final int getAppHeight() {
+		if (Const.PORTRAIT) {
+			return ((Const.getHeight()-getButtonCentre().getHeight()));
+		} else {
+			return (int)((((double)((Const.getHeight()-getButtonCentre().getHeight())))*ratio));
+		}
+	}
+	public static final int getCardWidth() {
+		if (Const.PORTRAIT) {
+			return Const.getWidth();
+		} else {
+			return Const.getHeight();
+			//return ((Const.getWidth()-getButtonCentre().getHeight())-Const.PADDING);
 		}
 	}
 	public static final int getUsableHeight() {
@@ -313,6 +341,7 @@ public final class Const {
 	public static String register = "Register";
 	public static String exit = "Exit";
 	public static String back = "Back";
+	public static String purchase = "purchase";
 	public static String home = "Home";
 	public static String confirm = "Confirm";
 	public static String bid = "Bid";
@@ -350,8 +379,13 @@ public final class Const {
 	public static String shop = "Shop";
 	public static String auctions = "Auctions";
 	public static String redeem = "Redeem";
-	public static String balance = "My Balance";
-	public static String profile = "My Profile";
+	public static String balance = "Credits";
+	public static String profile = "Profile";
+	public static String notification = "Notifications";
+	public static String friend = "Friends";
+	public static String invitefriend = "Invite Friends";
+	public static String rankings = "Rankings";
+	public static String friendranks = "Friend Ranks";
 	public static String all_auctions = "All Auctions";
 	public static String my_auctions = "My Auctions";
 	public static String create_auction = "Create New Auction";
@@ -367,12 +401,13 @@ public final class Const {
 	
 	public static String quantity = "Quantity: ";
 	
-	public static String notes = " Message";
+	public static String notes = " Note";
 	public static String name = " Full Name";
 	public static String surname = " Username";
 	public static String cell = " Cell Number";
 	public static String age = " Email Address";
 	public static String gender = " Password";
+	public static String referrer = " Referrer";
 	
 	public static String remove = "Are you sure you wish to delete this card?";
 	
@@ -425,6 +460,8 @@ public final class Const {
 	public static String userdetails = "userdetails=1";
 	public static String profiledetails = "profiledetails=1";
 	public static String creditlog = "creditlog=1";
+	public static String notifications = "notifications=1";
+	public static String friends = "&friends=1";
 	public static String saveprofiledetail = "saveprofiledetail=1";
 	public static String viewgamelog = "viewgamelog=1";
 	public static String registeruser = "registeruser=1";
@@ -436,14 +473,17 @@ public final class Const {
 	$cell = $_REQUEST['cell'];
 	 * 
 	 */
-	public static String username = "&name=";
 	public static String userfullname = "&username=";
-	public static String usercell = "&cell=";
 	public static String useremail = "&email=";
 	public static String userpassword = "&password=";
+	public static String userreferrer = "&referer=";
 	public static String usercategories = "usercategories=1";
-	public static String productcategories = "productcategories=1";
-	public static String categoryproducts = "categoryproducts=1";
+	public static String productcategories = "productcategories=2";
+	public static String freebiecategories = "productcategories=1";
+	public static String leaders = "leaders=1";
+	public static String leaderboard = "leaderboard=";
+	public static String categoryproducts = "categoryproducts=2";
+	public static String freebieproducts = "categoryproducts=1";
 	public static String auctioncategories="auctioncategories=1";
 	public static String getusergames="getusergames=1";
 	public static String playablecategories="playablecategories=1";
@@ -487,6 +527,7 @@ public final class Const {
 	public static String description = "&description=";
 	public static String category_id = "&category_id=";
 	public static String height = "&height=";
+	public static String bbheight = "&bbheight=";
 	public static String width = "&width=";
 	public static String freebie = "&freebie=";
 	public static String subcategories = "usersubcategories=1&category=";
@@ -569,6 +610,8 @@ public final class Const {
 	public static String internet = "internet";
 	
 	public static String download_url = "";
+	public static String loadingurl = "";
+	public static String loadingurlflip = "";
 	
 	public static boolean processUserDetails(String val) {
 		int fromIndex;
@@ -580,6 +623,23 @@ public final class Const {
     		if ((fromIndex = val.indexOf(xml_credits)) != -1) {
     			_instance.setCredits(val.substring(fromIndex+xml_credits_length, val.indexOf(xml_credits_end, fromIndex)));
     		}
+    		if ((fromIndex = val.indexOf(Const.xml_loadingurl)) != -1) {
+				loadingurl = val.substring(fromIndex+Const.xml_loadingurl_length, val.indexOf(Const.xml_loadingurl_end, fromIndex));
+			}
+			if ((fromIndex = val.indexOf(Const.xml_loadingflipurl)) != -1) {
+    			loadingurlflip = val.substring(fromIndex+Const.xml_loadingflipurl_length, val.indexOf(Const.xml_loadingflipurl_end, fromIndex));
+    		}
+			if ((fromIndex = val.indexOf(Const.xml_notedate)) != -1) {
+				String notedate = val.substring(fromIndex+Const.xml_notedate_length, val.indexOf(Const.xml_notedate_end, fromIndex));
+				Date date = new Date(HttpDateParser.parse(notedate));
+				if(date.getTime()/1000>_instance.getNoteLoaded()){
+					_instance.notifications = true;
+				}
+    		}
+			load = new ImageLoader(loadingurl);
+			load2 = new ImageLoader(loadingurlflip);
+			_instance.loading = loadingurl.substring(loadingurl.indexOf(Const.cards)+Const.cards_length, loadingurl.indexOf(Const.png));
+			_instance.loadingflip = loadingurlflip.substring(loadingurlflip.indexOf(Const.cards)+Const.cards_length, loadingurlflip.indexOf(Const.png));
     		_instance.setAuthenticated(true);
     		SettingsBean.saveSettings(_instance);
     		_instance = null;
@@ -1077,6 +1137,18 @@ public final class Const {
 	public static final int xml_transactions_length = xml_transactions.length(); 
 	public static final String xml_transactions_end = "</transactions>";
 	public static final int xml_transactions_end_length = xml_transactions_end.length();
+	public static final String xml_notifications = "<notifications>";
+	public static final int xml_notifications_length = xml_notifications.length(); 
+	public static final String xml_notifications_end = "</notifications>";
+	public static final int xml_notifications_end_length = xml_notifications_end.length();
+	public static final String xml_friends = "<friends>";
+	public static final int xml_friends_length = xml_friends.length(); 
+	public static final String xml_friends_end = "</friends>";
+	public static final int xml_friends_end_length = xml_friends_end.length();
+	public static final String xml_leaderboard = "<leaderboard>";
+	public static final int xml_leaderboard_length = xml_leaderboard.length(); 
+	public static final String xml_leaderboard_end = "</leaderboard>";
+	public static final int xml_leaderboard_end_length = xml_leaderboard_end.length();
 	public static final String xml_decks = "<decks>";
 	public static final int xml_decks_length = xml_decks.length(); 
 	public static final String xml_decks_end = "</decks>";
@@ -1215,14 +1287,14 @@ public final class Const {
 	public static final int xml_descr_length = xml_descr.length();
 	public static final String xml_descr_end = "</desc>";
 	public static final int xml_descr_end_length = xml_descr_end.length();
+	public static final String xml_usr = "<usr>";
+	public static final int xml_usr_length = xml_usr.length();
+	public static final String xml_usr_end = "</usr>";
+	public static final int xml_usr_end_length = xml_usr_end.length();
 	public static final String xml_date = "<date>";
 	public static final int xml_date_length = xml_date.length();
 	public static final String xml_date_end = "</date>";
 	public static final int xml_date_end_length = xml_date_end.length();
-	public static final String xml_value = "<value>";
-	public static final int xml_value_length = xml_value.length();
-	public static final String xml_value_end = "</value>";
-	public static final int xml_value_end_length = xml_value_end.length();
 	public static final String xml_answer = "<answer>";
 	public static final int xml_answer_length = xml_answer.length();
 	public static final String xml_answer_end = "</answer>";
@@ -1310,6 +1382,10 @@ public final class Const {
 	public static final int xml_id_length = xml_id.length();
 	public static final String xml_id_end = "</id>";
 	public static final int xml_id_end_length = xml_id_end.length();
+	public static final String xml_valt = "<val>";
+	public static final int xml_valt_length = xml_valt.length();
+	public static final String xml_valt_end = "</val>";
+	public static final int xml_valt_end_length = xml_valt_end.length();
 	public static final String xml_description = "<description>";
 	public static final int xml_description_length = xml_description.length();
 	public static final String xml_description_end = "</description>";
@@ -1338,6 +1414,10 @@ public final class Const {
 	public static final int xml_quantity_length = xml_quantity.length();
 	public static final String xml_quantity_end = "</quantity>";
 	public static final int xml_quantity_end_length = xml_quantity_end.length();
+	public static final String xml_rating = "<ranking>";
+	public static final int xml_rating_length = xml_rating.length();
+	public static final String xml_rating_end = "</ranking>";
+	public static final int xml_rating_end_length = xml_rating_end.length();
 	public static final String xml_thumburl = "<thumburl>";
 	public static final int xml_thumburl_length = xml_thumburl.length();
 	public static final String xml_thumburl_end = "</thumburl>";
@@ -1358,10 +1438,33 @@ public final class Const {
 	public static final int xml_backflipurl_length = xml_backflipurl.length();
 	public static final String xml_backflipurl_end = "</backflipurl>";
 	public static final int xml_backflipurl_end_length = xml_backflipurl_end.length();
+	public static final String xml_loadingurl = "<loadingurl>";
+	public static final int xml_loadingurl_length = xml_loadingurl.length();
+	public static final String xml_loadingurl_end = "</loadingurl>";
+	public static final int xml_loadingurl_end_length = xml_loadingurl_end.length();
+	public static final String xml_loadingflipurl = "<loadingurlflip>";
+	public static final int xml_loadingflipurl_length = xml_loadingflipurl.length();
+	public static final String xml_loadingflipurl_end = "</loadingurlflip>";
+	public static final int xml_loadingflipurl_end_length = xml_loadingflipurl_end.length();
+	public static final String xml_notedate = "<notedate>";
+	public static final int xml_notedate_length = xml_notedate.length();
+	public static final String xml_notedate_end = "</notedate>";
+	public static final int xml_notedate_end_length = xml_notedate_end.length();
+	public static final String xml_value = "<value>";
+	public static final int xml_value_length = xml_value.length();
+	public static final String xml_value_end = "</value>";
 	public static final String xml_note = "<note>";
 	public static final int xml_note_length = xml_note.length();
 	public static final String xml_note_end = "</note>";
 	public static final int xml_note_end_length = xml_note_end.length();
+	public static final String xml_friend = "<friend>";
+	public static final int xml_friend_length = xml_friend.length();
+	public static final String xml_friend_end = "</friend>";
+	public static final int xml_friend_end_length = xml_friend_end.length();
+	public static final String xml_leader = "<leader>";
+	public static final int xml_leader_length = xml_leader.length();
+	public static final String xml_leader_end = "</leader>";
+	public static final int xml_leader_end_length = xml_leader_end.length();
 	public static final String xml_updated = "<updated>";
 	public static final int xml_updated_length = xml_updated.length();
 	public static final String xml_updated_end = "</updated>";

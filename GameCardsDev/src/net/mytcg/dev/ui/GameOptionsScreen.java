@@ -33,7 +33,6 @@ public class GameOptionsScreen extends AppScreen implements FieldChangeListener{
 	}
 	
 	public void process(String val) {
-		System.out.println("wawawa "+val);
 		if (!(isDisplaying())) {
 			int fromIndex;
 	    	if ((fromIndex = val.indexOf(Const.xml_result)) != -1) {
@@ -63,11 +62,12 @@ public class GameOptionsScreen extends AppScreen implements FieldChangeListener{
 		        		}
 	    			}
 	    		}
-	    	} else {
-	    		synchronized(UiApplication.getEventLock()) {
-        			add(tmp);
-        		}
-	    	}
+	    		if(log.equals("")) {
+		    		synchronized(UiApplication.getEventLock()) {
+	        			add(tmp);
+	        		}
+		    	}
+	    	} 
 	    	invalidate();
 	    	setDisplaying(true);
 		}		

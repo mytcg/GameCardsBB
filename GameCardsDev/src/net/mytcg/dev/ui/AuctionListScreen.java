@@ -1,11 +1,16 @@
 package net.mytcg.dev.ui;
 
+import java.util.Date;
+
+import net.mytcg.dev.ui.custom.ColorLabelField;
 import net.mytcg.dev.ui.custom.FixedButtonField;
 import net.mytcg.dev.ui.custom.ListItemField;
 import net.mytcg.dev.ui.custom.ThumbnailField;
 import net.mytcg.dev.util.Auction;
 import net.mytcg.dev.util.Const;
 import net.mytcg.dev.util.SettingsBean;
+import net.rim.device.api.i18n.SimpleDateFormat;
+import net.rim.device.api.io.http.HttpDateParser;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.FieldChangeListener;
 import net.rim.device.api.ui.UiApplication;
@@ -13,6 +18,7 @@ import net.rim.device.api.ui.UiApplication;
 public class AuctionListScreen extends AppScreen implements FieldChangeListener
 {
 	FixedButtonField exit = new FixedButtonField(Const.back);
+	ColorLabelField header = new ColorLabelField("");
 	
 	ThumbnailField tmp = null;
 	
@@ -23,7 +29,6 @@ public class AuctionListScreen extends AppScreen implements FieldChangeListener
 	
 	public void process(String val) {
 		SettingsBean _instance = SettingsBean.getSettings();
-		System.out.println(val);
 		if (update) {
 			SettingsBean.saveSettings(_instance);
 		}
@@ -33,6 +38,23 @@ public class AuctionListScreen extends AppScreen implements FieldChangeListener
 	    	if ((fromIndex = val.indexOf(Const.xml_result)) != -1) {
 	    		setText(val.substring(fromIndex+Const.xml_result_length, val.indexOf(Const.xml_result_end, fromIndex)));
 	    	} else if (((fromIndex = val.indexOf(Const.xml_auctionsincategory)) != -1)) {
+	    		
+	    		if ((fromIndex = val.indexOf(Const.xml_credits)) != -1) {
+    				String credits = val.substring(fromIndex+Const.xml_credits_length, val.indexOf(Const.xml_credits_end, fromIndex));
+    				_instance = SettingsBean.getSettings();
+    				_instance.setCredits(credits);
+    				SettingsBean.saveSettings(_instance);
+    				synchronized(UiApplication.getEventLock()) {
+    					header.setText("Current credits:" + SettingsBean.getSettings().getCredits());
+    	    		}
+    				
+    			}
+	    		
+	    		synchronized(UiApplication.getEventLock()) {
+	    			clear();
+	    			header.setText("Current credits:" + SettingsBean.getSettings().getCredits());
+	    			add(header);
+	    		}
 	    		int auctionid = -1;
 	    		int usercardid = -1;
 	    		int cardid = -1;
@@ -45,6 +67,8 @@ public class AuctionListScreen extends AppScreen implements FieldChangeListener
 	    		String endDate = "";
 	    		String lastBidUser = "";
 	    		String auctionthumb = "";
+	    		String fronturl = "";
+	    		String backurl = "";
 	    		int endIndex = -1;
 	    		String auction = "";
 	    		while ((fromIndex = val.indexOf(Const.xml_auctioncardid)) != -1){
@@ -91,16 +115,53 @@ public class AuctionListScreen extends AppScreen implements FieldChangeListener
 	    			if ((fromIndex = auction.indexOf(Const.xml_thumburl)) != -1) {
 	    				auctionthumb = auction.substring(fromIndex+Const.xml_thumburl_length, auction.indexOf(Const.xml_thumburl_end, fromIndex));
 	    			}
+	    			if ((fromIndex = auction.indexOf(Const.xml_fronturl)) != -1) {
+	    				fronturl = auction.substring(fromIndex+Const.xml_fronturl_length, auction.indexOf(Const.xml_fronturl_end, fromIndex));
+	    			}
+	    			if ((fromIndex = auction.indexOf(Const.xml_backurl)) != -1) {
+	    				backurl = auction.substring(fromIndex+Const.xml_backurl_length, auction.indexOf(Const.xml_backurl_end, fromIndex));
+	    			}
 	    			val = val.substring(val.indexOf(Const.xml_auction_end)+Const.xml_auction_end_length);
 	    			
 	    			synchronized(UiApplication.getEventLock()) {
-	    				tmp = new ThumbnailField(new Auction(auctionid, cardid, usercardid, description, auctionthumb, openingbid, buynowprice, price, username, endDate, lastBidUser));
+	    				Auction tmpAuc = new Auction(auctionid, cardid, usercardid, description, auctionthumb, openingbid, buynowprice, price, username, endDate, lastBidUser);
+	    				tmpAuc.setFronturl(fronturl);
+	    				tmpAuc.setBackurl(backurl);
+	    				tmp = new ThumbnailField(tmpAuc);
 	    				if(!price.equals("")){
-	    					tmp.setSecondLabel("Current bid: "+price);
+	    					if (lastBidUser.equals(SettingsBean.getSettings().getUsername())) {
+	    						tmp.setSecondLabel("Current bid: "+price+ " (Yours)");
+	    					} else {
+	    						tmp.setSecondLabel("Current bid: "+price);
+	    					}
 	    				}else{
 	    					tmp.setSecondLabel("Opening bid: "+openingbid);
 	    				}
-	    				tmp.setThirdLabel("Buy now price: "+buynowprice);
+	    					    
+	    				long end = new Date(HttpDateParser.parse(endDate)).getTime();
+	    				long current = System.currentTimeMillis();
+	    				
+	    				long diff = end - current;
+	    				
+	    				Date test = new Date(diff);
+	    				
+	    				SimpleDateFormat days = new SimpleDateFormat("d");
+	    				SimpleDateFormat hours = new SimpleDateFormat("H");
+	    				String day = days.format(test);
+	    				String hour = hours.format(test);
+	    				if (day.equals("1")) {
+	    					day = day + " Day ";
+	    				} else {
+	    					day = day + " Days ";
+	    				}
+	    				
+	    				if (hour.equals("1")) {
+	    					hour = hour + " Hour";
+	    				} else {
+	    					hour = hour + " Hours";
+	    				}
+	    				
+	    				tmp.setThirdLabel(day + hour);
 	        			tmp.setChangeListener(this);
 	        			add(tmp);
 	        		}
@@ -125,20 +186,24 @@ public class AuctionListScreen extends AppScreen implements FieldChangeListener
 		
 		exit.setChangeListener(this);
 		
+		header.setText("Current credits:" + SettingsBean.getSettings().getCredits());
+		add(header);
+		
+		addButton(new FixedButtonField(""));
+		addButton(new FixedButtonField(""));
 		addButton(exit);
-		addButton(new FixedButtonField(""));
-		addButton(new FixedButtonField(""));
-		System.out.println("AAA "+Const.categoryauction+"&category_id="+id+Const.height+Const.getCardHeight());
 		if(type == 0){
-			doConnect(Const.categoryauction+"&category_id="+id+Const.height+Const.getCardHeight());
+			doConnect(Const.categoryauction+"&category_id="+id+Const.height+Const.getCardHeight()+Const.bbheight+Const.getAppHeight()+Const.width+Const.getCardWidth());
 		}else{
-			doConnect(Const.userauction+"&username="+SettingsBean.getSettings().getUsername()+Const.height+Const.getCardHeight());
+			doConnect(Const.userauction+"&username="+SettingsBean.getSettings().getUsername()+Const.height+Const.getCardHeight()+Const.bbheight+Const.getAppHeight()+Const.width+Const.getCardWidth());
 		}
 	}
 	
 	protected void onExposed() {
-		if(purchased){
-			UiApplication.getUiApplication().popScreen(this);
+		if (!isVisible()) {
+			if(type == 0){
+				doConnect(Const.categoryauction+"&category_id="+id+Const.height+Const.getCardHeight()+Const.bbheight+Const.getAppHeight()+Const.width+Const.getCardWidth());
+			}
 		}
 	}
 	public boolean onClose() {
@@ -153,7 +218,8 @@ public class AuctionListScreen extends AppScreen implements FieldChangeListener
 		} else if(f instanceof ThumbnailField){
 			ThumbnailField auction = ((ThumbnailField)(f));
 			if(type==0){
-				screen = new BidOrBuyScreen(this, auction.getAuction());
+				//screen = new BidOrBuyScreen(this, auction.getAuction());
+				screen = new AuctionInfoScreen(auction.getAuction(), auction.getThumbnail(), true);
 				UiApplication.getUiApplication().pushScreen(screen);
 			}else{
 				screen = new AuctionInfoScreen(auction.getAuction(), auction.getThumbnail());

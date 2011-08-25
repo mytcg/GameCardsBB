@@ -27,9 +27,10 @@ public class ChooseDeckScreen extends AppScreen implements FieldChangeListener
 		createNewDeck.setChangeListener(this);
 		
 		add(new ColorLabelField("Please choose deck to play with",LabelField.FIELD_HCENTER , 18));
+		
+		addButton(new FixedButtonField(""));
+		addButton(new FixedButtonField(""));
 		addButton(exit);
-		addButton(new FixedButtonField(""));
-		addButton(new FixedButtonField(""));
 		
 		doConnect(Const.getusergames);
 	}

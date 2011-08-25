@@ -1,11 +1,10 @@
 package net.mytcg.dev.ui;
 
+import net.mytcg.dev.ui.custom.ColorLabelField;
 import net.mytcg.dev.ui.custom.FixedButtonField;
 import net.mytcg.dev.ui.custom.ListItemField;
-import net.mytcg.dev.util.Card;
 import net.mytcg.dev.util.Const;
 import net.mytcg.dev.util.SettingsBean;
-import net.rim.device.api.system.Bitmap;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.FieldChangeListener;
 import net.rim.device.api.ui.UiApplication;
@@ -25,9 +24,11 @@ public class PlayMenuScreen extends AppScreen implements FieldChangeListener
 		bgManager.setStatusHeight(exit.getContentHeight());
 		exit.setChangeListener(this);
 		
+		add(new ColorLabelField(""));
+		
+		addButton(new FixedButtonField(""));
+		addButton(new FixedButtonField(""));
 		addButton(exit);
-		addButton(new FixedButtonField(""));
-		addButton(new FixedButtonField(""));
 		
 		playpc.setChangeListener(this);
 		playonline.setChangeListener(this);

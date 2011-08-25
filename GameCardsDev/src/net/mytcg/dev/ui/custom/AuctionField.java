@@ -1,7 +1,11 @@
 package net.mytcg.dev.ui.custom;
 
-import net.mytcg.dev.util.Const;
+import java.util.Date;
+
 import net.mytcg.dev.util.Auction;
+import net.mytcg.dev.util.Const;
+import net.rim.device.api.i18n.SimpleDateFormat;
+import net.rim.device.api.io.http.HttpDateParser;
 import net.rim.device.api.math.Fixed32;
 import net.rim.device.api.system.Bitmap;
 import net.rim.device.api.ui.Field;
@@ -26,7 +30,7 @@ public final class AuctionField extends Field {
 		int font = Const.FONT;
 		
 		Font _font = getFont();
-		_font = _font.derive(Font.BOLD,font);
+		_font = _font.derive(Const.TYPE,font);
 		setFont(_font);
 	}
 	
@@ -48,7 +52,7 @@ public final class AuctionField extends Field {
 		return Const.getWidth();
 	}
 	public int getPreferredHeight() {
-		return Const.getHeight()-Const.getButtonCentre().getHeight();
+		return (Const.FONT+4)*7;
 	}
 	protected void layout(int width, int height) {
 		setExtent(getPreferredWidth(),getPreferredHeight());
@@ -58,7 +62,7 @@ public final class AuctionField extends Field {
     }
 	public void paint(Graphics g) {
 		int _xPts[] = {0,0,getPreferredWidth(),getPreferredWidth()};
-		int _yPts[] = {0,Const.getHeight(),Const.getHeight(),0};
+		int _yPts[] = {0,getPreferredHeight(),getPreferredHeight(),0};
 		g.drawTexturedPath(_xPts,_yPts,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,Const.getBackground());
 		
 		g.setColor(Const.FONTCOLOR);
@@ -66,20 +70,54 @@ public final class AuctionField extends Field {
 		g.drawBitmap(5, 5, image.getWidth(), getPreferredHeight(), image, 0, 0);
 		
 		Font _font = getFont();
-		_font = _font.derive(Font.BOLD,Const.FONT+2);
+		_font = _font.derive(Const.TYPE,Const.FONT+2);
 		g.setFont(_font);
 		
-		g.drawText(auction.getDesc(), image.getWidth()+10, 4);
+		int height = 4;
+		
+		g.drawText(auction.getDesc(), image.getWidth()+10, height);
+		
+		height += Const.FONT+4;
 		if(!auction.getPrice().equals("")){
-			g.drawText("Current bid: "+auction.getPrice(), 5, image.getHeight() + 10);
+			g.drawText("Current bid: "+auction.getPrice(), image.getWidth()+10, height);
 		}else{
-			g.drawText("Opening bid: "+auction.getOpeningBid(), 5, image.getHeight() + 10);
+			g.drawText("Opening bid: "+auction.getOpeningBid(), image.getWidth()+10, height);
 		}
 		
-		g.drawText("By: "+auction.getUsername(), 5, image.getHeight() + 35);
+		height += Const.FONT+4;
+		g.drawText("Buy Out: "+auction.getBuyNowPrice(), image.getWidth()+10, height);
+		if(!auction.getPrice().equals("")){
+			height += Const.FONT+4;
+			g.drawText("Bidder: "+auction.getLastBidUser(), image.getWidth()+10, height);
+		}
+		height += Const.FONT+4;
+		g.drawText("Seller: "+auction.getUsername(), image.getWidth()+10, height);
+		height += Const.FONT+4;
 		
-		g.drawText("Buy now price: "+auction.getBuyNowPrice(), 5, image.getHeight() + 60);
-		g.drawText("End date: "+auction.getEndDate(), 5, image.getHeight() + 85);
+		long end = new Date(HttpDateParser.parse(auction.getEndDate())).getTime();
+		long current = System.currentTimeMillis();
+		
+		long diff = end - current;
+		
+		Date test = new Date(diff);
+		
+		SimpleDateFormat days = new SimpleDateFormat("d");
+		SimpleDateFormat hours = new SimpleDateFormat("H");
+		String day = days.format(test);
+		String hour = hours.format(test);
+		if (day.equals("1")) {
+			day = day + " Day ";
+		} else {
+			day = day + " Days ";
+		}
+		
+		if (hour.equals("1")) {
+			hour = hour + " Hour";
+		} else {
+			hour = hour + " Hours";
+		}
+		
+		g.drawText(""+day + hour, image.getWidth()+10, height);
 
 		_font = _font.derive(Font.PLAIN,Const.FONT);
 		g.setFont(_font);

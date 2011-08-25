@@ -6,6 +6,7 @@ import net.mytcg.dev.ui.custom.ListItemField;
 import net.mytcg.dev.util.Card;
 import net.mytcg.dev.util.Const;
 import net.mytcg.dev.util.Stat;
+
 import java.util.Vector;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.FieldChangeListener;
@@ -32,9 +33,10 @@ public class CardDetailScreen extends AppScreen implements FieldChangeListener
 		if(stats.size()== 0){
 			add(new ListItemField("None",-1,true,0));
 		}
+		
+		addButton(new FixedButtonField(""));
+		addButton(new FixedButtonField(""));
 		addButton(exit);
-		addButton(new FixedButtonField(""));
-		addButton(new FixedButtonField(""));
 		setDisplaying(true);
 	}
 	

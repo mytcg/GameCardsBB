@@ -1,9 +1,12 @@
 package net.mytcg.topcar.ui;
 
+import java.util.Date;
+
 import net.mytcg.topcar.ui.custom.FixedButtonField;
 import net.mytcg.topcar.ui.custom.ListItemField;
 import net.mytcg.topcar.util.Const;
 import net.mytcg.topcar.util.SettingsBean;
+import net.rim.device.api.io.http.HttpDateParser;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.FieldChangeListener;
 import net.rim.device.api.ui.UiApplication;
@@ -30,6 +33,10 @@ public class MenuScreen extends AppScreen implements FieldChangeListener
 	public MenuScreen()
 	{
 		super(null);
+		SettingsBean _instance = SettingsBean.getSettings();
+		if(_instance.notifications == false){
+			doConnect("notedate=1");
+		}
 		bgManager.setStatusHeight(exit.getContentHeight());
 		if (screen == null) {
 			exit.setLabel(Const.exit);
@@ -43,7 +50,7 @@ public class MenuScreen extends AppScreen implements FieldChangeListener
 		redeem = new ListItemField(Const.redeem, Const.REDEEM, false, 0);
 		balance = new ListItemField(Const.balance, Const.BALANCE, false, 0);
 		profile = new ListItemField(Const.profile, Const.PROFILE, false, 0);
-		notifications = new ListItemField(Const.notification, Const.NOTIFICATIONS, false, 0);
+		notifications = new ListItemField((_instance.notifications?"*":"")+Const.notification, Const.NOTIFICATIONS, false, 0);
 		rankings = new ListItemField(Const.rankings, Const.RANKINGS, false, 0);
 		friendranks = new ListItemField(Const.friendranks, Const.RANKINGS, false, 0);
 		friends = new ListItemField(Const.friend, Const.FRIENDS, false, 0);
@@ -85,6 +92,34 @@ public class MenuScreen extends AppScreen implements FieldChangeListener
 		addButton(new FixedButtonField(""));
 		addButton(new FixedButtonField(""));
 		addButton(exit);
+	}
+	
+	public void process(String val) {
+		int fromIndex;
+		if ((fromIndex = val.indexOf(Const.xml_notedate)) != -1) {
+			String notedate = val.substring(fromIndex+Const.xml_notedate_length, val.indexOf(Const.xml_notedate_end, fromIndex));
+			Date date = new Date(HttpDateParser.parse(notedate));
+			SettingsBean _instance = SettingsBean.getSettings();
+			System.out.println("date.getTime() " + date.getTime());
+			System.out.println("_instance.getNoteLoaded() " + _instance.getNoteLoaded());
+			if(date.getTime()/1000>_instance.getNoteLoaded()){
+				_instance.notifications = true;
+				synchronized(UiApplication.getEventLock()) {
+					notifications.setLabel((_instance.notifications?"*":"")+Const.notification);
+				}
+			}
+		}
+	}
+	
+	protected void onExposed() {
+		SettingsBean _instance = SettingsBean.getSettings();
+		synchronized(UiApplication.getEventLock()) {
+			notifications.setLabel((_instance.notifications?"*":"")+Const.notification);
+		}
+		if(_instance.notifications == false){
+			doConnect("notedate=1");
+		}
+		super.onExposed();
 	}
 	
 	public void fieldChanged(Field f, int i) {

@@ -5,10 +5,10 @@ import java.io.InputStream;
 import javax.microedition.io.Connector;
 import javax.microedition.io.file.FileConnection;
 
+import net.mytcg.dev.util.Auction;
 import net.mytcg.dev.util.Card;
 import net.mytcg.dev.util.Const;
 import net.mytcg.dev.util.Product;
-import net.mytcg.dev.util.Auction;
 import net.rim.device.api.math.Fixed32;
 import net.rim.device.api.system.Bitmap;
 import net.rim.device.api.system.EncodedImage;
@@ -23,6 +23,7 @@ public final class ThumbnailField extends Field {
 	private String backfile;
 	
 	private boolean focus;
+	private boolean focusable = true;
 	private String label1;
 	private String label2;
 	private String label3;
@@ -54,6 +55,8 @@ public final class ThumbnailField extends Field {
 	}
 	public String getDescription() {
 		if(card != null){
+			label2 = card.getQuality();
+			label3 = "Rating: " + card.getRating();
 			return card.getDesc();
 		}else if(product != null){
 			return product.getDesc();
@@ -140,7 +143,6 @@ public final class ThumbnailField extends Field {
 		if ((getBackUrl() != null)&&(getBackUrl().length() > 0)){
 			backfile  = getBackUrl().substring(getBackUrl().indexOf(Const.cards)+Const.cards_length, getBackUrl().indexOf(Const.png));
 		}
-		
 		construct(getDescription());
 	}
 	public ThumbnailField(Product product){
@@ -242,7 +244,7 @@ public final class ThumbnailField extends Field {
 			getData(0);
 		}
 		Font _font = getFont();
-		_font = _font.derive(Font.BOLD,font);
+		_font = _font.derive(Const.TYPE,font);
 		setFont(_font);
 		this.label1 = label;
 	}
@@ -289,8 +291,11 @@ public final class ThumbnailField extends Field {
 		setExtent(getPreferredWidth(),getPreferredHeight());
     }
 	public boolean isFocusable() {
-    	return true;
+    	return focusable;
     }
+	public void setFocusable(boolean focusable){
+		this.focusable = focusable;
+	}
 	public void paint(Graphics g) {
 		//int _xPts[] = {0,0,getPreferredWidth(),getPreferredWidth()};
 		//int _yPts[] = {0,Const.getHeight(),Const.getHeight(),0};
@@ -318,10 +323,10 @@ public final class ThumbnailField extends Field {
 		
 		
 		
-		g.drawBitmap(5, 5, button_thumbnail.getWidth(), getPreferredHeight(), button_thumbnail, 0, 0);
+		g.drawBitmap(5, 3, button_thumbnail.getWidth(), getPreferredHeight(), button_thumbnail, 0, 0);
 		
 		Font _font = getFont();
-		_font = _font.derive(Font.BOLD,Const.FONT+2);
+		_font = _font.derive(Const.TYPE,Const.FONT+2);
 		g.setFont(_font);
 		if(card != null){
 			if ((card.getNote() != null)&&(card.getNote().length() > 0)) {
@@ -329,9 +334,9 @@ public final class ThumbnailField extends Field {
 			}
 			
 			if (card.getUpdated() == 1) {
-				g.drawText("*" +label1, button_thumbnail.getWidth()+10, 4);
+				g.drawText("*" +label1 +(card.getQuantity()>-1?" ("+card.getQuantity()+")":""), button_thumbnail.getWidth()+10, 4);
 			} else {
-				g.drawText(label1, button_thumbnail.getWidth()+10, 4);
+				g.drawText(label1 +(card.getQuantity()>-1?" ("+card.getQuantity()+")":""), button_thumbnail.getWidth()+10, 4);
 			}
 		}else if(product != null){
 			g.drawText(label1, button_thumbnail.getWidth()+10, 4);
@@ -339,10 +344,10 @@ public final class ThumbnailField extends Field {
 			g.drawText(label1, button_thumbnail.getWidth()+10, 4);
 		}
 		if(!label2.equals("")){
-			g.drawText(label2, button_thumbnail.getWidth()+10, 26);
+			g.drawText(label2, button_thumbnail.getWidth()+10, Const.FONT+6);
 		}
 		if(!label3.equals("")){
-			g.drawText(label3, button_thumbnail.getWidth()+10, 48);
+			g.drawText(label3, button_thumbnail.getWidth()+10, (Const.FONT*2)+8);
 		}
 		
 		_font = _font.derive(Font.PLAIN,Const.FONT);

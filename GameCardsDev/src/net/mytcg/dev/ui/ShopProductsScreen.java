@@ -1,10 +1,11 @@
 package net.mytcg.dev.ui;
 
+import net.mytcg.dev.ui.custom.ColorLabelField;
 import net.mytcg.dev.ui.custom.FixedButtonField;
 import net.mytcg.dev.ui.custom.ListItemField;
 import net.mytcg.dev.ui.custom.ThumbnailField;
-import net.mytcg.dev.util.Product;
 import net.mytcg.dev.util.Const;
+import net.mytcg.dev.util.Product;
 import net.mytcg.dev.util.SettingsBean;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.FieldChangeListener;
@@ -15,6 +16,7 @@ public class ShopProductsScreen extends AppScreen implements FieldChangeListener
 	FixedButtonField exit = new FixedButtonField(Const.back);
 	
 	ThumbnailField tmp = new ThumbnailField(new Product(-1, "", 0, "", "", "", "", 0, null));
+	ColorLabelField header = new ColorLabelField("");
 	
 	boolean update = true;
 	boolean freebie = false;
@@ -22,7 +24,6 @@ public class ShopProductsScreen extends AppScreen implements FieldChangeListener
 	
 	public void process(String val) {
 		SettingsBean _instance = SettingsBean.getSettings();
-		System.out.println(val);
 		if (update) {
 			SettingsBean.saveSettings(_instance);
 		}
@@ -41,6 +42,18 @@ public class ShopProductsScreen extends AppScreen implements FieldChangeListener
 	    		String productthumb = "";
 	    		int endIndex = -1;
 	    		String product = "";
+	    		
+	    		if ((fromIndex = val.indexOf(Const.xml_credits)) != -1) {
+    				String credits = val.substring(fromIndex+Const.xml_credits_length, val.indexOf(Const.xml_credits_end, fromIndex));
+    				_instance = SettingsBean.getSettings();
+    				_instance.setCredits(credits);
+    				SettingsBean.saveSettings(_instance);
+    				synchronized(UiApplication.getEventLock()) {
+    					header.setText("Current credits:" + SettingsBean.getSettings().getCredits());
+    	    		}
+    				
+    			}
+	    		
 	    		while ((fromIndex = val.indexOf(Const.xml_productid)) != -1){
 	    			endIndex = val.indexOf(Const.xml_product_end);
 	    			product = val.substring(fromIndex, endIndex+Const.xml_product_end_length);
@@ -104,11 +117,23 @@ public class ShopProductsScreen extends AppScreen implements FieldChangeListener
 		
 		exit.setChangeListener(this);
 		
+		addButton(new FixedButtonField(""));
+		addButton(new FixedButtonField(""));
 		addButton(exit);
-		addButton(new FixedButtonField(""));
-		addButton(new FixedButtonField(""));
 		
-		doConnect(Const.categoryproducts+"&categoryId="+id);
+		if (!freebie) {
+			header.setText("Current credits:" + SettingsBean.getSettings().getCredits());
+			add(header);
+		} else {
+			header.setText("Received: 300 credits and a free starter pack.");
+			add(header);
+		}
+		
+		if (!freebie) {
+			doConnect(Const.categoryproducts+"&categoryId="+id);
+		} else {
+			doConnect(Const.freebieproducts+"&categoryId="+id);
+		}
 	}
 	
 	protected void onExposed() {

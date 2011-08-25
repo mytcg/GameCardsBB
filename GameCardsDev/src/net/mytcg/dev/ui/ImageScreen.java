@@ -1,11 +1,5 @@
 package net.mytcg.dev.ui;
 
-import net.mytcg.dev.ui.custom.FixedButtonField;
-import net.mytcg.dev.ui.custom.ImageField;
-import net.mytcg.dev.ui.custom.StatField;
-import net.mytcg.dev.util.Card;
-import net.mytcg.dev.util.Const;
-import net.mytcg.dev.util.SettingsBean;
 import net.rim.blackberry.api.browser.Browser;
 import net.rim.blackberry.api.browser.BrowserSession;
 import net.rim.blackberry.api.invoke.Invoke;
@@ -17,6 +11,13 @@ import net.rim.device.api.ui.FieldChangeListener;
 import net.rim.device.api.ui.UiApplication;
 
 import java.util.Vector;
+
+import net.mytcg.dev.ui.custom.FixedButtonField;
+import net.mytcg.dev.ui.custom.ImageField;
+import net.mytcg.dev.ui.custom.StatField;
+import net.mytcg.dev.util.Card;
+import net.mytcg.dev.util.Const;
+import net.mytcg.dev.util.SettingsBean;
 import net.mytcg.dev.util.Stat;
 
 public class ImageScreen extends AppScreen implements FieldChangeListener
@@ -59,30 +60,34 @@ public class ImageScreen extends AppScreen implements FieldChangeListener
 		if(!(Const.getPortrait())){
 			hStatManager.setStatusHeight(exit.getContentHeight());
 			hStatManager.setUrl(card.getFronturl());
-			System.out.println("setting hStatManager url");
 		}else{
 			vStatManager.setStatusHeight(exit.getContentHeight());
 			vStatManager.setUrl(card.getFronturl());
-			System.out.println("setting vStatManager url");
 		}
 		
 		cardStats = card.getStats();
-		stats = new StatField [cardStats.size()];
-		for(int i = 0; i < cardStats.size(); i++){
-			if(!(Const.getPortrait())){
-				stats[i] = new StatField ((Stat)cardStats.elementAt(i), hStatManager.image);
-			}else{
-				stats[i] = new StatField ((Stat)cardStats.elementAt(i), vStatManager.image);
+		if (cardStats != null) {
+			stats = new StatField [cardStats.size()];
+			for(int i = 0; i < cardStats.size(); i++){
+				if(!(Const.getPortrait())){
+					stats[i] = new StatField ((Stat)cardStats.elementAt(i), hStatManager.image);
+				}else{
+					stats[i] = new StatField ((Stat)cardStats.elementAt(i), vStatManager.image);
+				}
+				
+				stats[i].setChangeListener(this);
+				//addStat(stats[i]);
 			}
-			
-			stats[i].setChangeListener(this);
-			addStat(stats[i]);
 		}
 		//addStat(new NullField());
 		
-		addButton(exit);
+		if (cardthumb != null) {
+			addButton(option);
+		} else {
+			addButton(new FixedButtonField(""));
+		}
 		addButton(flips);
-		addButton(option);
+		addButton(exit);
 	}
 	
 	public void process(String val) {
@@ -96,10 +101,15 @@ public class ImageScreen extends AppScreen implements FieldChangeListener
 		if(SettingsBean.getSettings().created){
 			UiApplication.getUiApplication().popScreen(this);
 		}
+		if(SettingsBean.getSettings().shared){
+			SettingsBean _instance = SettingsBean.getSettings();
+			_instance.shared = false;
+			SettingsBean.saveSettings(_instance);
+			UiApplication.getUiApplication().popScreen(this);
+		}
 	}
 	
 	public void fieldChanged(Field f, int i) {
-		System.out.println("FIELD: "+f.toString()+ " i "+i);
 		if (f == exit) {
 			if (confirm) {
 				doConnect(Const.savecard+card.getId());
@@ -116,11 +126,13 @@ public class ImageScreen extends AppScreen implements FieldChangeListener
 			}
 		} else if ((f == flips)) {
 			flip = !flip;
-			for(int j = 0; j < stats.length; j++){
-				if(flip){
-					stats[j].flip = 1;
-				}else{
-					stats[j].flip = 0;
+			if (stats != null) {
+				for(int j = 0; j < stats.length; j++){
+					if(flip){
+						stats[j].flip = 1;
+					}else{
+						stats[j].flip = 0;
+					}
 				}
 			}
 			if (flip) {
@@ -141,21 +153,24 @@ public class ImageScreen extends AppScreen implements FieldChangeListener
 				}
 			}
 		}else{
-			for(int j = 0; j < cardStats.size(); j++){
-				Stat temp = (Stat)cardStats.elementAt(j);
-				if((temp.getFrontOrBack()==0&&!flip)||(temp.getFrontOrBack()==1&&flip)){
-					if(f == stats[j]){
-						if (temp.getDesc().equals(Const.web)) {
-							BrowserSession browserSession = Browser.getDefaultSession();
-							browserSession.displayPage(temp.getValue());
-							browserSession.showBrowser();
-						} else if (temp.getDesc().equals(Const.phone)) {
-							PhoneArguments phoneArguments = new PhoneArguments(
-					                PhoneArguments.ARG_CALL, temp.getValue());
-					        Invoke.invokeApplication(Invoke.APP_TYPE_PHONE, phoneArguments);
-						} else if (temp.getDesc().startsWith(Const.eml)) {
-							String subject = "";
-							Invoke.invokeApplication( Invoke.APP_TYPE_MESSAGES, new MessageArguments(MessageArguments.ARG_NEW,temp.getValue(),subject,Const.sig));
+			if (cardStats != null) {
+				for(int j = 0; j < cardStats.size(); j++){
+					Stat temp = (Stat)cardStats.elementAt(j);
+					if((temp.getFrontOrBack()==0&&!flip)||(temp.getFrontOrBack()==1&&flip)){
+						if(f == stats[j]){
+							
+							if (temp.getDesc().equals(Const.web)) {
+								BrowserSession browserSession = Browser.getDefaultSession();
+								browserSession.displayPage(temp.getValue());
+								browserSession.showBrowser();
+							} else if (temp.getDesc().equals(Const.phone)) {
+								PhoneArguments phoneArguments = new PhoneArguments(
+						                PhoneArguments.ARG_CALL, temp.getValue());
+						        Invoke.invokeApplication(Invoke.APP_TYPE_PHONE, phoneArguments);
+							} else if (temp.getDesc().startsWith(Const.eml)) {
+								String subject = "";
+								Invoke.invokeApplication( Invoke.APP_TYPE_MESSAGES, new MessageArguments(MessageArguments.ARG_NEW,temp.getValue(),subject,Const.sig));
+							}
 						}
 					}
 				}

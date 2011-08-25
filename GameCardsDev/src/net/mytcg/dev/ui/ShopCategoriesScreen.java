@@ -20,10 +20,11 @@ public class ShopCategoriesScreen extends AppScreen implements FieldChangeListen
 	
 	public void process(String val) {
 		SettingsBean _instance = SettingsBean.getSettings();
-		System.out.println(val);
 		if (update) {
 			SettingsBean.saveSettings(_instance);
 		}
+		
+		int count = 0;
 		
 		if ((!(isDisplaying()))||(update)) {
 			int fromIndex;
@@ -55,6 +56,7 @@ public class ShopCategoriesScreen extends AppScreen implements FieldChangeListen
 	    				tmp = new ListItemField(albumname, albumid, true, 0);
 	        			tmp.setChangeListener(this);
 	        			add(tmp);
+	        			count++;
 	        		}
 	    			empty = false;
 	    		}
@@ -62,6 +64,10 @@ public class ShopCategoriesScreen extends AppScreen implements FieldChangeListen
 	    			synchronized(UiApplication.getEventLock()) {
 	        			add(new ListItemField("Empty", -1, false, 0));
 	        		}
+	    		} else if (count == 1) {
+	    			synchronized(UiApplication.getEventLock()) {
+	    				fieldChanged(tmp, 0);
+	    			}
 	    		}
 	    	}
 	    	invalidate();
@@ -72,20 +78,21 @@ public class ShopCategoriesScreen extends AppScreen implements FieldChangeListen
 	public ShopCategoriesScreen(boolean freebie) {
 		super(null);
 		this.freebie = freebie;
-		if(freebie){
-			add(new ColorLabelField("To say thank you for joining we have given you 150 credits and you get to choose a free booster to start out with"));
-		}else{
-			add(new ColorLabelField("Choose a category."));
-		}
 		bgManager.setStatusHeight(exit.getContentHeight());
 		
 		exit.setChangeListener(this);
 		
+		addButton(new FixedButtonField(""));
+		addButton(new FixedButtonField(""));
 		addButton(exit);
-		addButton(new FixedButtonField(""));
-		addButton(new FixedButtonField(""));
 		
-		doConnect(Const.productcategories);
+		if(freebie){
+			add(new ColorLabelField("Received: 300 credits and a free starter pack."));
+			doConnect(Const.freebiecategories);
+		}else{
+			add(new ColorLabelField("Choose a category."));
+			doConnect(Const.productcategories);
+		}
 	}
 	public ShopCategoriesScreen() {
 		this(false);

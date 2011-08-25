@@ -53,6 +53,7 @@ public class LoginScreen extends AppScreen implements FieldChangeListener
 		
 		SettingsBean _instance = SettingsBean.getSettings();
 		_instance.setAuthenticated(false);
+		_instance.lastloaded();
 		SettingsBean.saveSettings(_instance);
 		
 		add(new ColorLabelField(Const.user));
@@ -65,9 +66,9 @@ public class LoginScreen extends AppScreen implements FieldChangeListener
 		exit.setChangeListener(this);
 		login.setChangeListener(this);
 		
-		addButton(exit);
-		addButton(new FixedButtonField(""));
 		addButton(login);
+		addButton(new FixedButtonField(""));
+		addButton(exit);
 	}
 	
 	public void fieldChanged(Field f, int i) {
@@ -89,7 +90,7 @@ public class LoginScreen extends AppScreen implements FieldChangeListener
 				_instance.setPassword(password64);
 				SettingsBean.saveSettings(_instance);
 				_instance = null;
-				doConnect(Const.userdetails, false);
+				doConnect(Const.userdetails+Const.height+Const.getAppHeight()+Const.width+Const.getCardWidth(), false);
 			}
 		}
 	}

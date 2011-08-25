@@ -18,11 +18,11 @@ public class PlaceBidScreen extends AppScreen implements FieldChangeListener
 	ColorLabelField lblBuyNowPrice = null;
 	ColorLabelField lblEndDate = null;
 	ColorLabelField lblYourBid = null;
-	BidOrBuyScreen screen;
+	AuctionInfoScreen screen;
 	Auction auction;
 	boolean purchased = false;
 	
-	public PlaceBidScreen(BidOrBuyScreen screen, Auction auction)
+	public PlaceBidScreen(AuctionInfoScreen screen, Auction auction)
 	{
 		super(null);
 		this.auction = auction;
@@ -46,9 +46,9 @@ public class PlaceBidScreen extends AppScreen implements FieldChangeListener
 		exit.setChangeListener(this);
 		bid.setChangeListener(this);
 		
-		addButton(exit);
-		addButton(new FixedButtonField(""));
 		addButton(bid);
+		addButton(new FixedButtonField(""));
+		addButton(exit);
 	}
 	
 	public void process(String val) {

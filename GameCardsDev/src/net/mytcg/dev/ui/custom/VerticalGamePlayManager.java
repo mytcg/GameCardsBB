@@ -8,6 +8,7 @@ import javax.microedition.io.file.FileConnection;
 
 import net.mytcg.dev.http.ConnectionGet;
 import net.mytcg.dev.util.Const;
+import net.mytcg.dev.util.SettingsBean;
 import net.rim.device.api.math.Fixed32;
 import net.rim.device.api.system.Bitmap;
 import net.rim.device.api.system.EncodedImage;
@@ -31,6 +32,8 @@ public class VerticalGamePlayManager extends VerticalFieldManager
 	public boolean drawbox = false;
 	String color = "";
 	
+	public boolean loaded = false;
+	
 	public VerticalGamePlayManager(boolean useall)
 	{
 		super(VerticalFieldManager.USE_ALL_WIDTH | Manager.FOCUSABLE);
@@ -52,7 +55,7 @@ public class VerticalGamePlayManager extends VerticalFieldManager
 	public int getPreferredWidth() {
 		if ((Const.getPortrait())) {
 			return Const.getWidth();
-		}else return Const.getWidth()/2-20;
+		}else return Const.getWidth()/2-25;
 	}
 	
 	public VerticalGamePlayManager()
@@ -97,29 +100,35 @@ public class VerticalGamePlayManager extends VerticalFieldManager
 		setExtent();
 	}
 	public void setUrl(String url) {
-		System.out.println("url " + url);
 		this.url = url;
 		if ((url != null)&&(url.length() > 0)){
 			file = url.substring(url.indexOf(Const.cards)+Const.cards_length, url.indexOf(Const.png));
 		}
-		System.out.println("construct(); ");
 		construct();
 	}
 	public void construct() {
+		loaded = false;
 		int font = Const.FONT;
-		EncodedImage loading = EncodedImage.getEncodedImageResource("loading.png");
-		Bitmap temp = loading.getBitmap();
-		if ((Const.getPortrait())) {
-			image = Const.getScaledBitmapImage((loading),((double)(getPreferredHeight()-20)/temp.getWidth()),((double)(getPreferredWidth()-20)/temp.getHeight()));
-		}else{
-			image = Const.getScaledBitmapImage((loading),((double)(getPreferredWidth()-20)/temp.getWidth()),((double)(getPreferredHeight()-20)/temp.getHeight()));
-		}
-		landscape();
+		image = Const.getThumbLoading();
+		FileConnection _file = null;
+		InputStream input = null;
+		try {
+			SettingsBean _instance = SettingsBean.getSettings();
+			_file = (FileConnection)Connector.open(Const.getStorage()+Const.PREFIX+_instance.loadingflip);
+			input = _file.openInputStream();
+			byte[] data = new byte[(int) _file.fileSize()];
+			input.read(data);
+			input.close();
+			_file.close();
+			image = (EncodedImage.createEncodedImage(data, 0, data.length)).getBitmap();
+			landscape();
+			invalidate();
+		} catch (Exception e) {}
 		if (file != null) {
 			getData();
 		}
 		Font _font = getFont();
-		_font = _font.derive(Font.BOLD,font);
+		_font = _font.derive(Const.TYPE,font);
 		setFont(_font);
 	}
 	public void getData() {
@@ -136,12 +145,14 @@ public class VerticalGamePlayManager extends VerticalFieldManager
 				input.read(data);
 				input.close();
 				_file.close();
-				Bitmap temp = (EncodedImage.createEncodedImage(data, 0, data.length)).getBitmap();
-				if ((Const.getPortrait())) {
-					image = Const.getScaledBitmapImage((EncodedImage.createEncodedImage(data, 0, data.length)),((double)(getPreferredHeight()-20)/temp.getWidth()),((double)(getPreferredWidth()-25)/temp.getHeight()));
-				}else{
-					image = Const.getScaledBitmapImage((EncodedImage.createEncodedImage(data, 0, data.length)),((double)(getPreferredWidth()-20)/temp.getWidth()),((double)(getPreferredHeight()-25)/temp.getHeight()));
-				}
+				image = (EncodedImage.createEncodedImage(data, 0, data.length)).getBitmap();
+				loaded = true;
+				//Bitmap temp = (EncodedImage.createEncodedImage(data, 0, data.length)).getBitmap();
+				//if ((Const.getPortrait())) {
+				//	image = Const.getScaledBitmapImage((EncodedImage.createEncodedImage(data, 0, data.length)),((double)(getPreferredHeight()-20)/temp.getWidth()),((double)(getPreferredWidth()-25)/temp.getHeight()));
+				//}else{
+				//	image = Const.getScaledBitmapImage((EncodedImage.createEncodedImage(data, 0, data.length)),((double)(getPreferredHeight()-20)/temp.getHeight()),((double)(getPreferredHeight()-25)/temp.getHeight()));
+				//}
 				landscape();
 				invalidate();
 			}
@@ -154,9 +165,9 @@ public class VerticalGamePlayManager extends VerticalFieldManager
 		cG.start();
 	}
 	public void landscape() {
-		if ((Const.getPortrait())) {
+		if (!(Const.getPortrait())) {
 			try {
-				image = Const.rotate(image, 90);
+				image = Const.rotate(image, 270);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -164,13 +175,14 @@ public class VerticalGamePlayManager extends VerticalFieldManager
 		}
 	}
 	public void process(byte[] data) {
-		Bitmap temp = (EncodedImage.createEncodedImage(data, 0, data.length)).getBitmap();
-		if ((Const.getPortrait())) {
-			image = Const.getScaledBitmapImage((EncodedImage.createEncodedImage(data, 0, data.length)),((double)(getPreferredHeight()-20)/temp.getWidth()),((double)(getPreferredWidth()-25)/temp.getHeight()));
-		}else{
-			image = Const.getScaledBitmapImage((EncodedImage.createEncodedImage(data, 0, data.length)),((double)(getPreferredWidth()-20)/temp.getWidth()),((double)(getPreferredHeight()-25)/temp.getHeight()));
-		}
-		//image = (EncodedImage.createEncodedImage(data, 0, data.length)).getBitmap();
+		//Bitmap temp = (EncodedImage.createEncodedImage(data, 0, data.length)).getBitmap();
+		//if ((Const.getPortrait())) {
+		//	image = Const.getScaledBitmapImage((EncodedImage.createEncodedImage(data, 0, data.length)),((double)(getPreferredHeight()-20)/temp.getWidth()),((double)(getPreferredWidth()-25)/temp.getHeight()));
+		//}else{
+		//	image = Const.getScaledBitmapImage((EncodedImage.createEncodedImage(data, 0, data.length)),((double)(getPreferredHeight()-20)/temp.getHeight()),((double)(getPreferredHeight()-25)/temp.getHeight()));
+		//}
+		image = (EncodedImage.createEncodedImage(data, 0, data.length)).getBitmap();
+		loaded = true;
 		landscape();
 		invalidate();
 		saveData(data);
@@ -196,7 +208,7 @@ public class VerticalGamePlayManager extends VerticalFieldManager
             field = getField(i); //get the field
             if(field instanceof StatField){
             	StatField sField = (StatField)field;
-            	setPositionChild(field, ((getPreferredWidth()-(image.getWidth()))/2)+sField.stat.getLeft()*image.getWidth()/250-5, -5+(((getPreferredHeight())-((image.getHeight())))/2)+sField.stat.getTop()*image.getHeight()/350);  //set the position for the field
+            	setPositionChild(field, ((14)/2)+sField.stat.getLeft()*image.getWidth()/250, (((14)/2))+sField.stat.getTop()*image.getHeight()/350);  //set the position for the field
             	layoutChild( field, sField.stat.getWidth()*image.getWidth()/250, sField.stat.getHeight()*image.getHeight()/350 ); //lay out the field
             } 	
         }

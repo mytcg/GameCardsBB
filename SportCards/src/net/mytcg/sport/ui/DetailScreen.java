@@ -222,7 +222,10 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 	    		int noteid = -1;
 	    		String desc = "";
 	    		String date = "";
-	    		
+	    		SettingsBean _instance = SettingsBean.getSettings();
+	    		_instance.noteloaded();
+	    		_instance.notifications = false;
+	    		SettingsBean.saveSettings(_instance);
 	    		int endIndex = -1;
 	    		String note = "";
 	    		while ((fromIndex = val.indexOf(Const.xml_id)) != -1){

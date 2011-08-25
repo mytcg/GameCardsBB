@@ -3,6 +3,7 @@ package net.mytcg.dev.ui.custom;
 import net.mytcg.dev.util.Const;
 import net.rim.device.api.math.Fixed32;
 import net.rim.device.api.system.Bitmap;
+import net.rim.device.api.ui.DrawStyle;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.Font;
 import net.rim.device.api.ui.Graphics;
@@ -49,7 +50,7 @@ public final class ListItemField extends Field {
 		button_sel_right_edge = Const.getListboxSelRightEdge();
 		
 		Font _font = getFont();
-		_font = _font.derive(Font.BOLD,font+2);
+		_font = _font.derive(Const.TYPE,font+2);
 		setFont(_font);
 		this.label = label;
 		this.id = id;
@@ -108,7 +109,8 @@ public final class ListItemField extends Field {
 			//g.drawBitmap(getPreferredWidth()-(button_right_edge.getWidth()+5), 0, getPreferredWidth(), getPreferredHeight(), button_right_edge, 0, 0);
 		}
 		//g.drawText(label, 5, (int)((getPreferredHeight()-Const.FONT)/2));
-		g.drawText(label, (getPreferredWidth()/2-label.length()*8/2), (int)((getPreferredHeight()-Const.FONT)/2));
+		g.drawText(label, 0, (getPreferredHeight()-Const.FONT)/2, DrawStyle.HCENTER, getWidth());
+		//g.drawText(label, (getPreferredWidth()/2-label.length()*8/2-4), (int)((getPreferredHeight()-Const.FONT)/2-5));
 	}
 	protected void onFocus(int direction) {
 		focus = true;

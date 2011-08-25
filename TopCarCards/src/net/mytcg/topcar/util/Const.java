@@ -1,5 +1,7 @@
 package net.mytcg.topcar.util;
 
+import java.util.Date;
+
 import javax.microedition.io.Connector;
 import javax.microedition.io.file.FileConnection;
 
@@ -7,7 +9,10 @@ import net.mytcg.topcar.http.ConnectionHandler;
 import net.mytcg.topcar.ui.GameCardsHome;
 import net.mytcg.topcar.ui.custom.ImageLoader;
 import net.rim.blackberry.api.phone.Phone;
+import net.rim.device.api.i18n.DateFormat;
+import net.rim.device.api.i18n.SimpleDateFormat;
 import net.rim.device.api.io.file.FileIOException;
+import net.rim.device.api.io.http.HttpDateParser;
 import net.rim.device.api.math.Fixed32;
 import net.rim.device.api.system.Bitmap;
 import net.rim.device.api.system.CDMAInfo;
@@ -625,6 +630,13 @@ public final class Const {
 			}
 			if ((fromIndex = val.indexOf(Const.xml_loadingflipurl)) != -1) {
     			loadingurlflip = val.substring(fromIndex+Const.xml_loadingflipurl_length, val.indexOf(Const.xml_loadingflipurl_end, fromIndex));
+    		}
+			if ((fromIndex = val.indexOf(Const.xml_notedate)) != -1) {
+				String notedate = val.substring(fromIndex+Const.xml_notedate_length, val.indexOf(Const.xml_notedate_end, fromIndex));
+				Date date = new Date(HttpDateParser.parse(notedate));
+				if(date.getTime()/1000>_instance.getNoteLoaded()){
+					_instance.notifications = true;
+				}
     		}
 			load = new ImageLoader(loadingurl);
 			load2 = new ImageLoader(loadingurlflip);
@@ -1436,6 +1448,10 @@ public final class Const {
 	public static final int xml_loadingflipurl_length = xml_loadingflipurl.length();
 	public static final String xml_loadingflipurl_end = "</loadingurlflip>";
 	public static final int xml_loadingflipurl_end_length = xml_loadingflipurl_end.length();
+	public static final String xml_notedate = "<notedate>";
+	public static final int xml_notedate_length = xml_notedate.length();
+	public static final String xml_notedate_end = "</notedate>";
+	public static final int xml_notedate_end_length = xml_notedate_end.length();
 	public static final String xml_value = "<value>";
 	public static final int xml_value_length = xml_value.length();
 	public static final String xml_value_end = "</value>";

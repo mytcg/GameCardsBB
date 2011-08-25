@@ -1,13 +1,16 @@
 package net.mytcg.dev.ui;
 
-import net.mytcg.dev.ui.custom.CardField;
+import net.mytcg.dev.ui.custom.AuctionField;
 import net.mytcg.dev.ui.custom.ColorLabelField;
 import net.mytcg.dev.ui.custom.FixedButtonField;
 import net.mytcg.dev.ui.custom.SexyEditField;
+import net.mytcg.dev.ui.custom.ThumbnailField;
+import net.mytcg.dev.util.Auction;
 import net.mytcg.dev.util.Card;
 import net.mytcg.dev.util.Const;
 import net.mytcg.dev.util.SettingsBean;
 import net.rim.device.api.system.Bitmap;
+import net.rim.device.api.ui.Color;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.FieldChangeListener;
 import net.rim.device.api.ui.Font;
@@ -17,7 +20,9 @@ import net.rim.device.api.ui.component.EditField;
 public class AuctionCreateScreen extends AppScreen implements FieldChangeListener
 {
 	boolean created = false;
+	boolean confirm = false;
 	FixedButtonField exit = new FixedButtonField(Const.back);
+	FixedButtonField empty = new FixedButtonField("");
 	FixedButtonField auction = new FixedButtonField(Const.auction);
 	SexyEditField openingBid = new SexyEditField("", EditField.FILTER_NUMERIC, 36);
 	SexyEditField buyNowPrice = new SexyEditField("", EditField.FILTER_NUMERIC, 36);
@@ -25,7 +30,7 @@ public class AuctionCreateScreen extends AppScreen implements FieldChangeListene
 	ColorLabelField lblOpeningBid = new ColorLabelField(" Opening bid");
 	ColorLabelField lblBuyNowPrice = new ColorLabelField(" Buy now price");
 	ColorLabelField lblAuctionDuration = new ColorLabelField(" Auction duration(days)");
-	CardField cardfield = null;
+	ThumbnailField cardfield = null;
 
 	Card card = null;
 	
@@ -37,25 +42,39 @@ public class AuctionCreateScreen extends AppScreen implements FieldChangeListene
 		_instance.created = false;
 		SettingsBean.saveSettings(_instance);
 		Font _font = getFont();
-		_font = _font.derive(Font.BOLD, Const.FONT);
+		_font = _font.derive(Const.TYPE, Const.FONT);
 		setFont(_font);
 
 		bgManager.setStatusHeight(exit.getContentHeight());
 		
 		exit.setChangeListener(this);
 		auction.setChangeListener(this);
-		cardfield = new CardField(card, cardthumb);
+		
+		//cardfield = new CardField(card, cardthumb);
+		cardfield = new ThumbnailField(card);
+		//add(cardfield);
 		add(cardfield);
 		add(lblOpeningBid);
+		int val = 0;
+		try {
+			val = Integer.parseInt(card.getValue());
+		} catch (Exception e) {
+			val = 0;
+		}
+		openingBid.setText(""+val);
+		buyNowPrice.setText(""+ (2*val));
+		auctionDuration.setText("5");
+		
 		add(openingBid);
 		add(lblBuyNowPrice);
 		add(buyNowPrice);
 		add(lblAuctionDuration);
 		add(auctionDuration);
 
-		addButton(exit);
-		addButton(new FixedButtonField(""));
 		addButton(auction);
+		addButton(empty);
+		addButton(exit);
+		
 		invalidate();
 		setDisplaying(true);
 	}
@@ -65,52 +84,113 @@ public class AuctionCreateScreen extends AppScreen implements FieldChangeListene
 			screen = null;
 			UiApplication.getUiApplication().popScreen(this);
 		} else if (f == auction && created == false) {
-			if(valid()){
-				created = true;
-				SettingsBean _instance = SettingsBean.getSettings();
-				_instance.created = true;
-				SettingsBean.saveSettings(_instance);
-				synchronized(UiApplication.getEventLock()) {
-					try{
-						this.removeButton(auction);
-						addButton(new FixedButtonField(""));
-					}catch(Exception e){
+			if (!confirm) {
+				if(valid()){
+					created = false;
+					SettingsBean _instance = SettingsBean.getSettings();
+					_instance.created = false;
+					SettingsBean.saveSettings(_instance);
+					confirm = true;
+					
+					//when i auction
+					/*
+					 * created = true, instance.created = true
+					 */
+					synchronized(UiApplication.getEventLock()) {
+						try{
+							
 						
+							this.delete(cardfield);
+							this.delete(openingBid);
+							this.delete(buyNowPrice);
+							this.delete(auctionDuration);
+							
+							lblBuyNowPrice.setText("");
+							lblAuctionDuration.setText("");
+							int val = 0;
+							int buynow = 0;
+							try {
+								buynow = Integer.parseInt(buyNowPrice.getText());
+							} catch (Exception e) {
+								buynow = 0;
+							}
+							int bid = 0;
+							try {
+								bid = Integer.parseInt(openingBid.getText());
+							} catch (Exception e) {
+								bid = 0;
+							}
+							val = bid;
+							if (buynow > bid) {
+								val = buynow;
+							}
+							val = (int)((double)val/10);
+							if (val < 5) {
+								val = 5;
+							}
+							
+							lblOpeningBid.setColor(Color.RED);
+							lblOpeningBid.setText("Are you sure you want to auction "+card.getDesc()+"? It will cost you " + val + " credits.");
+							//lblOpeningBid.setColor(Const.FONTCOLOR);
+							
+							add(new AuctionField(new Auction(-1, card.getId(), 1, 
+									card.getDesc(), card.getThumburl(), openingBid.getText(), buyNowPrice.getText(), "", "You"
+									, auctionDuration.getText() + " days left", ""), cardfield.getThumbnail()));
+							
+							//this.removeButton(auction);
+							//addButton(new FixedButtonField(""));
+						}catch(Exception e){
+							
+						}
 					}
+					//doConnect(Const.createauction+"&cardid="+card.getId()+"&bid="+openingBid.getText()+"&buynow="+buyNowPrice.getText()+"&days="+auctionDuration.getText());
 				}
-				doConnect(Const.createauction+"&cardid="+card.getId()+"&bid="+openingBid.getText()+"&buynow="+buyNowPrice.getText()+"&days="+auctionDuration.getText());
+			} else {
+				if(valid()){
+					created = true;
+					SettingsBean _instance = SettingsBean.getSettings();
+					_instance.created = true;
+					SettingsBean.saveSettings(_instance);
+					
+					synchronized(UiApplication.getEventLock()) {
+						try{
+							lblOpeningBid.setColor(Color.RED);
+							lblOpeningBid.setText("Attempting to create auction...");
+							
+							auction.setChangeListener(null);
+							auction.empty = true;
+							auction.setLabel("");
+							//removeButton(auction);
+							
+						}catch(Exception e){
+							
+						}
+					}
+					doConnect(Const.createauction+"&cardid="+card.getId()+"&bid="+openingBid.getText()+"&buynow="+buyNowPrice.getText()+"&days="+auctionDuration.getText());
+				}
 			}
 		} 
 	}
 	
 	public void process(String val) {
 		int fromIndex = -1;
-		System.out.println(val);
 		if ((fromIndex = val.indexOf(Const.xml_success)) != -1) {
 			if(val.substring(fromIndex+Const.xml_success_length, val.indexOf(Const.xml_success_end, fromIndex)).equals("1")){
 				synchronized(UiApplication.getEventLock()) {
 					try{
-						this.delete(cardfield);
-						this.delete(openingBid);
-						this.delete(buyNowPrice);
-						this.delete(auctionDuration);
 						lblBuyNowPrice.setText("");
 						lblAuctionDuration.setText("");
-						lblOpeningBid.setText(" Auction created!");
+						lblOpeningBid.setText("Auction successfully created!");
 					}catch(Exception e){
-						
+						e.printStackTrace();
 					}
 				}
 			}else{
 				synchronized(UiApplication.getEventLock()) {
 					try{
-						this.delete(cardfield);
-						this.delete(openingBid);
-						this.delete(buyNowPrice);
-						this.delete(auctionDuration);
 						lblBuyNowPrice.setText("");
 						lblAuctionDuration.setText("");
-						lblOpeningBid.setText(" Error creating auction.");
+						lblOpeningBid.setText("Error creating auction.");
 					}catch(Exception e){
 						
 					}
