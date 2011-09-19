@@ -27,9 +27,13 @@ public class GamePlayScreen extends AppScreen implements FieldChangeListener
 	private FixedButtonField play = new FixedButtonField(Const.play);
 	private FixedButtonField options = new FixedButtonField(Const.options);
 	private FixedButtonField con = new FixedButtonField(Const.con);
+	private FixedButtonField accept = new FixedButtonField(Const.accept);
+	private FixedButtonField reject = new FixedButtonField(Const.reject);
 	private SexyEditField username = new SexyEditField("");
 	private ColorLabelField user = new ColorLabelField("");
+	private ColorLabelField temp = new ColorLabelField("");
 	private ColorLabelField opponent = new ColorLabelField("");
+	private ImageField loading;
 	
 	private HorizontalGamePlayManager opphgamemanager = new HorizontalGamePlayManager();
 	private VerticalGamePlayManager oppvgamemanager = new VerticalGamePlayManager();
@@ -41,6 +45,7 @@ public class GamePlayScreen extends AppScreen implements FieldChangeListener
 	private String lastmove = "";
 	private String lastmove64 = "";
 	private int categoryId = -1;
+	private int deckId = -1;
 	private int newGameType = -1;
 	private int gameid = -1;
 	private StatField [] uistats;
@@ -61,10 +66,13 @@ public class GamePlayScreen extends AppScreen implements FieldChangeListener
 		return loaded;
 	}
 	
-	public GamePlayScreen(boolean newGame, int categoryId, int newGameType, boolean againstFriend) {
+	public GamePlayScreen(boolean newGame, int categoryId, int newGameType, boolean againstFriend, int deckid) {
 		super(true,true);
 		this.categoryId = categoryId;
 		this.newGameType = newGameType;
+		this.deckId = deckid;
+		accept.setChangeListener(this);
+		reject.setChangeListener(this);
 		play.setChangeListener(this);
 		con.setChangeListener(this);
 		flips.setChangeListener(this);
@@ -83,7 +91,7 @@ public class GamePlayScreen extends AppScreen implements FieldChangeListener
 				addButton(friendback);
 			}else{
 				setText("Initialising new game...");
-				doConnect(Const.startnewgame+"&categoryid="+categoryId+"&newgametype="+newGameType+Const.height+Const.getCardHeight()+Const.bbheight+Const.getAppHeight()+Const.width+Const.getCardWidth());
+				doConnect(Const.startnewgame+"&categoryid="+categoryId+"&newgametype="+newGameType+"&deckid="+deckId+Const.height+Const.getCardHeight()+Const.jpg+Const.bbheight+Const.getAppHeight()+Const.width+Const.getCardWidth());
 				addButton(new FixedButtonField(""));
 				addButton(new FixedButtonField(""));
 				addButton(options);
@@ -91,7 +99,7 @@ public class GamePlayScreen extends AppScreen implements FieldChangeListener
 		}else{
 			phase = "loadgame";
 			gameid = categoryId;
-			doConnect(Const.loadgame+"&gameid="+gameid+Const.height+Const.getCardHeight()+Const.bbheight+Const.getAppHeight()+Const.width+Const.getCardWidth());
+			doConnect(Const.loadgame+"&gameid="+gameid+Const.height+Const.getCardHeight()+Const.jpg+Const.bbheight+Const.getAppHeight()+Const.width+Const.getCardWidth());
 			addButton(new FixedButtonField(""));
 			addButton(new FixedButtonField(""));
 			addButton(options);
@@ -99,6 +107,7 @@ public class GamePlayScreen extends AppScreen implements FieldChangeListener
 	}
 	
 	public void process(String val) {
+		System.out.println(val);
 		invalidate();
 		int fromIndex;
 		if(phase.equals("newgame")){
@@ -108,6 +117,7 @@ public class GamePlayScreen extends AppScreen implements FieldChangeListener
 	    		String gcurlflip = "";
 	    		int endIndex = -1;
 	    		String game = "";
+	    		String creator = "";
 	    			
 	    		endIndex = val.indexOf(Const.xml_game_end);
 	    		game = val.substring(fromIndex, endIndex+Const.xml_game_end_length);
@@ -124,18 +134,43 @@ public class GamePlayScreen extends AppScreen implements FieldChangeListener
 	    		if ((fromIndex = game.indexOf(Const.xml_gcurlflip)) != -1) {
 	    			gcurlflip = game.substring(fromIndex+Const.xml_gcurlflip_length, game.indexOf(Const.xml_gcurlflip_end, fromIndex));
 	    		}
+	    		if ((fromIndex = game.indexOf(Const.xml_phase)) != -1) {
+	    			phase = game.substring(fromIndex+Const.xml_phase_length, game.indexOf(Const.xml_phase_end, fromIndex));
+	    		}
+	    		if ((fromIndex = game.indexOf(Const.xml_creator)) != -1) {
+	    			creator = game.substring(fromIndex+Const.xml_creator_length, game.indexOf(Const.xml_creator_end, fromIndex));
+	    		}
 	    		val = val.substring(val.indexOf(Const.xml_game_end)+Const.xml_game_end_length);
 	    		if(gameid != -1){
-		    		synchronized(UiApplication.getEventLock()) {
-		    			if(!(Const.getPortrait())){
-		    				add(new ImageField(gcurlflip));
-		    			}else{
-		    				add(new ImageField(gcurl));
-		    			}
-		        	}
-		    		setText("Loading game...");
-		    		phase = "loadgame";
-		    		doConnect(Const.loadgame+"&gameid="+gameid+Const.height+Const.getCardHeight()+Const.bbheight+Const.getAppHeight()+Const.width+Const.getCardWidth());
+	    			if(phase.equals("confirm")){
+	    				System.out.println("????");
+						synchronized(UiApplication.getEventLock()) {
+							temp = new ColorLabelField(creator + " wants to play against you, do you want to take them on?");
+							add(temp);
+							try{	
+								hManager1.setFocus();
+								hManager1.deleteAll();
+								bgManager.delete(loading);
+								bgManager.invalidate();
+							}catch(Exception e){};
+							addButton(accept);
+							addButton(new FixedButtonField(""));
+							addButton(reject);
+						}
+	    			}else{
+			    		synchronized(UiApplication.getEventLock()) {
+			    			if(!(Const.getPortrait())){
+			    				loading = new ImageField(gcurlflip);
+			    				add(loading);
+			    			}else{
+			    				loading = new ImageField(gcurl);
+			    				add(loading);
+			    			}
+			        	}
+			    		setText("Loading game...");
+			    		phase = "loadgame";
+			    		doConnect(Const.loadgame+"&gameid="+gameid+Const.height+Const.getCardHeight()+Const.jpg+Const.bbheight+Const.getAppHeight()+Const.width+Const.getCardWidth());
+	    			}
 	    		}
 			}
 		} else if (phase.equals("loadgame")){
@@ -621,10 +656,12 @@ public class GamePlayScreen extends AppScreen implements FieldChangeListener
 		        		}
 		        	}
 	    			phase = "loadgame";
-					//try{
-					//	Thread.sleep(4000);
-					//}catch(Exception e){};
-		    		doConnect(Const.continuegame+"&gameid="+gameid+"&lastmove="+lastmove64+Const.height+Const.getCardHeight()+Const.bbheight+Const.getAppHeight()+Const.width+Const.getCardWidth());
+	    			if(UiApplication.getUiApplication().getActiveScreen() == this){
+	    				try{
+	    					Thread.sleep(4000);
+	    				}catch(Exception e){};
+	    				doConnect(Const.continuegame+"&gameid="+gameid+"&lastmove="+lastmove64+Const.height+Const.getCardHeight()+Const.jpg+Const.bbheight+Const.getAppHeight()+Const.width+Const.getCardWidth());
+	    			}
 				} else if(phase.equals("oppmove")){
 					phase = "loadgame";
 					if ((fromIndex = game.indexOf(Const.xml_categorystatid)) != -1) {
@@ -674,15 +711,29 @@ public class GamePlayScreen extends AppScreen implements FieldChangeListener
 							}
 						}
 					}
-					doConnect(Const.loadgame+"&gameid="+gameid+Const.height+Const.getCardHeight()+Const.bbheight+Const.getAppHeight()+Const.width+Const.getCardWidth());
+					doConnect(Const.loadgame+"&gameid="+gameid+Const.height+Const.getCardHeight()+Const.jpg+Const.bbheight+Const.getAppHeight()+Const.width+Const.getCardWidth());
 				} else if(phase.equals("lfm")){
 					try{
 						Thread.sleep(4000);
 					}catch(Exception e){};
 					phase = "loadgame";
-					doConnect(Const.loadgame+"&gameid="+gameid+Const.height+Const.getCardHeight()+Const.bbheight+Const.getAppHeight()+Const.width+Const.getCardWidth());
-				}
-				else if(phase.equals("result")){
+					doConnect(Const.loadgame+"&gameid="+gameid+Const.height+Const.getCardHeight()+Const.jpg+Const.bbheight+Const.getAppHeight()+Const.width+Const.getCardWidth());
+				}else if(phase.equals("declined")){
+					System.out.println("????");
+					synchronized(UiApplication.getEventLock()) {
+						temp = new ColorLabelField("The person you wanted to play against declined the game.");
+						add(temp);
+						try{	
+							hManager1.setFocus();
+							hManager1.deleteAll();
+							bgManager.delete(loading);
+							bgManager.invalidate();
+						}catch(Exception e){System.out.println(e.toString());};
+						addButton(new FixedButtonField(""));
+						addButton(new FixedButtonField(""));
+						addButton(friendback);
+					}
+				}else if(phase.equals("result")){
 					synchronized(UiApplication.getEventLock()) {
 		        		bgManager.deleteAll();
 		        		hbgManager.deleteAll();
@@ -767,7 +818,7 @@ public class GamePlayScreen extends AppScreen implements FieldChangeListener
 
 		phase = "loadgame";
 		Stat temp = (Stat)stats.elementAt(j);
-		doConnect(Const.selectstat+"&gameid="+gameid+"&statid="+temp.getStatId()+Const.height+Const.getCardHeight()+Const.bbheight+Const.getAppHeight()+Const.width+Const.getCardWidth());
+		doConnect(Const.selectstat+"&gameid="+gameid+"&statid="+temp.getStatId()+Const.height+Const.getCardHeight()+Const.jpg+Const.bbheight+Const.getAppHeight()+Const.width+Const.getCardWidth());
 	}
 	
 	public void fieldChanged(Field f, int i) {
@@ -822,26 +873,51 @@ public class GamePlayScreen extends AppScreen implements FieldChangeListener
 				try{
 					friend64 = new String(Base64OutputStream.encode(username.getText().getBytes(), 0, username.getText().length(), false, false), "UTF-8");
 				}catch(Exception e){};
-				doConnect(Const.startnewgame+"&categoryid="+categoryId+"&newgametype="+newGameType+"&friend="+friend64+"&height="+Const.height+Const.getCardHeight()+Const.bbheight+Const.getAppHeight()+Const.width+Const.getCardWidth());
+				doConnect(Const.startnewgame+"&categoryid="+categoryId+"&newgametype="+newGameType+"&deckid="+deckId+"&friend="+friend64+Const.height+Const.getCardHeight()+Const.jpg+Const.bbheight+Const.getAppHeight()+Const.width+Const.getCardWidth());
 			}
 		} else if (f == options){
 			screen = new GameOptionsScreen(gameid);
 			UiApplication.getUiApplication().pushScreen(screen);
-		} else{
+		} else if (f == accept){
+			synchronized(UiApplication.getEventLock()) {
+				try{	
+					remove(temp);
+					hManager1.deleteAll();
+				}catch(Exception e){};
+				add(new ColorLabelField("Confirming..."));
+				addButton(new FixedButtonField(""));
+				addButton(new FixedButtonField(""));
+				addButton(options);
+			}
+			phase = "newgame";
+			System.out.println("confirmgame=1&gameid="+gameid+Const.height+Const.getCardHeight()+Const.bbheight+Const.getAppHeight()+Const.width+Const.getCardWidth()+"&deckid="+deckId);
+			doConnect("confirmgame=1&gameid="+gameid+Const.height+Const.getCardHeight()+Const.jpg+Const.bbheight+Const.getAppHeight()+Const.width+Const.getCardWidth()+"&deckid="+deckId);
+		}else if (f == reject){
+			synchronized(UiApplication.getEventLock()) {
+				try{	
+					remove(temp);
+					hManager1.deleteAll();
+				}catch(Exception e){};
+				add(new ColorLabelField("Finding new game..."));
+				addButton(new FixedButtonField(""));
+				addButton(new FixedButtonField(""));
+				addButton(options);
+			}
+			phase = "newgame";
+			System.out.println("declinegame=1&gameid="+gameid+"&categoryid="+categoryId+Const.height+Const.getCardHeight()+Const.bbheight+Const.getAppHeight()+Const.width+Const.getCardWidth()+"&deckid="+deckId);
+			doConnect("declinegame=1&gameid="+gameid+"&categoryid="+categoryId+Const.height+Const.getCardHeight()+Const.jpg+Const.bbheight+Const.getAppHeight()+Const.width+Const.getCardWidth()+"&deckid="+deckId);
+		}else{
 			if(active.equals("1")&&phase.equals("stat")){
 				for(int j = 0; j < stats.size(); j++){
 					Stat temp = (Stat)stats.elementAt(j);
 					if((temp.getFrontOrBack()==0&&!flip)||(temp.getFrontOrBack()==1&&flip)){
 						if(f == uistats[j]){
-							
 							synchronized(UiApplication.getEventLock()) {
 								if(!(Const.getPortrait())){
 									oppvgamemanager.setUrl(card2.getBackFlipurl());
 								}else{
 									opphgamemanager.setUrl(card2.getBackFlipurl());
 								}
-							
-							
 								invalidate();
 							}
 							final int val = j;

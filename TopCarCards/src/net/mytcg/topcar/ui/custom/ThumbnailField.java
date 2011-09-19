@@ -135,13 +135,13 @@ public final class ThumbnailField extends Field {
 		}*/
 		
 		if ((getThumbUrl() != null)&&(getThumbUrl().length() > 0)){
-			thumbfile = getThumbUrl().substring(getThumbUrl().indexOf(Const.cards)+Const.cards_length, getThumbUrl().indexOf(Const.png));
+			thumbfile = getThumbUrl().substring(getThumbUrl().indexOf(Const.cards)+Const.cards_length, getThumbUrl().indexOf(Const.jpeg));
 		}
 		if ((getFrontUrl() != null)&&(getFrontUrl().length() > 0)){
-			frontfile = getFrontUrl().substring(getFrontUrl().indexOf(Const.cards)+Const.cards_length, getFrontUrl().indexOf(Const.png));
+			frontfile = getFrontUrl().substring(getFrontUrl().indexOf(Const.cards)+Const.cards_length, getFrontUrl().indexOf(Const.jpeg));
 		}
 		if ((getBackUrl() != null)&&(getBackUrl().length() > 0)){
-			backfile  = getBackUrl().substring(getBackUrl().indexOf(Const.cards)+Const.cards_length, getBackUrl().indexOf(Const.png));
+			backfile  = getBackUrl().substring(getBackUrl().indexOf(Const.cards)+Const.cards_length, getBackUrl().indexOf(Const.jpeg));
 		}
 		construct(getDescription());
 	}
@@ -161,7 +161,7 @@ public final class ThumbnailField extends Field {
 		this.label2 = "";
 		this.label3 = "";
 		if ((getThumbUrl() != null)&&(getThumbUrl().length() > 0)){
-			thumbfile = getThumbUrl().substring(getThumbUrl().indexOf(Const.cards)+Const.cards_length, getThumbUrl().indexOf(Const.png));
+			thumbfile = getThumbUrl().substring(getThumbUrl().indexOf(Const.cards)+Const.cards_length, getThumbUrl().indexOf(Const.jpeg));
 		}
 		construct(getDescription());
 	}

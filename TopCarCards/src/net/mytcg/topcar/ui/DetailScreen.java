@@ -11,6 +11,8 @@ import net.mytcg.topcar.ui.custom.SexyEditField;
 import net.mytcg.topcar.util.Answer;
 import net.mytcg.topcar.util.Const;
 import net.mytcg.topcar.util.SettingsBean;
+import net.rim.blackberry.api.browser.Browser;
+import net.rim.blackberry.api.browser.BrowserSession;
 import net.rim.device.api.ui.Color;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.FieldChangeListener;
@@ -23,6 +25,7 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 {
 	FixedButtonField exit = new FixedButtonField(Const.back);
 	FixedButtonField save = new FixedButtonField(Const.save);
+	FixedButtonField buy = new FixedButtonField(Const.buy);
 	SexyEditField balance = new SexyEditField("");
 	SexyEditField tmp = new SexyEditField("");
 	ColorLabelField lbltop = null;
@@ -60,7 +63,8 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 			lblTransactions.setFocusable(false);
 			balance.setText(SettingsBean.getSettings().getCredits());
 			balance.setFocusable(false);
-			addButton(new FixedButtonField(""));
+			buy.setChangeListener(this);
+			addButton(buy);
 			doConnect(Const.creditlog);
 		} else if(screenType == Const.NOTIFICATIONSCREEN){
 			add(lblNotifications);
@@ -338,6 +342,10 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 					lbltop.setText(" No changes detected.");
 				}
 			}catch(Exception e){};
+		} else if(f == buy){
+			BrowserSession browserSession = Browser.getDefaultSession();
+			browserSession.displayPage("http://buy.mytcg.net");
+			browserSession.showBrowser();
 		}
 	}
 }

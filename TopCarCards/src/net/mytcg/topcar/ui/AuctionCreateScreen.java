@@ -230,6 +230,18 @@ public class AuctionCreateScreen extends AppScreen implements FieldChangeListene
 			setText("Please enter a valid length of the auction(in days).");
 			return false;
 		}
+		try{
+			if(Integer.parseInt(auctionDuration.getText())==0){
+				setText("Auction must last at least one day.");
+				return false;
+			}
+		}catch(NumberFormatException e){}
+		try{
+			if(Integer.parseInt(auctionDuration.getText())>9){
+				setText("Auctions are not allowed to last longer then 9 days.");
+				return false;
+			}
+		}catch(NumberFormatException e){}
 		return true;
 	}
 }

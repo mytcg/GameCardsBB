@@ -19,6 +19,7 @@ public class LoginScreen extends AppScreen implements FieldChangeListener
 	SexyEditField password = new SexyEditField("");
 	
 	public void process(String val) {
+		System.out.println("val "+val);
 		int fromIndex;
 		String freebie = "-1";
     	if ((fromIndex = val.indexOf(Const.xml_result)) != -1) {
@@ -90,7 +91,8 @@ public class LoginScreen extends AppScreen implements FieldChangeListener
 				_instance.setPassword(password64);
 				SettingsBean.saveSettings(_instance);
 				_instance = null;
-				doConnect(Const.userdetails+Const.height+Const.getAppHeight()+Const.width+Const.getCardWidth(), false);
+				System.out.println("pleo "+Const.userdetails+Const.height+Const.getAppHeight()+Const.width+Const.getCardWidth());
+				doConnect(Const.userdetails+Const.jpg+Const.height+Const.getAppHeight()+Const.width+Const.getCardWidth(), false);
 			}
 		}
 	}
