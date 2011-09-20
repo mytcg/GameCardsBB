@@ -13,14 +13,16 @@ public class PlayMenuScreen extends AppScreen implements FieldChangeListener
 {
 	FixedButtonField exit = new FixedButtonField(Const.back);
 	int categoryId = 10;
+	int deckId = -1;
 	
 	private ListItemField playpc = new ListItemField("Play versus PC", 1, false, 0);
 	private ListItemField playonline = new ListItemField("Play Online", 2, false, 0);
 	private ListItemField playfriend = new ListItemField("Play Against Friend", 3, false, 0);
 	
-	public PlayMenuScreen(int categoryId) {
+	public PlayMenuScreen(int categoryId, int deckId) {
 		super(null);
 		this.categoryId = categoryId;
+		this.deckId = deckId;
 		bgManager.setStatusHeight(exit.getContentHeight());
 		exit.setChangeListener(this);
 		
@@ -48,13 +50,13 @@ public class PlayMenuScreen extends AppScreen implements FieldChangeListener
 			screen = null;
 			UiApplication.getUiApplication().popScreen(this);
 		} else if (f == playpc) {
-			screen = new GamePlayScreen(true, categoryId, 1, false);
+			screen = new GamePlayScreen(true, categoryId, 1, false, deckId);
 			UiApplication.getUiApplication().pushScreen(screen);
 		} else if (f == playonline) {
-			screen = new GamePlayScreen(true, categoryId, 2, false);
+			screen = new GamePlayScreen(true, categoryId, 2, false, deckId);
 			UiApplication.getUiApplication().pushScreen(screen);
 		} else if (f == playfriend) {
-			screen = new GamePlayScreen(true, categoryId, 2, true);
+			screen = new GamePlayScreen(true, categoryId, 2, true, deckId);
 			UiApplication.getUiApplication().pushScreen(screen);
 		} 
 	}

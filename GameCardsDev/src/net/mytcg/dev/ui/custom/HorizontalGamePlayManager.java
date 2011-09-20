@@ -100,7 +100,7 @@ public class HorizontalGamePlayManager extends HorizontalFieldManager
 	public void setUrl(String url) {
 		this.url = url;
 		if ((url != null)&&(url.length() > 0)){
-			file = url.substring(url.indexOf(Const.cards)+Const.cards_length, url.indexOf(Const.png));
+			file = url.substring(url.indexOf(Const.cards)+Const.cards_length, url.indexOf(Const.jpeg));
 		}
 		construct();
 	}

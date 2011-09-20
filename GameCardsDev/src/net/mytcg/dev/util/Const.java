@@ -367,6 +367,7 @@ public final class Const {
 	public static String yes = "Yes";
 	public static String no = "No";
 	public static String save = "Save";
+	public static String buy = "Buy";
 	public static String create = "Create";
 	public static String flip = "Flip";
 	public static String options = "Options";
@@ -528,6 +529,7 @@ public final class Const {
 	public static String category_id = "&category_id=";
 	public static String height = "&height=";
 	public static String bbheight = "&bbheight=";
+	public static String jpg = "&jpg=1";
 	public static String width = "&width=";
 	public static String freebie = "&freebie=";
 	public static String subcategories = "usersubcategories=1&category=";
@@ -550,6 +552,7 @@ public final class Const {
 	public static final int cards_length = cards.length();
 	public static final int products_length = products.length();
 	public static String png = ".png";
+	public static String jpeg = ".jpg";
 	
 	public static boolean store = false;
 	public static int first = 0;
@@ -638,8 +641,8 @@ public final class Const {
     		}
 			load = new ImageLoader(loadingurl);
 			load2 = new ImageLoader(loadingurlflip);
-			_instance.loading = loadingurl.substring(loadingurl.indexOf(Const.cards)+Const.cards_length, loadingurl.indexOf(Const.png));
-			_instance.loadingflip = loadingurlflip.substring(loadingurlflip.indexOf(Const.cards)+Const.cards_length, loadingurlflip.indexOf(Const.png));
+			_instance.loading = loadingurl.substring(loadingurl.indexOf(Const.cards)+Const.cards_length, loadingurl.indexOf(Const.jpeg));
+			_instance.loadingflip = loadingurlflip.substring(loadingurlflip.indexOf(Const.cards)+Const.cards_length, loadingurlflip.indexOf(Const.jpeg));
     		_instance.setAuthenticated(true);
     		SettingsBean.saveSettings(_instance);
     		_instance = null;
@@ -1353,6 +1356,10 @@ public final class Const {
 	public static final int xml_username_length = xml_username.length();
 	public static final String xml_username_end = "</username>";
 	public static final int xml_username_end_length = xml_username_end.length();
+	public static final String xml_creator = "<creator>";
+	public static final int xml_creator_length = xml_creator.length();
+	public static final String xml_creator_end = "</creator>";
+	public static final int xml_creator_end_length = xml_creator_end.length();
 	public static final String xml_endDate = "<endDate>";
 	public static final int xml_endDate_length = xml_endDate.length();
 	public static final String xml_endDate_end = "</endDate>";

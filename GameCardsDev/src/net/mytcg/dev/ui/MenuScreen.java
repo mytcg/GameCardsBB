@@ -15,7 +15,7 @@ public class MenuScreen extends AppScreen implements FieldChangeListener
 {
 	FixedButtonField exit = new FixedButtonField(Const.back);
 
-	
+	boolean initialcheck = true;
 	ListItemField albums = new ListItemField("Empty", -1, false, 0);
 	ListItemField play = new ListItemField("Empty", -1, false, 0);
 	ListItemField decks = new ListItemField("Empty", -1, false, 0);
@@ -34,9 +34,7 @@ public class MenuScreen extends AppScreen implements FieldChangeListener
 	{
 		super(null);
 		SettingsBean _instance = SettingsBean.getSettings();
-		if(_instance.notifications == false){
-			doConnect("notedate=1");
-		}
+		
 		bgManager.setStatusHeight(exit.getContentHeight());
 		if (screen == null) {
 			exit.setLabel(Const.exit);
@@ -77,7 +75,7 @@ public class MenuScreen extends AppScreen implements FieldChangeListener
 		
 		add(albums);
 		add(play);
-		//add(decks);
+		add(decks);
 		add(shop);
 		add(auctions);
 		add(balance);
@@ -92,6 +90,9 @@ public class MenuScreen extends AppScreen implements FieldChangeListener
 		addButton(new FixedButtonField(""));
 		addButton(new FixedButtonField(""));
 		addButton(exit);
+		if(_instance.notifications == false){
+			doConnect("notedate=1");
+		}
 	}
 	
 	public void process(String val) {
@@ -106,6 +107,13 @@ public class MenuScreen extends AppScreen implements FieldChangeListener
 				_instance.notifications = true;
 				synchronized(UiApplication.getEventLock()) {
 					notifications.setLabel((_instance.notifications?"*":"")+Const.notification);
+				}
+				if(initialcheck){
+					initialcheck = false;
+					synchronized(UiApplication.getEventLock()) {
+						screen = new DetailScreen(this, Const.NOTIFICATIONSCREEN);
+						UiApplication.getUiApplication().pushScreen(screen);
+					}
 				}
 			}
 		}

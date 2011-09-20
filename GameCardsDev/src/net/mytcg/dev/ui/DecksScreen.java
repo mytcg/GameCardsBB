@@ -3,6 +3,7 @@ package net.mytcg.dev.ui;
 import net.mytcg.dev.ui.custom.FixedButtonField;
 import net.mytcg.dev.ui.custom.ListItemField;
 import net.mytcg.dev.util.Const;
+import net.mytcg.dev.util.SettingsBean;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.FieldChangeListener;
 import net.rim.device.api.ui.UiApplication;
@@ -72,11 +73,20 @@ public class DecksScreen extends AppScreen implements FieldChangeListener
 	}
 	
 	public void onExposed(){
-		synchronized(UiApplication.getEventLock()) {
-			bgManager.deleteAll();
-			add(newdeck);
+		SettingsBean _instance = SettingsBean.getSettings();
+		if(_instance.deckid !=-1){
+			int deckid = _instance.deckid;
+			_instance.deckid = -1;
+			SettingsBean.saveSettings(_instance);
+			screen = new ViewDeckScreen(deckid);
+			UiApplication.getUiApplication().pushScreen(screen);
+		}else{
+			synchronized(UiApplication.getEventLock()) {
+				bgManager.deleteAll();
+				add(newdeck);
+			}
+			doConnect(Const.getalldecks);
 		}
-		doConnect(Const.getalldecks);
 	}
 	public void fieldChanged(Field f, int i) {
 		if (f == exit) {

@@ -25,7 +25,7 @@ public final class CompareField extends Field {
 	public CompareField(String url) {
 		this.url = url;
 		if ((url != null)&&(url.length() > 0)){
-			file = url.substring(url.indexOf(Const.cards)+Const.cards_length, url.indexOf(Const.png));
+			file = url.substring(url.indexOf(Const.cards)+Const.cards_length, url.indexOf(Const.jpeg));
 		}
 		construct();
 	}
@@ -36,7 +36,7 @@ public final class CompareField extends Field {
 	public void setUrl(String url) {
 		this.url = url;
 		if ((url != null)&&(url.length() > 0)){
-			file = url.substring(url.indexOf(Const.cards)+Const.cards_length, url.indexOf(Const.png));
+			file = url.substring(url.indexOf(Const.cards)+Const.cards_length, url.indexOf(Const.jpeg));
 		}
 		construct();
 	}
@@ -81,6 +81,7 @@ public final class CompareField extends Field {
 		InputStream input = null;
 		try {
 			SettingsBean _instance = SettingsBean.getSettings();
+			System.out.println("O_o "+Const.getStorage()+Const.PREFIX+_instance.loadingflip);
 			_file = (FileConnection)Connector.open(Const.getStorage()+Const.PREFIX+_instance.loadingflip);
 			input = _file.openInputStream();
 			byte[] data = new byte[(int) _file.fileSize()];

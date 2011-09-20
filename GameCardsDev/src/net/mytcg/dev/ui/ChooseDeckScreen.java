@@ -13,79 +13,94 @@ public class ChooseDeckScreen extends AppScreen implements FieldChangeListener
 {
 	FixedButtonField exit = new FixedButtonField(Const.back);
 	
-	ListItemField createNewDeck = new ListItemField("Empty", -1, false, 0);
 	ListItemField tmp = new ListItemField("Empty", -1, false, 0);
+	int categoryId = -1;
+	int count = 0;
 
-	public ChooseDeckScreen()
+	public ChooseDeckScreen(int categoryId)
 	{
 		super(null);
+		this.categoryId = categoryId;
 		bgManager.setStatusHeight(exit.getContentHeight());
 		
-		createNewDeck = new ListItemField(Const.newgame, 0, false, 0);
-		
 		exit.setChangeListener(this); 
-		createNewDeck.setChangeListener(this);
 		
-		add(new ColorLabelField("Please choose deck to play with",LabelField.FIELD_HCENTER , 18));
+		add(new ColorLabelField("Please choose a deck to play with"));
 		
 		addButton(new FixedButtonField(""));
 		addButton(new FixedButtonField(""));
 		addButton(exit);
 		
-		doConnect(Const.getusergames);
+		doConnect("getcategorydecks=1&category_id="+categoryId);
 	}
 	
 	public void process(String val) {
-		if (!(isDisplaying())) {
-			int fromIndex;
-	    	if ((fromIndex = val.indexOf(Const.xml_result)) != -1) {
-	    		setText(val.substring(fromIndex+Const.xml_result_length, val.indexOf(Const.xml_result_end, fromIndex)));
-	    	} else if (((fromIndex = val.indexOf(Const.xml_games)) != -1)) {
-	    		int gameid = -1;
-	    		String gamename = "";
-	    		int endIndex = -1;
-	    		String game = "";
-	    		while ((fromIndex = val.indexOf(Const.xml_gameid)) != -1){
-	    			
-	    			endIndex = val.indexOf(Const.xml_gameid_end);
-	    			game = val.substring(fromIndex, endIndex+Const.xml_gameid_end_length);
-	    			fromIndex = game.indexOf(Const.xml_gameid);
-	    			
-	    			try {
-	    				gameid = Integer.parseInt(game.substring(fromIndex+Const.xml_gameid_length, game.indexOf(Const.xml_gameid_end, fromIndex)));
-	    			} catch (Exception e) {
-	    				gameid = -1;
-	    			}
-	    			if ((fromIndex = game.indexOf(Const.xml_gamename)) != -1) {
-	    				gamename = game.substring(fromIndex+Const.xml_gamename_length, game.indexOf(Const.xml_gamename_end, fromIndex));
-	    			}
-	    			val = val.substring(val.indexOf(Const.xml_game_end)+Const.xml_game_end_length);
-	    			if(gameid != -1){
-		    			synchronized(UiApplication.getEventLock()) {
-		    				tmp = new ListItemField(gamename, gameid, true, 0);
-		        			tmp.setChangeListener(this);
-		        			add(tmp);
-		        		}
-	    			}
+		System.out.println("WAWAWA "+val);
+		int deckid = -1;
+		int fromIndex;
+	    if ((fromIndex = val.indexOf(Const.xml_result)) != -1) {
+	    	setText(val.substring(fromIndex+Const.xml_result_length, val.indexOf(Const.xml_result_end, fromIndex)));
+	    } else if (((fromIndex = val.indexOf(Const.xml_decks)) != -1)) {
+	    	String deckname = "";
+	    	int endIndex = -1;
+	    	String deck = "";
+	    	while ((fromIndex = val.indexOf(Const.xml_deck_id)) != -1){
+	    		
+	    		endIndex = val.indexOf(Const.xml_deck_end);
+	    		deck = val.substring(fromIndex, endIndex+Const.xml_deck_end_length);
+	    		fromIndex = deck.indexOf(Const.xml_deck_id);
+	    		
+	    		try {
+	    			deckid = Integer.parseInt(deck.substring(fromIndex+Const.xml_deck_id_length, deck.indexOf(Const.xml_deck_id_end, fromIndex)));
+	    		} catch (Exception e) {
+	    			deckid = -1;
+	    		}
+	    		if ((fromIndex = deck.indexOf(Const.xml_descr)) != -1) {
+	    			deckname = deck.substring(fromIndex+Const.xml_descr_length, deck.indexOf(Const.xml_descr_end, fromIndex));
+	    		}
+	    		val = val.substring(val.indexOf(Const.xml_deck_end)+Const.xml_deck_end_length);
+	    		if(deckid != -1){
+		   			synchronized(UiApplication.getEventLock()) {
+		   				System.out.println("deckname "+deckname);
+		   				tmp = new ListItemField(deckname, deckid, true, 0);
+		       			tmp.setChangeListener(this);
+		       			add(tmp);
+		       			count++;
+		       		}
 	    		}
 	    	}
-	    	add(createNewDeck);
-	    	invalidate();
-	    	setDisplaying(true);
-		}		
+	    }
+	    System.out.println("count "+count);
+    	if(count==0){
+    		synchronized(UiApplication.getEventLock()) {
+    			screen = new PlayMenuScreen(categoryId, -1);
+    			UiApplication.getUiApplication().pushScreen(screen);
+    		}
+	   	}else if(count==1){
+	   		synchronized(UiApplication.getEventLock()) {
+	   			screen = new PlayMenuScreen(categoryId, deckid);
+	   			UiApplication.getUiApplication().pushScreen(screen);
+	   		}
+	   	}
+	    invalidate();
+	}
+	
+	public void onExposed(){
+		if(count==0||count==1){
+			screen = null;
+			UiApplication.getUiApplication().popScreen(this);
+		}
 	}
 	
 	public void fieldChanged(Field f, int i) {
 		if (f == exit) {
 			screen = null;
 			UiApplication.getUiApplication().popScreen(this);
-		} else if(f == createNewDeck){
-			screen = new DeckCategoryScreen();
-			UiApplication.getUiApplication().pushScreen(screen);
 		} else if(f instanceof ListItemField){
-			int category = ((ListItemField)(f)).getId();
-			if(category > -1){
-				//screen = new AuctionListScreen(category,0);
+			int deckId = ((ListItemField)(f)).getId();
+			System.out.println("deckId "+deckId);
+			if(deckId > -1){
+				screen = new PlayMenuScreen(categoryId, deckId);
 				UiApplication.getUiApplication().pushScreen(screen);
 			}
 		}
