@@ -23,6 +23,7 @@ import net.rim.device.api.ui.UiApplication;
 public class GamePlayScreen extends AppScreen implements FieldChangeListener
 {
 	private FixedButtonField friendback = new FixedButtonField(Const.exit);
+	private FixedButtonField back = new FixedButtonField(Const.back);
 	private FixedButtonField flips = new FixedButtonField(Const.flip);
 	private FixedButtonField play = new FixedButtonField(Const.play);
 	private FixedButtonField options = new FixedButtonField(Const.options);
@@ -66,7 +67,7 @@ public class GamePlayScreen extends AppScreen implements FieldChangeListener
 		return loaded;
 	}
 	
-	public GamePlayScreen(boolean newGame, int categoryId, int newGameType, boolean againstFriend, int deckid) {
+	public GamePlayScreen(boolean newGame, int categoryId, int newGameType, boolean againstFriend, int deckid, int lobby, int gameid) {
 		super(true,true);
 		this.categoryId = categoryId;
 		this.newGameType = newGameType;
@@ -78,6 +79,7 @@ public class GamePlayScreen extends AppScreen implements FieldChangeListener
 		flips.setChangeListener(this);
 		options.setChangeListener(this);
 		friendback.setChangeListener(this);
+		back.setChangeListener(this);
 		add(new ColorLabelField(""));
 		
 		if(newGame){
@@ -90,11 +92,25 @@ public class GamePlayScreen extends AppScreen implements FieldChangeListener
 				addButton(new FixedButtonField(""));
 				addButton(friendback);
 			}else{
-				setText("Initialising new game...");
-				doConnect(Const.startnewgame+"&categoryid="+categoryId+"&newgametype="+newGameType+"&deckid="+deckId+Const.height+Const.getCardHeight()+Const.jpg+Const.bbheight+Const.getAppHeight()+Const.width+Const.getCardWidth());
-				addButton(new FixedButtonField(""));
-				addButton(new FixedButtonField(""));
-				addButton(options);
+				if(lobby == 1){
+					setText("Initialising new game...");
+					doConnect(Const.hostgame+"&categoryid="+categoryId+"&newgametype="+newGameType+"&deckid="+deckId+Const.height+Const.getCardHeight()+Const.jpg+Const.bbheight+Const.getAppHeight()+Const.width+Const.getCardWidth());
+					addButton(new FixedButtonField(""));
+					addButton(new FixedButtonField(""));
+					addButton(options);
+				}else if (lobby == 2){
+					setText("Initialising new game...");
+					doConnect(Const.joingame+"&categoryid="+categoryId+"&newgametype="+newGameType+"&deckid="+deckId+"&gameid="+gameid+Const.height+Const.getCardHeight()+Const.jpg+Const.bbheight+Const.getAppHeight()+Const.width+Const.getCardWidth());
+					addButton(new FixedButtonField(""));
+					addButton(new FixedButtonField(""));
+					addButton(options);
+				}else {
+					setText("Initialising new game...");
+					doConnect(Const.startnewgame+"&categoryid="+categoryId+"&newgametype="+newGameType+"&deckid="+deckId+Const.height+Const.getCardHeight()+Const.jpg+Const.bbheight+Const.getAppHeight()+Const.width+Const.getCardWidth());
+					addButton(new FixedButtonField(""));
+					addButton(new FixedButtonField(""));
+					addButton(options);
+				}
 			}
 		}else{
 			phase = "loadgame";
@@ -156,6 +172,20 @@ public class GamePlayScreen extends AppScreen implements FieldChangeListener
 							addButton(accept);
 							addButton(new FixedButtonField(""));
 							addButton(reject);
+						}
+	    			}else if(phase.equals("closed")){
+	    				synchronized(UiApplication.getEventLock()) {
+							temp = new ColorLabelField("The game you are trying to join has already started!");
+							add(temp);
+							try{	
+								hManager1.setFocus();
+								hManager1.deleteAll();
+								bgManager.delete(loading);
+								bgManager.invalidate();
+							}catch(Exception e){};
+							addButton(new FixedButtonField(""));
+							addButton(new FixedButtonField(""));
+							addButton(back);
 						}
 	    			}else{
 			    		synchronized(UiApplication.getEventLock()) {
@@ -822,7 +852,7 @@ public class GamePlayScreen extends AppScreen implements FieldChangeListener
 	}
 	
 	public void fieldChanged(Field f, int i) {
-		if (f == con || f == friendback) {
+		if (f == con || f == friendback || f == back) {
 			screen = null;
 			UiApplication.getUiApplication().popScreen(this);
 		} else if ((f == flips)) {

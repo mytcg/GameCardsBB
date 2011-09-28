@@ -49,6 +49,7 @@ public final class SettingsBean implements Persistable {
 	public boolean loadingimage = false;
 	public String loading;
 	public String loadingflip;
+	public int deckid = -1;
 	
 	//saves precache xml data
 	private String all;

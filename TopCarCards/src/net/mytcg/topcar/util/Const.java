@@ -343,7 +343,9 @@ public final class Const {
 	public static String register = "Register";
 	public static String exit = "Exit";
 	public static String back = "Back";
-	public static String purchase = "purchase";
+	public static String host = "Host Game";
+	public static String purchase = "Purchase";
+	public static String boostercards = "Cards";
 	public static String home = "Home";
 	public static String confirm = "Confirm";
 	public static String bid = "Bid";
@@ -459,7 +461,7 @@ public final class Const {
 	public static String http = "http";
 	public static String err_url_htt = "URL not http or https";
 	
-	public static String url = "http://www.mytcg.net/_phone/topcar/?";
+	public static String url = "http://dev.mytcg.net/_phone/topcar/?";
 	public static String userdetails = "userdetails=1";
 	public static String profiledetails = "profiledetails=1";
 	public static String creditlog = "creditlog=1";
@@ -490,6 +492,9 @@ public final class Const {
 	public static String auctioncategories="auctioncategories=1";
 	public static String getusergames="getusergames=1";
 	public static String playablecategories="playablecategories=1";
+	public static String getopengames="getopengames=1";
+	public static String hostgame="hostgame=1";
+	public static String joingame="joingame=1";
 	public static String startnewgame = "newgame=1";
 	public static String loadgame = "loadgame=1";
 	public static String continuegame = "continuegame=1";
@@ -514,6 +519,7 @@ public final class Const {
 	public static String showall = "&showall=0";
 	public static String cardsincategory = "cardsincategory=";
 	public static String buyproduct = "buyproduct=";
+	public static String cardsinbooster = "cardsinbooster=";
 	public static String second = "&seconds=";
 	public static String savenote = "savenote=";
 	public static String trade = "tradecard=";
@@ -529,6 +535,7 @@ public final class Const {
 	public static String deck_id = "&deck_id=";
 	public static String description = "&description=";
 	public static String category_id = "&category_id=";
+	public static String categoryid = "&categoryid=";
 	public static String height = "&height=";
 	public static String bbheight = "&bbheight=";
 	public static String jpg = "&jpg=1";

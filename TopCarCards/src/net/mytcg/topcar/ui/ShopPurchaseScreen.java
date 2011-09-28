@@ -16,6 +16,7 @@ public class ShopPurchaseScreen extends AppScreen implements FieldChangeListener
 {
 	FixedButtonField exit = new FixedButtonField(Const.back);
 	FixedButtonField confirm = new FixedButtonField(Const.purchase);
+	FixedButtonField cards = new FixedButtonField(Const.boostercards);
 	ColorLabelField lblConfirm = null;
 	
 	boolean update = true;
@@ -44,12 +45,13 @@ public class ShopPurchaseScreen extends AppScreen implements FieldChangeListener
 		}
 		exit.setChangeListener(this);
 		confirm.setChangeListener(this);
+		cards.setChangeListener(this);
 		
 		add(lblConfirm);
 		add(new ProductField(product,productthumbnail));
 		
 		addButton(confirm);
-		addButton(new FixedButtonField(""));
+		addButton(cards);
 		addButton(exit);
 		
 		invalidate();
@@ -70,6 +72,9 @@ public class ShopPurchaseScreen extends AppScreen implements FieldChangeListener
 			UiApplication.getUiApplication().popScreen(this);
 		} else if(f == confirm){
 			doConnect(Const.buyproduct+product.getId()+Const.height+Const.getCardHeight()+Const.bbheight+Const.getAppHeight()+Const.width+Const.getCardWidth()+Const.freebie+(freebie?"1":"0"));
+		} else if(f == cards){
+			screen = new ViewBoosterScreen(product.getId());
+			UiApplication.getUiApplication().pushScreen(screen);
 		}
 	}
 }
