@@ -29,7 +29,7 @@ public final class Const {
 	public static String VERSION = "1.0";
 	private static boolean PORTRAIT = true;
 	private static final double ratio = 1.40625;
-	public static String PREFIX = "dev_";
+	public static String PREFIX = "demo_";
 	public static int THREADS = 0;
 	public static ConnectionHandler connect = null;
 	public static ImageLoader load = null;
@@ -457,7 +457,7 @@ public final class Const {
 	public static String http = "http";
 	public static String err_url_htt = "URL not http or https";
 	
-	public static String url = "http://dev.mytcg.net/_phone/?";
+	public static String url = "http://demo.mytcg.net/_phone/?";
 	public static String userdetails = "userdetails=1";
 	public static String profiledetails = "profiledetails=1";
 	public static String creditlog = "creditlog=1";
