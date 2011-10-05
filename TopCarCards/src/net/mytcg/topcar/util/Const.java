@@ -556,7 +556,7 @@ public final class Const {
 	public static String sig = "\n\n\nSent from my Mobidex";
 	
 	
-	public static String cards = "/cards/";
+	public static String cards = "/cardsbb/";
 	public static String products = "/products/";
 	public static final int cards_length = cards.length();
 	public static final int products_length = products.length();

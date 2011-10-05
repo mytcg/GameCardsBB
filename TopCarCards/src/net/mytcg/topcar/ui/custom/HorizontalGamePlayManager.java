@@ -16,6 +16,8 @@ import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.Font;
 import net.rim.device.api.ui.Graphics;
 import net.rim.device.api.ui.Manager;
+import net.rim.device.api.ui.UiApplication;
+import net.rim.device.api.ui.component.GaugeField;
 import net.rim.device.api.ui.component.NullField;
 import net.rim.device.api.ui.container.HorizontalFieldManager;
 
@@ -25,6 +27,7 @@ public class HorizontalGamePlayManager extends HorizontalFieldManager
 	private String url;
 	private String file;
 	public Bitmap image;
+	private GaugeField progress;
 	
 	int nStatusHeight = 0;
 	int nTitleHeight = 0;
@@ -137,6 +140,10 @@ public class HorizontalGamePlayManager extends HorizontalFieldManager
 			_file = (FileConnection)Connector.open(Const.getStorage()+Const.PREFIX+file);
 			if (!_file.exists()) {
 				_file.close();
+				progress = new GaugeField(null,0,100,0,GaugeField.NO_TEXT);
+				synchronized(UiApplication.getEventLock()) {
+					this.add(progress);
+				}
 				doConnect(url);
 			} else {
 				input = _file.openInputStream();
@@ -159,7 +166,7 @@ public class HorizontalGamePlayManager extends HorizontalFieldManager
 	ConnectionGet cG;
 	int timeout = 0;
 	public void doConnect(String url) {
-		cG = new ConnectionGet(url, this);
+		cG = new ConnectionGet(url, this, progress);
 		cG.start();
 	}
 	public void landscape() {
@@ -179,6 +186,9 @@ public class HorizontalGamePlayManager extends HorizontalFieldManager
 		//}else{
 		//	image = Const.getScaledBitmapImage((EncodedImage.createEncodedImage(data, 0, data.length)),((double)(getPreferredWidth()-20)/temp.getWidth()),((double)(getPreferredHeight()-20)/temp.getHeight()));
 		//}
+		synchronized(UiApplication.getEventLock()) {
+			this.delete(progress);
+		}
 		image = (EncodedImage.createEncodedImage(data, 0, data.length)).getBitmap();
 		landscape();
 		invalidate();
@@ -207,6 +217,9 @@ public class HorizontalGamePlayManager extends HorizontalFieldManager
             	StatField sField = (StatField) field;
             	setPositionChild(field,((14)/2)+sField.stat.getTop()*image.getWidth()/350, ((10)/2)+(250 - sField.stat.getLeft() - sField.stat.getWidth())*image.getHeight()/250);  //set the position for the field
             	layoutChild( field, sField.stat.getHeight()*image.getHeight()/250, sField.stat.getWidth()*image.getWidth()/350); //lay out the field
+            }else if(field instanceof GaugeField){
+            	setPositionChild(field, 15, (getPreferredHeight()/2));  //set the position for the field
+            	layoutChild( field, (getPreferredWidth()-60), 100 ); //lay out the field
             }
         }
 		setExtent();
