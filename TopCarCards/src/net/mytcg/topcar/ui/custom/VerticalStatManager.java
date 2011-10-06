@@ -15,6 +15,8 @@ import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.Font;
 import net.rim.device.api.ui.Graphics;
 import net.rim.device.api.ui.Manager;
+import net.rim.device.api.ui.UiApplication;
+import net.rim.device.api.ui.component.GaugeField;
 import net.rim.device.api.ui.component.NullField;
 import net.rim.device.api.ui.container.VerticalFieldManager;
 
@@ -28,6 +30,7 @@ public class VerticalStatManager extends VerticalFieldManager
 	int nStatusHeight = 0;
 	int nTitleHeight = 0;
 	boolean useall = true;
+	private GaugeField progress;
 	
 	public VerticalStatManager(boolean useall)
 	{
@@ -104,6 +107,10 @@ public class VerticalStatManager extends VerticalFieldManager
 			_file = (FileConnection)Connector.open(Const.getStorage()+Const.PREFIX+file);
 			if (!_file.exists()) {
 				_file.close();
+				progress = new GaugeField(null,0,100,0,GaugeField.NO_TEXT);
+				synchronized(UiApplication.getEventLock()) {
+					this.add(progress);
+				}
 				doConnect(url);
 			} else {
 				input = _file.openInputStream();
@@ -121,7 +128,7 @@ public class VerticalStatManager extends VerticalFieldManager
 	int timeout = 0;
 	public void doConnect(String url) {
 		if ((url != null)&&(url.length() > 0)) {
-			(Const.getConnection()).addConnect(url, file, this);
+			(Const.getConnection()).addConnect(url, file, this, progress);
 		}
 	}
 	public void landscape() {
@@ -135,6 +142,9 @@ public class VerticalStatManager extends VerticalFieldManager
 		}
 	}
 	public void process(byte[] data, String filename) {
+		synchronized(UiApplication.getEventLock()) {
+			this.delete(progress);
+		}
 		image = (EncodedImage.createEncodedImage(data, 0, data.length)).getBitmap();
 		landscape();
 		invalidate();
@@ -163,7 +173,10 @@ public class VerticalStatManager extends VerticalFieldManager
             	StatField sField = (StatField)field;
             	setPositionChild(field, ((getPreferredWidth()-(image.getWidth()))/2)+sField.stat.getLeft()*image.getWidth()/250, ((((Const.getHeight()-Const.getButtonCentre().getHeight()))-((image.getHeight())))/2)+sField.stat.getTop()*image.getHeight()/350);  //set the position for the field
             	layoutChild( field, sField.stat.getWidth()*image.getWidth()/250, sField.stat.getHeight()*image.getHeight()/350 ); //lay out the field
-            } 	
+            }else if(field instanceof GaugeField){
+            	setPositionChild(field, 70, ((Const.getHeight()-Const.getButtonCentre().getHeight())/2));  //set the position for the field
+            	layoutChild( field, (getPreferredWidth()-140), 100 ); //lay out the field
+            }
         }
 		setExtent();
 	}

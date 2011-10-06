@@ -323,7 +323,7 @@ public final class ThumbnailField extends Field {
 		
 		
 		
-		g.drawBitmap(5, 3, button_thumbnail.getWidth(), getPreferredHeight(), button_thumbnail, 0, 0);
+		g.drawBitmap(5, 2, button_thumbnail.getWidth(), getPreferredHeight(), button_thumbnail, 0, 0);
 		
 		Font _font = getFont();
 		_font = _font.derive(Const.TYPE,Const.FONT+2);
