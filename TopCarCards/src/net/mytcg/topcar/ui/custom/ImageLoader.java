@@ -8,7 +8,6 @@ import javax.microedition.io.file.FileConnection;
 import net.mytcg.topcar.http.ConnectionGet;
 import net.mytcg.topcar.util.Const;
 
-import net.rim.device.api.system.Bitmap;
 import net.rim.device.api.ui.Field;
 
 import net.rim.device.api.ui.Graphics;
@@ -21,7 +20,7 @@ public final class ImageLoader extends Field {
 	public ImageLoader(String url) {
 		this.url = url;
 		if ((url != null)&&(url.length() > 0)){
-			file = url.substring(url.indexOf(Const.cards)+Const.cards_length, url.indexOf(Const.jpeg));
+			file = url.substring(url.indexOf("/cards/")+Const.cards_length, url.indexOf(Const.jpeg));
 		}
 		System.out.println("file "+file);
 		construct();
@@ -33,7 +32,7 @@ public final class ImageLoader extends Field {
 	public void setUrl(String url) {
 		this.url = url;
 		if ((url != null)&&(url.length() > 0)){
-			file = url.substring(url.indexOf(Const.cards)+Const.cards_length, url.indexOf(Const.jpeg));
+			file = url.substring(url.indexOf("/cards/")+Const.cards_length, url.indexOf(Const.jpeg));
 		}
 		construct();
 	}
