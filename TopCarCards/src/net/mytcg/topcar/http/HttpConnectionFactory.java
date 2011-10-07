@@ -148,6 +148,7 @@ public class HttpConnectionFactory {
 	 * @param transportPriority An array of transports in the order they should be attempted
 	 */
 	public HttpConnectionFactory( String url, String extraParameters, int transportPriority[] ) {
+		System.out.println("gggg "+url);
 		if( !serviceRecordsLoaded ) {
 			loadServiceBooks( false );
 		}
@@ -156,6 +157,7 @@ public class HttpConnectionFactory {
 			throw new IllegalArgumentException(Const.err_null_url);
 		}
 		if( !url.toLowerCase().startsWith( Const.http ) ) {
+			System.out.println("zzzz "+url);
 			throw new IllegalArgumentException(Const.err_url_htt);
 		}
 		
