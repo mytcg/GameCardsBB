@@ -77,8 +77,6 @@ public final class SettingsBean implements Persistable {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Calendar calender = Calendar.getInstance();
 		Date date = new Date(HttpDateParser.parse(dateFormat.format(calender.getTime())));
-		System.out.println("noteloaded "+date);
-		System.out.println("noteloaded "+date.getTime()/1000);
 		
 		noteloaded=(int)(date.getTime()/1000);
 	}

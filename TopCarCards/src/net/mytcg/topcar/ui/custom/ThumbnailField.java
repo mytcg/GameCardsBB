@@ -401,7 +401,7 @@ public final class ThumbnailField extends Field {
 			}
 			invalidate();
 		}
-		if (type < 2) 
+		if (type < 2 && booster == false) 
 			getData(++type);
 	}
 }
