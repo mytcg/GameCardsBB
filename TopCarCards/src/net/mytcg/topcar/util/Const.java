@@ -461,7 +461,7 @@ public final class Const {
 	public static String http = "http";
 	public static String err_url_htt = "URL not http or https";
 	
-	public static String url = "http://dev.mytcg.net/_phone/topcar/?";
+	public static String url = "http://www.mytcg.net/_phone/topcar/?";
 	public static String userdetails = "userdetails=1";
 	public static String profiledetails = "profiledetails=1";
 	public static String creditlog = "creditlog=1";
@@ -556,9 +556,11 @@ public final class Const {
 	public static String sig = "\n\n\nSent from my Mobidex";
 	
 	
-	public static String cards = "/cardsbb/";
+	public static String cards = "/cards/";
+	public static String cardsbb = "/cardsbb/";
 	public static String products = "/products/";
 	public static final int cards_length = cards.length();
+	public static final int cardsbb_length = cardsbb.length();
 	public static final int products_length = products.length();
 	public static String png = ".png";
 	public static String jpeg = ".jpg";
@@ -644,8 +646,8 @@ public final class Const {
     		}
 			load = new ImageLoader(loadingurl);
 			load2 = new ImageLoader(loadingurlflip);
-			_instance.loading = loadingurl.substring(loadingurl.indexOf(Const.cards)+Const.cards_length, loadingurl.indexOf(Const.jpeg));
-			_instance.loadingflip = loadingurlflip.substring(loadingurlflip.indexOf(Const.cards)+Const.cards_length, loadingurlflip.indexOf(Const.jpeg));
+			_instance.loading = loadingurl.substring(loadingurl.indexOf("/cards/")+Const.cards_length, loadingurl.indexOf(Const.jpeg));
+			_instance.loadingflip = loadingurlflip.substring(loadingurlflip.indexOf("/cards/")+Const.cards_length, loadingurlflip.indexOf(Const.jpeg));
     		_instance.setAuthenticated(true);
     		SettingsBean.saveSettings(_instance);
     		_instance = null;

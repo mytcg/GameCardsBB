@@ -27,6 +27,7 @@ public final class ThumbnailField extends Field {
 	private String label1;
 	private String label2;
 	private String label3;
+	private boolean booster = false;
 	
 	private Bitmap button_centre;
 	
@@ -135,13 +136,31 @@ public final class ThumbnailField extends Field {
 		}*/
 		
 		if ((getThumbUrl() != null)&&(getThumbUrl().length() > 0)){
-			thumbfile = getThumbUrl().substring(getThumbUrl().indexOf(Const.cards)+Const.cards_length, getThumbUrl().indexOf(Const.jpeg));
+			thumbfile = getThumbUrl().substring(getThumbUrl().indexOf("/cards/")+Const.cards_length, getThumbUrl().indexOf(Const.jpeg));
 		}
 		if ((getFrontUrl() != null)&&(getFrontUrl().length() > 0)){
-			frontfile = getFrontUrl().substring(getFrontUrl().indexOf(Const.cards)+Const.cards_length, getFrontUrl().indexOf(Const.jpeg));
+			frontfile = getFrontUrl().substring(getFrontUrl().indexOf(Const.cardsbb)+Const.cardsbb_length, getFrontUrl().indexOf(Const.jpeg));
 		}
 		if ((getBackUrl() != null)&&(getBackUrl().length() > 0)){
-			backfile  = getBackUrl().substring(getBackUrl().indexOf(Const.cards)+Const.cards_length, getBackUrl().indexOf(Const.jpeg));
+			backfile  = getBackUrl().substring(getBackUrl().indexOf(Const.cardsbb)+Const.cardsbb_length, getBackUrl().indexOf(Const.jpeg));
+		}
+		construct(getDescription());
+	}
+	public ThumbnailField(Card card, boolean delete, boolean booster) {
+		this.card = card;
+		this.delete = delete;
+		this.label2 = "";
+		this.label3 = "";
+		this.booster = booster;
+		
+		if ((getThumbUrl() != null)&&(getThumbUrl().length() > 0)){
+			thumbfile = getThumbUrl().substring(getThumbUrl().indexOf("/cards/")+Const.cards_length, getThumbUrl().indexOf(Const.jpeg));
+		}
+		if ((getFrontUrl() != null)&&(getFrontUrl().length() > 0)){
+			frontfile = getFrontUrl().substring(getFrontUrl().indexOf(Const.cardsbb)+Const.cardsbb_length, getFrontUrl().indexOf(Const.jpeg));
+		}
+		if ((getBackUrl() != null)&&(getBackUrl().length() > 0)){
+			backfile  = getBackUrl().substring(getBackUrl().indexOf(Const.cardsbb)+Const.cardsbb_length, getBackUrl().indexOf(Const.jpeg));
 		}
 		construct(getDescription());
 	}
@@ -161,7 +180,7 @@ public final class ThumbnailField extends Field {
 		this.label2 = "";
 		this.label3 = "";
 		if ((getThumbUrl() != null)&&(getThumbUrl().length() > 0)){
-			thumbfile = getThumbUrl().substring(getThumbUrl().indexOf(Const.cards)+Const.cards_length, getThumbUrl().indexOf(Const.jpeg));
+			thumbfile = getThumbUrl().substring(getThumbUrl().indexOf("/cards/")+Const.cards_length, getThumbUrl().indexOf(Const.jpeg));
 		}
 		construct(getDescription());
 	}
@@ -235,12 +254,14 @@ public final class ThumbnailField extends Field {
 		button_sel_centre = Const.getThumbRightEdge();
 		note = Const.getNote();
 		
-		if (getQuantity() == 0) {
+		if (getQuantity() == 0 && booster==false) {
 			button_thumbnail = Const.getEmptyThumb();
+			System.out.println("getThumbUrl "+getThumbUrl());
+			System.out.println("thumbfile "+thumbfile);
 		} else {
 			button_thumbnail = Const.getThumbLoading();
 		}
-		if ((thumbfile != null)&&(getQuantity()>0)) {
+		if ((thumbfile != null)&&((getQuantity()>0)||booster)) {
 			getData(0);
 		}
 		Font _font = getFont();
@@ -274,7 +295,6 @@ public final class ThumbnailField extends Field {
 	public void setProductPrice(String price) {
 		this.product.setPrice(price);
 	}
-	
 	public Bitmap getThumbnail(){
 		return button_thumbnail;
 	}
@@ -381,7 +401,7 @@ public final class ThumbnailField extends Field {
 			}
 			invalidate();
 		}
-		if (type < 2) 
+		if (type < 2 && booster == false) 
 			getData(++type);
 	}
 }

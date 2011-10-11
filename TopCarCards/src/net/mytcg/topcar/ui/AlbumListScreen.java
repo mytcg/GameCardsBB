@@ -251,7 +251,7 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 							}catch(Exception e){};
 						}
 						if ((cardobject.getFronturl() != null)&&(cardobject.getFronturl().length() > 0)){
-							frontfile = cardobject.getFronturl().substring(cardobject.getFronturl().indexOf(Const.cards)+Const.cards_length, cardobject.getFronturl().indexOf(Const.jpeg));
+							frontfile = cardobject.getFronturl().substring(cardobject.getFronturl().indexOf(Const.cardsbb)+Const.cardsbb_length, cardobject.getFronturl().indexOf(Const.jpeg));
 							try{	
 								_file = (FileConnection)Connector.open(Const.getStorage()+Const.PREFIX+frontfile);
 								if(_file.exists()){
@@ -262,7 +262,7 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 							}catch(Exception e){};
 						}
 						if ((cardobject.getBackurl() != null)&&(cardobject.getBackurl().length() > 0)){
-							backfile  = cardobject.getBackurl().substring(cardobject.getBackurl().indexOf(Const.cards)+Const.cards_length, cardobject.getBackurl().indexOf(Const.jpeg));
+							backfile  = cardobject.getBackurl().substring(cardobject.getBackurl().indexOf(Const.cardsbb)+Const.cardsbb_length, cardobject.getBackurl().indexOf(Const.jpeg));
 							try{	
 								_file = (FileConnection)Connector.open(Const.getStorage()+Const.PREFIX+backfile);
 								if(_file.exists()){
@@ -273,7 +273,7 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 							}catch(Exception e){};
 						}
 						if ((cardobject.getBackFlipurl() != null)&&(cardobject.getBackFlipurl().length() > 0)){
-							backflipfile  = cardobject.getBackFlipurl().substring(cardobject.getBackFlipurl().indexOf(Const.cards)+Const.cards_length, cardobject.getBackFlipurl().indexOf(Const.jpeg));
+							backflipfile  = cardobject.getBackFlipurl().substring(cardobject.getBackFlipurl().indexOf(Const.cardsbb)+Const.cardsbb_length, cardobject.getBackFlipurl().indexOf(Const.jpeg));
 							try{	
 								_file = (FileConnection)Connector.open(Const.getStorage()+Const.PREFIX+backflipfile);
 								if(_file.exists()){
@@ -284,7 +284,7 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 							}catch(Exception e){};
 						}
 						if ((cardobject.getFrontFlipurl() != null)&&(cardobject.getFrontFlipurl().length() > 0)){
-							frontflipfile  = cardobject.getFrontFlipurl().substring(cardobject.getFrontFlipurl().indexOf(Const.cards)+Const.cards_length, cardobject.getFrontFlipurl().indexOf(Const.jpeg));
+							frontflipfile  = cardobject.getFrontFlipurl().substring(cardobject.getFrontFlipurl().indexOf(Const.cardsbb)+Const.cardsbb_length, cardobject.getFrontFlipurl().indexOf(Const.jpeg));
 							try{	
 								_file = (FileConnection)Connector.open(Const.getStorage()+Const.PREFIX+frontflipfile);
 								if(_file.exists()){

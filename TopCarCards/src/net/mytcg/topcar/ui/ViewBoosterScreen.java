@@ -118,6 +118,7 @@ public class ViewBoosterScreen extends AppScreen implements FieldChangeListener
     			}
     			if ((fromIndex = card.indexOf(Const.xml_thumburl)) != -1) {
     				thumburl = card.substring(fromIndex+Const.xml_thumburl_length, card.indexOf(Const.xml_thumburl_end, fromIndex));
+    				System.out.println("thumburl "+thumburl);
     			}
     			if ((fromIndex = card.indexOf(Const.xml_fronturl)) != -1) {
     				fronturl = card.substring(fromIndex+Const.xml_fronturl_length, card.indexOf(Const.xml_fronturl_end, fromIndex));
@@ -227,7 +228,7 @@ public class ViewBoosterScreen extends AppScreen implements FieldChangeListener
 
     			empty = false;
     			synchronized(UiApplication.getEventLock()) {
-    				tmp = new ThumbnailField(_instance.getImages(cardid));
+    				tmp = new ThumbnailField(_instance.getImages(cardid), false, true);
     				if(!quality.equals("")){
     					tmp.setSecondLabel(""+ quality);
     				}
