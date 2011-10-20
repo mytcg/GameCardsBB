@@ -1,26 +1,47 @@
 package net.mytcg.dex.http;
 
+import net.mytcg.dex.ui.custom.HorizontalStatManager;
 import net.mytcg.dex.ui.custom.ImageField;
+import net.mytcg.dex.ui.custom.ImageLoader;
 import net.mytcg.dex.ui.custom.ThumbnailField;
+import net.mytcg.dex.ui.custom.VerticalStatManager;
+import net.rim.device.api.ui.component.GaugeField;
 
 class ThumbConnection {
 	private String url = "";
 	private int type = -1;
 	private ThumbnailField thumb = null;
 	private ImageField img = null;
+	private ImageLoader imgload = null;
+	private VerticalStatManager vert = null;
+	private HorizontalStatManager hori = null;
 	private String filename = "";
+	private GaugeField progress = null;
 	
 	public ThumbConnection(String url, int type, ThumbnailField thumb) {
 		this.url = url;
 		this.type = type;
 		this.thumb = thumb;
-		this.img = null;
+	}
+	public ThumbConnection(String url, String filename, HorizontalStatManager img) {
+		this.url = url;
+		this.filename = filename;
+		this.hori = img;
+	}
+	public ThumbConnection(String url, String filename, VerticalStatManager img) {
+		this.url = url;
+		this.filename = filename;
+		this.vert = img;
 	}
 	public ThumbConnection(String url, String filename, ImageField img) {
 		this.url = url;
 		this.filename = filename;
-		this.thumb = null;
 		this.img = img;
+	}
+	public ThumbConnection(String url, String filename, ImageLoader img) {
+		this.url = url;
+		this.filename = filename;
+		this.imgload = img;
 	}
 	public int getType() {
 		return type;
@@ -34,7 +55,22 @@ class ThumbConnection {
 	public ImageField getImg() {
 		return img;
 	}
+	public ImageLoader getImgLoad() {
+		return imgload;
+	}
 	public String getFilename() {
 		return filename;
+	}
+	public VerticalStatManager getVert() {
+		return vert;
+	}
+	public HorizontalStatManager getHort() {
+		return hori;
+	}
+	public void setGaugeField(GaugeField prog) {
+		progress = prog;
+	}
+	public GaugeField getGaugeField() {
+		return progress;
 	}
 }

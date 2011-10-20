@@ -108,9 +108,9 @@ public class AlbumScreen extends AppScreen implements FieldChangeListener
 		
 		exit.setChangeListener(this);
 		
+		addButton(new FixedButtonField(""));
+		addButton(new FixedButtonField(""));
 		addButton(exit);
-		addButton(new FixedButtonField(""));
-		addButton(new FixedButtonField(""));
 		process(SettingsBean.getSettings().getUsercategories());
 		
 		doConnect(Const.usercategories+Const.second+SettingsBean.getSettings().getLoaded());

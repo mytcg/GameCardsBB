@@ -5,6 +5,7 @@ import javax.microedition.io.file.FileConnection;
 
 import net.mytcg.dex.http.ConnectionHandler;
 import net.mytcg.dex.ui.GameCardsHome;
+import net.mytcg.dex.ui.custom.ImageLoader;
 import net.rim.blackberry.api.phone.Phone;
 import net.rim.device.api.io.file.FileIOException;
 import net.rim.device.api.math.Fixed32;
@@ -18,6 +19,7 @@ import net.rim.device.api.system.IDENInfo;
 import net.rim.device.api.system.RadioInfo;
 import net.rim.device.api.system.SIMCardInfo;
 import net.rim.device.api.ui.Color;
+import net.rim.device.api.ui.Font;
 
 public final class Const {
 	
@@ -27,6 +29,8 @@ public final class Const {
 	public static String PREFIX = "dex_";
 	public static int THREADS = 0;
 	public static ConnectionHandler connect = null;
+	public static ImageLoader load = null;
+	public static ImageLoader load2 = null;
 	
 	public static ConnectionHandler getConnection() {
 		
@@ -191,6 +195,7 @@ public final class Const {
 	public static final int MEDIUM_FONT = 14;
 	public static final int LARGE_FONT = 16;
 	public static int FONT = LARGE_FONT;
+	public static int TYPE = Font.PLAIN;
 	public static final int INCREASE_FONT = 2;
 	
 	public static final int FONTCOLOR = Color.WHITE;
@@ -212,6 +217,21 @@ public final class Const {
 			return ((Const.getHeight()-getButtonCentre().getHeight())-Const.PADDING);
 		} else {
 			return (int)((((double)((Const.getHeight()-getButtonCentre().getHeight())-Const.PADDING))*ratio));
+		}
+	}
+	public static final int getAppHeight() {
+		if (Const.PORTRAIT) {
+			return ((Const.getHeight()-getButtonCentre().getHeight()));
+		} else {
+			return (int)((((double)((Const.getHeight()-getButtonCentre().getHeight())))*ratio));
+		}
+	}
+	public static final int getCardWidth() {
+		if (Const.PORTRAIT) {
+			return Const.getWidth();
+		} else {
+			return Const.getHeight();
+			//return ((Const.getWidth()-getButtonCentre().getHeight())-Const.PADDING);
 		}
 	}
 	public static final int getUsableHeight() {
@@ -397,6 +417,8 @@ public final class Const {
 	public static String sendnote = "&note=";
 	public static String cardid = "&cardid=";
 	public static String height = "&height=";
+	public static String bbheight = "&bbheight=";
+	public static String jpg = "&jpg=1";
 	public static String width = "&width=";
 	public static String subcategories = "usersubcategories=1&category=";
 	public static String cat = "<usercategories><album><album><albumid>-999</albumid><hascards>false</hascards><albumname>Empty</albumname></album></usercategories>";
@@ -414,7 +436,10 @@ public final class Const {
 	
 	public static String cards = "/cards/";
 	public static final int cards_length = cards.length();
+	public static String cardsbb = "/cardsbb/";
+	public static final int cardsbb_length = cardsbb.length();
 	public static String png = ".png";
+	public static String jpeg = ".jpg";
 	
 	public static boolean store = false;
 	public static int first = 0;
@@ -475,6 +500,8 @@ public final class Const {
 	public static String internet = "internet";
 	
 	public static String download_url = "";
+	public static String loadingurl = "";
+	public static String loadingurlflip = "";
 	
 	public static boolean processUserDetails(String val) {
 		int fromIndex;
@@ -486,6 +513,16 @@ public final class Const {
     		if ((fromIndex = val.indexOf(xml_credits)) != -1) {
     			_instance.setCredits(val.substring(fromIndex+xml_credits_length, val.indexOf(xml_credits_end, fromIndex)));
     		}
+    		if ((fromIndex = val.indexOf(Const.xml_loadingurl)) != -1) {
+				loadingurl = val.substring(fromIndex+Const.xml_loadingurl_length, val.indexOf(Const.xml_loadingurl_end, fromIndex));
+			}
+			if ((fromIndex = val.indexOf(Const.xml_loadingflipurl)) != -1) {
+    			loadingurlflip = val.substring(fromIndex+Const.xml_loadingflipurl_length, val.indexOf(Const.xml_loadingflipurl_end, fromIndex));
+    		}
+			load = new ImageLoader(loadingurl);
+			load2 = new ImageLoader(loadingurlflip);
+			_instance.loading = loadingurl.substring(loadingurl.indexOf("/cards/")+Const.cards_length, loadingurl.indexOf(Const.jpeg));
+			_instance.loadingflip = loadingurlflip.substring(loadingurlflip.indexOf("/cards/")+Const.cards_length, loadingurlflip.indexOf(Const.jpeg));
     		_instance.setAuthenticated(true);
     		SettingsBean.saveSettings(_instance);
     		_instance = null;
@@ -996,6 +1033,14 @@ public final class Const {
 	public static final int xml_backurl_length = xml_backurl.length();
 	public static final String xml_backurl_end = "</backurl>";
 	public static final int xml_backurl_end_length = xml_backurl_end.length();
+	public static final String xml_loadingurl = "<loadingurl>";
+	public static final int xml_loadingurl_length = xml_loadingurl.length();
+	public static final String xml_loadingurl_end = "</loadingurl>";
+	public static final int xml_loadingurl_end_length = xml_loadingurl_end.length();
+	public static final String xml_loadingflipurl = "<loadingurlflip>";
+	public static final int xml_loadingflipurl_length = xml_loadingflipurl.length();
+	public static final String xml_loadingflipurl_end = "</loadingurlflip>";
+	public static final int xml_loadingflipurl_end_length = xml_loadingflipurl_end.length();
 	public static final String xml_note = "<note>";
 	public static final int xml_note_length = xml_note.length();
 	public static final String xml_note_end = "</note>";

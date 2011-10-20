@@ -34,6 +34,9 @@ public final class SettingsBean implements Persistable {
 	
 	//saves precache xml data
 	private String all;
+	public boolean loadingimage = false;
+	public String loading;
+	public String loadingflip;
 	
 	private int size = -1;
 	

@@ -82,13 +82,13 @@ public final class ThumbnailField extends Field {
 		}*/
 		
 		if ((getThumbUrl() != null)&&(getThumbUrl().length() > 0)){
-			thumbfile = getThumbUrl().substring(getThumbUrl().indexOf(Const.cards)+Const.cards_length, getThumbUrl().indexOf(Const.png));
+			thumbfile = getThumbUrl().substring(getThumbUrl().indexOf(Const.cards)+Const.cards_length, getThumbUrl().indexOf(Const.jpeg));
 		}
 		if ((getFrontUrl() != null)&&(getFrontUrl().length() > 0)){
-			frontfile = getFrontUrl().substring(getFrontUrl().indexOf(Const.cards)+Const.cards_length, getFrontUrl().indexOf(Const.png));
+			frontfile = getFrontUrl().substring(getFrontUrl().indexOf(Const.cardsbb)+Const.cardsbb_length, getFrontUrl().indexOf(Const.jpeg));
 		}
 		if ((getBackUrl() != null)&&(getBackUrl().length() > 0)){
-			backfile  = getBackUrl().substring(getBackUrl().indexOf(Const.cards)+Const.cards_length, getBackUrl().indexOf(Const.png));
+			backfile  = getBackUrl().substring(getBackUrl().indexOf(Const.cardsbb)+Const.cardsbb_length, getBackUrl().indexOf(Const.jpeg));
 		}
 		
 		construct(getDescription());
@@ -236,7 +236,7 @@ public final class ThumbnailField extends Field {
 		
 		
 		
-		g.drawBitmap(5, 3, button_thumbnail.getWidth(), getPreferredHeight(), button_thumbnail, 0, 0);
+		g.drawBitmap(5, 2, button_thumbnail.getWidth(), getPreferredHeight(), button_thumbnail, 0, 0);
 		
 		Font _font = getFont();
 		_font = _font.derive(Font.BOLD,Const.FONT+2);
@@ -297,7 +297,9 @@ public final class ThumbnailField extends Field {
 	}
 	public void process(byte[] data, int type) {
 		if (type == 0) {
-			button_thumbnail = Const.getSizeImage(EncodedImage.createEncodedImage(data, 0, data.length));
+			try{
+				button_thumbnail = Const.getSizeImage(EncodedImage.createEncodedImage(data, 0, data.length));
+			}catch(IllegalArgumentException e){}
 			invalidate();
 		}
 		if (type < 2) 
