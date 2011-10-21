@@ -1,8 +1,12 @@
 package net.mytcg.dex.util;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
+import net.rim.device.api.i18n.SimpleDateFormat;
+import net.rim.device.api.io.http.HttpDateParser;
 import net.rim.device.api.system.PersistentObject;
 import net.rim.device.api.system.PersistentStore;
 import net.rim.device.api.util.Persistable;
@@ -36,6 +40,7 @@ public final class SettingsBean implements Persistable {
 	//saves precache xml data
 	private String all;
 	public boolean loadingimage = false;
+	public boolean notifications = false;
 	public String loading;
 	public String loadingflip;
 	
@@ -49,12 +54,24 @@ public final class SettingsBean implements Persistable {
 	}
 	
 	private int lastloaded = 0;
+	private int noteloaded = 0;
 	
 	public void lastloaded() {
 		lastloaded=(int)((System.currentTimeMillis())/1000);
 	}
 	public int getLoaded() {
 		return lastloaded;
+	}
+	
+	public void noteloaded() {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Calendar calender = Calendar.getInstance();
+		Date date = new Date(HttpDateParser.parse(dateFormat.format(calender.getTime())));
+		
+		noteloaded=(int)(date.getTime()/1000);
+	}
+	public int getNoteLoaded() {
+		return noteloaded;
 	}
 	
 	public static SettingsBean getSettings() {
