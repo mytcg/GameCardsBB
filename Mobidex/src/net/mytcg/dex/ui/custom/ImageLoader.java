@@ -1,6 +1,5 @@
 package net.mytcg.dex.ui.custom;
 
-import java.io.InputStream;
 import java.io.OutputStream;
 
 import javax.microedition.io.Connector;
@@ -8,24 +7,23 @@ import javax.microedition.io.file.FileConnection;
 
 import net.mytcg.dex.http.ConnectionGet;
 import net.mytcg.dex.util.Const;
-import net.rim.device.api.math.Fixed32;
+
 import net.rim.device.api.system.Bitmap;
-import net.rim.device.api.system.EncodedImage;
 import net.rim.device.api.ui.Field;
-import net.rim.device.api.ui.Font;
+
 import net.rim.device.api.ui.Graphics;
 
-public final class ImageField extends Field {
+public final class ImageLoader extends Field {
 	
 	private String url;
 	private String file;
-	private Bitmap image;
 	
-	public ImageField(String url) {
+	public ImageLoader(String url) {
 		this.url = url;
 		if ((url != null)&&(url.length() > 0)){
-			file = url.substring(url.indexOf(Const.cardsbb)+Const.cardsbb_length, url.indexOf(Const.jpeg));
+			file = url.substring(url.indexOf(Const.cards)+Const.cards_length, url.indexOf(Const.jpeg));
 		}
+		System.out.println("file "+file);
 		construct();
 	}
 	
@@ -35,7 +33,7 @@ public final class ImageField extends Field {
 	public void setUrl(String url) {
 		this.url = url;
 		if ((url != null)&&(url.length() > 0)){
-			file = url.substring(url.indexOf(Const.cardsbb)+Const.cardsbb_length, url.indexOf(Const.jpeg));
+			file = url.substring(url.indexOf(Const.cards)+Const.cards_length, url.indexOf(Const.jpeg));
 		}
 		construct();
 	}
@@ -44,45 +42,33 @@ public final class ImageField extends Field {
 		FileConnection _file = null;
 		OutputStream output = null;
 		try {
+			System.out.println("WAT "+Const.getStorage()+Const.PREFIX+filename);
 			_file = (FileConnection)Connector.open(Const.getStorage()+Const.PREFIX+filename);
 			_file.create();
 			output = _file.openOutputStream();
 			output.write(data);
 			output.close();
 			_file.close();
-		} catch (Exception e) {}
+		} catch (Exception e) {System.out.println("errrrr "+e.toString());}
 	}
 	public void getData() {
 		FileConnection _file = null;
-		InputStream input = null;
 		try {
 			_file = (FileConnection)Connector.open(Const.getStorage()+Const.PREFIX+file);
 			if (!_file.exists()) {
 				_file.close();
+				System.out.println("url "+url);
 				doConnect(url);
 			} else {
-				input = _file.openInputStream();
-				byte[] data = new byte[(int) _file.fileSize()];
-				input.read(data);
-				input.close();
 				_file.close();
-				image = (EncodedImage.createEncodedImage(data, 0, data.length)).getBitmap();
-				landscape();
-				invalidate();
 			}
 		} catch (Exception e) {}
 	}
 	
 	public void construct() {
-		int font = Const.FONT;
-		image = Const.getLoading();
-		landscape();
 		if (file != null) {
 			getData();
 		}
-		Font _font = getFont();
-		_font = _font.derive(Const.TYPE,font);
-		setFont(_font);
 	}
 	
 	public void onUndisplay() {
@@ -112,11 +98,7 @@ public final class ImageField extends Field {
     	return true;
     }
 	public void paint(Graphics g) {
-		int _xPts[] = {0,0,getPreferredWidth(),getPreferredWidth()};
-		int _yPts[] = {0,Const.getHeight(),Const.getHeight(),0};
-		g.drawTexturedPath(_xPts,_yPts,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,Const.getBackground());
 		
-		g.drawBitmap(((getPreferredWidth()-(image.getWidth()))/2), (((getPreferredHeight())-((image.getHeight())))/2), image.getWidth(), image.getHeight(), image, 0, 0);
 	}
 	protected boolean navigationClick(int status, int time) {
         fieldChangeNotify(1);
@@ -131,20 +113,8 @@ public final class ImageField extends Field {
 			(Const.getConnection()).addConnect(url, file, this);
 		}
 	}
-	public void landscape() {
-		if (!(Const.getPortrait())) {
-			try {
-				image = Const.rotate(image, 270);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			
-		}
-	}
+	
 	public void process(byte[] data, String filename) {
-		image = (EncodedImage.createEncodedImage(data, 0, data.length)).getBitmap();
-		landscape();
-		invalidate();
 		saveData(data, filename);
 	}
 }

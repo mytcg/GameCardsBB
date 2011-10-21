@@ -14,10 +14,13 @@ import net.mytcg.dex.ui.AppScreen;
 import net.mytcg.dex.ui.GameCardsHome;
 import net.mytcg.dex.ui.custom.HorizontalStatManager;
 import net.mytcg.dex.ui.custom.ImageField;
+import net.mytcg.dex.ui.custom.ImageLoader;
 import net.mytcg.dex.ui.custom.ThumbnailField;
 import net.mytcg.dex.ui.custom.VerticalStatManager;
 import net.mytcg.dex.util.Const;
 import net.mytcg.dex.util.SettingsBean;
+import net.rim.device.api.ui.UiApplication;
+import net.rim.device.api.ui.component.GaugeField;
 
 public final class ConnectionGet extends Connection implements Runnable {
 	private DataInputStream _input;
@@ -26,30 +29,51 @@ public final class ConnectionGet extends Connection implements Runnable {
 	private ConnectionHandler field = null;
 	private ThumbnailField thumb = null;
 	private ImageField image = null;
+	private ImageLoader imageload = null;
 	private VerticalStatManager vStat = null;
 	private HorizontalStatManager hStat = null;
 	private int type = -1;
 	private GameCardsHome home;
 	private boolean autoclean = true;
 	private String filename;
+	private GaugeField progress = null;
 	
 	public ConnectionGet(String url, GameCardsHome home) {
 		this(url);
 		this.home=home;
-	}
-	public ConnectionGet(String url, VerticalStatManager vStat) {
-		this(url);
-		this.vStat = vStat;
-	}
-	public ConnectionGet(String url, HorizontalStatManager hStat) {
-		this(url);
-		this.hStat = hStat;
 	}
 	public ConnectionGet(String url, ConnectionHandler field, ImageField image, String filename) {
 		this(url);
 		this.image = image;
 		this.field = field;
 		this.filename = filename;
+	}
+	public ConnectionGet(String url, ConnectionHandler field, ImageField image, String filename, GaugeField prog) {
+		this(url);
+		this.image = image;
+		this.field = field;
+		this.filename = filename;
+		this.progress = prog;
+	}
+	public ConnectionGet(String url, ConnectionHandler field, ImageLoader image, String filename) {
+		this(url);
+		this.imageload = image;
+		this.field = field;
+		this.filename = filename;
+	}
+	public ConnectionGet(String url, ConnectionHandler field, VerticalStatManager image, String filename, GaugeField prog) {
+		this(url);
+		this.vStat = image;
+		this.field = field;
+		this.filename = filename;
+		this.progress = prog;
+	}
+	public ConnectionGet(String url, ConnectionHandler field, HorizontalStatManager image, String filename, GaugeField prog) {
+		this(url);
+		this.hStat = image;
+		this.field = field;
+		this.filename = filename;
+		this.progress = prog;
 	}
 	public ConnectionGet(String url, ConnectionHandler field, int type, ThumbnailField thumb) {
 		this(url);
@@ -100,8 +124,8 @@ public final class ConnectionGet extends Connection implements Runnable {
 			
 		}
 	}
+	
 	public void connect() {
-		
 		factory = new HttpConnectionFactory(_url);
     	int lengt;
     	byte[] data;
@@ -111,6 +135,8 @@ public final class ConnectionGet extends Connection implements Runnable {
 	        	_s = factory.getNextConnection();
 	        	
 	        	try {
+	        		
+	        		System.out.println("starting with url " + _url);
 		        	_s.setRequestMethod(HttpConnection.GET);
 		        	SettingsBean _instance = SettingsBean.getSettings();
 		        	_s.setRequestProperty("AUTH_USER", _instance.getUsername());
@@ -124,45 +150,74 @@ public final class ConnectionGet extends Connection implements Runnable {
 		        		screen.setText("Loading...");
 		        	}
 		        	
-		        	if (lengt != -1) {
-						data = new byte[lengt];
-						_input.readFully(data);
-						
-						_text = new String(data);
-		        	} else {
-	                    _output = new ByteArrayOutputStream();
-	                    int ch;
-	                    while((ch = _input.read()) != -1)
-	                        _output.write(ch);
-	                    data = _output.toByteArray();
-	                    try {
-	                    	_output.close();
-	                    } catch (Exception e) {
-	                    	
-	                    }
+		        	//if (lengt != -1) {
+					//	data = new byte[lengt];
+					//	System.out.println("lengt: "+lengt);
+					//	System.out.println("available: "+_input.available());
+					//	_input.readFully(data);
+					//	_text = new String(data);
+		        	//} else {
+		        	int total = 0;
+		        	if(progress != null){
+		        		progress.setValue(0);
+		        		progress.getManager().invalidate();
+		        		total = lengt;
 		        	}
+		        	_output = new ByteArrayOutputStream();
+	                int ch;
+	                int jump = 9;
+	                while((ch = _input.read()) != -1){
+	                	total--;
+	                   	if(progress != null){
+	                   		int prog = (int)(((double)((double)lengt - (double)total)/(double)lengt)*100);
+	                   		if(prog > jump){
+	                   			jump = jump + 10;
+		                   		synchronized(UiApplication.getEventLock()) {
+			                		try{
+			                			if ( prog > 0 ) {
+			                				progress.setValue(prog);
+			                				progress.getManager().invalidate();
+			                            }
+			                		}catch(Exception e){System.out.println(e.toString());};
+		                  		}
+	                   		}
+	    		      	}
+	                    _output.write(ch);
+	                }
+	                progress = null;
+	                data = _output.toByteArray();
+	                _text = new String(data);
+	                try {
+	                  	_output.close();
+	                } catch (Exception e) {
+	                    	
+	                }
+		        	//}
 		        	
-		        	System.out.println(new String(data));
+		        	System.out.println("got response");
+		        	if (data.length <= 2048) {
+		        		System.out.println("["+new String(data) + "]");
+		        	}
 		        	
 		        	if (screen != null) {
 		        		screen.process(new String(data));
 		        	}
-					if (vStat != null) {
-		        		vStat.process(data);
-		        	}
-		        	if (hStat != null) {
-		        		hStat.process(data);
-		        	}
 		        	if ((field != null)&&(thumb != null)) {
 		        		saveData(data, type);
-		        		field.process(data, type, thumb);
+		        		field.process(data, type, thumb, _url);
 		        	}
 		        	if ((field != null)&&(image != null)) {
-		        		field.process(data, image, filename);
+		        		field.process(data, image, filename, _url);
 		        	}
-		        	/*if (image != null) {
-		        		image.process(data, filename);
-		        	}*/
+		        	if ((field != null)&&(imageload != null)) {
+		        		field.process(data, imageload, filename, _url);
+		        	}
+		        	if ((field != null)&&(vStat != null)) {
+		        		field.process(data, vStat, filename, _url);
+		        	}
+		        	if ((field != null)&&(hStat != null)) {
+		        		field.process(data, hStat, filename, _url);
+		        	}
 		        	if ((home != null)&&(data.length > 0)) {
 		        		String val = new String(data);
 		        		int fromIndex = -1;
@@ -172,11 +227,21 @@ public final class ConnectionGet extends Connection implements Runnable {
 		        	}
 					_isBusy = false;
 					close();
-	        	} catch (EOFException ex) {}
+	        	} catch (EOFException ex) {
+	        		if (field != null) {
+	        			field.removeUrl(_url);
+	        		}
+	        	}
 	        } catch (IOException e) {
+	        	if (field != null) {
+        			field.removeUrl(_url);
+        		}
 	        	cleanup();
 	        	close(true);
 	        } catch (NoMoreTransportsException e) {
+	        	if (field != null) {
+        			field.removeUrl(_url);
+        		}
 	        	cleanup();
 	        	close(false);
 	        }

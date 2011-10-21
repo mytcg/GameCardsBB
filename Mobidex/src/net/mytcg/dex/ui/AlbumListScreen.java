@@ -26,6 +26,7 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 	int count = 0;
 	
 	public void process(String val) {
+		System.out.println("val "+val);
 		SettingsBean _instance = SettingsBean.getSettings();
     	update = _instance.setCards(val, id);
     	
@@ -242,7 +243,7 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 		this.id = id;
 		
 		process(SettingsBean.getSettings().getCards(id));
-		doConnect(Const.cardsincategory+id+Const.height+Const.getCardHeight()+Const.second+SettingsBean.getSettings().getLoaded());
+		doConnect(Const.cardsincategory+id+Const.height+Const.getCardHeight()+Const.jpg+Const.bbheight+Const.getAppHeight()+Const.width+Const.getCardWidth()+Const.second+SettingsBean.getSettings().getLoaded());
 	}
 	
 	public AlbumListScreen(String val) {
@@ -262,7 +263,7 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 	protected void onExposed() {
 		screen = null;
 		if ((!isVisible())&&(!search)) {
-			doConnect(Const.cardsincategory+id+Const.height+Const.getCardHeight()+Const.second+SettingsBean.getSettings().getLoaded());
+			doConnect(Const.cardsincategory+id+Const.height+Const.getCardHeight()+Const.jpg+Const.bbheight+Const.getAppHeight()+Const.width+Const.getCardWidth()+Const.second+SettingsBean.getSettings().getLoaded());
 		}
 		super.onExposed();
 	}

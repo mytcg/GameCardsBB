@@ -94,7 +94,7 @@ public class SearchScreen extends AppScreen implements FieldChangeListener, KeyL
 			} catch (Exception e) {
 				
 			}
-			doConnect(Const.seek+search64+Const.height+Const.getCardHeight()+Const.second+SettingsBean.getSettings().getLoaded());
+			doConnect(Const.seek+search64+Const.height+Const.getCardHeight()+Const.jpg+Const.bbheight+Const.getAppHeight()+Const.width+Const.getCardWidth()+Const.second+SettingsBean.getSettings().getLoaded());
 		} else if (f == number) {
 			System.out.println("test");
 		}
