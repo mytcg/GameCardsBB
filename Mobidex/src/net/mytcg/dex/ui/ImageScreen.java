@@ -13,7 +13,6 @@ import net.rim.blackberry.api.invoke.PhoneArguments;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.FieldChangeListener;
 import net.rim.device.api.ui.UiApplication;
-import net.rim.device.api.ui.component.NullField;
 
 import java.util.Vector;
 import net.mytcg.dex.util.Stat;
@@ -73,7 +72,9 @@ public class ImageScreen extends AppScreen implements FieldChangeListener
 			}
 			
 			stats[i].setChangeListener(this);
-			addStat(stats[i]);
+			if(stats[i].stat.getWidth()!=0){
+				addStat(stats[i]);
+			}
 		}
 		//addStat(new NullField());
 		

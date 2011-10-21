@@ -13,6 +13,7 @@ public final class ListItemField extends Field {
 	private String label;
 	private int id;
 	private boolean hasCards;
+	private boolean focusable = true;
 	
 	private Bitmap button_centre;
 	private Bitmap button_left_edge;
@@ -65,6 +66,9 @@ public final class ListItemField extends Field {
 		return label;
 	}
 	
+	public void setFocusable(boolean f){
+		focusable = f;
+	}
 	public int getPreferredWidth() {
 		return Const.getWidth();
 	}
@@ -75,7 +79,7 @@ public final class ListItemField extends Field {
 		setExtent(getPreferredWidth(),getPreferredHeight());
     }
 	public boolean isFocusable() {
-    	return true;
+    	return focusable;
     }
 	public void paint(Graphics g) {
 		int _xPts[] = {0,0,getPreferredWidth(),getPreferredWidth()};

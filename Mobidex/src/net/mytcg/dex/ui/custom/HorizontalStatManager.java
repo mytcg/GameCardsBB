@@ -35,7 +35,7 @@ public class HorizontalStatManager extends HorizontalFieldManager
 	
 	public HorizontalStatManager(boolean useall)
 	{
-		super(HorizontalFieldManager.USE_ALL_WIDTH | Manager.FOCUSABLE);
+		super(HorizontalFieldManager.USE_ALL_WIDTH | Manager.FOCUSABLE | HorizontalFieldManager.FIELD_RIGHT);
 		this.useall = useall;
 		
 		add(new NullField());

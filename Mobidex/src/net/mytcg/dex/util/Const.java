@@ -169,6 +169,7 @@ public final class Const {
 	public static final short ALBUMSCREEN = 1;
 	public static final short LISTSCREEN = 2;
 	public static final short REGISTERSCREEN = 3;
+	public static final short NOTIFICATIONSCREEN = 4;
 	
 	public static final short USERDET = 0;
 	public static final short USERCAT = 1;
@@ -185,6 +186,7 @@ public final class Const {
 	public static final short NEWCARDS = -2;
 	public static final short UPDATES = -3;
 	public static final short CARD = -4;
+	public static final short NOTIFICATIONS = -17;
 	
 	public static final short PADDING = 20;
 	
@@ -322,6 +324,7 @@ public final class Const {
 	public static String no = "No";
 	public static String save = "Save";
 	public static String flip = "Flip";
+	public static String notification = "Notifications";
 	public static String options = "Options";
 	public static String logout = "Logout";
 	public static String redeem = "Redeem";
@@ -388,6 +391,7 @@ public final class Const {
 	public static String url = "http://dex.mytcg.net/_phone/?";
 	public static String userdetails = "userdetails=1";
 	public static String registeruser = "registeruser=1";
+	public static String notifications = "notifications=1";
 	/*
 	 * $username = $_REQUEST['username'];
 	$password = $_REQUEST['password'];
@@ -1005,6 +1009,22 @@ public final class Const {
 	public static final int xml_cardsincategory_length = xml_cardsincategory.length();
 	public static final String xml_cardsincategory_end = "</cardsincategory>";
 	public static final int xml_cardsincategory_end_length = xml_cardsincategory_end.length();
+	public static final String xml_notifications = "<notifications>";
+	public static final int xml_notifications_length = xml_notifications.length(); 
+	public static final String xml_notifications_end = "</notifications>";
+	public static final int xml_notifications_end_length = xml_notifications_end.length();
+	public static final String xml_id = "<id>";
+	public static final int xml_id_length = xml_id.length();
+	public static final String xml_id_end = "</id>";
+	public static final int xml_id_end_length = xml_id_end.length();
+	public static final String xml_descr = "<desc>";
+	public static final int xml_descr_length = xml_descr.length();
+	public static final String xml_descr_end = "</desc>";
+	public static final int xml_descr_end_length = xml_descr_end.length();
+	public static final String xml_date = "<date>";
+	public static final int xml_date_length = xml_date.length();
+	public static final String xml_date_end = "</date>";
+	public static final int xml_date_end_length = xml_date_end.length();
 	
 	public static final String xml_card = "<card>";
 	public static final int xml_card_length = xml_card.length();
@@ -1041,6 +1061,10 @@ public final class Const {
 	public static final int xml_loadingflipurl_length = xml_loadingflipurl.length();
 	public static final String xml_loadingflipurl_end = "</loadingurlflip>";
 	public static final int xml_loadingflipurl_end_length = xml_loadingflipurl_end.length();
+	public static final String xml_notedate = "<notedate>";
+	public static final int xml_notedate_length = xml_notedate.length();
+	public static final String xml_notedate_end = "</notedate>";
+	public static final int xml_notedate_end_length = xml_notedate_end.length();
 	public static final String xml_note = "<note>";
 	public static final int xml_note_length = xml_note.length();
 	public static final String xml_note_end = "</note>";

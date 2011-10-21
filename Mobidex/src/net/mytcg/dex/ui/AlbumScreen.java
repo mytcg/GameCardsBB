@@ -1,9 +1,13 @@
 package net.mytcg.dex.ui;
 
+import java.util.Date;
+
 import net.mytcg.dex.ui.custom.FixedButtonField;
 import net.mytcg.dex.ui.custom.ListItemField;
 import net.mytcg.dex.util.Const;
 import net.mytcg.dex.util.SettingsBean;
+import net.mytcg.dex.ui.DetailScreen;
+import net.rim.device.api.io.http.HttpDateParser;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.FieldChangeListener;
 import net.rim.device.api.ui.UiApplication;
@@ -13,10 +17,12 @@ public class AlbumScreen extends AppScreen implements FieldChangeListener
 	FixedButtonField exit = new FixedButtonField(Const.back);
 	
 	ListItemField tmp = new ListItemField("Empty", -1, false, 0);
+	ListItemField notifications = new ListItemField("Empty", -1, false, 0);
 	
 	int id = -999;
 	boolean update = true;
 	boolean collapse = false;
+	boolean initialcheck = true;
 	
 	public void process(String val) {
 		SettingsBean _instance = SettingsBean.getSettings();
@@ -40,6 +46,9 @@ public class AlbumScreen extends AppScreen implements FieldChangeListener
 	    			tmp = new ListItemField(Const.search, Const.SEARCH, false, 0);
 	    			tmp.setChangeListener(this);
 	    			add(tmp);
+	    			notifications = new ListItemField((_instance.notifications?"*":"")+Const.notification, Const.NOTIFICATIONS, false, 0);
+	    			notifications.setChangeListener(this);
+	    			add(notifications);
 	    		}
 	    		int albumid = -1;
 	    		int updated = 0;
@@ -84,15 +93,34 @@ public class AlbumScreen extends AppScreen implements FieldChangeListener
 	        			add(tmp);
 	        		}
 	    		}
-	    	}
-	    	synchronized(UiApplication.getEventLock()) {
-	    		//tmp = new ListItemField(Const.redeem, Const.REDEEM, false, 0);
-    			//tmp.setChangeListener(this);
-    			//add(tmp);
-				tmp = new ListItemField(Const.logout, Const.LOGOUT, false, 0);
-				tmp.setChangeListener(this);
-				add(tmp);
-				invalidate();
+	    		synchronized(UiApplication.getEventLock()) {
+		    		//tmp = new ListItemField(Const.redeem, Const.REDEEM, false, 0);
+	    			//tmp.setChangeListener(this);
+	    			//add(tmp);
+					tmp = new ListItemField(Const.logout, Const.LOGOUT, false, 0);
+					tmp.setChangeListener(this);
+					add(tmp);
+					invalidate();
+				}
+	    	} else if ((fromIndex = val.indexOf(Const.xml_notedate)) != -1) {
+				String notedate = val.substring(fromIndex+Const.xml_notedate_length, val.indexOf(Const.xml_notedate_end, fromIndex));
+				Date date = new Date(HttpDateParser.parse(notedate));
+				_instance = SettingsBean.getSettings();
+				System.out.println("date.getTime() " + date.getTime());
+				System.out.println("_instance.getNoteLoaded() " + _instance.getNoteLoaded());
+				if(date.getTime()/1000>_instance.getNoteLoaded()){
+					_instance.notifications = true;
+					synchronized(UiApplication.getEventLock()) {
+						notifications.setLabel((_instance.notifications?"*":"")+Const.notification);
+					}
+					if(initialcheck){
+						initialcheck = false;
+						synchronized(UiApplication.getEventLock()) {
+							screen = new DetailScreen(this, Const.NOTIFICATIONSCREEN);
+							UiApplication.getUiApplication().pushScreen(screen);
+						}
+					}
+				}
 			}
 	    	_instance = null;
 	    	setDisplaying(true);
@@ -114,6 +142,10 @@ public class AlbumScreen extends AppScreen implements FieldChangeListener
 		process(SettingsBean.getSettings().getUsercategories());
 		
 		doConnect(Const.usercategories+Const.second+SettingsBean.getSettings().getLoaded());
+		SettingsBean _instance = SettingsBean.getSettings();
+		if(_instance.notifications == false){
+			doConnect("notedate=1");
+		}
 	}
 	public AlbumScreen(int id) {
 		super(null);
@@ -172,6 +204,9 @@ public class AlbumScreen extends AppScreen implements FieldChangeListener
 				UiApplication.getUiApplication().pushScreen(screen);
 			} else if (id == Const.REDEEM){
 				screen = new RedeemScreen(this);
+				UiApplication.getUiApplication().pushScreen(screen);
+			} else if(f == notifications){
+				screen = new DetailScreen(this, Const.NOTIFICATIONSCREEN);
 				UiApplication.getUiApplication().pushScreen(screen);
 			} else {
 				if (!hascards) {
