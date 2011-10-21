@@ -142,7 +142,7 @@ public final class ConnectionGet extends Connection implements Runnable {
 	                    }
 		        	}
 		        	
-		        	//System.out.println(new String(data));
+		        	System.out.println(new String(data));
 		        	
 		        	if (screen != null) {
 		        		screen.process(new String(data));
