@@ -6,6 +6,7 @@ import java.io.OutputStream;
 import javax.microedition.io.Connector;
 import javax.microedition.io.file.FileConnection;
 
+import net.mytcg.topcar.util.SettingsBean;
 import net.mytcg.topcar.http.ConnectionGet;
 import net.mytcg.topcar.util.Const;
 import net.rim.device.api.math.Fixed32;
@@ -92,7 +93,20 @@ public class HorizontalStatManager extends HorizontalFieldManager
 	public void construct() {
 		int font = Const.FONT;
 		image = Const.getLoading();
-		landscape();
+		FileConnection _file = null;
+		InputStream input = null;
+		try {
+			SettingsBean _instance = SettingsBean.getSettings();
+			_file = (FileConnection)Connector.open(Const.getStorage()+Const.PREFIX+_instance.loading);
+			input = _file.openInputStream();
+			byte[] data = new byte[(int) _file.fileSize()];
+			input.read(data);
+			input.close();
+			_file.close();
+			image = (EncodedImage.createEncodedImage(data, 0, data.length)).getBitmap();
+			landscape();
+			invalidate();
+		} catch (Exception e) {}
 		if (file != null) {
 			getData();
 		}
@@ -174,8 +188,8 @@ public class HorizontalStatManager extends HorizontalFieldManager
             	setPositionChild(field, ((getPreferredWidth()-(image.getWidth()))/2)+sField.stat.getTop()*image.getWidth()/350, (((getPreferredHeight())-((image.getHeight())))/2)+(250 - sField.stat.getLeft() - sField.stat.getWidth())*image.getHeight()/250);  //set the position for the field
             	layoutChild( field, sField.stat.getHeight()*image.getHeight()/250, sField.stat.getWidth()*image.getWidth()/350); //lay out the field
             }else if(field instanceof GaugeField){
-            	setPositionChild(field, 40, ((Const.getHeight()-Const.getButtonCentre().getHeight())/2-5));  //set the position for the field
-            	layoutChild( field, (getPreferredWidth()-80), 100 ); //lay out the field
+            	setPositionChild(field, 45, ((Const.getHeight()-Const.getButtonCentre().getHeight())/2-5));  //set the position for the field
+            	layoutChild( field, (getPreferredWidth()-90), 100 ); //lay out the field
             }
         }
 		setExtent();
