@@ -15,20 +15,38 @@ import net.mytcg.topcar.util.Stat;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.FieldChangeListener;
 import net.rim.device.api.ui.UiApplication;
+import net.rim.device.api.ui.component.LabelField;
+import net.rim.device.api.ui.Graphics;
 
 public class AlbumListScreen extends AppScreen implements FieldChangeListener
 {
 	FixedButtonField exit = new FixedButtonField(Const.back);
 	
 	ThumbnailField tmp = new ThumbnailField(new Card(-1, "", 0, "", "", "", "", 0, null, -1, "", ""));
+	LabelField pageNumber = new LabelField("Page 1/1"){
+		public int getPreferredWidth() {
+			return (int)(Const.getWidth()/3);
+		}
+		protected void paint(Graphics graphics){
+			graphics.setColor(Const.FONTCOLOR);
+			super.paint(graphics);
+		}
+	};
 	
 	int id = -1;
 	int type = 0;
 	boolean update = true;
 	boolean newcards = false;
 	Card compareCard = null;
+	Vector pages = new Vector();
+	int currentPage = 0;
 	
 	public void process(String val) {
+		int listSize = (Const.getUsableHeight()) / 74;
+		int listCounter = 0;
+		pages = new Vector();
+		Vector tempList = new Vector();
+		System.out.println("listSize "+listSize);
 		SettingsBean _instance = SettingsBean.getSettings();
     	update = _instance.setCards(val, id);
     	
@@ -77,6 +95,11 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 	    		String statval = "";
 	    		
 	    		while ((fromIndex = val.indexOf(Const.xml_cardid)) != -1){
+	    			if(listCounter >= listSize){
+        				pages.addElement(tempList);
+        				tempList = new Vector();
+        				listCounter=0;
+        			}
 	    			endIndex = val.indexOf(Const.xml_card_end);
 	    			card = val.substring(fromIndex, endIndex+Const.xml_card_end_length);
 	    			fromIndex = card.indexOf(Const.xml_cardid);
@@ -311,24 +334,78 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 	    					tmp.setThirdLabel("Rating: "+ rating);
 	    				}
 	        			tmp.setChangeListener(this);
-	        			add(tmp);
+	        			//add(tmp);
+	        			System.out.println("tempList.size "+tempList.size());
+	        			System.out.println("tmp "+tmp.toString());
+	        			tempList.addElement(tmp);
+	        			listCounter++;
 	        		}
 	    		}
 	    		if (empty) {
 	    			synchronized(UiApplication.getEventLock()) {
 	        			add(new ListItemField("Empty", -1, false, 0));
 	        		}
+	    		}else{
+	    			pages.addElement(tempList);
 	    		}
 	    		SettingsBean.saveSettings(_instance);
 	    		_instance = null;
+	    		synchronized(UiApplication.getEventLock()) {
+	    			System.out.println("SIZE "+((Vector)pages.elementAt(0)).size());
+	    			pageNumber.setText("Page 1/"+pages.size());
+	    			ThumbnailField[] temp = new ThumbnailField[((Vector)pages.elementAt(0)).size()];
+	    			((Vector)pages.elementAt(0)).copyInto(temp);
+	    			bgManager.deleteAll();
+		    		bgManager.addAll(temp);
+		    	}
 	    	}
-	    	setDisplaying(true);
+	    	//setDisplaying(true);
     	}
 	}
+	
+	protected boolean navigationMovement(int dx, int dy, int status, int time) {
+		if(dy == 0 && dx == -1){
+			if(pages.size() >1){
+				if((currentPage-1)<0){
+					currentPage = pages.size()-1;
+				}else{
+					currentPage--;
+				}
+				synchronized(UiApplication.getEventLock()) {
+					pageNumber.setText("Page "+(currentPage+1)+"/"+pages.size());
+	    			ThumbnailField[] temp = new ThumbnailField[((Vector)pages.elementAt(currentPage)).size()];
+	    			((Vector)pages.elementAt(currentPage)).copyInto(temp);
+	    			bgManager.deleteAll();
+		    		bgManager.addAll(temp);
+		    	}
+			}
+			return true;
+		}else if(dy == 0 && dx == 1){
+			if(pages.size() >1){
+				if((currentPage+1)>=pages.size()){
+					currentPage = 0;
+				}else{
+					currentPage++;
+				}
+				synchronized(UiApplication.getEventLock()) {
+					pageNumber.setText("Page "+(currentPage+1)+"/"+pages.size());
+	    			ThumbnailField[] temp = new ThumbnailField[((Vector)pages.elementAt(currentPage)).size()];
+	    			((Vector)pages.elementAt(currentPage)).copyInto(temp);
+	    			bgManager.deleteAll();
+		    		bgManager.addAll(temp);
+		    	}
+			}
+			return true;
+		}else{
+			return super.navigationMovement(dx, dy, status, time);
+		}
+	}
+	
 	public AlbumListScreen(int id, int type) {
 		super(null);
 		this.type = type;
 		bgManager.setStatusHeight(exit.getContentHeight());
+		bgManager.setArrowMode(true);
 		
 		if (id == Const.NEWCARDS) {
 			newcards = true;
@@ -337,7 +414,7 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 		exit.setChangeListener(this);
 		
 		addButton(new FixedButtonField(""));
-		addButton(new FixedButtonField(""));
+		addButton(pageNumber);
 		addButton(exit);
 		
 		this.id = id;
@@ -351,6 +428,7 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 		this.type = type;
 		this.compareCard = card;
 		bgManager.setStatusHeight(exit.getContentHeight());
+		bgManager.setArrowMode(true);
 		
 		if (id == Const.NEWCARDS) {
 			newcards = true;
@@ -359,7 +437,7 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 		exit.setChangeListener(this);
 		
 		addButton(new FixedButtonField(""));
-		addButton(new FixedButtonField(""));
+		addButton(pageNumber);
 		addButton(exit);
 		
 		this.id = id;
@@ -371,11 +449,12 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 	public AlbumListScreen(String val) {
 		super(null);
 		bgManager.setStatusHeight(exit.getContentHeight());
+		bgManager.setArrowMode(true);
 		
 		exit.setChangeListener(this);
 		
 		addButton(new FixedButtonField(""));
-		addButton(new FixedButtonField(""));
+		addButton(pageNumber);
 		addButton(exit);
 		
 		process(val);
@@ -385,11 +464,12 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 		super(null);
 		this.type = type;
 		bgManager.setStatusHeight(exit.getContentHeight());
+		bgManager.setArrowMode(true);
 		
 		exit.setChangeListener(this);
 		
 		addButton(new FixedButtonField(""));
-		addButton(new FixedButtonField(""));
+		addButton(pageNumber);
 		addButton(exit);
 		
 		process(val);

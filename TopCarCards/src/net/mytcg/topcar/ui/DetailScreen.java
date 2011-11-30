@@ -7,6 +7,7 @@ import net.mytcg.topcar.ui.custom.FixedButtonField;
 import net.mytcg.topcar.ui.custom.FriendField;
 import net.mytcg.topcar.ui.custom.ListItemField;
 import net.mytcg.topcar.ui.custom.ListLabelField;
+import net.mytcg.topcar.ui.custom.ProfileFieldManager;
 import net.mytcg.topcar.ui.custom.SexyEditField;
 import net.mytcg.topcar.util.Answer;
 import net.mytcg.topcar.util.Const;
@@ -16,8 +17,10 @@ import net.rim.blackberry.api.browser.BrowserSession;
 import net.rim.device.api.ui.Color;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.FieldChangeListener;
+import net.rim.device.api.ui.Graphics;
 import net.rim.device.api.ui.UiApplication;
 import net.rim.device.api.ui.component.CheckboxField;
+import net.rim.device.api.ui.component.LabelField;
 import net.rim.device.api.ui.component.SeparatorField;
 import net.rim.device.api.ui.container.HorizontalFieldManager;
 
@@ -26,6 +29,15 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 	FixedButtonField exit = new FixedButtonField(Const.back);
 	FixedButtonField save = new FixedButtonField(Const.save);
 	FixedButtonField buy = new FixedButtonField(Const.buy);
+	LabelField pageNumber = new LabelField("Page 1/1"){
+		public int getPreferredWidth() {
+			return (int)(Const.getWidth()/3);
+		}
+		protected void paint(Graphics graphics){
+			graphics.setColor(Const.FONTCOLOR);
+			super.paint(graphics);
+		}
+	};
 	SexyEditField balance = new SexyEditField("");
 	SexyEditField tmp = new SexyEditField("");
 	ColorLabelField lbltop = null;
@@ -41,23 +53,27 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 	Vector answers = new Vector();
 	int count =0;
 	int credits = 0;
+	Vector pages = new Vector();
+	Vector tempList = new Vector();
+	int currentPage = 0;
 	
 	public DetailScreen(AppScreen screen, int screenType)
 	{
 		super(screen);
 		bgManager.setStatusHeight(exit.getContentHeight());
+		bgManager.setArrowMode(true);
 		if(screenType == Const.PROFILESCREEN){
 			lbltop = new ColorLabelField("Earn credits by filling in profile details.");
-			add(lbltop);
+			tempList.addElement(lbltop);
 			save.setChangeListener(this);
 			addButton(save);
 			doConnect(Const.profiledetails);
 		} else if(screenType == Const.BALANCESCREEN){
 			lbltop = new ColorLabelField("Go to www.mytcg.net to find out how to get more credits.");
 			lbltop.setColor(Color.RED);
-			add(lbltop);
-			add(lblBalance);
-			add(balance);
+			tempList.addElement(lbltop);
+			tempList.addElement(lblBalance);
+			tempList.addElement(balance);
 			add(lblTransactions);
 			lblBalance.setFocusable(false);
 			lblTransactions.setFocusable(false);
@@ -67,12 +83,12 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 			addButton(buy);
 			doConnect(Const.creditlog);
 		} else if(screenType == Const.NOTIFICATIONSCREEN){
-			add(lblNotifications);
+			tempList.addElement(lblNotifications);
 			lblNotifications.setFocusable(false);
 			addButton(new FixedButtonField(""));
 			doConnect(Const.notifications);
 		} else if(screenType == Const.FRIENDSSCREEN){
-			add(lblFriends);
+			tempList.addElement(lblFriends);
 			lblFriends.setFocusable(false);
 			addButton(new FixedButtonField(""));
 			doConnect(Const.friends);
@@ -80,7 +96,7 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 		exit.setChangeListener(this);
 		
 		
-		addButton(new FixedButtonField(""));
+		addButton(pageNumber);
 		addButton(exit);
 	}
 	
@@ -99,6 +115,9 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 	    			}
 	    		}catch(Exception e){};
 	    	} else if (((fromIndex = val.indexOf(Const.xml_profiledetails)) != -1)) {
+	    		int listSize = (Const.getUsableHeight()) / (Const.getButtonHeight()+14);
+	    		int listCounter = 0;
+	    		pages = new Vector();
 	    		int answerid = -1;
 	    		String desc = "";
 	    		String answer = "";
@@ -107,7 +126,11 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 	    		int endIndex = -1;
 	    		String details = "";
 	    		while ((fromIndex = val.indexOf(Const.xml_answerid)) != -1){
-	    			
+	    			if(listCounter >= listSize){
+	    				pages.addElement(tempList);
+	    				tempList = new Vector();
+	    				listCounter=0;
+	    			}
 	    			endIndex = val.indexOf(Const.xml_detail_end);
 	    			details = val.substring(fromIndex, endIndex+Const.xml_detail_end_length);
 	    			fromIndex = details.indexOf(Const.xml_answerid);
@@ -132,20 +155,21 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 	    			val = val.substring(val.indexOf(Const.xml_detail_end)+Const.xml_detail_end_length);
 	    			if(answerid != -1){
 	    				try{
-	    				lbltmp = new ColorLabelField(" "+desc);
+	    				lbltmp = new ColorLabelField("        "+desc);
 	    				cbxtmp = new CheckboxField("",false,CheckboxField.NON_FOCUSABLE);
 	    				cbxtmp.setChecked(answered.equals("1"));
 		    			cbxtmp.setEditable(false);
 		    			//cbxtmp.setEnabled(false);
-	    				tmp = new SexyEditField((Const.getWidth()-25),Const.getButtonHeight());
+	    				tmp = new SexyEditField((Const.getWidth()-25-60),Const.getButtonHeight());
 	    				tmp.setText(answer);
 	        			tmp.setChangeListener(this);
 	    				}catch(Exception e){
 	    				}
-	        			HorizontalFieldManager hmanager = new HorizontalFieldManager(Field.FIELD_RIGHT);
+	        			ProfileFieldManager hmanager = new ProfileFieldManager();
 		    			synchronized(UiApplication.getEventLock()) {
-		    				add(lbltmp);
-			        		add(hmanager);
+		    				tempList.addElement(lbltmp);
+		    				tempList.addElement(hmanager);
+			        		listCounter++;
 			        		hmanager.add(tmp);
 			        		hmanager.add(cbxtmp);	
 		        		}
@@ -162,7 +186,20 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 		    			}catch(Exception e){};
 	    			}
 	    		}
+	    		pages.addElement(tempList);
+	        	synchronized(UiApplication.getEventLock()) {
+	        		System.out.println("SIZE "+((Vector)pages.elementAt(0)).size());
+	        		pageNumber.setText("Page 1/"+pages.size());
+	        		Field[] temp = new Field[((Vector)pages.elementAt(0)).size()];
+	        		((Vector)pages.elementAt(0)).copyInto(temp);
+	        		bgManager.deleteAll();
+	    	    	bgManager.addAll(temp);
+	    	    }
 	    	} else if (((fromIndex = val.indexOf(Const.xml_transactions)) != -1)) {
+	    		int listSize = (Const.getUsableHeight()) / (Const.getButtonSelCentre().getHeight()+6);
+	    		int listCounter = 2;
+	    		pages = new Vector();
+	    		System.out.println("herpderp "+listSize);
 	    		int transactionid = -1;
 	    		String desc = "";
 	    		String date = "";
@@ -183,7 +220,11 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
     				
     			}
 	    		while ((fromIndex = val.indexOf(Const.xml_id)) != -1){
-	    			
+	    			if(listCounter >= listSize){
+	    				pages.addElement(tempList);
+	    				tempList = new Vector();
+	    				listCounter=0;
+	    			}
 	    			endIndex = val.indexOf(Const.xml_transaction_end);
 	    			try{
 	    				transaction = val.substring(fromIndex, endIndex+Const.xml_transaction_end_length);
@@ -211,18 +252,34 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 		    				lbltrans = new ListLabelField(date+": "+desc);
 			    			synchronized(UiApplication.getEventLock()) {
 			    				//add(tmp);
-			    				add(lbltrans);
-			    				add(new SeparatorField());
+			    				tempList.addElement(lbltrans);
+			    				tempList.addElement(new SeparatorField(){public int getPreferredWidth() {
+			    					return (int)(Const.getWidth()-28);
+			    				}});
+			    				listCounter++;
 			    			}
 	    				}catch(Exception e){};
 	    			} else{
 	    				synchronized(UiApplication.getEventLock()) {
-		    				add(lbltrans);
+	    					tempList.addElement(lbltrans);
 		    			}
 	    				break;
 	    			}
 	    		}
+	    		pages.addElement(tempList);
+	        	synchronized(UiApplication.getEventLock()) {
+	        		System.out.println("SIZE "+((Vector)pages.elementAt(0)).size());
+	        		pageNumber.setText("Page 1/"+pages.size());
+	        		Field[] temp = new Field[((Vector)pages.elementAt(0)).size()];
+	        		((Vector)pages.elementAt(0)).copyInto(temp);
+	        		bgManager.deleteAll();
+	    	    	bgManager.addAll(temp);
+	    	    }
 	    	} else if (((fromIndex = val.indexOf(Const.xml_notifications)) != -1)) {
+	    		int listSize = (Const.getUsableHeight()) / (Const.getButtonSelCentre().getHeight()+6);
+	    		int listCounter = 1;
+	    		pages = new Vector();
+	    		System.out.println("herpderp "+listSize);
 	    		int noteid = -1;
 	    		String desc = "";
 	    		String date = "";
@@ -233,7 +290,11 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 	    		int endIndex = -1;
 	    		String note = "";
 	    		while ((fromIndex = val.indexOf(Const.xml_id)) != -1){
-	    			
+	    			if(listCounter >= listSize){
+	    				pages.addElement(tempList);
+	    				tempList = new Vector();
+	    				listCounter=0;
+	    			}
 	    			endIndex = val.indexOf(Const.xml_note_end);
 	    			try{
 	    				note = val.substring(fromIndex, endIndex+Const.xml_note_end_length);
@@ -256,18 +317,33 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 	    				try{
 	    					lblnote = new ListLabelField(date+": "+desc);
 			    			synchronized(UiApplication.getEventLock()) {
-			    				add(lblnote);
-			    				add(new SeparatorField());
+			    				tempList.addElement(lblnote);
+			    				tempList.addElement(new SeparatorField(){public int getPreferredWidth() {
+			    					return (int)(Const.getWidth()-60);
+			    				}});
+			    				listCounter++;
 			    			}
 	    				}catch(Exception e){};
 	    			} 
 	    		}
 	    		if(noteid == -1){
     				synchronized(UiApplication.getEventLock()) {
-	    				add(lblnote);
+    					tempList.addElement(lblnote);
 	    			}
     			}
+	    		pages.addElement(tempList);
+	        	synchronized(UiApplication.getEventLock()) {
+	        		System.out.println("SIZE "+((Vector)pages.elementAt(0)).size());
+	        		pageNumber.setText("Page 1/"+pages.size());
+	        		Field[] temp = new Field[((Vector)pages.elementAt(0)).size()];
+	        		((Vector)pages.elementAt(0)).copyInto(temp);
+	        		bgManager.deleteAll();
+	    	    	bgManager.addAll(temp);
+	    	    }
 	    	} else if (((fromIndex = val.indexOf(Const.xml_friends)) != -1)) {
+	    		int listSize = (Const.getUsableHeight()) / (Const.getThumbCentre().getHeight());
+	    		int listCounter = 1;
+	    		pages = new Vector();
 	    		String desc = "";
 	    		String usr = "";
 	    		String value = "";
@@ -275,7 +351,11 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 	    		int endIndex = -1;
 	    		String friend = "";
 	    		while ((fromIndex = val.indexOf(Const.xml_usr)) != -1){
-	    			
+	    			if(listCounter >= listSize){
+	    				pages.addElement(tempList);
+	    				tempList = new Vector();
+	    				listCounter=0;
+	    			}
 	    			endIndex = val.indexOf(Const.xml_friend_end);
 	    			try{
 	    				friend = val.substring(fromIndex, endIndex+Const.xml_friend_end_length);
@@ -296,20 +376,68 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 	    				try{
 	    					lblfriend = new FriendField(usr,value,desc);
 			    			synchronized(UiApplication.getEventLock()) {
-			    				add(lblfriend);
+			    				tempList.addElement(lblfriend);
 			    				//add(new SeparatorField());
+			    				listCounter++;
 			    			}
 	    				}catch(Exception e){};
 	    			}
 	    		} if(usr.equals("")){
     				synchronized(UiApplication.getEventLock()) {
-	    				add(new ColorLabelField("No friends found."));
+    					tempList.addElement(new ColorLabelField("No friends found."));
 	    			}
     			}
+    			pages.addElement(tempList);
+		        synchronized(UiApplication.getEventLock()) {
+		        	System.out.println("SIZE "+((Vector)pages.elementAt(0)).size());
+		        	pageNumber.setText("Page 1/"+pages.size());
+		        	Field[] temp = new Field[((Vector)pages.elementAt(0)).size()];
+		        	((Vector)pages.elementAt(0)).copyInto(temp);
+		        	bgManager.deleteAll();
+		    	   	bgManager.addAll(temp);
+		    	}
 	    	}
 	    	invalidate();
-	    	setDisplaying(true);
+	    	//setDisplaying(true);
 		}		
+	}
+	
+	protected boolean navigationMovement(int dx, int dy, int status, int time) {
+		if(bgManager.isFocus() && dy == 0 && dx == -1){
+			if(pages.size() >1){
+				if((currentPage-1)<0){
+					currentPage = pages.size()-1;
+				}else{
+					currentPage--;
+				}
+				synchronized(UiApplication.getEventLock()) {
+					pageNumber.setText("Page "+(currentPage+1)+"/"+pages.size());
+					Field[] temp = new Field[((Vector)pages.elementAt(currentPage)).size()];
+	    			((Vector)pages.elementAt(currentPage)).copyInto(temp);
+	    			bgManager.deleteAll();
+		    		bgManager.addAll(temp);
+		    	}
+			}
+			return true;
+		}else if(bgManager.isFocus() && dy == 0 && dx == 1){
+			if(pages.size() >1){
+				if((currentPage+1)>=pages.size()){
+					currentPage = 0;
+				}else{
+					currentPage++;
+				}
+				synchronized(UiApplication.getEventLock()) {
+					pageNumber.setText("Page "+(currentPage+1)+"/"+pages.size());
+					Field[] temp = new Field[((Vector)pages.elementAt(currentPage)).size()];
+	    			((Vector)pages.elementAt(currentPage)).copyInto(temp);
+	    			bgManager.deleteAll();
+		    		bgManager.addAll(temp);
+		    	}
+			}
+			return true;
+		}else{
+			return super.navigationMovement(dx, dy, status, time);
+		}
 	}
 	
 	public void fieldChanged(Field f, int i) {

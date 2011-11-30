@@ -61,9 +61,9 @@ public final class AuctionField extends Field {
     	return false;
     }
 	public void paint(Graphics g) {
-		int _xPts[] = {0,0,getPreferredWidth(),getPreferredWidth()};
-		int _yPts[] = {0,getPreferredHeight(),getPreferredHeight(),0};
-		g.drawTexturedPath(_xPts,_yPts,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,Const.getBackground());
+		//int _xPts[] = {0,0,getPreferredWidth(),getPreferredWidth()};
+		//int _yPts[] = {0,getPreferredHeight(),getPreferredHeight(),0};
+		//g.drawTexturedPath(_xPts,_yPts,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,Const.getBackground());
 		
 		g.setColor(Const.FONTCOLOR);
 		

@@ -1,6 +1,5 @@
 package net.mytcg.topcar.ui;
 
-import java.util.Date;
 import java.util.Vector;
 
 import net.mytcg.topcar.ui.custom.ColorLabelField;

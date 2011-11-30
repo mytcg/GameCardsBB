@@ -7,15 +7,9 @@ import net.mytcg.topcar.ui.custom.ThumbnailField;
 import net.mytcg.topcar.util.Card;
 import net.mytcg.topcar.util.Const;
 import net.mytcg.topcar.util.SettingsBean;
-import net.rim.blackberry.api.pdap.BlackBerryContact;
-import net.rim.blackberry.api.pdap.BlackBerryContactList;
-import net.rim.device.api.io.Base64OutputStream;
-import net.rim.device.api.system.RadioInfo;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.FieldChangeListener;
-import net.rim.device.api.ui.Font;
 import net.rim.device.api.ui.UiApplication;
-import net.rim.device.api.ui.component.ButtonField;
 import net.rim.device.api.ui.component.EditField;
 
 public class ShareScreen extends AppScreen implements FieldChangeListener

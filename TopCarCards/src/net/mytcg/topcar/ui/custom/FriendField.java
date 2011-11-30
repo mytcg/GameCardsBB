@@ -50,7 +50,7 @@ public final class FriendField extends Field {
 		
 	}
 	public int getPreferredWidth() {
-		return Const.getWidth();
+		return Const.getWidth()-60;
 	}
 	public int getPreferredHeight() {
 		return button_centre.getHeight();

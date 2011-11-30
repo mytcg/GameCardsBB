@@ -1,5 +1,7 @@
 package net.mytcg.topcar.ui;
 
+import java.util.Vector;
+
 import net.mytcg.topcar.ui.custom.ColorLabelField;
 import net.mytcg.topcar.ui.custom.FixedButtonField;
 import net.mytcg.topcar.ui.custom.ListItemField;
@@ -9,11 +11,22 @@ import net.mytcg.topcar.util.Product;
 import net.mytcg.topcar.util.SettingsBean;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.FieldChangeListener;
+import net.rim.device.api.ui.Graphics;
 import net.rim.device.api.ui.UiApplication;
+import net.rim.device.api.ui.component.LabelField;
 
 public class ShopProductsScreen extends AppScreen implements FieldChangeListener
 {
 	FixedButtonField exit = new FixedButtonField(Const.back);
+	LabelField pageNumber = new LabelField("Page 1/1"){
+		public int getPreferredWidth() {
+			return (int)(Const.getWidth()/3);
+		}
+		protected void paint(Graphics graphics){
+			graphics.setColor(Const.FONTCOLOR);
+			super.paint(graphics);
+		}
+	};
 	
 	ThumbnailField tmp = new ThumbnailField(new Product(-1, "", 0, "", "", "", "", 0, null));
 	ColorLabelField header = new ColorLabelField("");
@@ -21,8 +34,14 @@ public class ShopProductsScreen extends AppScreen implements FieldChangeListener
 	boolean update = true;
 	boolean freebie = false;
 	int id = -1;
+	Vector pages = new Vector();
+	int currentPage = 0;
 	
 	public void process(String val) {
+		int listSize = (Const.getUsableHeight()) / 74;
+		int listCounter = 0;
+		pages = new Vector();
+		Vector tempList = new Vector();
 		SettingsBean _instance = SettingsBean.getSettings();
 		if (update) {
 			SettingsBean.saveSettings(_instance);
@@ -55,6 +74,11 @@ public class ShopProductsScreen extends AppScreen implements FieldChangeListener
     			}
 	    		
 	    		while ((fromIndex = val.indexOf(Const.xml_productid)) != -1){
+	    			if(listCounter >= listSize){
+        				pages.addElement(tempList);
+        				tempList = new Vector();
+        				listCounter=0;
+        			}
 	    			endIndex = val.indexOf(Const.xml_product_end);
 	    			product = val.substring(fromIndex, endIndex+Const.xml_product_end_length);
 	    			fromIndex = product.indexOf(Const.xml_productid);
@@ -94,7 +118,8 @@ public class ShopProductsScreen extends AppScreen implements FieldChangeListener
 	    				}
 	    				tmp.setThirdLabel("Cards: "+productnumcards);
 	        			tmp.setChangeListener(this);
-	        			add(tmp);
+	        			tempList.addElement(tmp);
+	        			listCounter++;
 	        		}
 	    			empty = false;
 	    		}
@@ -102,23 +127,76 @@ public class ShopProductsScreen extends AppScreen implements FieldChangeListener
 	    			synchronized(UiApplication.getEventLock()) {
 	        			add(new ListItemField("Empty", -1, false, 0));
 	        		}
+	    		}else{
+	    			pages.addElement(tempList);
 	    		}
+	    		synchronized(UiApplication.getEventLock()) {
+	    			System.out.println("SIZE "+((Vector)pages.elementAt(0)).size());
+	    			pageNumber.setText("Page 1/"+pages.size());
+	    			ThumbnailField[] temp = new ThumbnailField[((Vector)pages.elementAt(0)).size()];
+	    			((Vector)pages.elementAt(0)).copyInto(temp);
+	    			bgManager.deleteAll();
+	    			bgManager.add(header);
+		    		bgManager.addAll(temp);
+		    	}
 	    	}
 	    	invalidate();
 	    	_instance = null;
-	    	setDisplaying(true);
+	    	//setDisplaying(true);
 		}		
 	}
+	
+	protected boolean navigationMovement(int dx, int dy, int status, int time) {
+		if(dy == 0 && dx == -1){
+			if(pages.size() >1){
+				if((currentPage-1)<0){
+					currentPage = pages.size()-1;
+				}else{
+					currentPage--;
+				}
+				synchronized(UiApplication.getEventLock()) {
+					pageNumber.setText("Page "+(currentPage+1)+"/"+pages.size());
+					ThumbnailField[] temp = new ThumbnailField[((Vector)pages.elementAt(currentPage)).size()];
+	    			((Vector)pages.elementAt(currentPage)).copyInto(temp);
+	    			bgManager.deleteAll();
+	    			bgManager.add(header);
+		    		bgManager.addAll(temp);
+		    	}
+			}
+			return true;
+		}else if(dy == 0 && dx == 1){
+			if(pages.size() >1){
+				if((currentPage+1)>=pages.size()){
+					currentPage = 0;
+				}else{
+					currentPage++;
+				}
+				synchronized(UiApplication.getEventLock()) {
+					pageNumber.setText("Page "+(currentPage+1)+"/"+pages.size());
+					ThumbnailField[] temp = new ThumbnailField[((Vector)pages.elementAt(currentPage)).size()];
+	    			((Vector)pages.elementAt(currentPage)).copyInto(temp);
+	    			bgManager.deleteAll();
+	    			bgManager.add(header);
+		    		bgManager.addAll(temp);
+		    	}
+			}
+			return true;
+		}else{
+			return super.navigationMovement(dx, dy, status, time);
+		}
+	}
+	
 	public ShopProductsScreen(int id, boolean freebie) {
 		super(null);
 		this.id = id;
 		this.freebie = freebie;
 		bgManager.setStatusHeight(exit.getContentHeight());
+		bgManager.setArrowMode(true);
 		
 		exit.setChangeListener(this);
 		
 		addButton(new FixedButtonField(""));
-		addButton(new FixedButtonField(""));
+		addButton(pageNumber);
 		addButton(exit);
 		
 		if (!freebie) {

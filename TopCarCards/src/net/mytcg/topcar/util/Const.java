@@ -695,6 +695,15 @@ public final class Const {
 		return thumbnaildisplayrightedge;
 	}
 	
+	private static Bitmap select;
+	private static String sz_select = "select.png";
+	public static Bitmap getSelect() {
+		if (select == null) {
+			select = getSizeImage(sz_select);   
+		}
+		return select;
+	}
+	
 	private static Bitmap loading;
 	private static String sz_loading = "loading.png";
 	public static Bitmap getLoading() {
@@ -702,6 +711,294 @@ public final class Const {
 			loading = getSizeImage(sz_loading);   
 		}
 		return loading;
+	}
+	
+	private static Bitmap leftarrow;
+	private static String sz_leftarrow = "leftarrow.png";
+	public static Bitmap getLeftArrow() {
+		if (leftarrow == null) {
+			leftarrow = getSizeImage(sz_leftarrow);   
+		}
+		return leftarrow;
+	}
+	
+	private static Bitmap rightarrow;
+	private static String sz_rightarrow = "rightarrow.png";
+	public static Bitmap getRightArrow() {
+		if (rightarrow == null) {
+			rightarrow = getSizeImage(sz_rightarrow);   
+		}
+		return rightarrow;
+	}
+	
+	private static Bitmap activedot;
+	private static String sz_activedot = "active_dot.png";
+	public static Bitmap getActiveDot() {
+		if (activedot == null) {
+			activedot = getSizeImage(sz_activedot);   
+		}
+		return activedot;
+	}
+	
+	private static Bitmap inactivedot;
+	private static String sz_inactivedot = "inactive_dot.png";
+	public static Bitmap getInactiveDot() {
+		if (inactivedot == null) {
+			inactivedot = getSizeImage(sz_inactivedot);   
+		}
+		return inactivedot;
+	}
+	
+	private static Bitmap album;
+	private static String sz_album = "Album.png";
+	public static Bitmap getAlbum() {
+		if (album == null) {
+			album = getSizeImage(sz_album);   
+		}
+		return album;
+	}
+	
+	private static Bitmap albumthumb;
+	private static String sz_albumthumb = "Album_thumb.png";
+	public static Bitmap getAlbumThumb() {
+		if (albumthumb == null) {
+			albumthumb = getSizeImage(sz_albumthumb);   
+		}
+		return albumthumb;
+	}
+	
+	private static Bitmap Auctions;
+	private static String sz_auctions = "Auctions.png";
+	public static Bitmap getAuctions() {
+		if (Auctions == null) {
+			Auctions = getSizeImage(sz_auctions);   
+		}
+		return Auctions;
+	}
+	
+	private static Bitmap auctionsthumb;
+	private static String sz_auctionsthumb = "Auctions_thumb.png";
+	public static Bitmap getAuctionsThumb() {
+		if (auctionsthumb == null) {
+			auctionsthumb = getSizeImage(sz_auctionsthumb);   
+		}
+		return auctionsthumb;
+	}
+	
+	private static Bitmap Credits;
+	private static String sz_credits = "Credits.png";
+	public static Bitmap getCredits() {
+		if (Credits == null) {
+			Credits = getSizeImage(sz_credits);   
+		}
+		return Credits;
+	}
+	
+	private static Bitmap creditsthumb;
+	private static String sz_creditsthumb = "Credits_thumb.png";
+	public static Bitmap getCreditsThumb() {
+		if (creditsthumb == null) {
+			creditsthumb = getSizeImage(sz_creditsthumb);   
+		}
+		return creditsthumb;
+	}
+	
+	private static Bitmap Decks;
+	private static String sz_decks = "Decks.png";
+	public static Bitmap getDecks() {
+		if (Decks == null) {
+			Decks = getSizeImage(sz_decks);   
+		}
+		return Decks;
+	}
+	
+	private static Bitmap decksthumb;
+	private static String sz_decksthumb = "Decks_thumb.png";
+	public static Bitmap getDecksThumb() {
+		if (decksthumb == null) {
+			decksthumb = getSizeImage(sz_decksthumb);   
+		}
+		return decksthumb;
+	}
+	
+	private static Bitmap FriendRanks;
+	private static String sz_friendranks = "FriendRanks.png";
+	public static Bitmap getFriendRanks() {
+		if (FriendRanks == null) {
+			FriendRanks = getSizeImage(sz_friendranks);   
+		}
+		return FriendRanks;
+	}
+	
+	private static Bitmap friendranksthumb;
+	private static String sz_friendranksthumb = "FriendRanks_thumb.png";
+	public static Bitmap getFriendRanksThumb() {
+		if (friendranksthumb == null) {
+			friendranksthumb = getSizeImage(sz_friendranksthumb);   
+		}
+		return friendranksthumb;
+	}
+	
+	private static Bitmap Friends;
+	private static String sz_friends = "Friends.png";
+	public static Bitmap getFriends() {
+		if (Friends == null) {
+			Friends = getSizeImage(sz_friends);   
+		}
+		return Friends;
+	}
+	
+	private static Bitmap friendsthumb;
+	private static String sz_friendsthumb = "Friends_thumb.png";
+	public static Bitmap getFriendsThumb() {
+		if (friendsthumb == null) {
+			friendsthumb = getSizeImage(sz_friendsthumb);   
+		}
+		return friendsthumb;
+	}
+	
+	private static Bitmap Invite;
+	private static String sz_invite = "Invite.png";
+	public static Bitmap getInvite() {
+		if (Invite == null) {
+			Invite = getSizeImage(sz_invite);   
+		}
+		return Invite;
+	}
+	
+	private static Bitmap invitethumb;
+	private static String sz_invitethumb = "Invite_thumb.png";
+	public static Bitmap getInviteThumb() {
+		if (invitethumb == null) {
+			invitethumb = getSizeImage(sz_invitethumb);   
+		}
+		return invitethumb;
+	}
+	
+	private static Bitmap Logout;
+	private static String sz_logout = "logout.png";
+	public static Bitmap getLogout() {
+		if (Logout == null) {
+			Logout = getSizeImage(sz_logout);   
+		}
+		return Logout;
+	}
+	
+	private static Bitmap logoutthumb;
+	private static String sz_logoutthumb = "Logout_thumb.png";
+	public static Bitmap getLogoutThumb() {
+		if (logoutthumb == null) {
+			logoutthumb = getSizeImage(sz_logoutthumb);   
+		}
+		return logoutthumb;
+	}
+	
+	private static Bitmap Notifications;
+	private static String sz_notifications = "Notifications.png";
+	public static Bitmap getNotifications() {
+		if (Notifications == null) {
+			Notifications = getSizeImage(sz_notifications);   
+		}
+		return Notifications;
+	}
+	
+	private static Bitmap notificationsthumb;
+	private static String sz_notificationsthumb = "Notifications_thumb.png";
+	public static Bitmap getNotificationsThumb() {
+		if (notificationsthumb == null) {
+			notificationsthumb = getSizeImage(sz_notificationsthumb);   
+		}
+		return notificationsthumb;
+	}
+	
+	private static Bitmap Play;
+	private static String sz_play = "Play.png";
+	public static Bitmap getPlay() {
+		if (Play == null) {
+			Play = getSizeImage(sz_play);   
+		}
+		return Play;
+	}
+	
+	private static Bitmap playthumb;
+	private static String sz_playthumb = "Play_thumb.png";
+	public static Bitmap getPlayThumb() {
+		if (playthumb == null) {
+			playthumb = getSizeImage(sz_playthumb);   
+		}
+		return playthumb;
+	}
+	
+	private static Bitmap Profile;
+	private static String sz_profile = "Profile.png";
+	public static Bitmap getProfile() {
+		if (Profile == null) {
+			Profile = getSizeImage(sz_profile);   
+		}
+		return Profile;
+	}
+	
+	private static Bitmap profilethumb;
+	private static String sz_profilethumb = "Profile_thumb.png";
+	public static Bitmap getProfileThumb() {
+		if (profilethumb == null) {
+			profilethumb = getSizeImage(sz_profilethumb);   
+		}
+		return profilethumb;
+	}
+	
+	private static Bitmap Rankings;
+	private static String sz_rankings = "Rankings.png";
+	public static Bitmap getRankings() {
+		if (Rankings == null) {
+			Rankings = getSizeImage(sz_rankings);   
+		}
+		return Rankings;
+	}
+	
+	private static Bitmap rankingsthumb;
+	private static String sz_rankingsthumb = "Rankings_thumb.png";
+	public static Bitmap getRankingsThumb() {
+		if (rankingsthumb == null) {
+			rankingsthumb = getSizeImage(sz_rankingsthumb);   
+		}
+		return rankingsthumb;
+	}
+	
+	private static Bitmap Redeem;
+	private static String sz_redeem = "Redeem.png";
+	public static Bitmap getRedeem() {
+		if (Redeem == null) {
+			Redeem = getSizeImage(sz_redeem);   
+		}
+		return Redeem;
+	}
+	
+	private static Bitmap redeemthumb;
+	private static String sz_redeemthumb = "Redeem_thumb.png";
+	public static Bitmap getRedeemThumb() {
+		if (redeemthumb == null) {
+			redeemthumb = getSizeImage(sz_redeemthumb);   
+		}
+		return redeemthumb;
+	}
+	
+	private static Bitmap Shop;
+	private static String sz_shop = "Shop.png";
+	public static Bitmap getShop() {
+		if (Shop == null) {
+			Shop = getSizeImage(sz_shop);   
+		}
+		return Shop;
+	}
+	
+	private static Bitmap shopthumb;
+	private static String sz_shopthumb = "Shop_thumb.png";
+	public static Bitmap getShopThumb() {
+		if (shopthumb == null) {
+			shopthumb = getSizeImage(sz_shopthumb);   
+		}
+		return shopthumb;
 	}
 	
 	private static Bitmap loadingthumb;
@@ -918,6 +1215,15 @@ public final class Const {
 			logo = getSizeImage(sz_logo);   
 		}
 		return logo;
+	}
+	
+	private static Bitmap head;
+	private static String sz_head = "head.png";
+	public static Bitmap getHead() {
+		if (head == null) {
+			head = getSizeImage(sz_head);   
+		}
+		return head;
 	}
 	
 	private static Bitmap logoleft;
