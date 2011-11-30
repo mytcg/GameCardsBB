@@ -5,26 +5,17 @@ import java.util.Vector;
 import net.mytcg.topcar.ui.custom.ColorLabelField;
 import net.mytcg.topcar.ui.custom.FixedButtonField;
 import net.mytcg.topcar.ui.custom.ListItemField;
+import net.mytcg.topcar.ui.custom.PageNumberField;
 import net.mytcg.topcar.util.Const;
 import net.mytcg.topcar.util.SettingsBean;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.FieldChangeListener;
-import net.rim.device.api.ui.Graphics;
 import net.rim.device.api.ui.UiApplication;
-import net.rim.device.api.ui.component.LabelField;
 
 public class RankingsCategoriesScreen extends AppScreen implements FieldChangeListener
 {
 	FixedButtonField exit = new FixedButtonField(Const.back);
-	LabelField pageNumber = new LabelField("Page 1/1"){
-		public int getPreferredWidth() {
-			return (int)(Const.getWidth()/3);
-		}
-		protected void paint(Graphics graphics){
-			graphics.setColor(Const.FONTCOLOR);
-			super.paint(graphics);
-		}
-	};
+	PageNumberField pageNumber = new PageNumberField("Page 1/1");
 	
 	ListItemField tmp = new ListItemField("Empty", -1, false, 0);
 	
@@ -89,7 +80,7 @@ public class RankingsCategoriesScreen extends AppScreen implements FieldChangeLi
 	    		pages.addElement(tempList);
 		        synchronized(UiApplication.getEventLock()) {
 		        	System.out.println("SIZE "+((Vector)pages.elementAt(0)).size());
-		        	pageNumber.setText("Page 1/"+pages.size());
+		        	pageNumber.setLabel("Page 1/"+pages.size());
 		        	Field[] temp = new Field[((Vector)pages.elementAt(0)).size()];
 		        	((Vector)pages.elementAt(0)).copyInto(temp);
 		        	bgManager.deleteAll();
@@ -111,7 +102,7 @@ public class RankingsCategoriesScreen extends AppScreen implements FieldChangeLi
 					currentPage--;
 				}
 				synchronized(UiApplication.getEventLock()) {
-					pageNumber.setText("Page "+(currentPage+1)+"/"+pages.size());
+					pageNumber.setLabel("Page "+(currentPage+1)+"/"+pages.size());
 					Field[] temp = new Field[((Vector)pages.elementAt(currentPage)).size()];
 	    			((Vector)pages.elementAt(currentPage)).copyInto(temp);
 	    			bgManager.deleteAll();
@@ -127,7 +118,7 @@ public class RankingsCategoriesScreen extends AppScreen implements FieldChangeLi
 					currentPage++;
 				}
 				synchronized(UiApplication.getEventLock()) {
-					pageNumber.setText("Page "+(currentPage+1)+"/"+pages.size());
+					pageNumber.setLabel("Page "+(currentPage+1)+"/"+pages.size());
 					Field[] temp = new Field[((Vector)pages.elementAt(currentPage)).size()];
 	    			((Vector)pages.elementAt(currentPage)).copyInto(temp);
 	    			bgManager.deleteAll();

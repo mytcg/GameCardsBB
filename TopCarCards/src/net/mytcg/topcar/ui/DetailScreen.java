@@ -7,6 +7,7 @@ import net.mytcg.topcar.ui.custom.FixedButtonField;
 import net.mytcg.topcar.ui.custom.FriendField;
 import net.mytcg.topcar.ui.custom.ListItemField;
 import net.mytcg.topcar.ui.custom.ListLabelField;
+import net.mytcg.topcar.ui.custom.PageNumberField;
 import net.mytcg.topcar.ui.custom.ProfileFieldManager;
 import net.mytcg.topcar.ui.custom.SexyEditField;
 import net.mytcg.topcar.util.Answer;
@@ -17,27 +18,16 @@ import net.rim.blackberry.api.browser.BrowserSession;
 import net.rim.device.api.ui.Color;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.FieldChangeListener;
-import net.rim.device.api.ui.Graphics;
 import net.rim.device.api.ui.UiApplication;
 import net.rim.device.api.ui.component.CheckboxField;
-import net.rim.device.api.ui.component.LabelField;
 import net.rim.device.api.ui.component.SeparatorField;
-import net.rim.device.api.ui.container.HorizontalFieldManager;
 
 public class DetailScreen extends AppScreen implements FieldChangeListener
 {
 	FixedButtonField exit = new FixedButtonField(Const.back);
 	FixedButtonField save = new FixedButtonField(Const.save);
 	FixedButtonField buy = new FixedButtonField(Const.buy);
-	LabelField pageNumber = new LabelField("Page 1/1"){
-		public int getPreferredWidth() {
-			return (int)(Const.getWidth()/3);
-		}
-		protected void paint(Graphics graphics){
-			graphics.setColor(Const.FONTCOLOR);
-			super.paint(graphics);
-		}
-	};
+	PageNumberField pageNumber = new PageNumberField("Page 1/1");
 	SexyEditField balance = new SexyEditField("");
 	SexyEditField tmp = new SexyEditField("");
 	ColorLabelField lbltop = null;
@@ -189,7 +179,7 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 	    		pages.addElement(tempList);
 	        	synchronized(UiApplication.getEventLock()) {
 	        		System.out.println("SIZE "+((Vector)pages.elementAt(0)).size());
-	        		pageNumber.setText("Page 1/"+pages.size());
+	        		pageNumber.setLabel("Page 1/"+pages.size());
 	        		Field[] temp = new Field[((Vector)pages.elementAt(0)).size()];
 	        		((Vector)pages.elementAt(0)).copyInto(temp);
 	        		bgManager.deleteAll();
@@ -269,7 +259,7 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 	    		pages.addElement(tempList);
 	        	synchronized(UiApplication.getEventLock()) {
 	        		System.out.println("SIZE "+((Vector)pages.elementAt(0)).size());
-	        		pageNumber.setText("Page 1/"+pages.size());
+	        		pageNumber.setLabel("Page 1/"+pages.size());
 	        		Field[] temp = new Field[((Vector)pages.elementAt(0)).size()];
 	        		((Vector)pages.elementAt(0)).copyInto(temp);
 	        		bgManager.deleteAll();
@@ -334,7 +324,7 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 	    		pages.addElement(tempList);
 	        	synchronized(UiApplication.getEventLock()) {
 	        		System.out.println("SIZE "+((Vector)pages.elementAt(0)).size());
-	        		pageNumber.setText("Page 1/"+pages.size());
+	        		pageNumber.setLabel("Page 1/"+pages.size());
 	        		Field[] temp = new Field[((Vector)pages.elementAt(0)).size()];
 	        		((Vector)pages.elementAt(0)).copyInto(temp);
 	        		bgManager.deleteAll();
@@ -390,7 +380,7 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
     			pages.addElement(tempList);
 		        synchronized(UiApplication.getEventLock()) {
 		        	System.out.println("SIZE "+((Vector)pages.elementAt(0)).size());
-		        	pageNumber.setText("Page 1/"+pages.size());
+		        	pageNumber.setLabel("Page 1/"+pages.size());
 		        	Field[] temp = new Field[((Vector)pages.elementAt(0)).size()];
 		        	((Vector)pages.elementAt(0)).copyInto(temp);
 		        	bgManager.deleteAll();
@@ -411,7 +401,7 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 					currentPage--;
 				}
 				synchronized(UiApplication.getEventLock()) {
-					pageNumber.setText("Page "+(currentPage+1)+"/"+pages.size());
+					pageNumber.setLabel("Page "+(currentPage+1)+"/"+pages.size());
 					Field[] temp = new Field[((Vector)pages.elementAt(currentPage)).size()];
 	    			((Vector)pages.elementAt(currentPage)).copyInto(temp);
 	    			bgManager.deleteAll();
@@ -427,7 +417,7 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 					currentPage++;
 				}
 				synchronized(UiApplication.getEventLock()) {
-					pageNumber.setText("Page "+(currentPage+1)+"/"+pages.size());
+					pageNumber.setLabel("Page "+(currentPage+1)+"/"+pages.size());
 					Field[] temp = new Field[((Vector)pages.elementAt(currentPage)).size()];
 	    			((Vector)pages.elementAt(currentPage)).copyInto(temp);
 	    			bgManager.deleteAll();
