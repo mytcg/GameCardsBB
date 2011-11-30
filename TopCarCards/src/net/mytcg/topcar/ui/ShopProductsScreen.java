@@ -123,6 +123,9 @@ public class ShopProductsScreen extends AppScreen implements FieldChangeListener
 	    		}
 	    		synchronized(UiApplication.getEventLock()) {
 	    			System.out.println("SIZE "+((Vector)pages.elementAt(0)).size());
+	    			if(pages.size()<=1){
+	    				bgManager.setArrowMode(false);
+	    			}
 	    			pageNumber.setLabel("Page 1/"+pages.size());
 	    			ThumbnailField[] temp = new ThumbnailField[((Vector)pages.elementAt(0)).size()];
 	    			((Vector)pages.elementAt(0)).copyInto(temp);

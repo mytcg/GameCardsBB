@@ -80,6 +80,9 @@ public class RankingsCategoriesScreen extends AppScreen implements FieldChangeLi
 	    		pages.addElement(tempList);
 		        synchronized(UiApplication.getEventLock()) {
 		        	System.out.println("SIZE "+((Vector)pages.elementAt(0)).size());
+		        	if(pages.size()<=1){
+	    				bgManager.setArrowMode(false);
+	    			}
 		        	pageNumber.setLabel("Page 1/"+pages.size());
 		        	Field[] temp = new Field[((Vector)pages.elementAt(0)).size()];
 		        	((Vector)pages.elementAt(0)).copyInto(temp);

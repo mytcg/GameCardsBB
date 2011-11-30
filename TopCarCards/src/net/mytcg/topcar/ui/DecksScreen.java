@@ -87,6 +87,9 @@ public class DecksScreen extends AppScreen implements FieldChangeListener
 		   	pages.addElement(tempList);
     		synchronized(UiApplication.getEventLock()) {
     			System.out.println("SIZE "+((Vector)pages.elementAt(0)).size());
+    			if(pages.size()<=1){
+    				bgManager.setArrowMode(false);
+    			}
     			pageNumber.setLabel("Page 1/"+pages.size());
     			ListItemField[] temp = new ListItemField[((Vector)pages.elementAt(0)).size()];
     			((Vector)pages.elementAt(0)).copyInto(temp);
