@@ -77,9 +77,9 @@ public final class FixedButtonField extends Field {
 		return !empty;
     }
 	public void paint(Graphics g) {
-		int _xPts[] = {0,0,getPreferredWidth(),getPreferredWidth()};
-		int _yPts[] = {0,Const.getHeight(),Const.getHeight(),0};
-		g.drawTexturedPath(_xPts,_yPts,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,Const.getBackground());
+		//int _xPts[] = {0,0,getPreferredWidth(),getPreferredWidth()};
+		//int _yPts[] = {0,Const.getHeight(),Const.getHeight(),0};
+		//g.drawTexturedPath(_xPts,_yPts,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,Const.getBackground());
 		
 		if (!empty) {
 			int xPts[] = {5,5,getPreferredWidth()-5,getPreferredWidth()-5};

@@ -102,7 +102,7 @@ public final class SexyEditField extends Manager {
 		this(0,0, 0L, 140);
 	}
 	public SexyEditField(String s) {
-		this(Const.getWidth(),Const.getButtonHeight(), 0L, 140);
+		this(Const.getWidth()-60,Const.getButtonHeight(), 0L, 140);
 		setText(s);
 	}
 	public SexyEditField(String s, long l) {
@@ -176,9 +176,9 @@ public final class SexyEditField extends Manager {
 	}
 	
 	public final void paint(Graphics g) {
-		int _xPts[] = {0,0,getPreferredWidth(),getPreferredWidth()};
-		int _yPts[] = {0,Const.getHeight(),Const.getHeight(),0};
-		g.drawTexturedPath(_xPts,_yPts,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,Const.getBackground());
+		//int _xPts[] = {0,0,getPreferredWidth(),getPreferredWidth()};
+		//int _yPts[] = {0,Const.getHeight(),Const.getHeight(),0};
+		//g.drawTexturedPath(_xPts,_yPts,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,Const.getBackground());
 		g.setColor(Const.FONTCOLOR);
 		if (!focus) {
 			//fills body block

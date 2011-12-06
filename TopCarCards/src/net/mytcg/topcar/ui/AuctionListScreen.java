@@ -1,10 +1,12 @@
 package net.mytcg.topcar.ui;
 
 import java.util.Date;
+import java.util.Vector;
 
 import net.mytcg.topcar.ui.custom.ColorLabelField;
 import net.mytcg.topcar.ui.custom.FixedButtonField;
 import net.mytcg.topcar.ui.custom.ListItemField;
+import net.mytcg.topcar.ui.custom.PageNumberField;
 import net.mytcg.topcar.ui.custom.ThumbnailField;
 import net.mytcg.topcar.util.Auction;
 import net.mytcg.topcar.util.Const;
@@ -19,6 +21,7 @@ public class AuctionListScreen extends AppScreen implements FieldChangeListener
 {
 	FixedButtonField exit = new FixedButtonField(Const.back);
 	ColorLabelField header = new ColorLabelField("");
+	PageNumberField pageNumber = new PageNumberField("Page 1/1");
 	
 	ThumbnailField tmp = null;
 	
@@ -26,8 +29,14 @@ public class AuctionListScreen extends AppScreen implements FieldChangeListener
 	boolean purchased = false;
 	int id = -1;
 	int type = 1;
+	Vector pages = new Vector();
+	Vector tempList = new Vector();
+	int currentPage = 0;
 	
 	public void process(String val) {
+		int listSize = (Const.getUsableHeight()) / Const.getButtonHeight();
+		int listCounter = 1;
+		pages = new Vector();
 		SettingsBean _instance = SettingsBean.getSettings();
 		if (update) {
 			SettingsBean.saveSettings(_instance);
@@ -72,6 +81,11 @@ public class AuctionListScreen extends AppScreen implements FieldChangeListener
 	    		int endIndex = -1;
 	    		String auction = "";
 	    		while ((fromIndex = val.indexOf(Const.xml_auctioncardid)) != -1){
+	    			if(listCounter >= listSize){
+	    				pages.addElement(tempList);
+	    				tempList = new Vector();
+	    				listCounter=0;
+	    			}
 	    			endIndex = val.indexOf(Const.xml_auction_end);
 	    			auction = val.substring(fromIndex, endIndex+Const.xml_auction_end_length);
 	    			fromIndex = auction.indexOf(Const.xml_auctioncardid);
@@ -163,7 +177,8 @@ public class AuctionListScreen extends AppScreen implements FieldChangeListener
 	    				
 	    				tmp.setThirdLabel(day + hour);
 	        			tmp.setChangeListener(this);
-	        			add(tmp);
+	        			tempList.addElement(tmp);
+	        			listCounter++;
 	        		}
 	    			empty = false;
 	    		}
@@ -171,26 +186,79 @@ public class AuctionListScreen extends AppScreen implements FieldChangeListener
 	    			synchronized(UiApplication.getEventLock()) {
 	        			add(new ListItemField("Empty", -1, false, 0));
 	        		}
+	    		}else{
+	    			pages.addElement(tempList);
+		        	synchronized(UiApplication.getEventLock()) {
+		        		System.out.println("SIZE "+((Vector)pages.elementAt(0)).size());
+		        		if(pages.size()<=1){
+		    				bgManager.setArrowMode(false);
+		    			}
+		        		pageNumber.setLabel("Page 1/"+pages.size());
+		        		Field[] temp = new Field[((Vector)pages.elementAt(0)).size()];
+		        		((Vector)pages.elementAt(0)).copyInto(temp);
+		        		bgManager.deleteAll();
+		    	    	bgManager.addAll(temp);
+		    	    }
 	    		}
 	    	}
 	    	invalidate();
 	    	_instance = null;
-	    	setDisplaying(true);
+	    	//setDisplaying(true);
 		}		
 	}
+	
+	protected boolean navigationMovement(int dx, int dy, int status, int time) {
+		if(dy == 0 && dx == -1){
+			if(pages.size() >1){
+				if((currentPage-1)<0){
+					currentPage = pages.size()-1;
+				}else{
+					currentPage--;
+				}
+				synchronized(UiApplication.getEventLock()) {
+					pageNumber.setLabel("Page "+(currentPage+1)+"/"+pages.size());
+					Field[] temp = new Field[((Vector)pages.elementAt(currentPage)).size()];
+	    			((Vector)pages.elementAt(currentPage)).copyInto(temp);
+	    			bgManager.deleteAll();
+		    		bgManager.addAll(temp);
+		    	}
+			}
+			return true;
+		}else if(dy == 0 && dx == 1){
+			if(pages.size() >1){
+				if((currentPage+1)>=pages.size()){
+					currentPage = 0;
+				}else{
+					currentPage++;
+				}
+				synchronized(UiApplication.getEventLock()) {
+					pageNumber.setLabel("Page "+(currentPage+1)+"/"+pages.size());
+					Field[] temp = new Field[((Vector)pages.elementAt(currentPage)).size()];
+	    			((Vector)pages.elementAt(currentPage)).copyInto(temp);
+	    			bgManager.deleteAll();
+		    		bgManager.addAll(temp);
+		    	}
+			}
+			return true;
+		}else{
+			return super.navigationMovement(dx, dy, status, time);
+		}
+	}
+	
 	public AuctionListScreen(int id, int type) {
 		super(null);
 		this.id = id;
 		this.type = type;
 		bgManager.setStatusHeight(exit.getContentHeight());
+		bgManager.setArrowMode(true);
 		
 		exit.setChangeListener(this);
 		
 		header.setText("Current credits:" + SettingsBean.getSettings().getCredits());
-		add(header);
+		tempList.addElement(header);
 		
 		addButton(new FixedButtonField(""));
-		addButton(new FixedButtonField(""));
+		addButton(pageNumber);
 		addButton(exit);
 		if(type == 0){
 			doConnect(Const.categoryauction+"&category_id="+id+Const.height+Const.getCardHeight()+Const.jpg+Const.bbheight+Const.getAppHeight()+Const.width+Const.getCardWidth());

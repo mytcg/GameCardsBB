@@ -9,6 +9,7 @@ import net.mytcg.topcar.ui.custom.HorizontalStatManager;
 import net.mytcg.topcar.ui.custom.VerticalGamePlayManager;
 import net.mytcg.topcar.ui.custom.VerticalStatManager;
 import net.mytcg.topcar.util.Const;
+import net.rim.device.api.math.Fixed32;
 import net.rim.device.api.system.Bitmap;
 import net.rim.device.api.ui.Color;
 import net.rim.device.api.ui.Field;
@@ -34,7 +35,7 @@ public class AppScreen extends MainScreen {
 	}
 	
 	protected BackgroundManager statusManager = new BackgroundManager(false);
-	protected HorizontalFieldManager hManager1 = new HorizontalFieldManager();
+	protected HorizontalFieldManager hManager1 =  new HorizontalFieldManager();
 	
 	protected ColorLabelField status = new ColorLabelField("", Color.RED);
 	protected Bitmap logo = Const.getLogo();
@@ -106,13 +107,23 @@ public class AppScreen extends MainScreen {
 		}
 	}
 	
+	Bitmap img = Const.getBackground();
+	public void paint(Graphics g)
+	{
+		int xPts[] = {0,0,Const.getWidth(),Const.getWidth()};
+		int yPts[] = {0,Const.getHeight(),Const.getHeight(),0};
+		g.drawTexturedPath(xPts,yPts,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,img);
+		super.paint(g);
+	}
+	
 	public AppScreen(AppScreen parent) {
 		super();
+		titleManager.setTitle(true);
 		add(titleManager);
 		add(bgManager);
 		this.parent = parent;
 		//title setup
-		titleManager.add(new BitmapField(logo, BitmapField.FIELD_HCENTER));
+		titleManager.add(new BitmapField(logo, BitmapField.FIELD_LEFT));
 		titleManager.add(status);
 		
 		bgManager.setTitleHeight(Const.getLogoHeight()+(Const.FONT));

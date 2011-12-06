@@ -6,6 +6,7 @@ import java.io.OutputStream;
 import javax.microedition.io.Connector;
 import javax.microedition.io.file.FileConnection;
 
+import net.mytcg.topcar.util.SettingsBean;
 import net.mytcg.topcar.http.ConnectionGet;
 import net.mytcg.topcar.util.Const;
 import net.rim.device.api.math.Fixed32;
@@ -92,7 +93,20 @@ public class VerticalStatManager extends VerticalFieldManager
 	public void construct() {
 		int font = Const.FONT;
 		image = Const.getLoading();
-		landscape();
+		FileConnection _file = null;
+		InputStream input = null;
+		try {
+			SettingsBean _instance = SettingsBean.getSettings();
+			_file = (FileConnection)Connector.open(Const.getStorage()+Const.PREFIX+_instance.loading);
+			input = _file.openInputStream();
+			byte[] data = new byte[(int) _file.fileSize()];
+			input.read(data);
+			input.close();
+			_file.close();
+			image = (EncodedImage.createEncodedImage(data, 0, data.length)).getBitmap();
+			landscape();
+			invalidate();
+		} catch (Exception e) {}
 		if (file != null) {
 			getData();
 		}

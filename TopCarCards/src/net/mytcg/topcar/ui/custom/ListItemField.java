@@ -71,7 +71,7 @@ public final class ListItemField extends Field {
 		focusable = f;
 	}
 	public int getPreferredWidth() {
-		return Const.getWidth();
+		return Const.getWidth()-60;
 	}
 	public int getPreferredHeight() {
 		return Const.getButtonHeight();
@@ -88,10 +88,10 @@ public final class ListItemField extends Field {
 		
 		int xPts[] = {0,0,getPreferredWidth(),getPreferredWidth()};
 		int yPts[] = {0,getPreferredHeight(),getPreferredHeight(),0};
-		g.clear();
+		//g.clear();
 		
 		
-		g.drawTexturedPath(_xPts,_yPts,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,Const.getBackground());
+		//g.drawTexturedPath(_xPts,_yPts,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,Const.getBackground());
 		
 		g.setColor(Const.FONTCOLOR);
 		

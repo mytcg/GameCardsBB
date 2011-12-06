@@ -74,7 +74,7 @@ public final class ListLabelField extends LabelField {
     }
 	
 	public int getPreferredWidth() {
-		return _width == 0 ? super.getPreferredWidth() : _width;
+		return _width == 0 ? super.getPreferredWidth()-60 : _width-60;
 	}
 	public int getPreferredHeight() {
 		return this.getContentHeight();
