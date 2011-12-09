@@ -247,6 +247,7 @@ public class AuctionListScreen extends AppScreen implements FieldChangeListener
 	
 	public AuctionListScreen(int id, int type) {
 		super(null);
+		add(new ColorLabelField(""));
 		this.id = id;
 		this.type = type;
 		bgManager.setStatusHeight(exit.getContentHeight());

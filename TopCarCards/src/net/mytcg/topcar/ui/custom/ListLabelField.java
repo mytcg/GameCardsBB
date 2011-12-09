@@ -6,6 +6,7 @@ import net.rim.device.api.system.Bitmap;
 import net.rim.device.api.ui.DrawStyle;
 import net.rim.device.api.ui.Font;
 import net.rim.device.api.ui.Graphics;
+import net.rim.device.api.ui.Manager;
 import net.rim.device.api.ui.component.LabelField;
 
 public final class ListLabelField extends LabelField {
@@ -74,7 +75,12 @@ public final class ListLabelField extends LabelField {
     }
 	
 	public int getPreferredWidth() {
-		return _width == 0 ? super.getPreferredWidth()-60 : _width-60;
+		Manager tmp = getManager();
+		if (tmp != null) {
+			return _width == 0 ? tmp.getPreferredWidth() : _width;
+		} else {
+			return _width == 0 ? super.getPreferredWidth() : _width;
+		}
 	}
 	public int getPreferredHeight() {
 		return this.getContentHeight();

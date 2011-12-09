@@ -50,6 +50,7 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 	public DetailScreen(AppScreen screen, int screenType)
 	{
 		super(screen);
+		add(new ColorLabelField(""));
 		bgManager.setStatusHeight(exit.getContentHeight());
 		bgManager.setArrowMode(true);
 		if(screenType == Const.PROFILESCREEN){
@@ -263,6 +264,8 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 	        		System.out.println("SIZE "+((Vector)pages.elementAt(0)).size());
 	        		if(pages.size()<=1){
 	    				bgManager.setArrowMode(false);
+	    			} else {
+	    				bgManager.setArrowMode(true);
 	    			}
 	        		pageNumber.setLabel("Page 1/"+pages.size());
 	        		Field[] temp = new Field[((Vector)pages.elementAt(0)).size()];
@@ -314,7 +317,7 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 			    			synchronized(UiApplication.getEventLock()) {
 			    				tempList.addElement(lblnote);
 			    				tempList.addElement(new SeparatorField(){public int getPreferredWidth() {
-			    					return (int)(Const.getWidth()-60);
+			    					return (int)(Const.getWidth());
 			    				}});
 			    				listCounter++;
 			    			}

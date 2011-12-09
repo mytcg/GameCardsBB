@@ -102,7 +102,7 @@ public final class SexyEditField extends Manager {
 		this(0,0, 0L, 140);
 	}
 	public SexyEditField(String s) {
-		this(Const.getWidth()-60,Const.getButtonHeight(), 0L, 140);
+		this(Const.getWidth(),Const.getButtonHeight(), 0L, 140);
 		setText(s);
 	}
 	public SexyEditField(String s, long l) {

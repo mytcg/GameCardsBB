@@ -37,6 +37,7 @@ public class AuctionCreateScreen extends AppScreen implements FieldChangeListene
 	public AuctionCreateScreen(Card card, Bitmap cardthumb)
 	{
 		super(null);
+		add(new ColorLabelField(""));
 		this.card = card;
 		SettingsBean _instance = SettingsBean.getSettings();
 		_instance.created = false;

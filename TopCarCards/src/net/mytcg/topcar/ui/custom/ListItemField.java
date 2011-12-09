@@ -7,6 +7,7 @@ import net.rim.device.api.ui.DrawStyle;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.Font;
 import net.rim.device.api.ui.Graphics;
+import net.rim.device.api.ui.Manager;
 
 public final class ListItemField extends Field {
 	
@@ -71,7 +72,12 @@ public final class ListItemField extends Field {
 		focusable = f;
 	}
 	public int getPreferredWidth() {
-		return Const.getWidth()-60;
+		Manager tmp = getManager();
+		if (tmp != null) {
+			return tmp.getPreferredWidth();
+		} else {
+			return Const.getWidth();
+		}
 	}
 	public int getPreferredHeight() {
 		return Const.getButtonHeight();

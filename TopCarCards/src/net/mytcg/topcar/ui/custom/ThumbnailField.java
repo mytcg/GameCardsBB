@@ -15,6 +15,7 @@ import net.rim.device.api.system.EncodedImage;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.Font;
 import net.rim.device.api.ui.Graphics;
+import net.rim.device.api.ui.Manager;
 
 public final class ThumbnailField extends Field {
 	
@@ -302,7 +303,12 @@ public final class ThumbnailField extends Field {
 		this.button_thumbnail = thumb;
 	}
 	public int getPreferredWidth() {
-		return Const.getWidth()-60;
+		Manager tmp = getManager();
+		if (tmp != null) {
+			return tmp.getPreferredWidth();
+		} else {
+			return Const.getWidth();
+		}
 	}
 	public int getPreferredHeight() {
 		return button_sel_centre.getHeight();

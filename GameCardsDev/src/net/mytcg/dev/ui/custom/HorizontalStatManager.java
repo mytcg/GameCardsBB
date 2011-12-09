@@ -151,6 +151,7 @@ public class HorizontalStatManager extends HorizontalFieldManager
 		saveData(data, filename);
 	}
 	public synchronized void saveData(byte[] data, String filename) {
+		System.out.println("filename " + filename);
 		FileConnection _file = null;
 		OutputStream output = null;
 		try {

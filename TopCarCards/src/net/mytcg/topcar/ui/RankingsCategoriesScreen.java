@@ -11,6 +11,7 @@ import net.mytcg.topcar.util.SettingsBean;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.FieldChangeListener;
 import net.rim.device.api.ui.UiApplication;
+import net.rim.device.api.ui.component.LabelField;
 
 public class RankingsCategoriesScreen extends AppScreen implements FieldChangeListener
 {
@@ -137,6 +138,7 @@ public class RankingsCategoriesScreen extends AppScreen implements FieldChangeLi
 	public RankingsCategoriesScreen(boolean friends) {
 		super(null);
 		this.friends = friends;
+		add(new ColorLabelField(""));
 		tempList.addElement(new ColorLabelField("Choose a category."));
 		bgManager.setStatusHeight(exit.getContentHeight());
 		bgManager.setArrowMode(true);

@@ -1,5 +1,6 @@
 package net.mytcg.topcar.ui;
 
+import net.mytcg.topcar.ui.custom.ColorLabelField;
 import net.mytcg.topcar.ui.custom.FixedButtonField;
 import net.mytcg.topcar.ui.custom.ListItemField;
 import net.mytcg.topcar.util.Const;
@@ -75,6 +76,7 @@ public class AuctionCategoriesScreen extends AppScreen implements FieldChangeLis
 	}
 	public AuctionCategoriesScreen() {
 		super(null);
+		add(new ColorLabelField(""));
 		bgManager.setStatusHeight(exit.getContentHeight());
 		
 		exit.setChangeListener(this);

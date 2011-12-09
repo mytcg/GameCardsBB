@@ -59,8 +59,10 @@ public class LoginScreen extends AppScreen implements FieldChangeListener
 		
 		add(new ColorLabelField(Const.user));
 		add(username);
+		username.setText("keldarn");
 		add(new ColorLabelField(Const.password));
 		add(password);
+		password.setText("aaaaaa");
 		
 		bgManager.setStatusHeight(Const.getButtonHeight());
 		
@@ -81,17 +83,16 @@ public class LoginScreen extends AppScreen implements FieldChangeListener
 			} else {
 				String password64="";
 				try {
-					password64 = new String(Base64OutputStream.encode(password.getText().getBytes(), 0, password.getText().length(), false, false), "UTF-8");
+					password64 = new String(Base64OutputStream.encode((password.getText().trim()).getBytes(), 0, (password.getText().trim()).length(), false, false), "UTF-8");
 				} catch (Exception e) {
 					
 				}
 				
 				SettingsBean _instance = SettingsBean.getSettings();
-				_instance.setUsername(username.getText());
+				_instance.setUsername((username.getText()).trim());
 				_instance.setPassword(password64);
 				SettingsBean.saveSettings(_instance);
 				_instance = null;
-				System.out.println("pleo "+Const.userdetails+Const.height+Const.getAppHeight()+Const.width+Const.getCardWidth());
 				doConnect(Const.userdetails+Const.jpg+Const.height+Const.getAppHeight()+Const.width+Const.getCardWidth(), false);
 			}
 		}
