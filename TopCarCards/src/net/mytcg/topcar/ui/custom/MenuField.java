@@ -5,6 +5,7 @@ import net.rim.device.api.math.Fixed32;
 import net.rim.device.api.system.Bitmap;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.Graphics;
+import net.rim.device.api.ui.XYRect;
 
 public final class MenuField extends Field {	
 	private boolean focus;

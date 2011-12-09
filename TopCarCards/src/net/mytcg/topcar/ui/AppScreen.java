@@ -15,6 +15,7 @@ import net.rim.device.api.ui.Color;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.Graphics;
 import net.rim.device.api.ui.UiApplication;
+import net.rim.device.api.ui.XYRect;
 import net.rim.device.api.ui.component.BitmapField;
 import net.rim.device.api.ui.container.HorizontalFieldManager;
 import net.rim.device.api.ui.container.MainScreen;
@@ -45,6 +46,7 @@ public class AppScreen extends MainScreen {
 	public boolean created = false;
 	protected AppScreen screen = null;
 	protected AppScreen parent = null;
+	public Graphics graphics;
 	
 	public void onUndisplay() {
 	}
@@ -108,12 +110,13 @@ public class AppScreen extends MainScreen {
 	}
 	
 	Bitmap img = Const.getBackground();
-	public void paint(Graphics g)
+	protected void paint(Graphics g)
 	{
 		int xPts[] = {0,0,Const.getWidth(),Const.getWidth()};
 		int yPts[] = {0,Const.getHeight(),Const.getHeight(),0};
 		g.drawTexturedPath(xPts,yPts,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,img);
-		super.paint(g);
+		graphics = g;
+		super.paint(graphics);
 	}
 	
 	public AppScreen(AppScreen parent) {

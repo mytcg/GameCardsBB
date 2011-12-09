@@ -64,7 +64,7 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 			tempList.addElement(lbltop);
 			tempList.addElement(lblBalance);
 			tempList.addElement(balance);
-			add(lblTransactions);
+			tempList.addElement(lblTransactions);
 			lblBalance.setFocusable(false);
 			lblTransactions.setFocusable(false);
 			balance.setText(SettingsBean.getSettings().getCredits());
@@ -189,10 +189,9 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 	    	    	bgManager.addAll(temp);
 	    	    }
 	    	} else if (((fromIndex = val.indexOf(Const.xml_transactions)) != -1)) {
-	    		int listSize = (Const.getUsableHeight()) / (Const.getButtonSelCentre().getHeight()+6);
-	    		int listCounter = 2;
+	    		int listSize = (Const.getUsableHeight()) / (Const.getButtonSelCentre().getHeight()+7);
+	    		int listCounter = 3;
 	    		pages = new Vector();
-	    		System.out.println("herpderp "+listSize);
 	    		int transactionid = -1;
 	    		String desc = "";
 	    		String date = "";
@@ -272,7 +271,7 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 	    	    	bgManager.addAll(temp);
 	    	    }
 	    	} else if (((fromIndex = val.indexOf(Const.xml_notifications)) != -1)) {
-	    		int listSize = (Const.getUsableHeight()) / (Const.getButtonSelCentre().getHeight()+6);
+	    		int listSize = (Const.getUsableHeight()) / (Const.getButtonSelCentre().getHeight()+7);
 	    		int listCounter = 1;
 	    		pages = new Vector();
 	    		System.out.println("herpderp "+listSize);

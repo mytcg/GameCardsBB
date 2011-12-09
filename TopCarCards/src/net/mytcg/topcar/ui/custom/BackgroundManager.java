@@ -5,6 +5,7 @@ import net.rim.device.api.math.Fixed32;
 import net.rim.device.api.system.Bitmap;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.Graphics;
+import net.rim.device.api.ui.XYRect;
 import net.rim.device.api.ui.component.SeparatorField;
 import net.rim.device.api.ui.container.VerticalFieldManager;
 
@@ -20,6 +21,9 @@ public class BackgroundManager extends VerticalFieldManager
 	private Bitmap leftarrow;
 	private Bitmap rightarrow;
 	private Bitmap header = Const.getHead();
+	XYRect titleRect = new XYRect(0, 0,Const.getWidth() , Const.getLogoHeight()+(Const.FONT));
+	XYRect mainRect = new XYRect(0, 0,Const.getWidth() , img.getHeight());
+	
 	
 	public BackgroundManager(boolean useall)
 	{
@@ -58,10 +62,16 @@ public class BackgroundManager extends VerticalFieldManager
 	
 	public void paint(Graphics g)
 	{
-		int xPts[] = {0,0,getPreferredWidth(),getPreferredWidth()};
-		int yPts[] = {0,getPreferredHeight(),getPreferredHeight(),0};
-		g.drawTexturedPath(xPts,yPts,null,null,0,this.getTop(),Fixed32.ONE,0,0,Fixed32.ONE,img);
+		
+		//int xPts[] = {0,0,getPreferredWidth(),getPreferredWidth()};
+		//int yPts[] = {0,getPreferredHeight(),getPreferredHeight(),0};
+		//g.drawTexturedPath(xPts,yPts,null,null,0,this.getTop(),Fixed32.ONE,0,0,Fixed32.ONE,img);
+		g.drawBitmap(mainRect, img, 0, Const.getLogoHeight()+(Const.FONT));
+		if(Const.getHeight() > (img.getHeight()-Const.getLogoHeight()+(Const.FONT))){
+			g.drawBitmap(0, img.getHeight()-(Const.getLogoHeight()+(Const.FONT)),Const.getWidth() ,Const.getHeight() - (img.getHeight()-img.getHeight()-(Const.getLogoHeight()+(Const.FONT))), img, 0, 0);
+		}
 		if(title){
+			g.drawBitmap(titleRect, img, 0, 0);
 			int xPts1[] = {0,0,getPreferredWidth(),getPreferredWidth()};
 			int yPts1[] = {0,header.getHeight(),header.getHeight(),0};
 			g.drawTexturedPath(xPts1,yPts1,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,header);

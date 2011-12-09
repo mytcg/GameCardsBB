@@ -12,8 +12,10 @@ import net.mytcg.topcar.ui.custom.PageManager;
 import net.mytcg.topcar.util.Const;
 import net.mytcg.topcar.util.SettingsBean;
 import net.rim.device.api.io.http.HttpDateParser;
+import net.rim.device.api.math.Fixed32;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.FieldChangeListener;
+import net.rim.device.api.ui.Graphics;
 import net.rim.device.api.ui.UiApplication;
 import net.rim.device.api.ui.container.HorizontalFieldManager;
 
@@ -152,6 +154,7 @@ public class MenuScreen extends AppScreen implements FieldChangeListener
 		if(_instance.notifications == false){
 			doConnect("notedate=1");
 		}
+		this.invalidate();
 	}
 	
 	protected boolean navigationMovement(int dx, int dy, int status, int time) {
