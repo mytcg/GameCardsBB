@@ -16,6 +16,8 @@ import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.Font;
 import net.rim.device.api.ui.Graphics;
 import net.rim.device.api.ui.Manager;
+import net.rim.device.api.ui.UiApplication;
+import net.rim.device.api.ui.component.GaugeField;
 import net.rim.device.api.ui.component.NullField;
 import net.rim.device.api.ui.container.VerticalFieldManager;
 
@@ -31,6 +33,7 @@ public class VerticalGamePlayManager extends VerticalFieldManager
 	boolean useall = true;
 	public boolean drawbox = false;
 	String color = "";
+	private GaugeField progress;
 	
 	public boolean loaded = false;
 	
@@ -102,7 +105,7 @@ public class VerticalGamePlayManager extends VerticalFieldManager
 	public void setUrl(String url) {
 		this.url = url;
 		if ((url != null)&&(url.length() > 0)){
-			file = url.substring(url.indexOf(Const.cards)+Const.cards_length, url.indexOf(Const.jpeg));
+			file = url.substring(url.indexOf(Const.cardsbb)+Const.cardsbb_length, url.indexOf(Const.jpeg));
 		}
 		construct();
 	}
@@ -138,6 +141,10 @@ public class VerticalGamePlayManager extends VerticalFieldManager
 			_file = (FileConnection)Connector.open(Const.getStorage()+Const.PREFIX+file);
 			if (!_file.exists()) {
 				_file.close();
+				progress = new GaugeField(null,0,100,0,GaugeField.NO_TEXT);
+				synchronized(UiApplication.getEventLock()) {
+					this.add(progress);
+				}
 				doConnect(url);
 			} else {
 				input = _file.openInputStream();
@@ -161,7 +168,7 @@ public class VerticalGamePlayManager extends VerticalFieldManager
 	ConnectionGet cG;
 	int timeout = 0;
 	public void doConnect(String url) {
-		cG = new ConnectionGet(url, this);
+		cG = new ConnectionGet(url, this, progress);
 		cG.start();
 	}
 	public void landscape() {
@@ -181,6 +188,9 @@ public class VerticalGamePlayManager extends VerticalFieldManager
 		//}else{
 		//	image = Const.getScaledBitmapImage((EncodedImage.createEncodedImage(data, 0, data.length)),((double)(getPreferredHeight()-20)/temp.getHeight()),((double)(getPreferredHeight()-25)/temp.getHeight()));
 		//}
+		synchronized(UiApplication.getEventLock()) {
+			this.delete(progress);
+		}
 		image = (EncodedImage.createEncodedImage(data, 0, data.length)).getBitmap();
 		loaded = true;
 		landscape();
@@ -210,6 +220,9 @@ public class VerticalGamePlayManager extends VerticalFieldManager
             	StatField sField = (StatField)field;
             	setPositionChild(field, ((14)/2)+sField.stat.getLeft()*image.getWidth()/250, (((14)/2))+sField.stat.getTop()*image.getHeight()/350);  //set the position for the field
             	layoutChild( field, sField.stat.getWidth()*image.getWidth()/250, sField.stat.getHeight()*image.getHeight()/350 ); //lay out the field
+            }else if(field instanceof GaugeField){
+            	setPositionChild(field, 15, (getPreferredHeight()/2));  //set the position for the field
+            	layoutChild( field, (getPreferredWidth()-30), 100 ); //lay out the field
             } 	
         }
 		setExtent();

@@ -9,6 +9,7 @@ import net.mytcg.dev.ui.custom.ImageLoader;
 import net.mytcg.dev.ui.custom.ThumbnailField;
 import net.mytcg.dev.ui.custom.VerticalStatManager;
 import net.mytcg.dev.util.Const;
+import net.rim.device.api.ui.component.GaugeField;
 
 
 public class ConnectionHandler extends Thread {
@@ -121,12 +122,13 @@ public class ConnectionHandler extends Thread {
 			}
 		//}
 	}
-	public synchronized void addConnect(String url, String filename, HorizontalStatManager img) {
+	public synchronized void addConnect(String url, String filename, HorizontalStatManager img, GaugeField progress) {
 		//if (urls.contains(url)) {
 			
 		//} else {
 			urls.addElement(url);
 			ThumbConnection tmp = new ThumbConnection(url, filename, img);
+			tmp.setGaugeField(progress);
 			if (!connections.contains(tmp)) {
 				connections.addElement(tmp);
 				if (!busy) {
@@ -138,12 +140,13 @@ public class ConnectionHandler extends Thread {
 			}
 		//}
 	}
-	public synchronized void addConnect(String url, String filename, VerticalStatManager img) {
+	public synchronized void addConnect(String url, String filename, VerticalStatManager img, GaugeField progress) {
 		//if (urls.contains(url)) {
 			
 		//} else {
 			urls.addElement(url);
 			ThumbConnection tmp = new ThumbConnection(url, filename, img);
+			tmp.setGaugeField(progress);
 			if (!connections.contains(tmp)) {
 				connections.addElement(tmp);
 				if (!busy) {
@@ -219,10 +222,10 @@ public class ConnectionHandler extends Thread {
 			ConnectionGet cG = new ConnectionGet(thumb.getUrl(), this, thumb.getType(), thumb.getThumb());
 			cG.start();
 		} else if (thumb.getVert() != null) {
-			ConnectionGet cG = new ConnectionGet(thumb.getUrl(), this, thumb.getVert(), thumb.getFilename());
+			ConnectionGet cG = new ConnectionGet(thumb.getUrl(), this, thumb.getVert(), thumb.getFilename(), thumb.getGaugeField());
 			cG.start();
 		} else if (thumb.getHort() != null) {
-			ConnectionGet cG = new ConnectionGet(thumb.getUrl(), this, thumb.getHort(), thumb.getFilename());
+			ConnectionGet cG = new ConnectionGet(thumb.getUrl(), this, thumb.getHort(), thumb.getFilename(), thumb.getGaugeField());
 			cG.start();
 		} else if (thumb.getImgLoad() != null) {
 			ConnectionGet cG = new ConnectionGet(thumb.getUrl(), this, thumb.getImgLoad(), thumb.getFilename());

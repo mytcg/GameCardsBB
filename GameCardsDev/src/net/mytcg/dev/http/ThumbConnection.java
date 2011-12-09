@@ -6,6 +6,7 @@ import net.mytcg.dev.ui.custom.ImageField;
 import net.mytcg.dev.ui.custom.ImageLoader;
 import net.mytcg.dev.ui.custom.ThumbnailField;
 import net.mytcg.dev.ui.custom.VerticalStatManager;
+import net.rim.device.api.ui.component.GaugeField;
 
 class ThumbConnection {
 	private String url = "";
@@ -17,6 +18,7 @@ class ThumbConnection {
 	private VerticalStatManager vert = null;
 	private HorizontalStatManager hori = null;
 	private String filename = "";
+	private GaugeField progress = null;
 	
 	public ThumbConnection(String url, int type, ThumbnailField thumb) {
 		this.url = url;
@@ -74,5 +76,11 @@ class ThumbConnection {
 	}
 	public HorizontalStatManager getHort() {
 		return hori;
+	}
+	public void setGaugeField(GaugeField prog) {
+		progress = prog;
+	}
+	public GaugeField getGaugeField() {
+		return progress;
 	}
 }

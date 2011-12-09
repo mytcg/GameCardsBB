@@ -22,6 +22,8 @@ import net.mytcg.dev.ui.custom.VerticalGamePlayManager;
 import net.mytcg.dev.ui.custom.VerticalStatManager;
 import net.mytcg.dev.util.Const;
 import net.mytcg.dev.util.SettingsBean;
+import net.rim.device.api.ui.UiApplication;
+import net.rim.device.api.ui.component.GaugeField;
 
 public final class ConnectionGet extends Connection implements Runnable {
 	private DataInputStream _input;
@@ -40,24 +42,34 @@ public final class ConnectionGet extends Connection implements Runnable {
 	private GameCardsHome home;
 	private boolean autoclean = true;
 	private String filename;
+	private GaugeField progress = null;
 	
 	public ConnectionGet(String url, GameCardsHome home) {
 		this(url);
 		this.home=home;
 	}
-	public ConnectionGet(String url, VerticalGamePlayManager vGame) {
+	public ConnectionGet(String url, VerticalGamePlayManager vGame, GaugeField prog) {
 		this(url);
 		this.vGame = vGame;
+		this.progress = prog;
 	}
-	public ConnectionGet(String url, HorizontalGamePlayManager hGame) {
+	public ConnectionGet(String url, HorizontalGamePlayManager hGame, GaugeField prog) {
 		this(url);
 		this.hGame = hGame;
+		this.progress = prog;
 	}
 	public ConnectionGet(String url, ConnectionHandler field, ImageField image, String filename) {
 		this(url);
 		this.image = image;
 		this.field = field;
 		this.filename = filename;
+	}
+	public ConnectionGet(String url, ConnectionHandler field, ImageField image, String filename, GaugeField prog) {
+		this(url);
+		this.image = image;
+		this.field = field;
+		this.filename = filename;
+		this.progress = prog;
 	}
 	public ConnectionGet(String url, ConnectionHandler field, ImageLoader image, String filename) {
 		this(url);
@@ -71,17 +83,19 @@ public final class ConnectionGet extends Connection implements Runnable {
 		this.field = field;
 		this.filename = filename;
 	}
-	public ConnectionGet(String url, ConnectionHandler field, VerticalStatManager image, String filename) {
+	public ConnectionGet(String url, ConnectionHandler field, VerticalStatManager image, String filename, GaugeField prog) {
 		this(url);
 		this.vStat = image;
 		this.field = field;
 		this.filename = filename;
+		this.progress = prog;
 	}
-	public ConnectionGet(String url, ConnectionHandler field, HorizontalStatManager image, String filename) {
+	public ConnectionGet(String url, ConnectionHandler field, HorizontalStatManager image, String filename, GaugeField prog) {
 		this(url);
 		this.hStat = image;
 		this.field = field;
 		this.filename = filename;
+		this.progress = prog;
 	}
 	public ConnectionGet(String url, ConnectionHandler field, int type, ThumbnailField thumb) {
 		this(url);
@@ -132,6 +146,7 @@ public final class ConnectionGet extends Connection implements Runnable {
 			
 		}
 	}
+	
 	public void connect() {
 		factory = new HttpConnectionFactory(_url);
     	int lengt;
@@ -157,22 +172,49 @@ public final class ConnectionGet extends Connection implements Runnable {
 		        		screen.setText("Loading...");
 		        	}
 		        	
-		        	if (lengt != -1) {
-						data = new byte[lengt];
-						_input.readFully(data);
-						_text = new String(data);
-		        	} else {
-	                    _output = new ByteArrayOutputStream();
-	                    int ch;
-	                    while((ch = _input.read()) != -1)
-	                        _output.write(ch);
-	                    data = _output.toByteArray();
-	                    try {
-	                    	_output.close();
-	                    } catch (Exception e) {
-	                    	
-	                    }
+		        	//if (lengt != -1) {
+					//	data = new byte[lengt];
+					//	System.out.println("lengt: "+lengt);
+					//	System.out.println("available: "+_input.available());
+					//	_input.readFully(data);
+					//	_text = new String(data);
+		        	//} else {
+		        	int total = 0;
+		        	if(progress != null){
+		        		progress.setValue(0);
+		        		progress.getManager().invalidate();
+		        		total = lengt;
 		        	}
+		        	_output = new ByteArrayOutputStream();
+	                int ch;
+	                int jump = 9;
+	                while((ch = _input.read()) != -1){
+	                	total--;
+	                   	if(progress != null){
+	                   		int prog = (int)(((double)((double)lengt - (double)total)/(double)lengt)*100);
+	                   		if(prog > jump){
+	                   			jump = jump + 10;
+		                   		synchronized(UiApplication.getEventLock()) {
+			                		try{
+			                			if ( prog > 0 ) {
+			                				progress.setValue(prog);
+			                				progress.getManager().invalidate();
+			                            }
+			                		}catch(Exception e){System.out.println(e.toString());};
+		                  		}
+	                   		}
+	    		      	}
+	                    _output.write(ch);
+	                }
+	                progress = null;
+	                data = _output.toByteArray();
+	                _text = new String(data);
+	                try {
+	                  	_output.close();
+	                } catch (Exception e) {
+	                    	
+	                }
+		        	//}
 		        	
 		        	System.out.println("got response");
 		        	if (data.length <= 2048) {
