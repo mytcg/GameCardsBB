@@ -2,6 +2,7 @@ package net.mytcg.topcar.ui;
 
 import java.util.Vector;
 
+import net.mytcg.topcar.ui.custom.ColorLabelField;
 import net.mytcg.topcar.ui.custom.FixedButtonField;
 import net.mytcg.topcar.ui.custom.ListItemField;
 import net.mytcg.topcar.ui.custom.PageNumberField;
@@ -25,6 +26,7 @@ public class AuctionMenuScreen extends AppScreen implements FieldChangeListener
 	public AuctionMenuScreen()
 	{
 		super(null);
+		add(new ColorLabelField(""));
 		bgManager.setStatusHeight(exit.getContentHeight());
 		bgManager.setArrowMode(true);
 		

@@ -24,6 +24,7 @@ public class BackgroundManager extends VerticalFieldManager
 	public BackgroundManager(boolean useall)
 	{
 		super(VerticalFieldManager.USE_ALL_WIDTH |NO_VERTICAL_SCROLL | NO_VERTICAL_SCROLLBAR);
+		arrowMode = false;
 		leftarrow = Const.getLeftArrow();
 		rightarrow = Const.getRightArrow();
 		this.useall = useall;
@@ -48,7 +49,11 @@ public class BackgroundManager extends VerticalFieldManager
 		}
 	}
 	public int getPreferredWidth() {
-		return Const.getWidth();
+		if (arrowMode) {
+			return Const.getWidth()-60;
+		} else {
+			return Const.getWidth();
+		}
 	}
 	
 	public BackgroundManager()
@@ -58,17 +63,17 @@ public class BackgroundManager extends VerticalFieldManager
 	
 	public void paint(Graphics g)
 	{
-		int xPts[] = {0,0,getPreferredWidth(),getPreferredWidth()};
+		int xPts[] = {0,0,Const.getWidth(),Const.getWidth()};
 		int yPts[] = {0,getPreferredHeight(),getPreferredHeight(),0};
 		g.drawTexturedPath(xPts,yPts,null,null,0,this.getTop(),Fixed32.ONE,0,0,Fixed32.ONE,img);
 		if(title){
-			int xPts1[] = {0,0,getPreferredWidth(),getPreferredWidth()};
+			int xPts1[] = {0,0,Const.getWidth(),Const.getWidth()};
 			int yPts1[] = {0,header.getHeight(),header.getHeight(),0};
 			g.drawTexturedPath(xPts1,yPts1,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,header);
 		}
 		if(arrowMode){
 			g.drawBitmap(0, (getPreferredHeight()-leftarrow.getHeight()-10)/2, leftarrow.getWidth(), leftarrow.getHeight(), leftarrow, 0, 0);
-			g.drawBitmap((getPreferredWidth()-rightarrow.getWidth()), (getPreferredHeight()-rightarrow.getHeight()-10)/2, rightarrow.getWidth(), rightarrow.getHeight(), rightarrow, 0, 0);
+			g.drawBitmap((Const.getWidth()-rightarrow.getWidth()), (getPreferredHeight()-rightarrow.getHeight()-10)/2, rightarrow.getWidth(), rightarrow.getHeight(), rightarrow, 0, 0);
 		}
 		super.paint(g);
 	}
@@ -95,8 +100,16 @@ public class BackgroundManager extends VerticalFieldManager
         for (int i = 0;i < numberOfFields;i++) {
             field = getField(i); //get the field
             if(field instanceof ThumbnailField || field instanceof ListItemField || field instanceof ListLabelField || field instanceof SexyEditField || field instanceof SeparatorField || field instanceof FriendField || field instanceof ProfileFieldManager){	
-            	setPositionChild(field, 30, h);  //set the position for the field
-            	layoutChild( field, Const.getWidth()-60, field.getHeight() ); //lay out the field
+            	if (arrowMode){
+            		setPositionChild(field, 30, h);  //set the position for the field
+            	} else {
+            		setPositionChild(field, 0, h);  //set the position for the field
+            	}
+            	if(arrowMode){
+            		layoutChild( field, Const.getWidth()-60, field.getHeight() ); //lay out the field
+            	} else {
+            		layoutChild( field, Const.getWidth(), field.getHeight() ); //lay out the field
+            	}
             	h = h + field.getHeight();
             }else{
             	h = h + field.getHeight();
@@ -108,7 +121,7 @@ public class BackgroundManager extends VerticalFieldManager
 	
 	private void setExtent()
 	{
-		setExtent(getPreferredWidth(), getPreferredHeight());
-		setVirtualExtent(getPreferredWidth(), super.getPreferredHeight());
+		setExtent(Const.getWidth(), getPreferredHeight());
+		setVirtualExtent(Const.getWidth(), super.getPreferredHeight());
 	}
 }

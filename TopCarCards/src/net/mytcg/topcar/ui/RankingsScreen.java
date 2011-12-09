@@ -26,6 +26,7 @@ public class RankingsScreen extends AppScreen implements FieldChangeListener
 	public RankingsScreen(String category, int categoryId, boolean friends)
 	{
 		super(null);
+		add(new ColorLabelField(""));
 		bgManager.setStatusHeight(exit.getContentHeight());
 		bgManager.setArrowMode(true);
 		

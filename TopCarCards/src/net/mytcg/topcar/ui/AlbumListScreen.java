@@ -345,6 +345,8 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 	    			System.out.println("SIZE "+((Vector)pages.elementAt(0)).size());
 	    			if(pages.size()<=1){
 	    				bgManager.setArrowMode(false);
+	    			} else {
+	    				bgManager.setArrowMode(true);
 	    			}
 	    			pageNumber.setLabel("Page 1/"+pages.size());
 	    			ThumbnailField[] temp = new ThumbnailField[((Vector)pages.elementAt(0)).size()];
