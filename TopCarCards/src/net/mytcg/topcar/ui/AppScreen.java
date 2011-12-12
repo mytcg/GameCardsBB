@@ -15,7 +15,6 @@ import net.rim.device.api.ui.Color;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.Graphics;
 import net.rim.device.api.ui.UiApplication;
-import net.rim.device.api.ui.XYRect;
 import net.rim.device.api.ui.component.BitmapField;
 import net.rim.device.api.ui.container.HorizontalFieldManager;
 import net.rim.device.api.ui.container.MainScreen;
@@ -67,6 +66,8 @@ public class AppScreen extends MainScreen {
 	public void setDisplaying(boolean display) {
 		isDisplaying = display;
 	}
+	public void pageLeft (){}
+	public void pageRight(){}
 	
 	public void setText(String text) {
 		if ((text != null)&&(text.length() > 0)) {

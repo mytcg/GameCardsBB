@@ -2,6 +2,7 @@ package net.mytcg.topcar.ui;
 
 import java.util.Vector;
 
+import net.mytcg.topcar.ui.custom.ColorLabelField;
 import net.mytcg.topcar.ui.custom.FixedButtonField;
 import net.mytcg.topcar.ui.custom.ListItemField;
 import net.mytcg.topcar.ui.custom.PageNumberField;
@@ -33,6 +34,7 @@ public class ViewDeckScreen extends AppScreen implements FieldChangeListener
 	public ViewDeckScreen(int deckid)
 	{
 		super(null);
+		add(new ColorLabelField(""));
 		this.deckid = deckid;
 		bgManager.setStatusHeight(exit.getContentHeight());
 		bgManager.setArrowMode(true);
@@ -289,7 +291,7 @@ public class ViewDeckScreen extends AppScreen implements FieldChangeListener
     	invalidate();
 	}
 	
-	protected boolean navigationMovement(int dx, int dy, int status, int time) {
+	public boolean navigationMovement(int dx, int dy, int status, int time) {
 		if(dy == 0 && dx == -1){
 			if(pages.size() >1){
 				if((currentPage-1)<0){
