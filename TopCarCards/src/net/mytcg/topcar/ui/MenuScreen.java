@@ -154,7 +154,6 @@ public class MenuScreen extends AppScreen implements FieldChangeListener
 	}
 	
 	public boolean navigationMovement(int dx, int dy, int status, int time) {
-		System.out.println("status: "+status+ " time: " + time);
 		if(((MenuThumbnailField)((Vector)pages.elementAt(currentPage)).elementAt(0)).isFocus()&&dy == 0 && dx == -1){
 			if(pages.size() >1){
 				if((currentPage-1)<0){

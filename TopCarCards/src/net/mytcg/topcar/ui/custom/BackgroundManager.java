@@ -180,6 +180,9 @@ public class BackgroundManager extends VerticalFieldManager
 					} else if(this.getScreen() instanceof RankingsCategoriesScreen){
 						((RankingsCategoriesScreen)this.getScreen()).navigationMovement(1, 0, -1610612736, 5000);
 						return true;
+					} else if(this.getScreen() instanceof RankingsScreen){
+						((RankingsScreen)this.getScreen()).navigationMovement(1, 0, -1610612736, 5000);
+						return true;
 					} else if(this.getScreen() instanceof ShopProductsScreen){
 						((ShopProductsScreen)this.getScreen()).navigationMovement(1, 0, -1610612736, 5000);
 						return true;

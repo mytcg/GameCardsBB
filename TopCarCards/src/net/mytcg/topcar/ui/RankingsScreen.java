@@ -87,7 +87,8 @@ public class RankingsScreen extends AppScreen implements FieldChangeListener
 	    					lblType = new ColorLabelField("        " + usr);
 			    			synchronized(UiApplication.getEventLock()) {
 			    				tempList.addElement(lblType);
-			    				amount = new SexyEditField(""+value);
+			    				amount = new SexyEditField((Const.getWidth()-60),Const.getButtonHeight());
+			    				amount.setText(""+value);
 			    				amount.setEdit(false);
 			    				tempList.addElement(amount);
 			        			listCounter++;
