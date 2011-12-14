@@ -76,7 +76,7 @@ public class BackgroundManager extends VerticalFieldManager
 		}
 		if(title){
 			g.drawBitmap(titleRect, img, 0, 0);
-			int xPts1[] = {0,0,getPreferredWidth(),getPreferredWidth()};
+			int xPts1[] = {0,0,Const.getWidth(),Const.getWidth()};
 			int yPts1[] = {0,header.getHeight(),header.getHeight(),0};
 			g.drawTexturedPath(xPts1,yPts1,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,header);
 		}

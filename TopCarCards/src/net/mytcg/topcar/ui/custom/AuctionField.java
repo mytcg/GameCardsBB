@@ -6,7 +6,6 @@ import net.mytcg.topcar.util.Auction;
 import net.mytcg.topcar.util.Const;
 import net.rim.device.api.i18n.SimpleDateFormat;
 import net.rim.device.api.io.http.HttpDateParser;
-import net.rim.device.api.math.Fixed32;
 import net.rim.device.api.system.Bitmap;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.Font;
@@ -27,10 +26,8 @@ public final class AuctionField extends Field {
 	}
 	
 	public void construct() {
-		int font = Const.FONT;
-		
 		Font _font = getFont();
-		_font = _font.derive(Const.TYPE,font);
+		_font = _font.derive(Const.TYPE,Const.FONT);
 		setFont(_font);
 	}
 	

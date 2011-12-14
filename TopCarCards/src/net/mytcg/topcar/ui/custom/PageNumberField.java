@@ -1,8 +1,6 @@
 package net.mytcg.topcar.ui.custom;
 
 import net.mytcg.topcar.util.Const;
-import net.rim.device.api.math.Fixed32;
-import net.rim.device.api.system.Bitmap;
 import net.rim.device.api.ui.DrawStyle;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.Font;
@@ -12,7 +10,7 @@ public final class PageNumberField extends Field {
 	private String label;
 
 	public PageNumberField(String label) {
-		construct(20, label);
+		construct(Const.FONT, label);
 	}
 	protected void drawFocus(Graphics g, boolean x) {
 		
