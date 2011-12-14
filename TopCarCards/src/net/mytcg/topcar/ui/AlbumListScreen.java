@@ -5,6 +5,7 @@ import java.util.Vector;
 import javax.microedition.io.Connector;
 import javax.microedition.io.file.FileConnection;
 
+import net.mytcg.topcar.ui.custom.ColorLabelField;
 import net.mytcg.topcar.ui.custom.FixedButtonField;
 import net.mytcg.topcar.ui.custom.ListItemField;
 import net.mytcg.topcar.ui.custom.PageNumberField;
@@ -359,7 +360,8 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
     	}
 	}
 	
-	protected boolean navigationMovement(int dx, int dy, int status, int time) {
+	public boolean navigationMovement(int dx, int dy, int status, int time) {
+		System.out.println("status: "+status+ " time: " + time);
 		if(dy == 0 && dx == -1){
 			if(pages.size() >1){
 				if((currentPage-1)<0){

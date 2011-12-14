@@ -122,7 +122,8 @@ public class AlbumScreen extends AppScreen implements FieldChangeListener
 		}		
 	}
 	
-	protected boolean navigationMovement(int dx, int dy, int status, int time) {
+	public boolean navigationMovement(int dx, int dy, int status, int time) {
+		System.out.println("status: "+status+ " time: " + time);
 		if(dy == 0 && dx == -1){
 			if(pages.size() >1){
 				if((currentPage-1)<0){

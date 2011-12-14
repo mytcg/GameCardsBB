@@ -97,7 +97,7 @@ public class RankingsCategoriesScreen extends AppScreen implements FieldChangeLi
 		}		
 	}
 	
-	protected boolean navigationMovement(int dx, int dy, int status, int time) {
+	public boolean navigationMovement(int dx, int dy, int status, int time) {
 		if(dy == 0 && dx == -1){
 			if(pages.size() >1){
 				if((currentPage-1)<0){

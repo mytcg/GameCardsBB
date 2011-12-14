@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.Vector;
 
 import net.mytcg.topcar.ui.custom.FixedButtonField;
-import net.mytcg.topcar.ui.custom.ListItemField;
 import net.mytcg.topcar.ui.custom.MenuField;
 import net.mytcg.topcar.ui.custom.MenuThumbnailField;
 import net.mytcg.topcar.ui.custom.PageField;
@@ -12,12 +11,9 @@ import net.mytcg.topcar.ui.custom.PageManager;
 import net.mytcg.topcar.util.Const;
 import net.mytcg.topcar.util.SettingsBean;
 import net.rim.device.api.io.http.HttpDateParser;
-import net.rim.device.api.math.Fixed32;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.FieldChangeListener;
-import net.rim.device.api.ui.Graphics;
 import net.rim.device.api.ui.UiApplication;
-import net.rim.device.api.ui.container.HorizontalFieldManager;
 
 public class MenuScreen extends AppScreen implements FieldChangeListener
 {
@@ -157,7 +153,7 @@ public class MenuScreen extends AppScreen implements FieldChangeListener
 		this.invalidate();
 	}
 	
-	protected boolean navigationMovement(int dx, int dy, int status, int time) {
+	public boolean navigationMovement(int dx, int dy, int status, int time) {
 		if(((MenuThumbnailField)((Vector)pages.elementAt(currentPage)).elementAt(0)).isFocus()&&dy == 0 && dx == -1){
 			if(pages.size() >1){
 				if((currentPage-1)<0){
@@ -215,6 +211,60 @@ public class MenuScreen extends AppScreen implements FieldChangeListener
 		}
 	}
 	
+	public void pageLeft (){
+		if(pages.size() >1){
+			if((currentPage-1)<0){
+				currentPage = pages.size()-1;
+			}else{
+				currentPage--;
+			}
+			synchronized(UiApplication.getEventLock()) {
+				Field[] temp = new Field[((Vector)pages.elementAt(currentPage)).size()];
+    			((Vector)pages.elementAt(currentPage)).copyInto(temp);
+    			try{
+    				hManager1.deleteAll();
+    			}catch(Exception e){
+    				
+    			}
+    			for(int i = 0; i < temp.length; i++){
+    				hManager1.add(temp[i]);
+    			}
+    			((MenuThumbnailField)((Vector)pages.elementAt(currentPage)).elementAt(((Vector)pages.elementAt(currentPage)).size()-1)).setFocus();
+    			for(int i = 0; i < dots.size();i++){
+    				((PageField)dots.elementAt(i)).setActive(false);
+    			}
+    			((PageField)dots.elementAt(currentPage)).setActive(true);
+	    	}
+		}
+	}
+	
+	public void pageRight(){
+		if(pages.size() >1){
+			if((currentPage+1)>=pages.size()){
+				currentPage = 0;
+			}else{
+				currentPage++;
+			}
+			synchronized(UiApplication.getEventLock()) {
+				Field[] temp = new Field[((Vector)pages.elementAt(currentPage)).size()];
+    			((Vector)pages.elementAt(currentPage)).copyInto(temp);
+    			try{
+    				hManager1.deleteAll();
+    			}catch(Exception e){
+    				
+    			}
+    			for(int i = 0; i < temp.length; i++){
+    				hManager1.add(temp[i]);
+    			}
+    			((MenuThumbnailField)((Vector)pages.elementAt(currentPage)).elementAt(0)).setFocus();
+    			for(int i = 0; i < dots.size();i++){
+    				((PageField)dots.elementAt(i)).setActive(false);
+    			}
+    			((PageField)dots.elementAt(currentPage)).setActive(true);
+	    	}
+		}
+	}
+	
 	public void process(String val) {
 		int fromIndex;
 		if ((fromIndex = val.indexOf(Const.xml_notedate)) != -1) {
@@ -251,6 +301,7 @@ public class MenuScreen extends AppScreen implements FieldChangeListener
 	}
 	
 	public void fieldChanged(Field f, int i) {
+		System.out.println("f= "+f+" i= "+i);
 		if (f == exit) {
 			SettingsBean _instance = SettingsBean.getSettings();
 			_instance.lastloaded();
