@@ -205,7 +205,7 @@ public class BackgroundManager extends VerticalFieldManager
         int h = 0;
         for (int i = 0;i < numberOfFields;i++) {
             field = getField(i); //get the field
-            if(field instanceof ThumbnailField || field instanceof ListItemField || field instanceof ListLabelField || field instanceof SexyEditField || field instanceof SeparatorField || field instanceof FriendField || field instanceof ProfileFieldManager){	
+            if(field instanceof ThumbnailField || field instanceof ListItemField || field instanceof ListLabelField || field instanceof SexyEditField || field instanceof SeparatorField || field instanceof FriendField || field instanceof ProfileFieldManager || field instanceof ColorLabelField){	
             	if (arrowMode){
             		setPositionChild(field, 30, h);  //set the position for the field
             	} else {
