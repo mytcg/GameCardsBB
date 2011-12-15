@@ -16,7 +16,7 @@ public final class SexyEditField extends Manager {
 	private int mW = 8;
 	private int mH = 13;
 	
-	private VerticalFieldManager vfm = new VerticalFieldManager(HORIZONTAL_SCROLL | NO_VERTICAL_SCROLL | NO_VERTICAL_SCROLLBAR | USE_ALL_WIDTH | USE_ALL_HEIGHT);
+	private VerticalFieldManager vfm = new VerticalFieldManager(NO_HORIZONTAL_SCROLL | NO_VERTICAL_SCROLL | NO_VERTICAL_SCROLLBAR | USE_ALL_WIDTH | USE_ALL_HEIGHT);
 	private EditField editField;
 	
 	private Bitmap editbox_left_top;
@@ -41,6 +41,7 @@ public final class SexyEditField extends Manager {
 	
 	private boolean focus;
 	private boolean focusable = true;
+	private boolean useManagerWidth = false;
 	
 	protected void drawFocus(Graphics g, boolean x) {
 		
@@ -72,11 +73,14 @@ public final class SexyEditField extends Manager {
 		Font _font = getFont();
 		_font = _font.derive(Font.PLAIN,Const.FONT);
 		setFont(_font);
+		managerWidth = width;//Const.getWidth();
+		managerHeight = height;//getPreferredHeight();
 		editField = new EditField("", "", maxchars, style|FOCUSABLE|EditField.NO_NEWLINE) {
 			protected void drawFocus(Graphics g, boolean x) {}
 			
 			public int getPreferredWidth() {
-				return Const.getWidth()-(Const.PADDING+2*mW);
+				//return Const.getWidth()-(Const.PADDING+2*mW);
+				return managerWidth;
 			}
 			protected void layout(int width, int height) {
 				width = getPreferredWidth();
@@ -90,8 +94,6 @@ public final class SexyEditField extends Manager {
 			}
 		};
 		editField.setFont(_font);
-		managerWidth = width;//Const.getWidth();
-		managerHeight = height;//getPreferredHeight();
 		add(vfm);
 		vfm.add(editField);
 	}
@@ -103,6 +105,7 @@ public final class SexyEditField extends Manager {
 	}
 	public SexyEditField(String s) {
 		this(Const.getWidth(),Const.getButtonHeight(), 0L, 140);
+		useManagerWidth = true;
 		setText(s);
 	}
 	public SexyEditField(String s, long l) {
@@ -112,9 +115,10 @@ public final class SexyEditField extends Manager {
 	
 	public SexyEditField(String s, long l, int maxchars) {
 		this(Const.getWidth(),Const.getButtonHeight(), l, maxchars);
+		useManagerWidth = true;
 		setText(s);
 	}
-
+	
 	public String getText() {
 		return editField.getText();
 	}
@@ -128,7 +132,18 @@ public final class SexyEditField extends Manager {
 		focusable = f;
 	}
 	public int getPreferredWidth() {
-		return managerWidth;
+		if(!useManagerWidth){
+			return managerWidth;
+		}else{
+			Manager tmp = getManager();
+			if (tmp != null) {
+				managerWidth =  tmp.getPreferredWidth();
+			} else {
+				managerWidth =  Const.getWidth();
+			}
+			useManagerWidth = false;
+			return managerWidth;
+		}
 	}
 
 	public boolean isFocusable() {

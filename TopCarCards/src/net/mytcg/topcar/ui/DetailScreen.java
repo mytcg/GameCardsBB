@@ -146,13 +146,14 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 	    			val = val.substring(val.indexOf(Const.xml_detail_end)+Const.xml_detail_end_length);
 	    			if(answerid != -1){
 	    				try{
-	    				lbltmp = new ColorLabelField("        "+desc);
+	    				lbltmp = new ColorLabelField(desc);
 	    				cbxtmp = new CheckboxField("",false,CheckboxField.NON_FOCUSABLE);
 	    				cbxtmp.setChecked(answered.equals("1"));
 		    			cbxtmp.setEditable(false);
 		    			//cbxtmp.setEnabled(false);
 	    				tmp = new SexyEditField((Const.getWidth()-25-60),Const.getButtonHeight());
 	    				tmp.setText(answer);
+	    				//tmp = new SexyEditField(answer);
 	        			tmp.setChangeListener(this);
 	    				}catch(Exception e){
 	    				}
