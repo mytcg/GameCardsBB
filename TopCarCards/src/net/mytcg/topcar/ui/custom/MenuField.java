@@ -35,7 +35,7 @@ public final class MenuField extends Field {
 				return true;
 			}
 		}
-		return super.touchEvent(event);
+		return false;//super.touchEvent(event);
 	}
 	
 	public Bitmap getImage(){

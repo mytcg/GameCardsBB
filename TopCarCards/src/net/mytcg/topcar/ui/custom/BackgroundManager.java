@@ -195,7 +195,7 @@ public class BackgroundManager extends VerticalFieldManager
 			}
 			
 		}
-		return super.touchEvent(event);
+		return false;//super.touchEvent(event);
 	}
 	protected void sublayout(int width, int height)
 	{
