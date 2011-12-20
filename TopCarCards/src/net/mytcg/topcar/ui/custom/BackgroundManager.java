@@ -120,7 +120,7 @@ public class BackgroundManager extends VerticalFieldManager
 				if((x>0 && x < leftarrow.getWidth())&&(y>(getPreferredHeight()-leftarrow.getHeight()-10)/2 && y <((getPreferredHeight()-leftarrow.getHeight()-10)/2)+leftarrow.getHeight())){
 					//LEFT
 					if(this.getScreen() instanceof MenuScreen){
-						((MenuScreen)this.getScreen()).navigationMovement(-1, 0, 536870912, 5000);
+					    ((MenuScreen)getScreen()).navigationMovement(-1, 0, 536870912, 5000);
 						return true;
 					} else if(this.getScreen() instanceof DetailScreen){
 						((DetailScreen)this.getScreen()).navigationMovement(-1, 0, 536870912, 5000);
@@ -193,7 +193,6 @@ public class BackgroundManager extends VerticalFieldManager
 					return false;
 				}
 			}
-			
 		}
 		return super.touchEvent(event);
 	}

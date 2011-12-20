@@ -36,7 +36,7 @@ public class AppScreen extends MainScreen {
 	
 	protected BackgroundManager statusManager = new BackgroundManager(false);
 	protected HorizontalFieldManager hManager1 =  new HorizontalFieldManager();
-	
+
 	protected ColorLabelField status = new ColorLabelField("", Color.RED);
 	protected Bitmap logo = Const.getLogo();
 	protected Bitmap logoleft = Const.getLogoLeft();

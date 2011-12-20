@@ -14,6 +14,7 @@ import net.rim.device.api.io.http.HttpDateParser;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.FieldChangeListener;
 import net.rim.device.api.ui.UiApplication;
+import net.rim.device.api.ui.component.NullField;
 
 public class MenuScreen extends AppScreen implements FieldChangeListener
 {
@@ -172,14 +173,16 @@ public class MenuScreen extends AppScreen implements FieldChangeListener
 	    			for(int i = 0; i < temp.length; i++){
 	    				hManager1.add(temp[i]);
 	    			}
-	    			((MenuThumbnailField)((Vector)pages.elementAt(currentPage)).elementAt(((Vector)pages.elementAt(currentPage)).size()-1)).setFocus();
+	    			NullField dummy = new NullField();
+	    			hManager1.add(dummy);
+	    			dummy.setFocus();
+	    			//((MenuThumbnailField)((Vector)pages.elementAt(currentPage)).elementAt(((Vector)pages.elementAt(currentPage)).size()-1)).setFocus();
 	    			for(int i = 0; i < dots.size();i++){
 	    				((PageField)dots.elementAt(i)).setActive(false);
 	    			}
 	    			((PageField)dots.elementAt(currentPage)).setActive(true);
 		    	}
 			}
-			return true;
 		}else if(((MenuThumbnailField)((Vector)pages.elementAt(currentPage)).elementAt(((Vector)pages.elementAt(currentPage)).size()-1)).isFocus()&&dy == 0 && dx == 1){
 			if(pages.size() >1){
 				if((currentPage+1)>=pages.size()){
@@ -198,71 +201,16 @@ public class MenuScreen extends AppScreen implements FieldChangeListener
 	    			for(int i = 0; i < temp.length; i++){
 	    				hManager1.add(temp[i]);
 	    			}
-	    			((MenuThumbnailField)((Vector)pages.elementAt(currentPage)).elementAt(0)).setFocus();
+	    			//((MenuThumbnailField)((Vector)pages.elementAt(currentPage)).elementAt(0)).setFocus();
 	    			for(int i = 0; i < dots.size();i++){
 	    				((PageField)dots.elementAt(i)).setActive(false);
 	    			}
 	    			((PageField)dots.elementAt(currentPage)).setActive(true);
 		    	}
 			}
-			return true;
-		}else{
-			return super.navigationMovement(dx, dy, status, time);
 		}
-	}
-	
-	public void pageLeft (){
-		if(pages.size() >1){
-			if((currentPage-1)<0){
-				currentPage = pages.size()-1;
-			}else{
-				currentPage--;
-			}
-			synchronized(UiApplication.getEventLock()) {
-				Field[] temp = new Field[((Vector)pages.elementAt(currentPage)).size()];
-    			((Vector)pages.elementAt(currentPage)).copyInto(temp);
-    			try{
-    				hManager1.deleteAll();
-    			}catch(Exception e){
-    				
-    			}
-    			for(int i = 0; i < temp.length; i++){
-    				hManager1.add(temp[i]);
-    			}
-    			((MenuThumbnailField)((Vector)pages.elementAt(currentPage)).elementAt(((Vector)pages.elementAt(currentPage)).size()-1)).setFocus();
-    			for(int i = 0; i < dots.size();i++){
-    				((PageField)dots.elementAt(i)).setActive(false);
-    			}
-    			((PageField)dots.elementAt(currentPage)).setActive(true);
-	    	}
-		}
-	}
-	
-	public void pageRight(){
-		if(pages.size() >1){
-			if((currentPage+1)>=pages.size()){
-				currentPage = 0;
-			}else{
-				currentPage++;
-			}
-			synchronized(UiApplication.getEventLock()) {
-				Field[] temp = new Field[((Vector)pages.elementAt(currentPage)).size()];
-    			((Vector)pages.elementAt(currentPage)).copyInto(temp);
-    			try{
-    				hManager1.deleteAll();
-    			}catch(Exception e){
-    				
-    			}
-    			for(int i = 0; i < temp.length; i++){
-    				hManager1.add(temp[i]);
-    			}
-    			((MenuThumbnailField)((Vector)pages.elementAt(currentPage)).elementAt(0)).setFocus();
-    			for(int i = 0; i < dots.size();i++){
-    				((PageField)dots.elementAt(i)).setActive(false);
-    			}
-    			((PageField)dots.elementAt(currentPage)).setActive(true);
-	    	}
-		}
+		return super.navigationMovement(dx, dy, status, time);
+		
 	}
 	
 	public void process(String val) {
