@@ -78,8 +78,8 @@ public class AppScreen extends MainScreen {
 			     {
 			           synchronized(UiApplication.getEventLock()){
 			        	   try{
-			        		   status.setText("\n" + msg + "\n\n");
-			        		   bgManager.invalidate();
+			        		   status.setText( msg );
+			        		   titleManager.invalidate();
 			        	   }catch(Exception e){};
 			           }
 			     }
@@ -91,7 +91,7 @@ public class AppScreen extends MainScreen {
 			     {
 			           synchronized(UiApplication.getEventLock()){
 			        	   status.setText("");
-							bgManager.invalidate();
+			        	   titleManager.invalidate();
 			           }
 			     }
 			});
