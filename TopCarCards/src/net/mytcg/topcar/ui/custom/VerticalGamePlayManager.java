@@ -189,7 +189,10 @@ public class VerticalGamePlayManager extends VerticalFieldManager
 		//	image = Const.getScaledBitmapImage((EncodedImage.createEncodedImage(data, 0, data.length)),((double)(getPreferredHeight()-20)/temp.getHeight()),((double)(getPreferredHeight()-25)/temp.getHeight()));
 		//}
 		synchronized(UiApplication.getEventLock()) {
-			this.delete(progress);
+			try{
+				this.delete(progress);
+			}
+			catch(Exception e){}
 		}
 		image = (EncodedImage.createEncodedImage(data, 0, data.length)).getBitmap();
 		loaded = true;
