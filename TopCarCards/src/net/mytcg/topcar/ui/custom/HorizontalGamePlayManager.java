@@ -187,7 +187,9 @@ public class HorizontalGamePlayManager extends HorizontalFieldManager
 		//	image = Const.getScaledBitmapImage((EncodedImage.createEncodedImage(data, 0, data.length)),((double)(getPreferredWidth()-20)/temp.getWidth()),((double)(getPreferredHeight()-20)/temp.getHeight()));
 		//}
 		synchronized(UiApplication.getEventLock()) {
-			this.delete(progress);
+			try{
+				this.delete(progress);
+			}catch(Exception e){}
 		}
 		image = (EncodedImage.createEncodedImage(data, 0, data.length)).getBitmap();
 		landscape();

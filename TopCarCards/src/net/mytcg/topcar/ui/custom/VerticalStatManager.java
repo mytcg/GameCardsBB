@@ -157,7 +157,9 @@ public class VerticalStatManager extends VerticalFieldManager
 	}
 	public void process(byte[] data, String filename) {
 		synchronized(UiApplication.getEventLock()) {
-			this.delete(progress);
+			try{
+				this.delete(progress);
+			}catch(Exception e){}
 		}
 		image = (EncodedImage.createEncodedImage(data, 0, data.length)).getBitmap();
 		landscape();
