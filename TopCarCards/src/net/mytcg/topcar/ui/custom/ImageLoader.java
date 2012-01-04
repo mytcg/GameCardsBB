@@ -22,7 +22,6 @@ public final class ImageLoader extends Field {
 		if ((url != null)&&(url.length() > 0)){
 			file = url.substring(url.indexOf("/cards/")+Const.cards_length, url.indexOf(Const.jpeg));
 		}
-		System.out.println("file "+file);
 		construct();
 	}
 	
@@ -41,7 +40,6 @@ public final class ImageLoader extends Field {
 		FileConnection _file = null;
 		OutputStream output = null;
 		try {
-			System.out.println("WAT "+Const.getStorage()+Const.PREFIX+filename);
 			_file = (FileConnection)Connector.open(Const.getStorage()+Const.PREFIX+filename);
 			_file.create();
 			output = _file.openOutputStream();
@@ -56,7 +54,6 @@ public final class ImageLoader extends Field {
 			_file = (FileConnection)Connector.open(Const.getStorage()+Const.PREFIX+file);
 			if (!_file.exists()) {
 				_file.close();
-				System.out.println("url "+url);
 				doConnect(url);
 			} else {
 				_file.close();

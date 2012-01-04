@@ -19,7 +19,6 @@ public class LoginScreen extends AppScreen implements FieldChangeListener
 	SexyEditField password = new SexyEditField("");
 	
 	public void process(String val) {
-		System.out.println("val "+val);
 		int fromIndex;
 		String freebie = "-1";
     	if ((fromIndex = val.indexOf(Const.xml_result)) != -1) {

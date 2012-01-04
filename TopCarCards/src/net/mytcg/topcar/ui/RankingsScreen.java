@@ -103,7 +103,6 @@ public class RankingsScreen extends AppScreen implements FieldChangeListener
     			}
 	    		pages.addElement(tempList);
 		        synchronized(UiApplication.getEventLock()) {
-		        	System.out.println("SIZE "+((Vector)pages.elementAt(0)).size());
 		        	if(pages.size()<=1){
 	    				bgManager.setArrowMode(false);
 	    			}

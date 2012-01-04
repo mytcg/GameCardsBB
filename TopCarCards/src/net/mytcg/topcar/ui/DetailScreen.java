@@ -180,7 +180,6 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 	    		}
 	    		pages.addElement(tempList);
 	        	synchronized(UiApplication.getEventLock()) {
-	        		System.out.println("SIZE "+((Vector)pages.elementAt(0)).size());
 	        		if(pages.size()<=1){
 	    				bgManager.setArrowMode(false);
 	    			}
@@ -262,7 +261,6 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 	    		}
 	    		pages.addElement(tempList);
 	        	synchronized(UiApplication.getEventLock()) {
-	        		System.out.println("SIZE "+((Vector)pages.elementAt(0)).size());
 	        		if(pages.size()<=1){
 	    				bgManager.setArrowMode(false);
 	    			} else {
@@ -278,7 +276,6 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 	    		int listSize = (Const.getUsableHeight()) / (Const.getButtonSelCentre().getHeight()+7);
 	    		int listCounter = 1;
 	    		pages = new Vector();
-	    		System.out.println("herpderp "+listSize);
 	    		int noteid = -1;
 	    		String desc = "";
 	    		String date = "";
@@ -332,7 +329,6 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
     			}
 	    		pages.addElement(tempList);
 	        	synchronized(UiApplication.getEventLock()) {
-	        		System.out.println("SIZE "+((Vector)pages.elementAt(0)).size());
 	        		if(pages.size()<=1){
 	    				bgManager.setArrowMode(false);
 	    			}
@@ -391,7 +387,6 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
     			}
     			pages.addElement(tempList);
 		        synchronized(UiApplication.getEventLock()) {
-		        	System.out.println("SIZE "+((Vector)pages.elementAt(0)).size());
 		        	if(pages.size()<=1){
 	    				bgManager.setArrowMode(false);
 	    			}

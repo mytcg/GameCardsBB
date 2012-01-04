@@ -38,7 +38,6 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 		int listCounter = 0;
 		pages = new Vector();
 		Vector tempList = new Vector();
-		System.out.println("listSize "+listSize);
 		SettingsBean _instance = SettingsBean.getSettings();
     	update = _instance.setCards(val, id);
     	
@@ -327,8 +326,6 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 	    				}
 	        			tmp.setChangeListener(this);
 	        			//add(tmp);
-	        			System.out.println("tempList.size "+tempList.size());
-	        			System.out.println("tmp "+tmp.toString());
 	        			tempList.addElement(tmp);
 	        			listCounter++;
 	        		}
@@ -343,7 +340,6 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 	    		SettingsBean.saveSettings(_instance);
 	    		_instance = null;
 	    		synchronized(UiApplication.getEventLock()) {
-	    			System.out.println("SIZE "+((Vector)pages.elementAt(0)).size());
 	    			if(pages.size()<=1){
 	    				bgManager.setArrowMode(false);
 	    			} else {
@@ -361,7 +357,6 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 	}
 	
 	public boolean navigationMovement(int dx, int dy, int status, int time) {
-		System.out.println("status: "+status+ " time: " + time);
 		if(dy == 0 && dx == -1){
 			if(pages.size() >1){
 				if((currentPage-1)<0){

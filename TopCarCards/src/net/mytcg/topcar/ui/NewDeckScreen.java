@@ -36,7 +36,6 @@ public class NewDeckScreen extends AppScreen implements FieldChangeListener
 	}
 	
 	public void process(String val) {
-		System.out.println("WAWA "+val);
 		int fromIndex;
 		int deckid = -1;
 	    if ((fromIndex = val.indexOf(Const.xml_deck_id)) != -1) {
@@ -44,7 +43,6 @@ public class NewDeckScreen extends AppScreen implements FieldChangeListener
 	    		deckid = Integer.parseInt(val.substring(fromIndex+Const.xml_deck_id_length, val.indexOf(Const.xml_deck_id_end, fromIndex)));
 	    	}catch(Exception e){deckid=-1;};
 	    }
-	    System.out.println("deckid "+deckid);
 	    SettingsBean _instance = SettingsBean.getSettings();
 		_instance.deckid = deckid;
 		SettingsBean.saveSettings(_instance);

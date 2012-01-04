@@ -172,13 +172,6 @@ public final class ConnectionGet extends Connection implements Runnable {
 		        		screen.setText("Loading...");
 		        	}
 		        	
-		        	//if (lengt != -1) {
-					//	data = new byte[lengt];
-					//	System.out.println("lengt: "+lengt);
-					//	System.out.println("available: "+_input.available());
-					//	_input.readFully(data);
-					//	_text = new String(data);
-		        	//} else {
 		        	int total = 0;
 		        	if(progress != null){
 		        		progress.setValue(0);
@@ -216,7 +209,6 @@ public final class ConnectionGet extends Connection implements Runnable {
 	                }
 		        	//}
 		        	
-		        	System.out.println("got response");
 		        	if (data.length <= 2048) {
 		        		System.out.println("["+new String(data) + "]");
 		        	}

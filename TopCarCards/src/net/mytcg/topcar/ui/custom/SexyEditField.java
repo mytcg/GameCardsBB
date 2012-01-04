@@ -151,6 +151,7 @@ public final class SexyEditField extends Manager {
 	}
 	
 	protected void onFocus(int direction) {
+		System.out.println("onFocus");
 		focus = true;
 		invalidate();
 		super.onFocus(direction);
@@ -164,6 +165,8 @@ public final class SexyEditField extends Manager {
 	
 	protected boolean navigationClick(int status, int time) {
 		fieldChangeNotify(1);
+		focus = true;
+		invalidate();
 		return true;
 	}
 	

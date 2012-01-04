@@ -81,7 +81,6 @@ public final class CompareField extends Field {
 		InputStream input = null;
 		try {
 			SettingsBean _instance = SettingsBean.getSettings();
-			System.out.println("O_o "+Const.getStorage()+Const.PREFIX+_instance.loadingflip);
 			_file = (FileConnection)Connector.open(Const.getStorage()+Const.PREFIX+_instance.loadingflip);
 			input = _file.openInputStream();
 			byte[] data = new byte[(int) _file.fileSize()];

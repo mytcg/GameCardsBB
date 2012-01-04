@@ -219,8 +219,6 @@ public class MenuScreen extends AppScreen implements FieldChangeListener
 			String notedate = val.substring(fromIndex+Const.xml_notedate_length, val.indexOf(Const.xml_notedate_end, fromIndex));
 			Date date = new Date(HttpDateParser.parse(notedate));
 			SettingsBean _instance = SettingsBean.getSettings();
-			System.out.println("date.getTime() " + date.getTime());
-			System.out.println("_instance.getNoteLoaded() " + _instance.getNoteLoaded());
 			if(date.getTime()/1000>_instance.getNoteLoaded()){
 				_instance.notifications = true;
 				synchronized(UiApplication.getEventLock()) {
@@ -249,7 +247,6 @@ public class MenuScreen extends AppScreen implements FieldChangeListener
 	}
 	
 	public void fieldChanged(Field f, int i) {
-		System.out.println("f= "+f+" i= "+i);
 		if (f == exit) {
 			SettingsBean _instance = SettingsBean.getSettings();
 			_instance.lastloaded();

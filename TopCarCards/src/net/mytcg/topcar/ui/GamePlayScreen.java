@@ -122,7 +122,6 @@ public class GamePlayScreen extends AppScreen implements FieldChangeListener
 	}
 	
 	public void process(String val) {
-		System.out.println(val);
 		invalidate();
 		int fromIndex;
 		if(phase.equals("newgame")){
@@ -158,7 +157,6 @@ public class GamePlayScreen extends AppScreen implements FieldChangeListener
 	    		val = val.substring(val.indexOf(Const.xml_game_end)+Const.xml_game_end_length);
 	    		if(gameid != -1){
 	    			if(phase.equals("confirm")){
-	    				System.out.println("????");
 						synchronized(UiApplication.getEventLock()) {
 							temp = new ColorLabelField(creator + " wants to play against you, do you want to take them on?");
 							add(temp);
@@ -748,7 +746,6 @@ public class GamePlayScreen extends AppScreen implements FieldChangeListener
 					phase = "loadgame";
 					doConnect(Const.loadgame+"&gameid="+gameid+Const.height+Const.getCardHeight()+Const.jpg+Const.bbheight+Const.getAppHeight()+Const.width+Const.getCardWidth());
 				}else if(phase.equals("declined")){
-					System.out.println("????");
 					synchronized(UiApplication.getEventLock()) {
 						temp = new ColorLabelField("The person you wanted to play against declined the game.");
 						add(temp);
@@ -919,7 +916,6 @@ public class GamePlayScreen extends AppScreen implements FieldChangeListener
 				addButton(options);
 			}
 			phase = "newgame";
-			System.out.println("confirmgame=1&gameid="+gameid+Const.height+Const.getCardHeight()+Const.bbheight+Const.getAppHeight()+Const.width+Const.getCardWidth()+"&deckid="+deckId);
 			doConnect("confirmgame=1&gameid="+gameid+Const.height+Const.getCardHeight()+Const.jpg+Const.bbheight+Const.getAppHeight()+Const.width+Const.getCardWidth()+"&deckid="+deckId);
 		}else if (f == reject){
 			synchronized(UiApplication.getEventLock()) {
@@ -933,7 +929,6 @@ public class GamePlayScreen extends AppScreen implements FieldChangeListener
 				addButton(options);
 			}
 			phase = "newgame";
-			System.out.println("declinegame=1&gameid="+gameid+"&categoryid="+categoryId+Const.height+Const.getCardHeight()+Const.bbheight+Const.getAppHeight()+Const.width+Const.getCardWidth()+"&deckid="+deckId);
 			doConnect("declinegame=1&gameid="+gameid+"&categoryid="+categoryId+Const.height+Const.getCardHeight()+Const.jpg+Const.bbheight+Const.getAppHeight()+Const.width+Const.getCardWidth()+"&deckid="+deckId);
 		}else{
 			if(active.equals("1")&&phase.equals("stat")){

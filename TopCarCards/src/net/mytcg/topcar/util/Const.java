@@ -628,7 +628,6 @@ public final class Const {
 	public static String loadingurlflip = "";
 	
 	public static boolean processUserDetails(String val) {
-		System.out.println("valval "+val);
 		int fromIndex;
     	if ((fromIndex = val.indexOf(xml_userdetails)) != -1) {
     		SettingsBean _instance = SettingsBean.getSettings();

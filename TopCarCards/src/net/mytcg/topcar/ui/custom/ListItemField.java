@@ -128,6 +128,8 @@ public final class ListItemField extends Field {
 	}
 	protected boolean navigationClick(int status, int time) {
         fieldChangeNotify(1);
+        focus = true;
+        invalidate();
         return true;
     }
 }

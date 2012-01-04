@@ -257,8 +257,6 @@ public final class ThumbnailField extends Field {
 		
 		if (getQuantity() == 0 && booster==false) {
 			button_thumbnail = Const.getEmptyThumb();
-			System.out.println("getThumbUrl "+getThumbUrl());
-			System.out.println("thumbfile "+thumbfile);
 		} else {
 			button_thumbnail = Const.getThumbLoading();
 		}

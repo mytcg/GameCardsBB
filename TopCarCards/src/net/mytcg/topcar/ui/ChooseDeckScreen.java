@@ -35,7 +35,6 @@ public class ChooseDeckScreen extends AppScreen implements FieldChangeListener
 	}
 	
 	public void process(String val) {
-		System.out.println("WAWAWA "+val);
 		int deckid = -1;
 		int fromIndex;
 	    if ((fromIndex = val.indexOf(Const.xml_result)) != -1) {
@@ -61,7 +60,6 @@ public class ChooseDeckScreen extends AppScreen implements FieldChangeListener
 	    		val = val.substring(val.indexOf(Const.xml_deck_end)+Const.xml_deck_end_length);
 	    		if(deckid != -1){
 		   			synchronized(UiApplication.getEventLock()) {
-		   				System.out.println("deckname "+deckname);
 		   				tmp = new ListItemField(deckname, deckid, true, 0);
 		       			tmp.setChangeListener(this);
 		       			add(tmp);
@@ -70,7 +68,6 @@ public class ChooseDeckScreen extends AppScreen implements FieldChangeListener
 	    		}
 	    	}
 	    }
-	    System.out.println("count "+count);
     	if(count==0){
     		synchronized(UiApplication.getEventLock()) {
     			screen = new PlayMenuScreen(categoryId, -1);
@@ -98,7 +95,6 @@ public class ChooseDeckScreen extends AppScreen implements FieldChangeListener
 			UiApplication.getUiApplication().popScreen(this);
 		} else if(f instanceof ListItemField){
 			int deckId = ((ListItemField)(f)).getId();
-			System.out.println("deckId "+deckId);
 			if(deckId > -1){
 				screen = new PlayMenuScreen(categoryId, deckId);
 				UiApplication.getUiApplication().pushScreen(screen);
