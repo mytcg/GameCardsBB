@@ -1,6 +1,7 @@
 package net.mytcg.topcar.ui.custom;
 
 import net.mytcg.topcar.util.Const;
+import net.rim.device.api.math.Fixed32;
 import net.rim.device.api.system.Bitmap;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.Graphics;
@@ -21,9 +22,9 @@ public final class MenuThumbnailField extends Field {
 		this.menu = menu;
 	}
 	
-	protected void drawFocus(Graphics g, boolean x) {
-		
-	}
+	protected void drawFocus(Graphics graphics, boolean on) {
+        invalidate();
+    }
 	
 	public boolean isFocus (){
 		return focus;
@@ -50,6 +51,7 @@ public final class MenuThumbnailField extends Field {
 		this.focusable = focusable;
 	}
 	public void paint(Graphics g) {
+		
 		if (focus) {
 			g.drawBitmap(0, 7, button_select.getWidth(), button_select.getHeight(), button_select, 0, 0);
 		}	

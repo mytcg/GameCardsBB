@@ -111,7 +111,9 @@ public final class ListLabelField extends LabelField {
 		invalidate();
 	}
 	protected void drawFocus(Graphics graphics, boolean on) {
-        //Do nothing
+        invalidate();
+        focus = true;
+		//Do nothing
     }
 	protected boolean navigationClick(int status, int time) {
         fieldChangeNotify(1);

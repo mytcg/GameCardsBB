@@ -37,6 +37,7 @@ public class AuctionListScreen extends AppScreen implements FieldChangeListener
 		int listSize = (Const.getUsableHeight()) / Const.getThumbRightEdge().getHeight();
 		int listCounter = 1;
 		pages = new Vector();
+		tempList = new Vector();
 		SettingsBean _instance = SettingsBean.getSettings();
 		if (update) {
 			SettingsBean.saveSettings(_instance);

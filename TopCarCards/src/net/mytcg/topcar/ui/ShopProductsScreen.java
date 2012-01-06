@@ -156,7 +156,7 @@ public class ShopProductsScreen extends AppScreen implements FieldChangeListener
 		    		bgManager.addAll(temp);
 		    	}
 			}
-			return true;
+			return false;
 		}else if(dy == 0 && dx == 1){
 			if(pages.size() >1){
 				if((currentPage+1)>=pages.size()){
@@ -173,7 +173,7 @@ public class ShopProductsScreen extends AppScreen implements FieldChangeListener
 		    		bgManager.addAll(temp);
 		    	}
 			}
-			return true;
+			return false;
 		}else{
 			return super.navigationMovement(dx, dy, status, time);
 		}

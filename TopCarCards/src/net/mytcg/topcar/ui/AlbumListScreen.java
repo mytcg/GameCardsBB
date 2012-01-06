@@ -58,6 +58,7 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 	    	} else if (((fromIndex = val.indexOf(Const.xml_cardsincategory)) != -1)) {
 	    		synchronized(UiApplication.getEventLock()) {
 	    			clear();
+	    			add(new ColorLabelField(""));
 	    		}
 	    		int cardid = -1;
 	    		String description = "";
@@ -400,6 +401,8 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 		bgManager.setStatusHeight(exit.getContentHeight());
 		bgManager.setArrowMode(true);
 		
+		add(new ColorLabelField(""));
+		
 		if (id == Const.NEWCARDS) {
 			newcards = true;
 		}
@@ -423,6 +426,8 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 		bgManager.setStatusHeight(exit.getContentHeight());
 		bgManager.setArrowMode(true);
 		
+		add(new ColorLabelField(""));
+		
 		if (id == Const.NEWCARDS) {
 			newcards = true;
 		}
@@ -444,6 +449,8 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 		bgManager.setStatusHeight(exit.getContentHeight());
 		bgManager.setArrowMode(true);
 		
+		add(new ColorLabelField(""));
+		
 		exit.setChangeListener(this);
 		
 		addButton(new FixedButtonField(""));
@@ -458,6 +465,8 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 		this.type = type;
 		bgManager.setStatusHeight(exit.getContentHeight());
 		bgManager.setArrowMode(true);
+		
+		add(new ColorLabelField(""));
 		
 		exit.setChangeListener(this);
 		

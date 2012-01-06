@@ -3,11 +3,13 @@ package net.mytcg.topcar.ui.custom;
 import net.mytcg.topcar.util.Const;
 import net.rim.device.api.math.Fixed32;
 import net.rim.device.api.system.Bitmap;
+import net.rim.device.api.ui.Color;
 import net.rim.device.api.ui.DrawStyle;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.Font;
 import net.rim.device.api.ui.Graphics;
 import net.rim.device.api.ui.Manager;
+import net.rim.device.api.ui.TouchEvent;
 
 public final class ListItemField extends Field {
 	
@@ -37,9 +39,9 @@ public final class ListItemField extends Field {
 	public ListItemField(String label, int fontsize, int id, boolean hasCards, int updated) {
 		construct(fontsize, label, id, hasCards, updated);
 	}
-	protected void drawFocus(Graphics g, boolean x) {
-		
-	}
+	protected void drawFocus(Graphics graphics, boolean on) {
+        invalidate();
+    }
 	public void construct(int font, String label, int id, boolean hasCards, int updated) {
 		
 		button_centre = Const.getListboxCentre();
@@ -89,15 +91,13 @@ public final class ListItemField extends Field {
     	return focusable;
     }
 	public void paint(Graphics g) {
-		int _xPts[] = {0,0,getPreferredWidth(),getPreferredWidth()};
-		int _yPts[] = {0,Const.getHeight(),Const.getHeight(),0};
+		g.setColor(Const.FONTCOLOR);
 		
 		int xPts[] = {0,0,getPreferredWidth(),getPreferredWidth()};
 		int yPts[] = {0,getPreferredHeight(),getPreferredHeight(),0};
 		//g.clear();
 		
-		
-		//g.drawTexturedPath(_xPts,_yPts,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,Const.getBackground());
+	
 		
 		g.setColor(Const.FONTCOLOR);
 		
@@ -127,8 +127,8 @@ public final class ListItemField extends Field {
 		invalidate();
 	}
 	protected boolean navigationClick(int status, int time) {
-        fieldChangeNotify(1);
-        focus = true;
+		fieldChangeNotify(1);
+		focus = true;
         invalidate();
         return true;
     }

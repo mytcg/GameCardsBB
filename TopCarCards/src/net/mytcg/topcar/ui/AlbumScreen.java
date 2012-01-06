@@ -2,6 +2,7 @@ package net.mytcg.topcar.ui;
 
 import java.util.Vector;
 
+import net.mytcg.topcar.ui.custom.ColorLabelField;
 import net.mytcg.topcar.ui.custom.FixedButtonField;
 import net.mytcg.topcar.ui.custom.ListItemField;
 import net.mytcg.topcar.ui.custom.PageNumberField;
@@ -49,6 +50,7 @@ public class AlbumScreen extends AppScreen implements FieldChangeListener
 	    		setText(val.substring(fromIndex+Const.xml_result_length, val.indexOf(Const.xml_result_end, fromIndex)));
 	    	} else if (((fromIndex = val.indexOf(Const.xml_usercategories)) != -1)) {
 	    		synchronized(UiApplication.getEventLock()) {
+	    			add(new ColorLabelField(""));
 	    			clear();
 	    		}
 	    		int albumid = -1;
@@ -163,6 +165,7 @@ public class AlbumScreen extends AppScreen implements FieldChangeListener
 		this.type = type;
 		bgManager.setStatusHeight(exit.getContentHeight());
 		bgManager.setArrowMode(true);
+		add(new ColorLabelField(""));
 		
 		exit.setChangeListener(this);
 		
@@ -178,6 +181,7 @@ public class AlbumScreen extends AppScreen implements FieldChangeListener
 		this.card = card;
 		bgManager.setStatusHeight(exit.getContentHeight());
 		bgManager.setArrowMode(true);
+		add(new ColorLabelField(""));
 		
 		exit.setChangeListener(this);
 		
@@ -209,6 +213,7 @@ public class AlbumScreen extends AppScreen implements FieldChangeListener
 		this.card = card;
 		bgManager.setStatusHeight(exit.getContentHeight());
 		bgManager.setArrowMode(true);
+		add(new ColorLabelField(""));
 		
 		exit.setChangeListener(this);
 		
@@ -226,6 +231,7 @@ public class AlbumScreen extends AppScreen implements FieldChangeListener
 		this.deckid = deckid;
 		bgManager.setStatusHeight(exit.getContentHeight());
 		bgManager.setArrowMode(true);
+		add(new ColorLabelField(""));
 		
 		exit.setChangeListener(this);
 		

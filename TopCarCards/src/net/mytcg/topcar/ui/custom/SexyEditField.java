@@ -43,9 +43,9 @@ public final class SexyEditField extends Manager {
 	private boolean focusable = true;
 	private boolean useManagerWidth = false;
 	
-	protected void drawFocus(Graphics g, boolean x) {
-		
-	}
+	protected void drawFocus(Graphics graphics, boolean on) {
+        invalidate();
+    }
 	
 	public SexyEditField(int width, int height, long style, int maxchars) {
 		super(style | NO_VERTICAL_SCROLL | NO_HORIZONTAL_SCROLL);
@@ -194,9 +194,6 @@ public final class SexyEditField extends Manager {
 	}
 	
 	public final void paint(Graphics g) {
-		//int _xPts[] = {0,0,getPreferredWidth(),getPreferredWidth()};
-		//int _yPts[] = {0,Const.getHeight(),Const.getHeight(),0};
-		//g.drawTexturedPath(_xPts,_yPts,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,Const.getBackground());
 		g.setColor(Const.FONTCOLOR);
 		if (!focus) {
 			//fills body block
