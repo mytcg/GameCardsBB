@@ -12,6 +12,7 @@ import net.mytcg.topcar.util.Product;
 import net.mytcg.topcar.util.SettingsBean;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.FieldChangeListener;
+import net.rim.device.api.ui.TouchEvent;
 import net.rim.device.api.ui.UiApplication;
 
 public class ShopProductsScreen extends AppScreen implements FieldChangeListener
@@ -131,7 +132,7 @@ public class ShopProductsScreen extends AppScreen implements FieldChangeListener
 	    			((Vector)pages.elementAt(0)).copyInto(temp);
 	    			bgManager.deleteAll();
 	    			bgManager.add(header);
-		    		bgManager.addAll(temp);
+	    			bgManager.addAll(temp);
 		    	}
 	    	}
 	    	invalidate();
@@ -139,7 +140,30 @@ public class ShopProductsScreen extends AppScreen implements FieldChangeListener
 	    	//setDisplaying(true);
 		}		
 	}
-	
+	protected boolean touchEvent(TouchEvent event) {
+		int x = event.getX(1);
+		int y = event.getY(1) - titleManager.getHeight();
+		if(event.getEvent() == TouchEvent.CLICK){
+			if(bgManager.checkLeftArrow(x, y)){
+				navigationMovement(-1, 0, 536870912, 5000);
+				return true;
+			}else if(bgManager.checkRightArrow(x, y)){
+				navigationMovement(1, 0, -1610612736, 5000);   
+				return true;
+			}
+		}
+		if(this.getFieldAtLocation(x, y)==-1){
+			return true;
+		}else if(this.getFieldAtLocation(x, y)==0){
+			if(bgManager.getFieldAtLocation(x, y)!=-1){
+				return super.touchEvent(event);
+			}
+			return true;
+		}
+		else{
+			return super.touchEvent(event);
+		}
+	}
 	public boolean navigationMovement(int dx, int dy, int status, int time) {
 		if(dy == 0 && dx == -1){
 			if(pages.size() >1){
@@ -152,7 +176,9 @@ public class ShopProductsScreen extends AppScreen implements FieldChangeListener
 					pageNumber.setLabel("Page "+(currentPage+1)+"/"+pages.size());
 					ThumbnailField[] temp = new ThumbnailField[((Vector)pages.elementAt(currentPage)).size()];
 	    			((Vector)pages.elementAt(currentPage)).copyInto(temp);
-	    			bgManager.deleteAll();
+	    			try{
+	    				bgManager.deleteAll();
+	    			}catch(Exception e){}
 	    			bgManager.add(header);
 		    		bgManager.addAll(temp);
 		    	}
@@ -169,15 +195,16 @@ public class ShopProductsScreen extends AppScreen implements FieldChangeListener
 					pageNumber.setLabel("Page "+(currentPage+1)+"/"+pages.size());
 					ThumbnailField[] temp = new ThumbnailField[((Vector)pages.elementAt(currentPage)).size()];
 	    			((Vector)pages.elementAt(currentPage)).copyInto(temp);
-	    			bgManager.deleteAll();
+	    			try{
+	    				bgManager.deleteAll();
+	    			}catch(Exception e){}
 	    			bgManager.add(header);
 		    		bgManager.addAll(temp);
 		    	}
 			}
 			return true;
-		}else{
-			return super.navigationMovement(dx, dy, status, time);
 		}
+		return super.navigationMovement(dx, dy, status, time);
 	}
 	
 	public ShopProductsScreen(int id, boolean freebie) {
