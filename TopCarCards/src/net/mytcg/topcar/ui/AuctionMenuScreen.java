@@ -105,7 +105,7 @@ public class AuctionMenuScreen extends AppScreen implements FieldChangeListener
 	protected boolean touchEvent(TouchEvent event) {
 		int x = event.getX(1);
 		int y = event.getY(1) - titleManager.getHeight();
-		if(event.getEvent() == TouchEvent.CLICK){
+		if(event.getEvent() == TouchEvent.DOWN){
 			if(bgManager.checkLeftArrow(x, y)){
 				navigationMovement(-1, 0, 536870912, 5000);
 				return true;

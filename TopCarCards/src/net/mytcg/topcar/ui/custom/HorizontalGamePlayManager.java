@@ -124,7 +124,6 @@ public class HorizontalGamePlayManager extends HorizontalFieldManager
 			landscape();
 			invalidate();
 		} catch (Exception e) {
-			
 		}
 		if (file != null) {
 			getData();

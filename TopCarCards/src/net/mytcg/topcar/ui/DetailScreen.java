@@ -192,7 +192,7 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 	    	    	bgManager.addAll(temp);
 	    	    }
 	    	} else if (((fromIndex = val.indexOf(Const.xml_transactions)) != -1)) {
-	    		int listSize = (Const.getUsableHeight()) / (Const.getButtonSelCentre().getHeight()+7);
+	    		int listSize = (Const.getUsableHeight()) / (Const.getButtonSelCentre().getHeight()+11);
 	    		int listCounter = 3;
 	    		pages = new Vector();
 	    		int transactionid = -1;
@@ -276,10 +276,9 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 	    	    	bgManager.addAll(temp);
 	    	    }
 	    	} else if (((fromIndex = val.indexOf(Const.xml_notifications)) != -1)) {
-	    		int listSize = (Const.getUsableHeight()) / (Const.getButtonSelCentre().getHeight()+7);
+	    		int listSize = (Const.getUsableHeight()) / (Const.getButtonSelCentre().getHeight()+17);
 	    		int listCounter = 1;
 	    		pages = new Vector();
-	    		System.out.println("herpderp "+listSize);
 	    		int noteid = -1;
 	    		String desc = "";
 	    		String date = "";
@@ -410,7 +409,7 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 	protected boolean touchEvent(TouchEvent event) {
 		int x = event.getX(1);
 		int y = event.getY(1) - titleManager.getHeight();
-		if(event.getEvent() == TouchEvent.CLICK){
+		if(event.getEvent() == TouchEvent.DOWN){
 			if(bgManager.checkLeftArrow(x, y)){
 				navigationMovement(-1, 0, 536870912, 5000);
 				return true;
