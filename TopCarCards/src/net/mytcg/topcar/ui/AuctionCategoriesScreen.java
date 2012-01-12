@@ -102,6 +102,7 @@ public class AuctionCategoriesScreen extends AppScreen implements FieldChangeLis
 			screen = null;
 			UiApplication.getUiApplication().popScreen(this);
 		} else if(f instanceof ListItemField){
+			
 			int category = ((ListItemField)(f)).getId();
 			screen = new AuctionListScreen(category, 0);
 			UiApplication.getUiApplication().pushScreen(screen);

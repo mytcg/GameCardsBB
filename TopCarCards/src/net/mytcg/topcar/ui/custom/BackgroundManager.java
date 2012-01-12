@@ -112,90 +112,23 @@ public class BackgroundManager extends VerticalFieldManager
 			this.add(fields[i]);
 		}
 	}
-	protected boolean touchEvent(TouchEvent event) {
-		if(event.getEvent() == TouchEvent.CLICK){
-			int x = event.getX(1);
-			int y = event.getY(1);
-			if(arrowMode){
-				if((x>0 && x < leftarrow.getWidth())&&(y>(getPreferredHeight()-leftarrow.getHeight()-10)/2 && y <((getPreferredHeight()-leftarrow.getHeight()-10)/2)+leftarrow.getHeight())){
-					//LEFT
-					if(this.getScreen() instanceof MenuScreen){
-					    ((MenuScreen)getScreen()).navigationMovement(-1, 0, 536870912, 5000);
-						return true;
-					} else if(this.getScreen() instanceof DetailScreen){
-						((DetailScreen)this.getScreen()).navigationMovement(-1, 0, 536870912, 5000);
-						return false;
-					} else if(this.getScreen() instanceof AlbumListScreen){
-						((AlbumListScreen)this.getScreen()).navigationMovement(-1, 0, 536870912, 5000);
-						return true;
-					} else if(this.getScreen() instanceof AlbumScreen){
-						((AlbumScreen)this.getScreen()).navigationMovement(-1, 0, 536870912, 5000);
-						return true;
-					} else if(this.getScreen() instanceof AuctionListScreen){
-						((AuctionListScreen)this.getScreen()).navigationMovement(-1, 0, 536870912, 5000);
-						return true;
-					} else if(this.getScreen() instanceof AuctionMenuScreen){
-						((AuctionMenuScreen)this.getScreen()).navigationMovement(-1, 0, 536870912, 5000);
-						return true;
-					} else if(this.getScreen() instanceof DecksScreen){
-						((DecksScreen)this.getScreen()).navigationMovement(-1, 0, 536870912, 5000);
-						return true;
-					} else if(this.getScreen() instanceof RankingsCategoriesScreen){
-						((RankingsCategoriesScreen)this.getScreen()).navigationMovement(-1, 0, 536870912, 5000);
-						return false;
-					} else if(this.getScreen() instanceof RankingsScreen){
-						((RankingsScreen)this.getScreen()).navigationMovement(-1, 0, 536870912, 5000);
-						return true;
-					} else if(this.getScreen() instanceof ShopProductsScreen){
-						((ShopProductsScreen)this.getScreen()).navigationMovement(-1, 0, 536870912, 5000);
-						return true;
-					} else if(this.getScreen() instanceof ViewDeckScreen){
-						((ViewDeckScreen)this.getScreen()).navigationMovement(-1, 0, 536870912, 5000);
-						return true;
-					}
-					return false;
-				}else if((x > Const.getWidth()-rightarrow.getWidth() && x < Const.getWidth())&&(y>(getPreferredHeight()-rightarrow.getHeight()-10)/2 && y <((getPreferredHeight()-rightarrow.getHeight()-10)/2)+rightarrow.getHeight())){
-					//RIGHT
-					if(this.getScreen() instanceof MenuScreen){
-						((MenuScreen)this.getScreen()).navigationMovement(1, 0, -1610612736, 5000);
-						return true;
-					} else if(this.getScreen() instanceof DetailScreen){
-						((DetailScreen)this.getScreen()).navigationMovement(1, 0, -1610612736, 5000);
-						return false;
-					} else if(this.getScreen() instanceof AlbumListScreen){
-						((AlbumListScreen)this.getScreen()).navigationMovement(1, 0, -1610612736, 5000);
-						return true;
-					} else if(this.getScreen() instanceof AlbumScreen){
-						((AlbumScreen)this.getScreen()).navigationMovement(1, 0, -1610612736, 5000);
-						return true;
-					} else if(this.getScreen() instanceof AuctionListScreen){
-						((AuctionListScreen)this.getScreen()).navigationMovement(1, 0, -1610612736, 5000);
-						return true;
-					} else if(this.getScreen() instanceof AuctionMenuScreen){
-						((AuctionMenuScreen)this.getScreen()).navigationMovement(1, 0, -1610612736, 5000);
-						return true;
-					} else if(this.getScreen() instanceof DecksScreen){
-						((DecksScreen)this.getScreen()).navigationMovement(1, 0, -1610612736, 5000);
-						return true;
-					} else if(this.getScreen() instanceof RankingsCategoriesScreen){
-						((RankingsCategoriesScreen)this.getScreen()).navigationMovement(1, 0, -1610612736, 5000);
-						return true;
-					} else if(this.getScreen() instanceof RankingsScreen){
-						((RankingsScreen)this.getScreen()).navigationMovement(1, 0, -1610612736, 5000);
-						return true;
-					} else if(this.getScreen() instanceof ShopProductsScreen){
-						((ShopProductsScreen)this.getScreen()).navigationMovement(1, 0, -1610612736, 5000);
-						return true;
-					} else if(this.getScreen() instanceof ViewDeckScreen){
-						((ViewDeckScreen)this.getScreen()).navigationMovement(1, 0, -1610612736, 5000);
-						return true;
-					}
-					return false;
-				}
+	public boolean checkLeftArrow(int x, int y){
+		if(arrowMode){
+			if((x>0 && x < leftarrow.getWidth())&&(y>(getPreferredHeight()-leftarrow.getHeight()-10)/2 && y <((getPreferredHeight()-leftarrow.getHeight()-10)/2)+leftarrow.getHeight())){
+				return true;
+			}
+		}
+		return false;
+	}
+	public boolean checkRightArrow(int x, int y){
+		if(arrowMode){
+			if((x > Const.getWidth()-rightarrow.getWidth() && x < Const.getWidth())&&(y>(getPreferredHeight()-rightarrow.getHeight()-10)/2 && y <((getPreferredHeight()-rightarrow.getHeight()-10)/2)+rightarrow.getHeight())){
+				return true;
 			}
 		}
 		return false;//super.touchEvent(event);
 	}
+	
 	protected void sublayout(int width, int height)
 	{
 		super.sublayout(width, height);
