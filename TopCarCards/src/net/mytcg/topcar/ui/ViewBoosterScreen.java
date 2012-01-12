@@ -5,6 +5,7 @@ import java.util.Vector;
 import net.mytcg.topcar.ui.custom.ColorLabelField;
 import net.mytcg.topcar.ui.custom.FixedButtonField;
 import net.mytcg.topcar.ui.custom.ListItemField;
+import net.mytcg.topcar.ui.custom.PageNumberField;
 import net.mytcg.topcar.ui.custom.ThumbnailField;
 import net.mytcg.topcar.util.Card;
 import net.mytcg.topcar.util.Const;
@@ -12,11 +13,13 @@ import net.mytcg.topcar.util.SettingsBean;
 import net.mytcg.topcar.util.Stat;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.FieldChangeListener;
+import net.rim.device.api.ui.TouchEvent;
 import net.rim.device.api.ui.UiApplication;
 
 public class ViewBoosterScreen extends AppScreen implements FieldChangeListener
 {
 	FixedButtonField exit = new FixedButtonField(Const.back);
+	PageNumberField pageNumber = new PageNumberField("Page 1/1");
 	
 	ListItemField addcard = new ListItemField("Empty", -1, false, 0);
 	ListItemField deletedeck = new ListItemField("Empty", -1, false, 0);
@@ -24,23 +27,31 @@ public class ViewBoosterScreen extends AppScreen implements FieldChangeListener
 	String cards = null;
 	int boosterid = -1;
 	boolean update = true;
+	Vector pages = new Vector();
+	int currentPage = 0;
 
 	public ViewBoosterScreen(int boosterid)
 	{
 		super(null);
 		this.boosterid = boosterid;
 		bgManager.setStatusHeight(exit.getContentHeight());
+		bgManager.setArrowMode(true);
 		
 		exit.setChangeListener(this); 
 		add(new ColorLabelField(""));
 		addButton(new FixedButtonField(""));
-		addButton(new FixedButtonField(""));
+		addButton(pageNumber);
 		addButton(exit);
 		
 		doConnect(Const.cardsinbooster+boosterid+Const.height+Const.getCardHeight()+Const.bbheight+Const.getAppHeight()+Const.width+Const.getCardWidth()+Const.jpg);
 	}
 	
 	public void process(String val) {
+		System.out.println("gg "+val);
+		int listSize = (Const.getUsableHeight()) / 74;
+		int listCounter = 0;
+		pages = new Vector();
+		Vector tempList = new Vector();
 		SettingsBean _instance = SettingsBean.getSettings();
     	update = _instance.setCards(val, -1);
 		
@@ -77,8 +88,12 @@ public class ViewBoosterScreen extends AppScreen implements FieldChangeListener
     		int statcolorgreen = 0;
     		int statcolorblue = 0;
     		String statval = "";
-
     		while ((fromIndex = val.indexOf(Const.xml_cardid)) != -1){
+    			if(listCounter >= listSize){
+    				pages.addElement(tempList);
+    				tempList = new Vector();
+    				listCounter=0;
+    			}
     			endIndex = val.indexOf(Const.xml_card_end);
     			card = val.substring(fromIndex, endIndex+Const.xml_card_end_length);
     			fromIndex = card.indexOf(Const.xml_cardid);
@@ -235,18 +250,97 @@ public class ViewBoosterScreen extends AppScreen implements FieldChangeListener
     					tmp.setThirdLabel("Rating: "+ rating);
     				}
         			tmp.setChangeListener(this);
-        			add(tmp);
+        			tempList.addElement(tmp);
+        			listCounter++;
     			}
     		}
     		if (empty) {
     			synchronized(UiApplication.getEventLock()) {
     				add(new ListItemField("Empty", -1, false, 0));
     			}
+    		}else{
+    			pages.addElement(tempList);
     		}
+    		synchronized(UiApplication.getEventLock()) {
+    			System.out.println("SIZE "+((Vector)pages.elementAt(0)).size());
+    			if(pages.size()<=1){
+    				bgManager.setArrowMode(false);
+    			}
+    			pageNumber.setLabel("Page 1/"+pages.size());
+    			ThumbnailField[] temp = new ThumbnailField[((Vector)pages.elementAt(0)).size()];
+    			((Vector)pages.elementAt(0)).copyInto(temp);
+    			bgManager.deleteAll();
+    			bgManager.addAll(temp);
+	    	}
     		SettingsBean.saveSettings(_instance);
     		_instance = null;
     	}
     	invalidate();
+	}
+	
+	protected boolean touchEvent(TouchEvent event) {
+		int x = event.getX(1);
+		int y = event.getY(1) - titleManager.getHeight();
+		if(event.getEvent() == TouchEvent.DOWN){
+			if(bgManager.checkLeftArrow(x, y)){
+				navigationMovement(-1, 0, 536870912, 5000);
+				return true;
+			}else if(bgManager.checkRightArrow(x, y)){
+				navigationMovement(1, 0, -1610612736, 5000);   
+				return true;
+			}
+		}
+		if(this.getFieldAtLocation(x, y)==-1){
+			return true;
+		}else if(this.getFieldAtLocation(x, y)==0){
+			if(bgManager.getFieldAtLocation(x, y)!=-1){
+				return super.touchEvent(event);
+			}
+			return true;
+		}
+		else{
+			return super.touchEvent(event);
+		}
+	}
+	public boolean navigationMovement(int dx, int dy, int status, int time) {
+		if(dy == 0 && dx == -1){
+			if(pages.size() >1){
+				if((currentPage-1)<0){
+					currentPage = pages.size()-1;
+				}else{
+					currentPage--;
+				}
+				synchronized(UiApplication.getEventLock()) {
+					pageNumber.setLabel("Page "+(currentPage+1)+"/"+pages.size());
+					ThumbnailField[] temp = new ThumbnailField[((Vector)pages.elementAt(currentPage)).size()];
+	    			((Vector)pages.elementAt(currentPage)).copyInto(temp);
+	    			try{
+	    				bgManager.deleteAll();
+	    			}catch(Exception e){}
+		    		bgManager.addAll(temp);
+		    	}
+			}
+			return true;
+		}else if(dy == 0 && dx == 1){
+			if(pages.size() >1){
+				if((currentPage+1)>=pages.size()){
+					currentPage = 0;
+				}else{
+					currentPage++;
+				}
+				synchronized(UiApplication.getEventLock()) {
+					pageNumber.setLabel("Page "+(currentPage+1)+"/"+pages.size());
+					ThumbnailField[] temp = new ThumbnailField[((Vector)pages.elementAt(currentPage)).size()];
+	    			((Vector)pages.elementAt(currentPage)).copyInto(temp);
+	    			try{
+	    				bgManager.deleteAll();
+	    			}catch(Exception e){}
+		    		bgManager.addAll(temp);
+		    	}
+			}
+			return true;
+		}
+		return super.navigationMovement(dx, dy, status, time);
 	}
 	
 	public void fieldChanged(Field f, int i) {

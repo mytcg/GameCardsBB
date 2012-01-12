@@ -38,6 +38,7 @@ public class GamePlayScreen extends AppScreen implements FieldChangeListener
 	private HorizontalGamePlayManager opphgamemanager = new HorizontalGamePlayManager();
 	private VerticalGamePlayManager oppvgamemanager = new VerticalGamePlayManager();
 	private boolean flip = true;
+	private boolean selected = false;
 	private Card card1 = null;
 	private Card card2 = null;
 	private String phase = "";
@@ -122,6 +123,7 @@ public class GamePlayScreen extends AppScreen implements FieldChangeListener
 	}
 	
 	public void process(String val) {
+		selected = false;
 		invalidate();
 		int fromIndex;
 		if(phase.equals("newgame")){
@@ -931,11 +933,25 @@ public class GamePlayScreen extends AppScreen implements FieldChangeListener
 			phase = "newgame";
 			doConnect("declinegame=1&gameid="+gameid+"&categoryid="+categoryId+Const.height+Const.getCardHeight()+Const.jpg+Const.bbheight+Const.getAppHeight()+Const.width+Const.getCardWidth()+"&deckid="+deckId);
 		}else{
-			if(active.equals("1")&&phase.equals("stat")){
+			if(active.equals("1")&&phase.equals("stat")&&selected == false){
 				for(int j = 0; j < stats.size(); j++){
 					Stat temp = (Stat)stats.elementAt(j);
 					if((temp.getFrontOrBack()==0&&!flip)||(temp.getFrontOrBack()==1&&flip)){
 						if(f == uistats[j]){
+							selected = true;
+							for(int h = 0; h < uistats.length; h++){
+								if(h != j){
+									if(!(Const.getPortrait())){
+										try{
+											vGameManager.delete(uistats[h]);
+										}catch(Exception e){};
+									}else{
+										try{
+											hGameManager.delete(uistats[h]);
+										}catch(Exception e){};
+									}
+								}
+							}
 							synchronized(UiApplication.getEventLock()) {
 								if(!(Const.getPortrait())){
 									oppvgamemanager.setUrl(card2.getBackFlipurl());

@@ -60,7 +60,7 @@ public class VerticalGamePlayManager extends VerticalFieldManager
 			return Const.getWidth();
 		}else return Const.getWidth()/2-25;
 	}
-	
+
 	public VerticalGamePlayManager()
 	{
 		this(true);
