@@ -23,7 +23,7 @@ public final class StatField extends Field {
 	}
 	
 	protected void drawFocus(Graphics g, boolean x) {
-		
+		invalidate();
 	}
 	public void setFlip(int flip) {
 		this.flip = flip;
@@ -40,8 +40,10 @@ public final class StatField extends Field {
 		
 	}
 	protected void onFocus(int direction) {
-		focus = true;
-		invalidate();
+		if(focusable){
+			focus = true;
+			invalidate();
+		}
 	}
 	protected void onUnfocus() {
 		focus = false;

@@ -137,17 +137,21 @@ public class ImageScreen extends AppScreen implements FieldChangeListener
 			}
 			if (flip) {
 				if(!(Const.getPortrait())){
+					hStatManager.removeProgressBar();
 					hStatManager.setUrl(card.getBackurl());
 					hStatManager.invalidate();
 				}else{
+					vStatManager.removeProgressBar();
 					vStatManager.setUrl(card.getBackurl());
 					vStatManager.invalidate();
 				}
 			} else {
 				if(!(Const.getPortrait())){
+					hStatManager.removeProgressBar();
 					hStatManager.setUrl(card.getFronturl());
 					hStatManager.invalidate();
 				}else{
+					vStatManager.removeProgressBar();
 					vStatManager.setUrl(card.getFronturl());
 					vStatManager.invalidate();
 				}

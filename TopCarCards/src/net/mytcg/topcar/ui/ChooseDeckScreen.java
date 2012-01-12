@@ -7,11 +7,11 @@ import net.mytcg.topcar.util.Const;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.FieldChangeListener;
 import net.rim.device.api.ui.UiApplication;
-import net.rim.device.api.ui.component.LabelField;
 
 public class ChooseDeckScreen extends AppScreen implements FieldChangeListener
 {
 	FixedButtonField exit = new FixedButtonField(Const.back);
+	ColorLabelField header = new ColorLabelField("");
 	
 	ListItemField tmp = new ListItemField("Empty", -1, false, 0);
 	int categoryId = -1;
@@ -23,9 +23,9 @@ public class ChooseDeckScreen extends AppScreen implements FieldChangeListener
 		this.categoryId = categoryId;
 		bgManager.setStatusHeight(exit.getContentHeight());
 		
-		exit.setChangeListener(this); 
+		exit.setChangeListener(this);
 		
-		add(new ColorLabelField("Please choose a deck to play with"));
+		add(header);
 		
 		addButton(new FixedButtonField(""));
 		addButton(new FixedButtonField(""));
@@ -35,7 +35,6 @@ public class ChooseDeckScreen extends AppScreen implements FieldChangeListener
 	}
 	
 	public void process(String val) {
-		System.out.println("WAWAWA "+val);
 		int deckid = -1;
 		int fromIndex;
 	    if ((fromIndex = val.indexOf(Const.xml_result)) != -1) {
@@ -70,7 +69,6 @@ public class ChooseDeckScreen extends AppScreen implements FieldChangeListener
 	    		}
 	    	}
 	    }
-	    System.out.println("count "+count);
     	if(count==0){
     		synchronized(UiApplication.getEventLock()) {
     			screen = new PlayMenuScreen(categoryId, -1);
@@ -82,6 +80,7 @@ public class ChooseDeckScreen extends AppScreen implements FieldChangeListener
 	   			UiApplication.getUiApplication().pushScreen(screen);
 	   		}
 	   	}
+    	header.setText("Please choose a deck to play with");
 	    invalidate();
 	}
 	
@@ -98,7 +97,6 @@ public class ChooseDeckScreen extends AppScreen implements FieldChangeListener
 			UiApplication.getUiApplication().popScreen(this);
 		} else if(f instanceof ListItemField){
 			int deckId = ((ListItemField)(f)).getId();
-			System.out.println("deckId "+deckId);
 			if(deckId > -1){
 				screen = new PlayMenuScreen(categoryId, deckId);
 				UiApplication.getUiApplication().pushScreen(screen);

@@ -155,6 +155,13 @@ public class HorizontalStatManager extends HorizontalFieldManager
 			
 		}
 	}
+	public void removeProgressBar(){
+		synchronized(UiApplication.getEventLock()) {
+			try{
+				this.delete(progress);
+			}catch(Exception e){}
+		}
+	}
 	public void process(byte[] data, String filename) {
 		synchronized(UiApplication.getEventLock()) {
 			try{

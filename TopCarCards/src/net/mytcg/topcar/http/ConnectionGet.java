@@ -182,7 +182,9 @@ public final class ConnectionGet extends Connection implements Runnable {
 		        	int total = 0;
 		        	if(progress != null){
 		        		progress.setValue(0);
-		        		progress.getManager().invalidate();
+		        		try{
+		        			progress.getManager().invalidate();
+		        		}catch(Exception e){}
 		        		total = lengt;
 		        	}
 		        	_output = new ByteArrayOutputStream();

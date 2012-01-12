@@ -54,16 +54,9 @@ public class AuctionListScreen extends AppScreen implements FieldChangeListener
     				_instance = SettingsBean.getSettings();
     				_instance.setCredits(credits);
     				SettingsBean.saveSettings(_instance);
-    				synchronized(UiApplication.getEventLock()) {
-    					header.setText("Current credits:" + SettingsBean.getSettings().getCredits());
-    	    		}
-    				
     			}
-	    		
 	    		synchronized(UiApplication.getEventLock()) {
-	    			clear();
 	    			header.setText("Current credits:" + SettingsBean.getSettings().getCredits());
-	    			add(header);
 	    		}
 	    		int auctionid = -1;
 	    		int usercardid = -1;
@@ -197,7 +190,10 @@ public class AuctionListScreen extends AppScreen implements FieldChangeListener
 		        		pageNumber.setLabel("Page 1/"+pages.size());
 		        		Field[] temp = new Field[((Vector)pages.elementAt(0)).size()];
 		        		((Vector)pages.elementAt(0)).copyInto(temp);
-		        		bgManager.deleteAll();
+		        		try{
+		    				bgManager.deleteAll();
+		    			}catch(Exception e){}
+		    			bgManager.add(header);
 		    	    	bgManager.addAll(temp);
 		    	    }
 	    		}
@@ -244,6 +240,7 @@ public class AuctionListScreen extends AppScreen implements FieldChangeListener
 					Field[] temp = new Field[((Vector)pages.elementAt(currentPage)).size()];
 	    			((Vector)pages.elementAt(currentPage)).copyInto(temp);
 	    			bgManager.deleteAll();
+	    			add(header);
 		    		bgManager.addAll(temp);
 		    	}
 			}
@@ -260,6 +257,7 @@ public class AuctionListScreen extends AppScreen implements FieldChangeListener
 					Field[] temp = new Field[((Vector)pages.elementAt(currentPage)).size()];
 	    			((Vector)pages.elementAt(currentPage)).copyInto(temp);
 	    			bgManager.deleteAll();
+	    			add(header);
 		    		bgManager.addAll(temp);
 		    	}
 			}
@@ -280,7 +278,7 @@ public class AuctionListScreen extends AppScreen implements FieldChangeListener
 		exit.setChangeListener(this);
 		
 		header.setText("Current credits:" + SettingsBean.getSettings().getCredits());
-		tempList.addElement(header);
+		add(header);
 		
 		addButton(new FixedButtonField(""));
 		addButton(pageNumber);
@@ -295,7 +293,12 @@ public class AuctionListScreen extends AppScreen implements FieldChangeListener
 	protected void onExposed() {
 		if (!isVisible()) {
 			if(type == 0){
-				doConnect(Const.categoryauction+"&category_id="+id+Const.height+Const.getCardHeight()+Const.jpg+Const.bbheight+Const.getAppHeight()+Const.width+Const.getCardWidth());
+				synchronized(UiApplication.getEventLock()) {
+					bgManager.deleteAll();
+					add(header);
+					tempList = new Vector();
+					doConnect(Const.categoryauction+"&category_id="+id+Const.height+Const.getCardHeight()+Const.jpg+Const.bbheight+Const.getAppHeight()+Const.width+Const.getCardWidth());
+				}
 			}
 		}
 	}
