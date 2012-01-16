@@ -267,7 +267,7 @@ public class MenuScreen extends AppScreen implements FieldChangeListener
 		if(_instance.notifications == false){
 			doConnect("notedate=1");
 		}
-		super.onExposed();
+		//super.onExposed();
 	}
 	
 	public void fieldChanged(Field f, int i) {

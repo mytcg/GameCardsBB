@@ -39,7 +39,7 @@ public final class FixedButtonField extends Field {
 		
 	}
 	protected void drawFocus(Graphics graphics, boolean on) {
-        invalidate();
+		paint(graphics);
     }
 	
 	public void construct(String label) {

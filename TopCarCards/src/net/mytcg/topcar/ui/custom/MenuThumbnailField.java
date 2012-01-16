@@ -23,7 +23,7 @@ public final class MenuThumbnailField extends Field {
 	}
 	
 	protected void drawFocus(Graphics graphics, boolean on) {
-        invalidate();
+		paint(graphics);
     }
 	
 	public boolean isFocus (){
