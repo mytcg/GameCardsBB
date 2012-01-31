@@ -23,7 +23,7 @@ import net.rim.device.api.ui.container.HorizontalFieldManager;
 
 public class HorizontalStatManager extends HorizontalFieldManager
 {
-	Bitmap img = Const.getBackground();
+	//Bitmap img = Const.getGrey();
 	private String url;
 	private String file;
 	public Bitmap image;
@@ -69,7 +69,9 @@ public class HorizontalStatManager extends HorizontalFieldManager
 	{
 		int xPts[] = {0,0,getPreferredWidth(),getPreferredWidth()};
 		int yPts[] = {0,getPreferredHeight(),getPreferredHeight(),0};
-		g.drawTexturedPath(xPts,yPts,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,img);
+		g.setColor(2302755);
+		g.drawFilledPath(xPts, yPts, null, null);
+		//g.drawTexturedPath(xPts,yPts,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,img);
 		
 		g.drawBitmap(((getPreferredWidth()-(image.getWidth()))/2), (((getPreferredHeight())-((image.getHeight())))/2), image.getWidth(), image.getHeight(), image, 0, 0);
 		super.paint(g);

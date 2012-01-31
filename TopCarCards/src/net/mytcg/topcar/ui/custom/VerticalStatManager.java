@@ -9,7 +9,6 @@ import javax.microedition.io.file.FileConnection;
 import net.mytcg.topcar.util.SettingsBean;
 import net.mytcg.topcar.http.ConnectionGet;
 import net.mytcg.topcar.util.Const;
-import net.rim.device.api.math.Fixed32;
 import net.rim.device.api.system.Bitmap;
 import net.rim.device.api.system.EncodedImage;
 import net.rim.device.api.ui.Field;
@@ -23,7 +22,7 @@ import net.rim.device.api.ui.container.VerticalFieldManager;
 
 public class VerticalStatManager extends VerticalFieldManager
 {
-	Bitmap img = Const.getBackground();
+	//Bitmap img = Const.getGrey();
 	private String url;
 	private String file;
 	public Bitmap image;
@@ -69,7 +68,9 @@ public class VerticalStatManager extends VerticalFieldManager
 	{
 		int xPts[] = {0,0,getPreferredWidth(),getPreferredWidth()};
 		int yPts[] = {0,Const.getHeight(),Const.getHeight(),0};
-		g.drawTexturedPath(xPts,yPts,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,img);
+		g.setColor(2302755);
+		g.drawFilledPath(xPts, yPts, null, null);
+		//g.drawTexturedPath(xPts,yPts,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,img);
 		
 		g.drawBitmap(((getPreferredWidth()-(image.getWidth()))/2), (((getPreferredHeight())-((image.getHeight())))/2), image.getWidth(), image.getHeight(), image, 0, 0);
 		super.paint(g);

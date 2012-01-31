@@ -3,10 +3,14 @@ package net.mytcg.topcar.ui.custom;
 import net.mytcg.topcar.util.Const;
 import net.rim.device.api.math.Fixed32;
 import net.rim.device.api.system.Bitmap;
+import net.rim.device.api.system.Display;
 import net.rim.device.api.ui.DrawStyle;
+import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.Font;
 import net.rim.device.api.ui.Graphics;
 import net.rim.device.api.ui.Manager;
+import net.rim.device.api.ui.Screen;
+import net.rim.device.api.ui.XYRect;
 import net.rim.device.api.ui.component.LabelField;
 
 public final class ListLabelField extends LabelField {
@@ -85,8 +89,13 @@ public final class ListLabelField extends LabelField {
 	public int getPreferredHeight() {
 		return this.getContentHeight();
 	}
-	
+	//Bitmap grey = Const.getGrey();
 	public void paint(Graphics g) {
+		int xPts1[] = {0,0,getPreferredWidth(),getPreferredWidth()};
+		int yPts1[] = {0,getPreferredHeight(),getPreferredHeight(),0};
+		g.setColor(2302755);
+		g.drawFilledPath(xPts1, yPts1, null, null);
+		//g.drawTexturedPath(xPts1,yPts1,null,null,0,this.getTop(),Fixed32.ONE,0,0,Fixed32.ONE,grey);
 		if(!focus){
 			g.setColor(Const.FONTCOLOR);
 		}else{
@@ -110,11 +119,10 @@ public final class ListLabelField extends LabelField {
 		focus = false;
 		invalidate();
 	}
-	protected void drawFocus(Graphics graphics, boolean on) {
-        invalidate();
-        focus = true;
-		//Do nothing
-    }
+	protected void drawFocus(Graphics g, boolean x) {
+		
+	}
+	
 	protected boolean navigationClick(int status, int time) {
         fieldChangeNotify(1);
         return true;

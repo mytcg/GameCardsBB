@@ -16,6 +16,8 @@ import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.Font;
 import net.rim.device.api.ui.Graphics;
 import net.rim.device.api.ui.Manager;
+import net.rim.device.api.ui.Screen;
+import net.rim.device.api.ui.XYRect;
 
 public final class ThumbnailField extends Field {
 	
@@ -185,10 +187,9 @@ public final class ThumbnailField extends Field {
 		}
 		construct(getDescription());
 	}
-	
-	protected void drawFocus(Graphics graphics, boolean on) {
-        invalidate();
-    }
+	protected void drawFocus(Graphics g, boolean x) {
+		
+	}
 	public void getData(int type) {
 		FileConnection _file = null;
 		InputStream input = null;
@@ -320,22 +321,25 @@ public final class ThumbnailField extends Field {
 	public void setFocusable(boolean focusable){
 		this.focusable = focusable;
 	}
+	//Bitmap grey = Const.getGrey();
 	public void paint(Graphics g) {
-		
-		int xPts2[] = {0,0,getPreferredWidth(),getPreferredWidth()};
-		int yPts2[] = {0,getPreferredHeight(),getPreferredHeight(),0};
+		int xPts[] = {0,0,getPreferredWidth(),getPreferredWidth()};
+		int yPts[] = {0,getPreferredHeight(),getPreferredHeight(),0};
+		g.setColor(2302755);
+		g.drawFilledPath(xPts, yPts, null, null);
+		//g.drawTexturedPath(xPts,yPts,null,null,0,this.getTop(),Fixed32.ONE,0,0,Fixed32.ONE,grey);
 		
 		g.setColor(Const.FONTCOLOR);
 		
 		if (focus) {
 			g.setColor(Const.SELECTEDCOLOR);
-			g.drawTexturedPath(xPts2,yPts2,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,button_centre);
+			g.drawTexturedPath(xPts,yPts,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,button_centre);
 			g.drawBitmap(getPreferredWidth() - (button_sel_centre.getWidth() + 5), 0, button_sel_centre.getWidth(), getPreferredHeight(), button_sel_centre, 0, 0);
 		} else {
 			//int xPts1[] = {2,2,getPreferredWidth()-2,getPreferredWidth()-2};
 			//int yPts1[] = {0,getPreferredHeight(),getPreferredHeight(),0};
 				
-			g.drawTexturedPath(xPts2,yPts2,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,button_centre);
+			g.drawTexturedPath(xPts,yPts,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,button_centre);
 		}
 		
 		

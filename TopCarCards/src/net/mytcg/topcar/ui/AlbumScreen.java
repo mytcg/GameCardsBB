@@ -268,6 +268,7 @@ public class AlbumScreen extends AppScreen implements FieldChangeListener
 		doConnect(Const.subcategories+id+Const.second+SettingsBean.getSettings().getLoaded());
 	}
 	protected void onExposed() {
+		invalidate();
 		if(type == 1 || type == 3){
 			UiApplication.getUiApplication().popScreen(this);
 		}

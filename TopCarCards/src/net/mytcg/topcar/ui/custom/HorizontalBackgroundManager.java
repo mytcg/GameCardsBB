@@ -8,7 +8,7 @@ import net.rim.device.api.ui.container.HorizontalFieldManager;
 
 public class HorizontalBackgroundManager extends HorizontalFieldManager
 {
-	Bitmap img = Const.getBackground();
+	//Bitmap img = Const.getGrey();
 	
 	int nStatusHeight = 0;
 	int nTitleHeight = 0;
@@ -40,7 +40,9 @@ public class HorizontalBackgroundManager extends HorizontalFieldManager
 	{
 		int xPts[] = {0,0,getPreferredWidth(),getPreferredWidth()};
 		int yPts[] = {0,getPreferredHeight(),getPreferredHeight(),0};
-		g.drawTexturedPath(xPts,yPts,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,img);
+		g.setColor(2302755);
+		g.drawFilledPath(xPts, yPts, null, null);
+		//g.drawTexturedPath(xPts,yPts,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,img);
 		super.paint(g);
 	}
 	public void setTitleHeight(int height) {

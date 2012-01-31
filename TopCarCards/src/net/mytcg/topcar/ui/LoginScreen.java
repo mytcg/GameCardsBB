@@ -17,6 +17,7 @@ public class LoginScreen extends AppScreen implements FieldChangeListener
 	
 	SexyEditField username = new SexyEditField("");//, EditField.FILTER_NUMERIC, 36);
 	SexyEditField password = new SexyEditField("");
+	int height = 0;
 	
 	public void process(String val) {
 		int fromIndex;
@@ -50,7 +51,7 @@ public class LoginScreen extends AppScreen implements FieldChangeListener
 	public LoginScreen()
 	{
 		super(null);
-		
+		height = Const.getAppHeight();
 		SettingsBean _instance = SettingsBean.getSettings();
 		_instance.setAuthenticated(false);
 		_instance.lastloaded();
@@ -58,7 +59,7 @@ public class LoginScreen extends AppScreen implements FieldChangeListener
 		
 		add(new ColorLabelField(Const.user));
 		add(username);
-		username.setText("keldarn");
+		username.setText("heinzs");
 		add(new ColorLabelField(Const.password));
 		add(password);
 		password.setText("aaaaaa");
@@ -92,7 +93,8 @@ public class LoginScreen extends AppScreen implements FieldChangeListener
 				_instance.setPassword(password64);
 				SettingsBean.saveSettings(_instance);
 				_instance = null;
-				doConnect(Const.userdetails+Const.jpg+Const.height+Const.getAppHeight()+Const.width+Const.getCardWidth(), false);
+				System.out.println(Const.bbheight+Const.getAppHeight() + "  "+height);
+				doConnect(Const.userdetails+Const.jpg+Const.height+height+Const.bbheight+height+Const.width+Const.getCardWidth(), false);
 			}
 		}
 	}

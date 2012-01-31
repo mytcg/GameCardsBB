@@ -114,8 +114,8 @@ public class GamePlayScreen extends AppScreen implements FieldChangeListener
 			}
 		}else{
 			phase = "loadgame";
-			gameid = categoryId;
-			doConnect(Const.loadgame+"&gameid="+gameid+Const.height+Const.getCardHeight()+Const.jpg+Const.bbheight+Const.getAppHeight()+Const.width+Const.getCardWidth());
+			this.gameid = categoryId;
+			doConnect(Const.loadgame+"&gameid="+this.gameid+Const.height+Const.getCardHeight()+Const.jpg+Const.bbheight+Const.getAppHeight()+Const.width+Const.getCardWidth());
 			addButton(new FixedButtonField(""));
 			addButton(new FixedButtonField(""));
 			addButton(options);

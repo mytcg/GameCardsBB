@@ -16,6 +16,7 @@ import net.rim.device.api.ui.FieldChangeListener;
 import net.rim.device.api.ui.TouchEvent;
 import net.rim.device.api.ui.UiApplication;
 import net.rim.device.api.ui.component.NullField;
+import net.rim.device.api.ui.component.SeparatorField;
 
 public class MenuScreen extends AppScreen implements FieldChangeListener
 {
@@ -127,14 +128,15 @@ public class MenuScreen extends AppScreen implements FieldChangeListener
 			listCounter++;
 		}
 		pages.addElement(tempList);
-		
+		statusManager.setColor(1447446);
+		statusManager.delete(hManager1);
 		Field[] temp = new Field[((Vector)pages.elementAt(0)).size()];
 		((Vector)pages.elementAt(0)).copyInto(temp);
 		try{
-		hManager1.deleteAll();
-		for(int i = 0; i < temp.length; i++){
-			hManager1.add(temp[i]);
-		}
+			hManager1.deleteAll();
+			for(int i = 0; i < temp.length; i++){
+				hManager1.add(temp[i]);
+			}
 		}catch(Exception e){}
 		//addButton(new FixedButtonField(""));
 		//addButton(new FixedButtonField(""));
@@ -148,6 +150,8 @@ public class MenuScreen extends AppScreen implements FieldChangeListener
 		Field[] temp2 = new Field[dots.size()];
 		dots.copyInto(temp2);
 		pm.addAll(temp2);
+		statusManager.add(new SeparatorField());
+		statusManager.add(hManager1);
 		statusManager.add(pm);
 		if(_instance.notifications == false){
 			doConnect("notedate=1");
@@ -234,7 +238,6 @@ public class MenuScreen extends AppScreen implements FieldChangeListener
 			}
 		}
 		return super.navigationMovement(dx, dy, status, time);
-		
 	}
 	
 	public void process(String val) {
@@ -267,7 +270,6 @@ public class MenuScreen extends AppScreen implements FieldChangeListener
 		if(_instance.notifications == false){
 			doConnect("notedate=1");
 		}
-		//super.onExposed();
 	}
 	
 	public void fieldChanged(Field f, int i) {

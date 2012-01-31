@@ -211,9 +211,9 @@ public final class ConnectionGet extends Connection implements Runnable {
 	                }
 		        	//}
 		        	
-		        	if (data.length <= 2048) {
-		        		System.out.println("["+new String(data) + "]");
-		        	}
+		        	//if (data.length <= 2048) {
+		        		//System.out.println("["+new String(data) + "]");
+		        	//}
 		        	
 		        	
 		        	if (screen != null) {

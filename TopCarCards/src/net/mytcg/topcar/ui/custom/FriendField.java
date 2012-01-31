@@ -62,6 +62,8 @@ public final class FriendField extends Field {
 	public void paint(Graphics g) {
 		int _xPts[] = {0,0,getPreferredWidth(),getPreferredWidth()};
 		int _yPts[] = {0,getPreferredHeight(),getPreferredHeight(),0};
+		g.setColor(2302755);
+		g.drawFilledPath(_xPts, _yPts, null, null);
 		g.drawTexturedPath(_xPts,_yPts,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,button_centre);
 		
 		g.setColor(Const.FONTCOLOR);

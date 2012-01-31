@@ -362,6 +362,7 @@ public class ViewDeckScreen extends AppScreen implements FieldChangeListener
 		}
 		synchronized(UiApplication.getEventLock()) {
 			bgManager.deleteAll();
+			add(new ColorLabelField(""));
 			tempList = new Vector();
 			tempList.addElement(addcard);
 			tempList.addElement(deletedeck);

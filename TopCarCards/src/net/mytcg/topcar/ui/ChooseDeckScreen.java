@@ -79,7 +79,9 @@ public class ChooseDeckScreen extends AppScreen implements FieldChangeListener
 	   			UiApplication.getUiApplication().pushScreen(screen);
 	   		}
 	   	}
-    	header.setText("Please choose a deck to play with");
+    	try{
+    		header.setText("Please choose a deck to play with");
+    	}catch(Exception e){}
 	    invalidate();
 	}
 	

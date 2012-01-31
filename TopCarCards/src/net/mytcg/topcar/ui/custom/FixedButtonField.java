@@ -38,8 +38,9 @@ public final class FixedButtonField extends Field {
 	public void focusRemove() {
 		
 	}
+	//Bitmap img = Const.getGrey();
 	protected void drawFocus(Graphics graphics, boolean on) {
-		paint(graphics);
+		
     }
 	
 	public void construct(String label) {
@@ -77,6 +78,10 @@ public final class FixedButtonField extends Field {
 		return !empty;
     }
 	public void paint(Graphics g) {
+		int xPts1[] = {0,0,Const.getWidth(),Const.getWidth()};
+		int yPts1[] = {0,Const.getHeight(),Const.getHeight(),0};
+		g.setColor(2302755);
+		g.drawFilledPath(xPts1, yPts1, null, null);
 		
 		if (!empty) {
 			int xPts[] = {5,5,getPreferredWidth()-5,getPreferredWidth()-5};

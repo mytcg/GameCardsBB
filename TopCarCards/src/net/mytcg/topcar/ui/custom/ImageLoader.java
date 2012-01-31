@@ -20,7 +20,7 @@ public final class ImageLoader extends Field {
 	public ImageLoader(String url) {
 		this.url = url;
 		if ((url != null)&&(url.length() > 0)){
-			file = url.substring(url.indexOf("/cards/")+Const.cards_length, url.indexOf(Const.jpeg));
+			file = url.substring(url.indexOf("/cardsbb/")+Const.cardsbb_length, url.indexOf(Const.jpeg));
 		}
 		construct();
 	}
@@ -31,12 +31,13 @@ public final class ImageLoader extends Field {
 	public void setUrl(String url) {
 		this.url = url;
 		if ((url != null)&&(url.length() > 0)){
-			file = url.substring(url.indexOf("/cards/")+Const.cards_length, url.indexOf(Const.jpeg));
+			file = url.substring(url.indexOf("/cardsbb/")+Const.cardsbb_length, url.indexOf(Const.jpeg));
 		}
 		construct();
 	}
 	
 	public synchronized void saveData(byte[] data, String filename) {
+		System.out.println("Saving: "+filename);
 		FileConnection _file = null;
 		OutputStream output = null;
 		try {

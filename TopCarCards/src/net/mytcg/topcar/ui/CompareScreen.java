@@ -28,12 +28,14 @@ public class CompareScreen extends AppScreen implements FieldChangeListener
 	private Card card1 = null;
 	private Card card2 = null;
 	
-	Bitmap img = Const.getBackground();
+	//Bitmap img = Const.getGrey();
 	public void paint(Graphics g)
 	{
 		int xPts[] = {0,0,getPreferredWidth(),getPreferredWidth()};
 		int yPts[] = {0,getPreferredHeight(),getPreferredHeight(),0};
-		g.drawTexturedPath(xPts,yPts,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,img);
+		g.setColor(2302755);
+		g.drawFilledPath(xPts, yPts, null, null);
+		//g.drawTexturedPath(xPts,yPts,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,img);
 		super.paint(g);
 	}
 	

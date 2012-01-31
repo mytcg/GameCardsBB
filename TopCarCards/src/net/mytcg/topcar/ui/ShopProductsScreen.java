@@ -237,10 +237,10 @@ public class ShopProductsScreen extends AppScreen implements FieldChangeListener
 	
 	protected void onExposed() {
 		//screen = null;
-		//if (!isVisible()) {
-		//	doConnect(Const.categoryproducts+"&categoryid="+id);
-		//}
-		super.onExposed();
+		if (!freebie) {
+			doConnect(Const.categoryproducts+"&categoryId="+id);
+		}
+		//super.onExposed();
 	}
 	public boolean onClose() {
 		screen = null;

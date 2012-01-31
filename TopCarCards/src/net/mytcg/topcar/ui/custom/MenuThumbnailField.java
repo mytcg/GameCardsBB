@@ -3,12 +3,18 @@ package net.mytcg.topcar.ui.custom;
 import net.mytcg.topcar.util.Const;
 import net.rim.device.api.math.Fixed32;
 import net.rim.device.api.system.Bitmap;
+import net.rim.device.api.system.Display;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.Graphics;
+import net.rim.device.api.ui.Manager;
+import net.rim.device.api.ui.Screen;
+import net.rim.device.api.ui.XYRect;
+import net.rim.device.api.ui.component.LabelField;
 
-public final class MenuThumbnailField extends Field {	
+public final class MenuThumbnailField extends LabelField {	
 	private boolean focus;
 	private boolean focusable = true;
+	private int counter = 0;
 	
 	private Bitmap button_thumbnail;
 	private Bitmap main_image;
@@ -22,13 +28,37 @@ public final class MenuThumbnailField extends Field {
 		this.menu = menu;
 	}
 	
+	//Bitmap img = Const.getBackground();
 	protected void drawFocus(Graphics graphics, boolean on) {
-		paint(graphics);
+		//if(counter!=0){
+			//XYRect rect = new XYRect();
+			//rect = getFieldExtent(this);
+		//	Bitmap bmp = new Bitmap(this.getWidth(), this.getHeight());
+	    //	Display.screenshot(bmp, rect.x, rect.y, this.getWidth(), this.getHeight());
+	    //	graphics.drawBitmap(0, 0, this.getWidth(), this.getHeight(), bmp, 0, 0);
+		//	this.paint(graphics);
+		//}
+		//counter++;
+    }
+	
+	public static final XYRect getFieldExtent(Field fld) {
+        int cy = fld.getContentTop();
+        int cx = fld.getContentLeft();
+        Manager m = fld.getManager();
+        while (m != null) {
+            cy += m.getContentTop() - m.getVerticalScroll();
+            cx += m.getContentLeft() - m.getHorizontalScroll();
+            if (m instanceof Screen)
+                break;
+            m = m.getManager();
+        }
+        return new XYRect(cx, cy, fld.getContentWidth(), fld.getContentHeight());
     }
 	
 	public boolean isFocus (){
 		return focus;
 	}
+
 	public Bitmap getThumbnail(){
 		return button_thumbnail;
 	}
@@ -50,12 +80,16 @@ public final class MenuThumbnailField extends Field {
 	public void setFocusable(boolean focusable){
 		this.focusable = focusable;
 	}
+	//Bitmap grey = Const.getGrey();
 	public void paint(Graphics g) {
-		
+		int xPts[] = {0,0,getPreferredWidth(),getPreferredWidth()};
+		int yPts[] = {0,getPreferredHeight(),getPreferredHeight(),0};
+		g.setColor(1447446);
+		g.drawFilledPath(xPts, yPts, null, null);
+		//g.drawTexturedPath(xPts,yPts,null,null,0,this.getTop(),Fixed32.ONE,0,0,Fixed32.ONE,grey);
 		if (focus) {
 			g.drawBitmap(0, 7, button_select.getWidth(), button_select.getHeight(), button_select, 0, 0);
 		}	
-		
 		g.drawBitmap(4, 0, button_thumbnail.getWidth(), button_thumbnail.getHeight(), button_thumbnail, 0, 0);
 	}
 	protected void onFocus(int direction) {

@@ -645,8 +645,8 @@ public final class Const {
     		}
 			load = new ImageLoader(loadingurl);
 			load2 = new ImageLoader(loadingurlflip);
-			_instance.loading = loadingurl.substring(loadingurl.indexOf("/cards/")+Const.cards_length, loadingurl.indexOf(Const.jpeg));
-			_instance.loadingflip = loadingurlflip.substring(loadingurlflip.indexOf("/cards/")+Const.cards_length, loadingurlflip.indexOf(Const.jpeg));
+			_instance.loading = loadingurl.substring(loadingurl.indexOf("/cardsbb/")+Const.cardsbb_length, loadingurl.indexOf(Const.jpeg));
+			_instance.loadingflip = loadingurlflip.substring(loadingurlflip.indexOf("/cardsbb/")+Const.cardsbb_length, loadingurlflip.indexOf(Const.jpeg));
     		_instance.setAuthenticated(true);
     		SettingsBean.saveSettings(_instance);
     		_instance = null;

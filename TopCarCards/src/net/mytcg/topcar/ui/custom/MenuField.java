@@ -2,6 +2,7 @@ package net.mytcg.topcar.ui.custom;
 
 import net.mytcg.topcar.ui.MenuScreen;
 import net.mytcg.topcar.util.Const;
+import net.rim.device.api.math.Fixed32;
 import net.rim.device.api.system.Bitmap;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.Graphics;
@@ -57,7 +58,13 @@ public final class MenuField extends Field {
 	public void setFocusable(boolean focusable){
 		this.focusable = focusable;
 	}
+	//Bitmap grey = Const.getGrey();
 	public void paint(Graphics g) {
+		//int xPts[] = {0,0,getPreferredWidth(),getPreferredWidth()};
+		//int yPts[] = {0,getPreferredHeight(),getPreferredHeight(),0};
+		//g.setColor(2302755);
+		//g.drawFilledPath(xPts, yPts, null, null);
+		//g.drawTexturedPath(xPts,yPts,null,null,0,this.getTop(),Fixed32.ONE,0,0,Fixed32.ONE,grey);
 		g.drawBitmap((getPreferredWidth()-button_image.getWidth())/2, (getPreferredHeight()-button_image.getHeight()+4)/2, button_image.getWidth(), button_image.getHeight(), button_image, 0, 0);
 	}
 	protected void onFocus(int direction) {
