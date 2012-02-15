@@ -4,6 +4,7 @@ import java.util.Date;
 
 import net.mytcg.dex.ui.custom.FixedButtonField;
 import net.mytcg.dex.ui.custom.ListItemField;
+import net.mytcg.dex.util.Card;
 import net.mytcg.dex.util.Const;
 import net.mytcg.dex.util.SettingsBean;
 import net.mytcg.dex.ui.DetailScreen;
@@ -18,6 +19,9 @@ public class AlbumScreen extends AppScreen implements FieldChangeListener
 	
 	ListItemField tmp = new ListItemField("Empty", -1, false, 0);
 	ListItemField notifications = new ListItemField("Empty", -1, false, 0);
+	ListItemField createcard = new ListItemField("Create Card", -1, false, 0);
+	ListItemField createalbum = new ListItemField("Create Album", -1, false, 0);
+	
 	
 	int id = -999;
 	boolean update = true;
@@ -56,8 +60,8 @@ public class AlbumScreen extends AppScreen implements FieldChangeListener
 	    		boolean hasCards = false;
 	    		int endIndex = -1;
 	    		String album = "";
+	    		boolean noalbums = true;
 	    		while ((fromIndex = val.indexOf(Const.xml_albumid)) != -1){
-	    			
 	    			endIndex = val.indexOf(Const.xml_album_end);
 	    			album = val.substring(fromIndex, endIndex+Const.xml_album_end_length);
 	    			fromIndex = album.indexOf(Const.xml_albumid);
@@ -88,15 +92,23 @@ public class AlbumScreen extends AppScreen implements FieldChangeListener
 	    			val = val.substring(val.indexOf(Const.xml_album_end)+Const.xml_album_end_length);
 	    			
 	    			synchronized(UiApplication.getEventLock()) {
+	    				noalbums = false;
 	    				tmp = new ListItemField(albumname, albumid, hasCards, updated);
+	    				System.out.println(albumname);
 	        			tmp.setChangeListener(this);
 	        			add(tmp);
 	        		}
 	    		}
 	    		synchronized(UiApplication.getEventLock()) {
-		    		//tmp = new ListItemField(Const.redeem, Const.REDEEM, false, 0);
-	    			//tmp.setChangeListener(this);
-	    			//add(tmp);
+	    			if (noalbums) {
+	    				createcard = new ListItemField("Create Card", Const.CREATECARD, false, 0);
+	    				createcard.setChangeListener(this);
+	    				add(createcard);
+	    			} else {
+	    				createalbum = new ListItemField("Create Album", Const.CREATEALBUM, false, 0);
+	    				createalbum.setChangeListener(this);
+	    				add(createalbum);
+	    			}
 					tmp = new ListItemField(Const.logout, Const.LOGOUT, false, 0);
 					tmp.setChangeListener(this);
 					add(tmp);
@@ -208,6 +220,13 @@ public class AlbumScreen extends AppScreen implements FieldChangeListener
 				UiApplication.getUiApplication().pushScreen(screen);
 			} else if(f == notifications){
 				screen = new DetailScreen(this, Const.NOTIFICATIONSCREEN);
+				UiApplication.getUiApplication().pushScreen(screen);
+			} else if(f == createcard) {
+				Card createcard = new Card(-1, "", 0, "", "createacard", "", "", 0, null);
+				screen = new ImageScreen(createcard, this);
+				UiApplication.getUiApplication().pushScreen(screen);
+			} else if(f == createalbum) {
+				screen = new NewDeckScreen(-1);
 				UiApplication.getUiApplication().pushScreen(screen);
 			} else {
 				if (!hascards) {

@@ -6,7 +6,7 @@ import net.rim.device.api.math.Fixed32;
 import net.rim.device.api.system.Bitmap;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.Graphics;
-import net.rim.device.api.ui.TouchEvent;
+//import net.rim.device.api.ui.TouchEvent;
 
 public final class MenuField extends Field {	
 	private boolean focus;
@@ -23,7 +23,7 @@ public final class MenuField extends Field {
 		
 	}
 	
-	protected boolean touchEvent(TouchEvent event) {
+	/*protected boolean touchEvent(TouchEvent event) {
 		if(event.getEvent() == TouchEvent.CLICK){
 			int x = event.getX(1);
 			int y = event.getY(1);
@@ -35,7 +35,7 @@ public final class MenuField extends Field {
 			}
 		}
 		return false;//super.touchEvent(event);
-	}
+	}*/
 	
 	public Bitmap getImage(){
 		return button_image;

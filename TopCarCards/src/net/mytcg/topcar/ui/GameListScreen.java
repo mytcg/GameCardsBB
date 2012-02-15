@@ -9,7 +9,7 @@ import net.mytcg.topcar.ui.custom.PageNumberField;
 import net.mytcg.topcar.util.Const;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.FieldChangeListener;
-import net.rim.device.api.ui.TouchEvent;
+//import net.rim.device.api.ui.TouchEvent;
 import net.rim.device.api.ui.UiApplication;
 
 public class GameListScreen extends AppScreen implements FieldChangeListener
@@ -101,7 +101,7 @@ public class GameListScreen extends AppScreen implements FieldChangeListener
 	    }
 	    invalidate();		
 	}
-	protected boolean touchEvent(TouchEvent event) {
+	/*protected boolean touchEvent(TouchEvent event) {
 		int x = event.getX(1);
 		int y = event.getY(1) - titleManager.getHeight();
 		if(event.getEvent() == TouchEvent.DOWN){
@@ -124,7 +124,7 @@ public class GameListScreen extends AppScreen implements FieldChangeListener
 		else{
 			return super.touchEvent(event);
 		}
-	}
+	}*/
 	public boolean navigationMovement(int dx, int dy, int status, int time) {
 		if(dy == 0 && dx == -1){
 			if(pages.size() >1){

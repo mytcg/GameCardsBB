@@ -85,10 +85,16 @@ public class VerticalStatManager extends VerticalFieldManager
 	}
 	public void setUrl(String url) {
 		this.url = url;
-		if ((url != null)&&(url.length() > 0)){
-			file = url.substring(url.indexOf(Const.cardsbb)+Const.cardsbb_length, url.indexOf(Const.jpeg));
+		if (url.equals("createacard")) {
+			image = Const.getSizeImage("create_card.png");
+			landscape();
+			invalidate();
+		} else {
+			if ((url != null)&&(url.length() > 0)){
+				file = url.substring(url.indexOf(Const.cardsbb)+Const.cardsbb_length, url.indexOf(Const.jpeg));
+			}
+			construct();
 		}
-		construct();
 	}
 	public void construct() {
 		int font = Const.FONT;
