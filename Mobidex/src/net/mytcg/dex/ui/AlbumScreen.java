@@ -25,6 +25,7 @@ public class AlbumScreen extends AppScreen implements FieldChangeListener
 	boolean initialcheck = true;
 	
 	public void process(String val) {
+		System.out.println("wawawa "+val);
 		SettingsBean _instance = SettingsBean.getSettings();
 		if (id >= 0) {
     		update = _instance.setUsercategories(val, id);
@@ -35,9 +36,8 @@ public class AlbumScreen extends AppScreen implements FieldChangeListener
 		if (update) {
 			SettingsBean.saveSettings(_instance);
 		}
-		
+		int fromIndex;
 		if ((!(isDisplaying()))||(update)) {
-			int fromIndex;
 	    	if ((fromIndex = val.indexOf(Const.xml_result)) != -1) {
 	    		setText(val.substring(fromIndex+Const.xml_result_length, val.indexOf(Const.xml_result_end, fromIndex)));
 	    	} else if (((fromIndex = val.indexOf(Const.xml_usercategories)) != -1)) {
@@ -102,29 +102,30 @@ public class AlbumScreen extends AppScreen implements FieldChangeListener
 					add(tmp);
 					invalidate();
 				}
-	    	} else if ((fromIndex = val.indexOf(Const.xml_notedate)) != -1) {
-				String notedate = val.substring(fromIndex+Const.xml_notedate_length, val.indexOf(Const.xml_notedate_end, fromIndex));
-				Date date = new Date(HttpDateParser.parse(notedate));
-				_instance = SettingsBean.getSettings();
-				System.out.println("date.getTime() " + date.getTime());
-				System.out.println("_instance.getNoteLoaded() " + _instance.getNoteLoaded());
-				if(date.getTime()/1000>_instance.getNoteLoaded()){
-					_instance.notifications = true;
+	    	} 
+		} 
+		if ((fromIndex = val.indexOf(Const.xml_notedate)) != -1) {
+			String notedate = val.substring(fromIndex+Const.xml_notedate_length, val.indexOf(Const.xml_notedate_end, fromIndex));
+			Date date = new Date(HttpDateParser.parse(notedate));
+			_instance = SettingsBean.getSettings();
+			System.out.println("date.getTime() " + date.getTime());
+			System.out.println("_instance.getNoteLoaded() " + _instance.getNoteLoaded());
+			if(date.getTime()/1000>_instance.getNoteLoaded()){
+				_instance.notifications = true;
+				synchronized(UiApplication.getEventLock()) {
+					notifications.setLabel((_instance.notifications?"*":"")+Const.notification);
+				}
+				if(initialcheck){
+					initialcheck = false;
 					synchronized(UiApplication.getEventLock()) {
-						notifications.setLabel((_instance.notifications?"*":"")+Const.notification);
-					}
-					if(initialcheck){
-						initialcheck = false;
-						synchronized(UiApplication.getEventLock()) {
-							screen = new DetailScreen(this, Const.NOTIFICATIONSCREEN);
-							UiApplication.getUiApplication().pushScreen(screen);
-						}
+						screen = new DetailScreen(this, Const.NOTIFICATIONSCREEN);
+						UiApplication.getUiApplication().pushScreen(screen);
 					}
 				}
 			}
-	    	_instance = null;
-	    	setDisplaying(true);
-		}		
+		}
+    	_instance = null;	
+    	setDisplaying(true);
 	}
 	public AlbumScreen() {
 		super(null);
