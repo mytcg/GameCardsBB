@@ -37,12 +37,15 @@ public final class SettingsBean implements Persistable {
 	private Hashtable cards;
 	private Hashtable images;
 	
+	public boolean created = false;
+	
 	//saves precache xml data
 	private String all;
 	public boolean loadingimage = false;
 	public boolean notifications = false;
 	public String loading;
 	public String loadingflip;
+	public int deckid = -1;
 	
 	private int size = -1;
 	
@@ -110,7 +113,7 @@ public final class SettingsBean implements Persistable {
 		setPassword("");
 		setEmail("");
 		setUrl(Const.url);
-		setUsercategories(Const.cat);
+		setUsercategories("");//Const.cat);
 		albums = new Hashtable();
 		cards = new Hashtable();
 		images = new Hashtable();

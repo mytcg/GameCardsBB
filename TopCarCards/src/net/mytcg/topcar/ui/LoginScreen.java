@@ -59,10 +59,10 @@ public class LoginScreen extends AppScreen implements FieldChangeListener
 		
 		add(new ColorLabelField(Const.user));
 		add(username);
-		username.setText("heinzs");
+		//username.setText("heinzs");
 		add(new ColorLabelField(Const.password));
 		add(password);
-		password.setText("aaaaaa");
+		//password.setText("aaaaaa");
 		
 		bgManager.setStatusHeight(Const.getButtonHeight());
 		

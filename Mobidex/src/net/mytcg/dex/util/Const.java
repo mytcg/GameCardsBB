@@ -66,6 +66,7 @@ public final class Const {
 	private static Bitmap b;
 	
 	private static Bitmap getScaledBitmapImage(String imagename, int ratioX, int ratioY){
+		System.out.println("imagename");
 		image = EncodedImage.getEncodedImageResource(imagename);
 		try {	
 			int currentWidthFixed32 = Fixed32.toFP(image.getWidth());
@@ -104,7 +105,7 @@ public final class Const {
 		}
 		return image.getBitmap();
 	}
-	private static Bitmap getSizeImage(String bitmap) {
+	public static Bitmap getSizeImage(String bitmap) {
 		switch (Const.SCREEN) {
 			case Const.LARGE_SCREEN:
 				b = Bitmap.getBitmapResource(bitmap);
@@ -179,6 +180,8 @@ public final class Const {
 	public static final short LOGOUT = -900;
 	public static final short DIREC = -90;
 	public static final short SEARCH = -9;
+	public static final short CREATECARD = -18;
+	public static final short CREATEALBUM = -19;
 	public static final short REDEEM = -10;
 	
 	//public static final short CACHE = -1;
@@ -309,6 +312,7 @@ public final class Const {
 	public static String register = "Register";
 	public static String exit = "Exit";
 	public static String back = "Back";
+	public static String create = "Create";
 	public static String home = "Home";
 	public static String newupdate = " Update Available";
 	public static String updatemsg = "New update available. Select \"Update\" to install, or \"Later\" to continue.";
@@ -388,7 +392,7 @@ public final class Const {
 	public static String http = "http";
 	public static String err_url_htt = "URL not http or https";
 	
-	public static String url = "http://dex.mytcg.net/_phone/?";
+	public static String url = "http://mobidex.mytcg.net/_phone/?";
 	public static String userdetails = "userdetails=1";
 	public static String registeruser = "registeruser=1";
 	public static String notifications = "notifications=1";
@@ -411,6 +415,9 @@ public final class Const {
 	public static String rejectcard = "rejectcard=";
 	public static String showall = "&showall=0";
 	public static String cardsincategory = "cardsincategory=";
+	public static String createdeck = "createdeck=1";
+	public static String description = "&description=";
+	public static String category_id = "&category_id=";
 	public static String second = "&seconds=";
 	public static String savenote = "savenote=";
 	public static String trade = "tradecard=";
@@ -1028,6 +1035,11 @@ public final class Const {
 	
 	public static final String xml_card = "<card>";
 	public static final int xml_card_length = xml_card.length();
+	
+	public static final String xml_deck_id = "<deck_id>";
+	public static final int xml_deck_id_length = xml_deck_id.length();
+	public static final String xml_deck_id_end = "</deck_id>";
+	public static final int xml_deck_id_end_length = xml_deck_id_end.length();
 	
 	public static final String xml_cardid = "<cardid>";
 	public static final int xml_cardid_length = xml_cardid.length();

@@ -63,23 +63,28 @@ public class ImageScreen extends AppScreen implements FieldChangeListener
 		}
 		
 		cardStats = card.getStats();
-		stats = new StatField [cardStats.size()];
-		for(int i = 0; i < cardStats.size(); i++){
-			if(!(Const.getPortrait())){
-				stats[i] = new StatField ((Stat)cardStats.elementAt(i), hStatManager.image);
-			}else{
-				stats[i] = new StatField ((Stat)cardStats.elementAt(i), vStatManager.image);
+		if (cardStats != null) {
+			stats = new StatField [cardStats.size()];
+			for(int i = 0; i < cardStats.size(); i++){
+				if(!(Const.getPortrait())){
+					stats[i] = new StatField ((Stat)cardStats.elementAt(i), hStatManager.image);
+				}else{
+					stats[i] = new StatField ((Stat)cardStats.elementAt(i), vStatManager.image);
+				}
+				
+				stats[i].setChangeListener(this);
+				if(stats[i].stat.getWidth()!=0){
+					addStat(stats[i]);
+				}
 			}
-			
-			stats[i].setChangeListener(this);
-			if(stats[i].stat.getWidth()!=0){
-				addStat(stats[i]);
-			}
+		} else {
+			cardStats = new Vector();
 		}
 		//addStat(new NullField());
-		
-		addButton(option);
-		addButton(flips);
+		if (!(card.getFronturl().equals("createacard"))) {
+			addButton(option);
+			addButton(flips);
+		}
 		addButton(exit);
 		
 	}

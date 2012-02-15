@@ -18,7 +18,7 @@ import net.rim.blackberry.api.browser.BrowserSession;
 import net.rim.device.api.ui.Color;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.FieldChangeListener;
-import net.rim.device.api.ui.TouchEvent;
+//import net.rim.device.api.ui.TouchEvent;
 import net.rim.device.api.ui.UiApplication;
 import net.rim.device.api.ui.component.CheckboxField;
 import net.rim.device.api.ui.component.SeparatorField;
@@ -402,7 +402,7 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 	    	//setDisplaying(true);
 		}		
 	}
-	protected boolean touchEvent(TouchEvent event) {
+	/*protected boolean touchEvent(TouchEvent event) {
 		int x = event.getX(1);
 		int y = event.getY(1) - titleManager.getHeight();
 		if(event.getEvent() == TouchEvent.DOWN){
@@ -425,7 +425,7 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 		else{
 			return super.touchEvent(event);
 		}
-	}
+	}*/
 	public boolean navigationMovement(int dx, int dy, int status, int time) {
 		if(bgManager.isFocus() && dy == 0 && dx == -1){
 			if(pages.size() >1){
