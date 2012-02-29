@@ -29,7 +29,7 @@ public class ShareScreen extends AppScreen implements FieldChangeListener
 	FixedButtonField exit = new FixedButtonField(Const.back);
 	FixedButtonField contacts = new FixedButtonField(Const.contacts);
 	FixedButtonField send = new FixedButtonField(Const.send);
-	SexyEditField number = new SexyEditField("", EditField.FILTER_NUMERIC, 36);
+	SexyEditField number = new SexyEditField("", EditField.FILTER_PHONE, 36);
 	ColorLabelField lbl = new ColorLabelField(Const.cell);
 	SexyEditField note = new SexyEditField(Const.getWidth(), (Const.FONT*8));
 	

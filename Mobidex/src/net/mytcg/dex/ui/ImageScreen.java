@@ -169,7 +169,7 @@ public class ImageScreen extends AppScreen implements FieldChangeListener
 		}else{
 			for(int j = 0; j < cardStats.size(); j++){
 				Stat temp = (Stat)cardStats.elementAt(j);
-				if((temp.getFrontOrBack()==0&&!flip)||(temp.getFrontOrBack()==1&&flip)){
+				if((temp.getFrontOrBack()==1&&!flip)||(temp.getFrontOrBack()==2&&flip)){
 					if(f == stats[j]){
 						if (temp.getDesc().equals(Const.web)) {
 							BrowserSession browserSession = Browser.getDefaultSession();
