@@ -204,7 +204,7 @@ public final class Const {
 	public static final int INCREASE_FONT = 2;
 	
 	public static final int FONTCOLOR = Color.WHITE;
-	public static final int BACKCOLOR = Color.BLACK;
+	public static final int BACKCOLOR = Color.BLUE;
 	public static final int BUTTONCOLOR = Color.WHITE;
 	public static final int SELECTEDCOLOR = Color.BLUE;
 	

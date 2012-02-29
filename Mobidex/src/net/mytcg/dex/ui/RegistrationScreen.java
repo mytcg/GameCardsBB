@@ -6,11 +6,17 @@ import net.mytcg.dex.ui.custom.SexyEditField;
 import net.mytcg.dex.util.Const;
 import net.mytcg.dex.util.Country;
 import net.mytcg.dex.util.SettingsBean;
+import net.rim.blackberry.api.browser.Browser;
+import net.rim.blackberry.api.browser.BrowserSession;
 import net.rim.device.api.io.Base64OutputStream;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.FieldChangeListener;
+import net.rim.device.api.ui.Graphics;
 import net.rim.device.api.ui.UiApplication;
+import net.rim.device.api.ui.component.CheckboxField;
 import net.rim.device.api.ui.component.EditField;
+import net.rim.device.api.ui.component.LabelField;
+import net.rim.device.api.ui.container.HorizontalFieldManager;
 
 public class RegistrationScreen extends AppScreen implements FieldChangeListener
 {
@@ -22,6 +28,8 @@ public class RegistrationScreen extends AppScreen implements FieldChangeListener
 	SexyEditField cell = new SexyEditField("", EditField.FILTER_PHONE, 36);
 	SexyEditField email = new SexyEditField("", EditField.FILTER_EMAIL, 36);
 	SexyEditField password = new SexyEditField("");
+	ColorLabelField terms = new ColorLabelField(" Terms and Conditions  ", LabelField.FIELD_VCENTER);
+	CheckboxField termsBox = new CheckboxField(){protected void drawFocus(Graphics g, boolean x) {} };
 	Country countries [] =
 	{
 	 new Country("+7840", "Abkhazia") ,
@@ -359,12 +367,17 @@ public class RegistrationScreen extends AppScreen implements FieldChangeListener
 		add(email);
 		add(new ColorLabelField(Const.gender));
 		add(password);
-		
+		HorizontalFieldManager termsManager = new HorizontalFieldManager(Field.FIELD_HCENTER){public int getPreferredWidth() {return Const.getWidth();}};
+		terms.setFocusable(true);
+		add(termsManager);
+		termsManager.add(terms);
+		termsManager.add(termsBox);
 		//bgManager.setStatusHeight(Const.getButtonHeight());
 		
+		terms.setChangeListener(this);
+		termsBox.setChangeListener(this);
 		exit.setChangeListener(this);
 		register.setChangeListener(this);
-		
 		
 		addButton(register);
 		addButton(new FixedButtonField(""));
@@ -374,6 +387,10 @@ public class RegistrationScreen extends AppScreen implements FieldChangeListener
 	public void fieldChanged(Field f, int i) {
 		if (f == exit) {
 			System.exit(0);
+		} else if (f == terms) {
+			BrowserSession browserSession = Browser.getDefaultSession();
+			browserSession.displayPage("http://www.mobidex.biz/terms/terms.html");
+			browserSession.showBrowser();
 		} else if (f == register) {
 			SettingsBean _instance = SettingsBean.getSettings();
 			_instance.setUsername(cell.getText());
@@ -390,13 +407,17 @@ public class RegistrationScreen extends AppScreen implements FieldChangeListener
 				setText("Email cannot be blank.");
 			} else if (cell.getText().length() < 10){
 				setText("Your cell needs to be at least 10 numbers long.");
+			} else if (!termsBox.getChecked()){
+				setText("You need to accept our terms and conditions.");
 			} else {
 				int countryIndex = -1;
 				for(int k = 0; k < countries.length; k++){
 					System.out.println("countries[k].countryCode "+countries[k].countryCode+"   "+cell.getText().substring(0, countries[k].countryCode.length()));
-					if(countries[k].countryCode.equals(cell.getText().substring(0, countries[k].countryCode.length()))){
-						countryIndex = k;
-						break;
+					if (cell.getText().length() == countries[k].countryCode.length() + 9) {
+						if(countries[k].countryCode.equals(cell.getText().substring(0, countries[k].countryCode.length()))){
+							countryIndex = k;
+							break;
+						}
 					}
 				}
 				if (countryIndex == -1) {
