@@ -12,6 +12,7 @@ import net.mytcg.dex.util.Stat;
 import net.rim.device.api.math.Fixed32;
 import net.rim.device.api.system.Bitmap;
 import net.rim.device.api.system.EncodedImage;
+import net.rim.device.api.ui.Color;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.Font;
 import net.rim.device.api.ui.Graphics;
@@ -217,16 +218,14 @@ public final class ThumbnailField extends Field {
 		int xPts2[] = {0,0,getPreferredWidth(),getPreferredWidth()};
 		int yPts2[] = {0,getPreferredHeight(),getPreferredHeight(),0};
 		
-		g.setColor(Const.FONTCOLOR);
-		
 		if (focus) {
-			//g.setColor(Const.SELECTEDCOLOR);
+			g.setColor(Color.BLACK);
 			g.drawTexturedPath(xPts2,yPts2,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,button_sel_centre);
 			//g.drawBitmap(Const.getWidth() - (button_sel_right_edge.getWidth() + 5), 0, button_sel_right_edge.getWidth(), getPreferredHeight(), button_sel_right_edge, 0, 0);
 		} else {
 			//int xPts1[] = {2,2,getPreferredWidth()-2,getPreferredWidth()-2};
 			//int yPts1[] = {0,getPreferredHeight(),getPreferredHeight(),0};
-				
+			g.setColor(Color.WHITE);
 			g.drawTexturedPath(xPts2,yPts2,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,button_centre);
 		}
 		

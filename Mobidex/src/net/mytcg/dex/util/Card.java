@@ -7,6 +7,7 @@ public class Card implements Persistable {
 	private int id = -1;
 	private String description = "";
 	private int quantity = -1;
+	private int cardorientation = 0;
 	private String thumburl = "";
 	private String fronturl = "";
 	private String backurl = "";
@@ -14,7 +15,7 @@ public class Card implements Persistable {
 	private int updated = 0;
 	private Vector stats = new Vector();
 	
-	public Card(int id, String description, int quantity, String thumburl, String fronturl, String backurl, String note, int updated, Vector stats) {
+	public Card(int id, String description, int quantity, String thumburl, String fronturl, String backurl, String note, int cardorientation, int updated, Vector stats) {
 		setId(id);
 		setDesc(description);
 		setQuantity(quantity);
@@ -22,6 +23,7 @@ public class Card implements Persistable {
 		setFronturl(fronturl);
 		setBackurl(backurl);
 		setNote(note);
+		setCardOrientation(cardorientation);
 		setUpdated(updated);
 		setStats(stats);
 	}
@@ -34,18 +36,19 @@ public class Card implements Persistable {
 						if (this.fronturl.equals(compare.fronturl)) {
 							if (this.backurl.equals(compare.backurl)){
 								if (this.note.equals(compare.note)) {
-									if (this.updated == compare.updated){
-										if ((this.stats.size() == compare.stats.size())&&this.stats.size() > 0) {
-											boolean cmp = false;
-											for (int i = 0; i < this.stats.size(); i++) {
-												if (((Stat)(this.stats.elementAt(i))).equals((Stat)(compare.stats.elementAt(i)))) {
-													cmp = true;
+									if (this.cardorientation == compare.cardorientation) {
+										if (this.updated == compare.updated){
+											if ((this.stats.size() == compare.stats.size())&&this.stats.size() > 0) {
+												boolean cmp = false;
+												for (int i = 0; i < this.stats.size(); i++) {
+													if (((Stat)(this.stats.elementAt(i))).equals((Stat)(compare.stats.elementAt(i)))) {
+														cmp = true;
+													}
 												}
+												return !cmp;
 											}
-											return !cmp;
 										}
 									}
-									
 								}
 							}
 						}
@@ -80,6 +83,9 @@ public class Card implements Persistable {
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
+	public void setCardOrientation(int cardorientation) {
+		this.cardorientation = cardorientation;
+	}
 	public void setThumburl(String url) {
 		thumburl = url;
 	}
@@ -105,6 +111,9 @@ public class Card implements Persistable {
 	}
 	public int getQuantity() {
 		return quantity;
+	}
+	public int getCardOrientation() {
+		return cardorientation;
 	}
 	public String getThumburl() {
 		return thumburl;

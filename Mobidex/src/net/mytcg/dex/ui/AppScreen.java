@@ -5,6 +5,7 @@ import net.mytcg.dex.ui.custom.BackgroundManager;
 import net.mytcg.dex.ui.custom.VerticalStatManager;
 import net.mytcg.dex.ui.custom.HorizontalStatManager;
 import net.mytcg.dex.ui.custom.ColorLabelField;
+import net.mytcg.dex.util.Card;
 import net.mytcg.dex.util.Const;
 import net.rim.device.api.math.Fixed32;
 import net.rim.device.api.system.Bitmap;
@@ -60,6 +61,7 @@ public class AppScreen extends MainScreen {
 	protected Bitmap logoleft = Const.getLogoLeft();
 	protected Bitmap logoright = Const.getLogoRight();
 	private int padding = (int)(((double)(Const.getWidth()-logo.getWidth()))/2);
+	Card card = null;
 	protected AppScreen screen = null;
 	protected AppScreen parent = null;
 	
@@ -91,7 +93,7 @@ public class AppScreen extends MainScreen {
 			      public void run()
 			     {
 			           synchronized(UiApplication.getEventLock()){
-			        	   status.setText("\n" + msg + "\n\n");
+			        	   status.setText(msg);
 							bgManager.invalidate();
 			           }
 			     }
@@ -128,7 +130,8 @@ public class AppScreen extends MainScreen {
 		add(bgManager);
 		this.parent = parent;
 		//title setup
-		titleManager.add(new BitmapField(logo, BitmapField.FIELD_HCENTER));
+		titleManager.setTitle(true);
+		titleManager.add(new BitmapField(logo, BitmapField.FIELD_LEFT));
 		titleManager.add(status);
 		
 		bgManager.setTitleHeight(Const.getLogoHeight()+(Const.FONT-2));
@@ -137,11 +140,13 @@ public class AppScreen extends MainScreen {
 		statusManager.add(hManager1);
 		setStatus(statusManager);
 	}
-	public AppScreen(AppScreen parent, boolean noheader) {
+	public AppScreen(AppScreen parent, boolean noheader, Card card) {
 		super();
-		if(!(Const.getPortrait())){
+		this.card = card;
+		//if(!(Const.getPortrait())){
+		if(card.getCardOrientation()==2){
 			super.add(hStatManager);
-		}else{
+		}else if(card.getCardOrientation()==1){
 			super.add(vStatManager);
 		}
 		this.parent = parent;
@@ -172,12 +177,26 @@ public class AppScreen extends MainScreen {
 	}
 	
 	public void addStat(Field field) {
-		if(!(Const.getPortrait())){
+		//if(!(Const.getPortrait())){
+		if(card.getCardOrientation()==2){
 			hStatManager.add(field);
-		}else{
+		}else if(card.getCardOrientation()==1){
 			vStatManager.add(field);
 		}
 		
+	}
+	
+	public void removeStats() {
+		//if(!(Const.getPortrait())){
+		if(card.getCardOrientation()==2){
+			try{
+				hStatManager.deleteAll();
+			}catch(Exception e){};
+		}else if(card.getCardOrientation()==1){
+			try{
+				vStatManager.deleteAll();
+			}catch(Exception e){};
+		}
 	}
 	
 	public void process(String val) {

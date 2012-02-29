@@ -11,7 +11,7 @@ import net.rim.device.api.ui.Graphics;
 public final class StatField extends Field {
 	private boolean focus;
 	public Stat stat;
-	public int flip = 0;
+	public int flip = 1;
 	private Bitmap image;
 	
 	public StatField(Stat stat, Bitmap image) {
@@ -38,6 +38,7 @@ public final class StatField extends Field {
 		
 	}
 	protected void onFocus(int direction) {
+		System.out.println("wawawa "+this);
 		focus = true;
 		invalidate();
 	}
@@ -70,6 +71,7 @@ public final class StatField extends Field {
     }
 	public void paint(Graphics g) {
 		if(stat.getFrontOrBack()==flip){
+			g.setColor(65536*stat.getColorRed()+256*stat.getColorGreen()+stat.getColorBlue());
 			if(focus){
 				if(!(Const.getPortrait())){
 					//g.fillRect(((getPreferredWidth()-(image.getWidth()))/2)+stat.getTop()*image.getWidth()/350, (((getPreferredHeight())-((image.getHeight())))/2)+(250 - stat.getLeft() - stat.getWidth())*image.getHeight()/250, stat.getHeight()*image.getHeight()/250, stat.getWidth()*image.getWidth()/350);

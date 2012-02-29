@@ -3,6 +3,7 @@ package net.mytcg.dex.ui.custom;
 import net.mytcg.dex.util.Const;
 import net.rim.device.api.math.Fixed32;
 import net.rim.device.api.system.Bitmap;
+import net.rim.device.api.ui.Color;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.Font;
 import net.rim.device.api.ui.Graphics;
@@ -92,9 +93,10 @@ public final class ListItemField extends Field {
 		
 		g.drawTexturedPath(_xPts,_yPts,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,Const.getBackground());
 		
-		g.setColor(Const.FONTCOLOR);
+		
 		
 		if (focus) {
+			g.setColor(Color.BLACK);
 			g.drawTexturedPath(xPts,yPts,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,button_sel_centre);
 			
 			//g.drawBitmap(0, 0, getPreferredWidth(), getPreferredHeight(), button_sel_left_edge, 0, 0);
@@ -102,6 +104,7 @@ public final class ListItemField extends Field {
 
 			//g.setColor(Const.SELECTEDCOLOR);
 		} else {
+			g.setColor(Color.WHITE);
 			g.drawTexturedPath(xPts,yPts,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,button_centre);
 			
 			//g.drawBitmap(5, 0, getPreferredWidth(), getPreferredHeight(), button_left_edge, 0, 0);

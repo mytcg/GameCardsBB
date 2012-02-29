@@ -167,6 +167,7 @@ public class HorizontalStatManager extends HorizontalFieldManager
 		}
 		image = (EncodedImage.createEncodedImage(data, 0, data.length)).getBitmap();
 		landscape();
+		sublayout(0, 0);
 		invalidate();
 		saveData(data, filename);
 	}
@@ -191,7 +192,7 @@ public class HorizontalStatManager extends HorizontalFieldManager
             field = getField(i); //get the field
             if(field instanceof StatField){
             	StatField sField = (StatField) field;
-            	setPositionChild(field, ((getPreferredWidth()-(image.getWidth()))/2)+sField.stat.getTop()*image.getWidth()/350, (((getPreferredHeight())-((image.getHeight())))/2)+(250 - sField.stat.getLeft() - sField.stat.getWidth())*image.getHeight()/250);  //set the position for the field
+            	setPositionChild(field, ((getPreferredWidth()-(image.getWidth()))/2)+sField.stat.getLeft()*image.getWidth()/250, ((((Const.getHeight()-Const.getButtonCentre().getHeight()))-((image.getHeight())))/2)+sField.stat.getTop()*image.getHeight()/350);  //set the position for the field
             	layoutChild( field, sField.stat.getHeight()*image.getHeight()/250, sField.stat.getWidth()*image.getWidth()/350); //lay out the field
             }else if(field instanceof GaugeField){
             	setPositionChild(field, 40, ((Const.getHeight()-Const.getButtonCentre().getHeight())/2-5));  //set the position for the field

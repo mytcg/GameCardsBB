@@ -222,7 +222,7 @@ public class AlbumScreen extends AppScreen implements FieldChangeListener
 				screen = new DetailScreen(this, Const.NOTIFICATIONSCREEN);
 				UiApplication.getUiApplication().pushScreen(screen);
 			} else if(f == createcard) {
-				Card createcard = new Card(-1, "", 0, "", "createacard", "", "", 0, null);
+				Card createcard = new Card(-1, "", 0, "", "createacard", "", "", 1, 0, null);
 				screen = new ImageScreen(createcard, this);
 				UiApplication.getUiApplication().pushScreen(screen);
 			} else if(f == createalbum) {

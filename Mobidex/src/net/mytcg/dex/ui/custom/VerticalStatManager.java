@@ -167,6 +167,7 @@ public class VerticalStatManager extends VerticalFieldManager
 		}
 		image = (EncodedImage.createEncodedImage(data, 0, data.length)).getBitmap();
 		landscape();
+		sublayout(0, 0);
 		invalidate();
 		saveData(data, filename);
 	}

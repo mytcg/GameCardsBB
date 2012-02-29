@@ -3,6 +3,7 @@ package net.mytcg.dex.ui.custom;
 import net.mytcg.dex.util.Const;
 import net.rim.device.api.math.Fixed32;
 import net.rim.device.api.system.Bitmap;
+import net.rim.device.api.ui.Color;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.Font;
 import net.rim.device.api.ui.Graphics;
@@ -86,12 +87,13 @@ public final class FixedButtonField extends Field {
 			int yPts[] = {0,getPreferredHeight(),getPreferredHeight(),0};
 			
 			g.setColor(Const.BUTTONCOLOR);
-			if (!focus) {
-				//g.setColor(Const.SELECTEDCOLOR);
+			if (focus) {
+				g.setColor(Color.WHITE);
 				g.drawTexturedPath(xPts,yPts,null,null,0,getPreferredHeight(),Fixed32.ONE,0,0,Fixed32.ONE,button_sel_centre);
 				g.drawBitmap(0, 0, Const.getWidth(), getPreferredHeight(), button_sel_left_edge, 0, 0);
 				g.drawBitmap(getPreferredWidth()-button_sel_right_edge.getWidth(), 0, Const.getWidth(), getPreferredHeight(), button_sel_right_edge, 0, 0);
 			} else {
+				g.setColor(Color.BLACK);
 				g.drawTexturedPath(xPts,yPts,null,null,0,getPreferredHeight(),Fixed32.ONE,0,0,Fixed32.ONE,button_centre);
 				g.drawBitmap(0, 0, Const.getWidth(), getPreferredHeight(), button_left_edge, 0, 0);
 				g.drawBitmap(getPreferredWidth()-button_right_edge.getWidth(), 0, Const.getWidth(), getPreferredHeight(), button_right_edge, 0, 0);

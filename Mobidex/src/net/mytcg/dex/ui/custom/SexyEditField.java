@@ -3,6 +3,7 @@ package net.mytcg.dex.ui.custom;
 import net.mytcg.dex.util.Const;
 import net.rim.device.api.math.Fixed32;
 import net.rim.device.api.system.Bitmap;
+import net.rim.device.api.ui.Color;
 import net.rim.device.api.ui.Font;
 import net.rim.device.api.ui.Graphics;
 import net.rim.device.api.ui.Manager;
@@ -171,7 +172,7 @@ public final class SexyEditField extends Manager {
 		int _xPts[] = {0,0,getPreferredWidth(),getPreferredWidth()};
 		int _yPts[] = {0,Const.getHeight(),Const.getHeight(),0};
 		g.drawTexturedPath(_xPts,_yPts,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,Const.getBackground());
-		
+		g.setColor(Color.WHITE);
 		if (!focus) {
 			//fills body block
 			int xPts[] = {5,5,getPreferredWidth()-5,getPreferredWidth()-5};
@@ -179,29 +180,29 @@ public final class SexyEditField extends Manager {
 			g.drawTexturedPath(xPts,yPts,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,editbox_middle_middle);
 
 			//fills left middle
-			int xPts3[] = {5,5,5+editbox_left_middle.getWidth(),5+editbox_left_middle.getWidth()};
+			int xPts3[] = {0,0,editbox_left_middle.getWidth(),editbox_left_middle.getWidth()};
 			int yPts3[] = {5,getPreferredHeight()-5,getPreferredHeight()-5,5};
-			g.drawTexturedPath(xPts3,yPts3,null,null,5+editbox_left_middle.getWidth(),0,Fixed32.ONE,0,0,Fixed32.ONE,editbox_left_middle);
+			g.drawTexturedPath(xPts3,yPts3,null,null,editbox_left_middle.getWidth(),0,Fixed32.ONE,0,0,Fixed32.ONE,editbox_left_middle);
 			
 			//fills right middle
-			int xPts4[] = {getPreferredWidth()-(5+editbox_right_middle.getWidth()),getPreferredWidth()-(5+editbox_right_middle.getWidth()),getPreferredWidth()-5,getPreferredWidth()-5};
+			int xPts4[] = {getPreferredWidth()-(editbox_right_middle.getWidth()),getPreferredWidth()-(editbox_right_middle.getWidth()),getPreferredWidth(),getPreferredWidth()};
 			int yPts4[] = {5,getPreferredHeight()-5,getPreferredHeight()-5,5};
-			g.drawTexturedPath(xPts4,yPts4,null,null,getPreferredWidth()-(5+editbox_right_middle.getWidth()),0,Fixed32.ONE,0,0,Fixed32.ONE,editbox_right_middle);
+			g.drawTexturedPath(xPts4,yPts4,null,null,getPreferredWidth()-(editbox_right_middle.getWidth()),0,Fixed32.ONE,0,0,Fixed32.ONE,editbox_right_middle);
 			
 			//fills top middle
 			int xPts1[] = {5,5,getPreferredWidth()-5,getPreferredWidth()-5};
-			int yPts1[] = {5,5+editbox_middle_top.getHeight(), 5+editbox_middle_top.getHeight(), 5};
-			g.drawTexturedPath(xPts1,yPts1,null,null,0,5+editbox_middle_top.getHeight(),Fixed32.ONE,0,0,Fixed32.ONE,editbox_middle_top);
+			int yPts1[] = {5,editbox_middle_top.getHeight(), editbox_middle_top.getHeight(), 0};
+			g.drawTexturedPath(xPts1,yPts1,null,null,0,editbox_middle_top.getHeight(),Fixed32.ONE,0,0,Fixed32.ONE,editbox_middle_top);
 			
 			//fills bottom middle
 			int xPts2[] = {5,5,getPreferredWidth()-5,getPreferredWidth()-5};
-			int yPts2[] = {getPreferredHeight()-(5+editbox_middle_bottom.getHeight()),getPreferredHeight()-5, getPreferredHeight()-5, getPreferredHeight()-(5+editbox_middle_bottom.getHeight())};
-			g.drawTexturedPath(xPts2,yPts2,null,null,0,getPreferredHeight()-(5+editbox_middle_bottom.getHeight()),Fixed32.ONE,0,0,Fixed32.ONE,editbox_middle_bottom);
+			int yPts2[] = {getPreferredHeight()-(editbox_middle_bottom.getHeight()),getPreferredHeight(), getPreferredHeight(), getPreferredHeight()-(editbox_middle_bottom.getHeight())};
+			g.drawTexturedPath(xPts2,yPts2,null,null,0,getPreferredHeight()-(editbox_middle_bottom.getHeight()),Fixed32.ONE,0,0,Fixed32.ONE,editbox_middle_bottom);
 
-			g.drawBitmap(5, 5, getPreferredWidth(), getPreferredHeight(), editbox_left_top, 0, 0);
-			g.drawBitmap(5, getPreferredHeight()-(5+editbox_left_bottom.getHeight()), getPreferredWidth(), getPreferredHeight(), editbox_left_bottom, 0, 0);
-			g.drawBitmap(getPreferredWidth()-(5+editbox_right_top.getWidth()), 5, getPreferredWidth(), getPreferredHeight(), editbox_right_top, 0, 0);
-			g.drawBitmap(getPreferredWidth()-(5+editbox_right_bottom.getWidth()), getPreferredHeight()-(5+editbox_right_bottom.getHeight()), getPreferredWidth(), getPreferredHeight(), editbox_right_bottom, 0, 0);
+			g.drawBitmap(0, 0, getPreferredWidth(), getPreferredHeight(), editbox_left_top, 0, 0);
+			g.drawBitmap(0, getPreferredHeight()-(editbox_left_bottom.getHeight()), getPreferredWidth(), getPreferredHeight(), editbox_left_bottom, 0, 0);
+			g.drawBitmap(getPreferredWidth()-(editbox_right_top.getWidth()), 0, getPreferredWidth(), getPreferredHeight(), editbox_right_top, 0, 0);
+			g.drawBitmap(getPreferredWidth()-(editbox_right_bottom.getWidth()), getPreferredHeight()-(editbox_right_bottom.getHeight()), getPreferredWidth(), getPreferredHeight(), editbox_right_bottom, 0, 0);
 		} else {
 			//fills body block
 			int xPts[] = {5,5,getPreferredWidth()-5,getPreferredWidth()-5};
@@ -209,29 +210,29 @@ public final class SexyEditField extends Manager {
 			g.drawTexturedPath(xPts,yPts,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,editbox_sel_middle_middle);
 			
 			//fills left middle
-			int xPts3[] = {5,5,5+editbox_sel_left_middle.getWidth(),5+editbox_sel_left_middle.getWidth()};
+			int xPts3[] = {0,0,editbox_sel_left_middle.getWidth(),editbox_sel_left_middle.getWidth()};
 			int yPts3[] = {5,getPreferredHeight()-5,getPreferredHeight()-5,5};
-			g.drawTexturedPath(xPts3,yPts3,null,null,5+editbox_sel_left_middle.getWidth(),0,Fixed32.ONE,0,0,Fixed32.ONE,editbox_sel_left_middle);
+			g.drawTexturedPath(xPts3,yPts3,null,null,editbox_sel_left_middle.getWidth(),0,Fixed32.ONE,0,0,Fixed32.ONE,editbox_sel_left_middle);
 			
 			//fills right middle
-			int xPts4[] = {getPreferredWidth()-(5+editbox_sel_right_middle.getWidth()),getPreferredWidth()-(5+editbox_sel_right_middle.getWidth()),getPreferredWidth()-5,getPreferredWidth()-5};
+			int xPts4[] = {getPreferredWidth()-(editbox_sel_right_middle.getWidth()),getPreferredWidth()-(editbox_sel_right_middle.getWidth()),getPreferredWidth(),getPreferredWidth()};
 			int yPts4[] = {5,getPreferredHeight()-5,getPreferredHeight()-5,5};
-			g.drawTexturedPath(xPts4,yPts4,null,null,getPreferredWidth()-(5+editbox_sel_right_middle.getWidth()),0,Fixed32.ONE,0,0,Fixed32.ONE,editbox_sel_right_middle);
+			g.drawTexturedPath(xPts4,yPts4,null,null,getPreferredWidth()-(editbox_sel_right_middle.getWidth()),0,Fixed32.ONE,0,0,Fixed32.ONE,editbox_sel_right_middle);
 			
 			//fills top middle
 			int xPts1[] = {5,5,getPreferredWidth()-5,getPreferredWidth()-5};
-			int yPts1[] = {5,5+editbox_sel_middle_top.getHeight(), 5+editbox_sel_middle_top.getHeight(), 5};
-			g.drawTexturedPath(xPts1,yPts1,null,null,0,5+editbox_middle_top.getHeight(),Fixed32.ONE,0,0,Fixed32.ONE,editbox_sel_middle_top);
+			int yPts1[] = {0,editbox_sel_middle_top.getHeight(), editbox_sel_middle_top.getHeight(), 0};
+			g.drawTexturedPath(xPts1,yPts1,null,null,0,editbox_middle_top.getHeight(),Fixed32.ONE,0,0,Fixed32.ONE,editbox_sel_middle_top);
 			
 			//fills bottom middle
 			int xPts2[] = {5,5,getPreferredWidth()-5,getPreferredWidth()-5};
-			int yPts2[] = {getPreferredHeight()-(5+editbox_sel_middle_bottom.getHeight()),getPreferredHeight()-5, getPreferredHeight()-5, getPreferredHeight()-(5+editbox_sel_middle_bottom.getHeight())};
-			g.drawTexturedPath(xPts2,yPts2,null,null,0,getPreferredHeight()-(editbox_sel_middle_bottom.getHeight()+5),Fixed32.ONE,0,0,Fixed32.ONE,editbox_sel_middle_bottom);
+			int yPts2[] = {getPreferredHeight()-(editbox_sel_middle_bottom.getHeight()),getPreferredHeight(), getPreferredHeight(), getPreferredHeight()-(editbox_sel_middle_bottom.getHeight())};
+			g.drawTexturedPath(xPts2,yPts2,null,null,0,getPreferredHeight()-(editbox_sel_middle_bottom.getHeight()),Fixed32.ONE,0,0,Fixed32.ONE,editbox_sel_middle_bottom);
 			
-			g.drawBitmap(5, 5, getPreferredWidth(), getPreferredHeight(), editbox_sel_left_top, 0, 0);
-			g.drawBitmap(5, (getPreferredHeight()-5)-editbox_sel_left_bottom.getHeight(), getPreferredWidth(), getPreferredHeight(), editbox_sel_left_bottom, 0, 0);
-			g.drawBitmap((getPreferredWidth()-5)-editbox_sel_right_top.getWidth(), 5, getPreferredWidth(), getPreferredHeight(), editbox_sel_right_top, 0, 0);
-			g.drawBitmap((getPreferredWidth()-5)-editbox_sel_right_bottom.getWidth(), (getPreferredHeight()-5)-editbox_sel_right_bottom.getHeight(), getPreferredWidth(), getPreferredHeight(), editbox_sel_right_bottom, 0, 0);
+			g.drawBitmap(0, 0, getPreferredWidth(), getPreferredHeight(), editbox_sel_left_top, 0, 0);
+			g.drawBitmap(0, (getPreferredHeight())-editbox_sel_left_bottom.getHeight(), getPreferredWidth(), getPreferredHeight(), editbox_sel_left_bottom, 0, 0);
+			g.drawBitmap((getPreferredWidth())-editbox_sel_right_top.getWidth(), 0, getPreferredWidth(), getPreferredHeight(), editbox_sel_right_top, 0, 0);
+			g.drawBitmap((getPreferredWidth())-editbox_sel_right_bottom.getWidth(), (getPreferredHeight())-editbox_sel_right_bottom.getHeight(), getPreferredWidth(), getPreferredHeight(), editbox_sel_right_bottom, 0, 0);
 		}
 		super.paint(g);
 	}

@@ -13,6 +13,7 @@ public class BackgroundManager extends VerticalFieldManager
 	int nStatusHeight = 0;
 	int nTitleHeight = 0;
 	boolean useall = true;
+	boolean title = false;
 	
 	public BackgroundManager(boolean useall)
 	{
@@ -41,11 +42,20 @@ public class BackgroundManager extends VerticalFieldManager
 		this(true);
 	}
 	
+	public void setTitle(boolean title){
+		this.title = title;
+	}
+	
 	public void paint(Graphics g)
 	{
 		int xPts[] = {0,0,getPreferredWidth(),getPreferredWidth()};
 		int yPts[] = {0,getPreferredHeight(),getPreferredHeight(),0};
 		g.drawTexturedPath(xPts,yPts,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,img);
+		if(title){
+			int xPts1[] = {0,0,Const.getWidth(),Const.getWidth()};
+			int yPts1[] = {0,Const.getLogoRight().getHeight(),Const.getLogoRight().getHeight(),0};
+			g.drawTexturedPath(xPts1,yPts1,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,Const.getLogoRight());
+		}
 		super.paint(g);
 	}
 	public void setTitleHeight(int height) {

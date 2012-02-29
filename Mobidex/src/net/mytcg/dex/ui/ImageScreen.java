@@ -41,9 +41,9 @@ public class ImageScreen extends AppScreen implements FieldChangeListener
 	}
 	
 	public ImageScreen(Card card, AppScreen screen) {
-		super(screen, true);
+		super(screen, true, card);
 		this.card = card;
-		
+		System.out.println("card.getCardOrientation() "+card.getCardOrientation());
 		//bgManager.setStatusHeight(exit.getContentHeight());
 		exit.setChangeListener(this);
 		flips.setChangeListener(this);
@@ -52,11 +52,12 @@ public class ImageScreen extends AppScreen implements FieldChangeListener
 		//image = new ImageField(card.getFronturl());
 		//image.setChangeListener(this);
 		
-		if(!(Const.getPortrait())){
+		//if(!(Const.getPortrait())){
+		if(card.getCardOrientation()==2){
 			hStatManager.setStatusHeight(exit.getContentHeight());
 			hStatManager.setUrl(card.getFronturl());
 			System.out.println("setting hStatManager url");
-		}else{
+		}else if(card.getCardOrientation()==1){
 			vStatManager.setStatusHeight(exit.getContentHeight());
 			vStatManager.setUrl(card.getFronturl());
 			System.out.println("setting vStatManager url");
@@ -66,15 +67,26 @@ public class ImageScreen extends AppScreen implements FieldChangeListener
 		if (cardStats != null) {
 			stats = new StatField [cardStats.size()];
 			for(int i = 0; i < cardStats.size(); i++){
-				if(!(Const.getPortrait())){
+				//if(!(Const.getPortrait())){
+				if(card.getCardOrientation()==2){
 					stats[i] = new StatField ((Stat)cardStats.elementAt(i), hStatManager.image);
-				}else{
+				}else if(card.getCardOrientation()==1){
 					stats[i] = new StatField ((Stat)cardStats.elementAt(i), vStatManager.image);
 				}
 				
 				stats[i].setChangeListener(this);
-				if(stats[i].stat.getWidth()!=0){
-					addStat(stats[i]);
+			}
+			if(card.getCardOrientation()==2){
+				for(int i = cardStats.size()-1; i >=0; i--){
+					if(stats[i].stat.getWidth()!=0&&stats[i].stat.getFrontOrBack()==1){
+						addStat(stats[i]);
+					}
+				}
+			}else{
+				for(int i = 0; i < cardStats.size(); i++){
+					if(stats[i].stat.getWidth()!=0&&stats[i].stat.getFrontOrBack()==1){
+						addStat(stats[i]);
+					}
 				}
 			}
 		} else {
@@ -113,27 +125,43 @@ public class ImageScreen extends AppScreen implements FieldChangeListener
 				UiApplication.getUiApplication().pushScreen(screen);
 			}
 		} else if ((f == flips)) {
+			removeStats();
 			flip = !flip;
 			for(int j = 0; j < stats.length; j++){
 				if(flip){
-					stats[j].flip = 1;
+					stats[j].flip = 2;
 				}else{
-					stats[j].flip = 0;
+					stats[j].flip = 1;
+				}
+			}
+			if(card.getCardOrientation()==2){
+				for(int k = cardStats.size()-1; k >=0; k--){
+					if(stats[k].flip == stats[k].stat.getFrontOrBack()){
+						addStat(stats[k]);
+					}
+				}
+			}else{
+				for(int k = 0; k < cardStats.size(); k++){
+					if(stats[k].flip == stats[k].stat.getFrontOrBack()){
+						addStat(stats[k]);
+					}
 				}
 			}
 			if (flip) {
-				if(!(Const.getPortrait())){
+				//if(!(Const.getPortrait())){
+				if(card.getCardOrientation()==2){
 					hStatManager.setUrl(card.getBackurl());
 					hStatManager.invalidate();
-				}else{
+				}else if(card.getCardOrientation()==1){
 					vStatManager.setUrl(card.getBackurl());
 					vStatManager.invalidate();
 				}
 			} else {
-				if(!(Const.getPortrait())){
+				//if(!(Const.getPortrait())){
+				if(card.getCardOrientation()==2){
 					hStatManager.setUrl(card.getFronturl());
 					hStatManager.invalidate();
-				}else{
+				}else if(card.getCardOrientation()==1){
 					vStatManager.setUrl(card.getFronturl());
 					vStatManager.invalidate();
 				}

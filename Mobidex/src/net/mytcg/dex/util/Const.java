@@ -312,6 +312,7 @@ public final class Const {
 	public static String register = "Register";
 	public static String exit = "Exit";
 	public static String back = "Back";
+	public static String con = "Continue";
 	public static String create = "Create";
 	public static String home = "Home";
 	public static String newupdate = " Update Available";
@@ -341,7 +342,7 @@ public final class Const {
 	public static String notes = " Add a personal note.";
 	public static String name = " Full Name";
 	public static String surname = " Username";
-	public static String cell = " Cell Number";
+	public static String cell = " International Cell Number";
 	public static String age = " Email Address";
 	public static String gender = " Password";
 	
@@ -392,7 +393,7 @@ public final class Const {
 	public static String http = "http";
 	public static String err_url_htt = "URL not http or https";
 	
-	public static String url = "http://mobidex.mytcg.net/_phone/?";
+	public static String url = "http://mobidex.biz/_phone/?";
 	public static String userdetails = "userdetails=1";
 	public static String registeruser = "registeruser=1";
 	public static String notifications = "notifications=1";
@@ -409,6 +410,7 @@ public final class Const {
 	public static String usercell = "&cell=";
 	public static String useremail = "&email=";
 	public static String userpassword = "&password=";
+	public static String country = "&country=";
 	public static String usercategories = "usercategories=1";
 	public static String savecard = "savecard=";
 	public static String deletecard = "deletecard=";
@@ -454,6 +456,7 @@ public final class Const {
 	
 	public static boolean store = false;
 	public static int first = 0;
+	public static int added = 0;
 	public static String storage = "file:///SDCard/BlackBerry/MAStore/";
 	
 	public static String getStorage() {
@@ -1036,6 +1039,14 @@ public final class Const {
 	public static final String xml_card = "<card>";
 	public static final int xml_card_length = xml_card.length();
 	
+	public static final String xml_decks = "<decks>";
+	public static final int xml_decks_length = xml_decks.length(); 
+	public static final String xml_decks_end = "</decks>";
+	public static final int xml_decks_end_length = xml_decks_end.length();
+	public static final String xml_deck = "<deck>";
+	public static final int xml_deck_length = xml_deck.length(); 
+	public static final String xml_deck_end = "</deck>";
+	public static final int xml_deck_end_length = xml_deck_end.length();
 	public static final String xml_deck_id = "<deck_id>";
 	public static final int xml_deck_id_length = xml_deck_id.length();
 	public static final String xml_deck_id_end = "</deck_id>";
@@ -1053,6 +1064,10 @@ public final class Const {
 	public static final int xml_quantity_length = xml_quantity.length();
 	public static final String xml_quantity_end = "</quantity>";
 	public static final int xml_quantity_end_length = xml_quantity_end.length();
+	public static final String xml_cardorientation = "<cardorientation>";
+	public static final int xml_cardorientation_length = xml_cardorientation.length();
+	public static final String xml_cardorientation_end = "</cardorientation>";
+	public static final int xml_cardorientation_end_length = xml_cardorientation_end.length();
 	public static final String xml_thumburl = "<thumburl>";
 	public static final int xml_thumburl_length = xml_thumburl.length();
 	public static final String xml_thumburl_end = "</thumburl>";

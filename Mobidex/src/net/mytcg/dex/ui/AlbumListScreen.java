@@ -17,7 +17,7 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 {
 	FixedButtonField exit = new FixedButtonField(Const.back);
 	
-	ThumbnailField tmp = new ThumbnailField(new Card(-1, "", 0, "", "", "", "", 0, null));
+	ThumbnailField tmp = new ThumbnailField(new Card(-1, "", 0, "", "", "", "", 0, 0, null));
 	
 	int id = -999;
 	boolean update = true;
@@ -49,6 +49,7 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 	    			clear();
 	    		}
 	    		int cardid = -1;
+	    		int cardorientation = 0;
 	    		String description = "";
 	    		int quantity = -1;
 	    		String thumburl = "";
@@ -76,6 +77,7 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 	    			fromIndex = card.indexOf(Const.xml_cardid);
 	    			
 	    			cardid = -1;
+	    			cardorientation = 0;
 	    			description = "";
 	    			quantity = -1;
 	    			thumburl = "";
@@ -110,6 +112,13 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 	    			}
 	    			if ((fromIndex = card.indexOf(Const.xml_note)) != -1) {
 	    				note = card.substring(fromIndex+Const.xml_note_length, card.indexOf(Const.xml_note_end, fromIndex));
+	    			}
+	    			if ((fromIndex = card.indexOf(Const.xml_cardorientation)) != -1) {
+	    				try {
+	    					cardorientation = Integer.parseInt(card.substring(fromIndex+Const.xml_cardorientation_length, card.indexOf(Const.xml_cardorientation_end, fromIndex)));
+	    				} catch (Exception e) {
+	    					cardorientation = 0;
+	        			}
 	    			}
 	    			if ((fromIndex = card.indexOf(Const.xml_updated)) != -1) {
 	    				try {
@@ -196,7 +205,7 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 	    					card = card.substring(card.indexOf(Const.xml_stat_end)+Const.xml_stat_end_length);
 	    				}
 	    			}
-	    			_instance.setImages(cardid, new Card(cardid, description, quantity, thumburl, fronturl, backurl, note, updated, stats));
+	    			_instance.setImages(cardid, new Card(cardid, description, quantity, thumburl, fronturl, backurl, note, cardorientation, updated, stats));
 	    			  
 	    			val = val.substring(val.indexOf(Const.xml_card_end)+Const.xml_card_end_length);
 	    			empty = false;

@@ -20,10 +20,11 @@ public class OptionScreen extends AppScreen implements FieldChangeListener
 		
 	}
 	
-	private ListItemField notes = new ListItemField("Notes", 1, false, 0);
-	private ListItemField share = new ListItemField("Share", 2, false, 0);
-	private ListItemField contact = new ListItemField("Contact", 3, false, 0);
-	private ListItemField delete = new ListItemField("Delete", 4, false, 0);
+	private ListItemField addalbum = new ListItemField("Add to Album", 1, false, 0);
+	private ListItemField notes = new ListItemField("Notes", 2, false, 0);
+	private ListItemField share = new ListItemField("Share", 3, false, 0);
+	private ListItemField contact = new ListItemField("Contact", 4, false, 0);
+	private ListItemField delete = new ListItemField("Delete", 5, false, 0);
 	
 	public OptionScreen(Card card, AppScreen screen) {
 		super(screen);
@@ -38,11 +39,13 @@ public class OptionScreen extends AppScreen implements FieldChangeListener
 		addButton(new FixedButtonField(""));
 		addButton(exit);
 		
+		addalbum.setChangeListener(this);
 		notes.setChangeListener(this);
 		share.setChangeListener(this);
 		contact.setChangeListener(this);
 		delete.setChangeListener(this);
 		
+		add(addalbum);
 		add(notes);
 		add(share);
 		add(contact);
@@ -50,15 +53,19 @@ public class OptionScreen extends AppScreen implements FieldChangeListener
 		
 	}
 	protected void onExposed() {
-		if (!isVisible()) {
-			
+		if (Const.added == 1) {
+			Const.added = 0;
+			screen = null;
+			UiApplication.getUiApplication().popScreen(this);
 		}
-		super.onExposed();
 	}
 	public void fieldChanged(Field f, int i) {
 		if (f == exit) {
 			screen = null;
 			UiApplication.getUiApplication().popScreen(this);
+		} else if (f == addalbum) {
+			screen = new DeckListScreen(card.getId());
+			UiApplication.getUiApplication().pushScreen(screen);
 		} else if (f == notes) {
 			screen = new NoteScreen(card, this);
 			UiApplication.getUiApplication().pushScreen(screen);
