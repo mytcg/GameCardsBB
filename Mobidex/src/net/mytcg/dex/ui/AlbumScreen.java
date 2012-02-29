@@ -12,6 +12,7 @@ import net.rim.device.api.io.http.HttpDateParser;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.FieldChangeListener;
 import net.rim.device.api.ui.UiApplication;
+import net.rim.device.api.ui.component.LabelField;
 
 public class AlbumScreen extends AppScreen implements FieldChangeListener
 {
@@ -148,7 +149,7 @@ public class AlbumScreen extends AppScreen implements FieldChangeListener
 		}
 		
 		exit.setChangeListener(this);
-		
+		add(new LabelField());
 		addButton(new FixedButtonField(""));
 		addButton(new FixedButtonField(""));
 		addButton(exit);
@@ -166,7 +167,7 @@ public class AlbumScreen extends AppScreen implements FieldChangeListener
 		bgManager.setStatusHeight(exit.getContentHeight());
 		
 		exit.setChangeListener(this);
-		
+		add(new LabelField());
 		addButton(exit);
 		
 		addButton(new FixedButtonField(""));

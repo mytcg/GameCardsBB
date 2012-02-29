@@ -130,13 +130,19 @@ public class ShareScreen extends AppScreen implements FieldChangeListener
 				setText("Cell Number cannot be blank.");
 			} else {
 				String note64="";
+				String number64="";
 				String sznote = " ["+note.getText() + "] ";
 				try {
 					note64 = new String(Base64OutputStream.encode(sznote.getBytes(), 0, sznote.length(), false, false), "UTF-8");
 				} catch (Exception e) {
 					note64="";
 				}
-				doConnect(Const.trade+card.getId()+Const.trademethod+number.getText()+Const.sendnote+note64, false);
+				try {
+					number64 = new String(Base64OutputStream.encode(number.getText().getBytes(), 0, number.getText().length(), false, false), "UTF-8");
+				} catch (Exception e) {
+					number64="";
+				}
+				doConnect(Const.trade+card.getId()+Const.trademethod+number64+Const.sendnote+note64, false);
 			}
 		}
 	}
