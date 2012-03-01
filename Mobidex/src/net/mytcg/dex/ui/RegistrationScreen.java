@@ -389,7 +389,7 @@ public class RegistrationScreen extends AppScreen implements FieldChangeListener
 			System.exit(0);
 		} else if (f == terms) {
 			BrowserSession browserSession = Browser.getDefaultSession();
-			browserSession.displayPage("http://www.mobidex.biz/terms/terms.html");
+			browserSession.displayPage("http://www.mobidex.biz/terms");
 			browserSession.showBrowser();
 		} else if (f == register) {
 			SettingsBean _instance = SettingsBean.getSettings();
