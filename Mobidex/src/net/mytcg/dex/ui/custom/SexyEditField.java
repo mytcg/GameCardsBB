@@ -191,7 +191,7 @@ public final class SexyEditField extends Manager {
 			
 			//fills top middle
 			int xPts1[] = {5,5,getPreferredWidth()-5,getPreferredWidth()-5};
-			int yPts1[] = {5,editbox_middle_top.getHeight(), editbox_middle_top.getHeight(), 0};
+			int yPts1[] = {0,editbox_middle_top.getHeight(), editbox_middle_top.getHeight(), 0};
 			g.drawTexturedPath(xPts1,yPts1,null,null,0,editbox_middle_top.getHeight(),Fixed32.ONE,0,0,Fixed32.ONE,editbox_middle_top);
 			
 			//fills bottom middle

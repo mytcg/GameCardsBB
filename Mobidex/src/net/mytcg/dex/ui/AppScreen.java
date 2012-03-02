@@ -141,13 +141,20 @@ public class AppScreen extends MainScreen {
 		setStatus(statusManager);
 	}
 	public AppScreen(AppScreen parent, boolean noheader, Card card) {
-		super();
+		super(NO_VERTICAL_SCROLL | NO_VERTICAL_SCROLLBAR);
 		this.card = card;
-		//if(!(Const.getPortrait())){
-		if(card.getCardOrientation()==2){
-			super.add(hStatManager);
-		}else if(card.getCardOrientation()==1){
-			super.add(vStatManager);
+		if(!(Const.getPortrait())){
+			if(card.getCardOrientation()==2){
+				super.add(vStatManager);
+			}else if(card.getCardOrientation()==1){
+				super.add(hStatManager);
+			}
+		}else{
+			if(card.getCardOrientation()==2){
+				super.add(hStatManager);
+			}else if(card.getCardOrientation()==1){
+				super.add(vStatManager);
+			}
 		}
 		this.parent = parent;
 		
@@ -177,25 +184,42 @@ public class AppScreen extends MainScreen {
 	}
 	
 	public void addStat(Field field) {
-		//if(!(Const.getPortrait())){
-		if(card.getCardOrientation()==2){
-			hStatManager.add(field);
-		}else if(card.getCardOrientation()==1){
-			vStatManager.add(field);
+		if(!(Const.getPortrait())){
+			if(card.getCardOrientation()==2){
+				vStatManager.add(field);
+			}else if(card.getCardOrientation()==1){
+				hStatManager.add(field);
+			}
+		}else{
+			if(card.getCardOrientation()==2){
+				hStatManager.add(field);
+			}else if(card.getCardOrientation()==1){
+				vStatManager.add(field);
+			}
 		}
-		
 	}
 	
 	public void removeStats() {
-		//if(!(Const.getPortrait())){
-		if(card.getCardOrientation()==2){
-			try{
-				hStatManager.deleteAll();
-			}catch(Exception e){};
-		}else if(card.getCardOrientation()==1){
-			try{
-				vStatManager.deleteAll();
-			}catch(Exception e){};
+		if(!(Const.getPortrait())){
+			if(card.getCardOrientation()==2){
+				try{
+					vStatManager.deleteAll();
+				}catch(Exception e){};
+			}else if(card.getCardOrientation()==1){
+				try{
+					hStatManager.deleteAll();
+				}catch(Exception e){};
+			}
+		}else{
+			if(card.getCardOrientation()==2){
+				try{
+					hStatManager.deleteAll();
+				}catch(Exception e){};
+			}else if(card.getCardOrientation()==1){
+				try{
+					vStatManager.deleteAll();
+				}catch(Exception e){};
+			}
 		}
 	}
 	
