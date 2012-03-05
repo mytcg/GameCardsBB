@@ -31,12 +31,6 @@ public final class StatField extends Field {
 		if(counter>0){
 			XYRect rect = new XYRect();
 			rect = getFieldExtent(this);
-			System.out.println("rect.x "+rect.x);
-			System.out.println("rect.y "+rect.y);
-			System.out.println("rect.height "+rect.height);
-			System.out.println("rect.width "+rect.width);
-			System.out.println("stat.getWidth()*image.getWidth()/350 "+stat.getWidth()*image.getWidth()/350);
-			System.out.println("stat.getHeight()*image.getHeight()/250 "+stat.getHeight()*image.getHeight()/250);
 			if(!(Const.getPortrait())){
 				Bitmap bmp = new Bitmap(stat.getWidth()*image.getWidth()/250, stat.getHeight()*image.getHeight()/350);
 		    	Display.screenshot(bmp, rect.x, rect.y, stat.getWidth()*image.getWidth()/250, stat.getHeight()*image.getHeight()/350);

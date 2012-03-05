@@ -199,6 +199,7 @@ public class VerticalGamePlayManager extends VerticalFieldManager
 		image = (EncodedImage.createEncodedImage(data, 0, data.length)).getBitmap();
 		loaded = true;
 		landscape();
+		sublayout(0, 0);
 		invalidate();
 		saveData(data);
 	}
