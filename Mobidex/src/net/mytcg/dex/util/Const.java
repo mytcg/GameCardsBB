@@ -394,6 +394,7 @@ public final class Const {
 	public static String err_url_htt = "URL not http or https";
 	
 	public static String url = "http://mobidex.biz/_phone/?";
+	//public static String url = "http://mobidex.mytcg.net/_phone/?";
 	public static String userdetails = "userdetails=1";
 	public static String registeruser = "registeruser=1";
 	public static String notifications = "notifications=1";
@@ -988,6 +989,10 @@ public final class Const {
 	public static final int xml_usercategories_length = xml_usercategories.length(); 
 	public static final String xml_usercategories_end = "</usercategories>";
 	public static final int xml_usercategories_end_length = xml_usercategories_end.length();
+	public static final String xml_country_code = "<country_code>";
+	public static final int xml_country_code_length = xml_country_code.length(); 
+	public static final String xml_country_code_end = "</country_code>";
+	public static final int xml_country_code_end_length = xml_country_code_end.length();
 	public static final String xml_albumid = "<albumid>";
 	public static final int xml_albumid_length = xml_albumid.length();
 	public static final String xml_albumid_end = "</albumid>";

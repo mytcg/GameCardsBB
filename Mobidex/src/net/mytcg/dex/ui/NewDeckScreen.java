@@ -20,7 +20,7 @@ public class NewDeckScreen extends AppScreen implements FieldChangeListener
 	public NewDeckScreen(int categoryid)
 	{
 		super(null);
-		add(new ColorLabelField(" Deck Name:"));
+		add(new ColorLabelField(" Album Name:"));
 		this.categoryid = categoryid;
 		
 		add(deckname);
