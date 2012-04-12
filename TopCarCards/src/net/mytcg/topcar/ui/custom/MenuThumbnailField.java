@@ -69,7 +69,7 @@ public final class MenuThumbnailField extends LabelField {
 		return 54 + (Const.getWidth() % 54)/(Const.getWidth()/54) ;
 	}
 	public int getPreferredHeight() {
-		return Const.getAlbumThumb().getHeight();
+		return Const.getAlbumThumb().getHeight()+2;
 	}
 	protected void layout(int width, int height) {
 		setExtent(getPreferredWidth(),getPreferredHeight());
@@ -88,9 +88,9 @@ public final class MenuThumbnailField extends LabelField {
 		g.drawFilledPath(xPts, yPts, null, null);
 		//g.drawTexturedPath(xPts,yPts,null,null,0,this.getTop(),Fixed32.ONE,0,0,Fixed32.ONE,grey);
 		if (focus) {
-			g.drawBitmap(0, 7, button_select.getWidth(), button_select.getHeight(), button_select, 0, 0);
+			g.drawBitmap(3, 5, button_select.getWidth(), button_select.getHeight(), button_select, 0, 0);
 		}	
-		g.drawBitmap(4, 0, button_thumbnail.getWidth(), button_thumbnail.getHeight(), button_thumbnail, 0, 0);
+		g.drawBitmap(6, 0, button_thumbnail.getWidth(), button_thumbnail.getHeight(), button_thumbnail, 0, 0);
 	}
 	protected void onFocus(int direction) {
 		focus = true;

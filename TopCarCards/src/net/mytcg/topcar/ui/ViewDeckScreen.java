@@ -31,6 +31,7 @@ public class ViewDeckScreen extends AppScreen implements FieldChangeListener
 	Vector pages = new Vector();
 	Vector tempList = new Vector();
 	int currentPage = 0;
+	int numcards = 0;
 
 	public ViewDeckScreen(int deckid)
 	{
@@ -59,7 +60,7 @@ public class ViewDeckScreen extends AppScreen implements FieldChangeListener
 	
 	public void process(String val) {
 		int listSize = (Const.getUsableHeight()) / 74;
-		int listCounter = 2;
+		int listCounter = 1;
 		pages = new Vector();
 		SettingsBean _instance = SettingsBean.getSettings();
     	update = _instance.setCards(val, -1);
@@ -97,6 +98,7 @@ public class ViewDeckScreen extends AppScreen implements FieldChangeListener
     		int statcolorgreen = 0;
     		int statcolorblue = 0;
     		String statval = "";
+    		numcards = 0;
     		if ((fromIndex = val.indexOf(Const.xml_category_id)) != -1) {
     			try {
     				categoryid = Integer.parseInt(val.substring(fromIndex+Const.xml_category_id_length, val.indexOf(Const.xml_category_id_end, fromIndex)));
@@ -267,6 +269,7 @@ public class ViewDeckScreen extends AppScreen implements FieldChangeListener
     				tmp.setChangeListener(this);
     				tempList.addElement(tmp);
         			listCounter++;
+        			numcards++;
     			}
     		}
     		if (empty) {
@@ -279,11 +282,16 @@ public class ViewDeckScreen extends AppScreen implements FieldChangeListener
         		if(pages.size()<=1){
     				bgManager.setArrowMode(false);
     			}
+        		if(numcards == 10){
+    	    		//bgManager.delete(addcard);
+    	    		((Vector)pages.elementAt(0)).removeElement(addcard);
+    	    	}
         		pageNumber.setLabel("Page 1/"+pages.size());
         		Field[] temp = new Field[((Vector)pages.elementAt(0)).size()];
         		((Vector)pages.elementAt(0)).copyInto(temp);
         		bgManager.deleteAll();
     	    	bgManager.addAll(temp);
+    	    	
     	    }
     		SettingsBean.saveSettings(_instance);
     		_instance = null;
@@ -328,6 +336,9 @@ public class ViewDeckScreen extends AppScreen implements FieldChangeListener
 	    			((Vector)pages.elementAt(currentPage)).copyInto(temp);
 	    			bgManager.deleteAll();
 		    		bgManager.addAll(temp);
+		    		if(numcards == 10){
+	    	    		//bgManager.delete(addcard);
+	    	    	}
 		    	}
 			}
 			return true;
@@ -344,6 +355,9 @@ public class ViewDeckScreen extends AppScreen implements FieldChangeListener
 	    			((Vector)pages.elementAt(currentPage)).copyInto(temp);
 	    			bgManager.deleteAll();
 		    		bgManager.addAll(temp);
+		    		if(numcards == 10){
+	    	    		//bgManager.delete(addcard);
+	    	    	}
 		    	}
 			}
 			return true;

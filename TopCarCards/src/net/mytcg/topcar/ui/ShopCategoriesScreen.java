@@ -17,6 +17,7 @@ public class ShopCategoriesScreen extends AppScreen implements FieldChangeListen
 	
 	boolean update = true;
 	boolean freebie = false;
+	int count = 0;
 	
 	public void process(String val) {
 		SettingsBean _instance = SettingsBean.getSettings();
@@ -24,7 +25,7 @@ public class ShopCategoriesScreen extends AppScreen implements FieldChangeListen
 			SettingsBean.saveSettings(_instance);
 		}
 		
-		int count = 0;
+		count = 0;
 		
 		if ((!(isDisplaying()))||(update)) {
 			int fromIndex;
@@ -102,6 +103,13 @@ public class ShopCategoriesScreen extends AppScreen implements FieldChangeListen
 		screen = null;
 		UiApplication.getUiApplication().popScreen(this);
 		return true;
+	}
+	
+	public void onExposed(){
+		if(count == 1){
+			screen = null;
+			UiApplication.getUiApplication().popScreen(this);
+		}
 	}
 	
 	public void fieldChanged(Field f, int i) {

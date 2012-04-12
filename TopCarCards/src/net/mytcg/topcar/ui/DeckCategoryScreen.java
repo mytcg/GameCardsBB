@@ -1,5 +1,6 @@
 package net.mytcg.topcar.ui;
 
+import net.mytcg.topcar.ui.custom.ColorLabelField;
 import net.mytcg.topcar.ui.custom.FixedButtonField;
 import net.mytcg.topcar.ui.custom.ListItemField;
 import net.mytcg.topcar.util.Const;
@@ -12,11 +13,14 @@ public class DeckCategoryScreen extends AppScreen implements FieldChangeListener
 {
 	FixedButtonField exit = new FixedButtonField(Const.back);
 	ListItemField tmp = new ListItemField("Empty", -1, false, 0);
+	int count = 0;
 
 	public DeckCategoryScreen()
 	{
 		super(null);
 		bgManager.setStatusHeight(exit.getContentHeight());
+		
+		add(new ColorLabelField(""));
 		
 		exit.setChangeListener(this); 
 	
@@ -30,6 +34,7 @@ public class DeckCategoryScreen extends AppScreen implements FieldChangeListener
 	public void process(String val) {
 		if (!(isDisplaying())) {
 			int fromIndex;
+			count = 0;
 	    	if ((fromIndex = val.indexOf(Const.xml_result)) != -1) {
 	    		setText(val.substring(fromIndex+Const.xml_result_length, val.indexOf(Const.xml_result_end, fromIndex)));
 	    	} else if (((fromIndex = val.indexOf(Const.xml_categories)) != -1)) {
@@ -58,7 +63,13 @@ public class DeckCategoryScreen extends AppScreen implements FieldChangeListener
 		    				tmp.setLabel(categoryname);
 		        			tmp.setChangeListener(this);
 		        			add(tmp);
+		        			count++;
 		        		}
+	    			}
+	    		}
+	    		if (count == 1) {
+	    			synchronized(UiApplication.getEventLock()) {
+	    				fieldChanged(tmp, 0);
 	    			}
 	    		}
 	    	} else {
@@ -77,6 +88,10 @@ public class DeckCategoryScreen extends AppScreen implements FieldChangeListener
 		if(_instance.created){
 			_instance.created = false;
 			SettingsBean.saveSettings(_instance);
+			screen = null;
+			UiApplication.getUiApplication().popScreen(this);
+		}
+		if(count == 1){
 			screen = null;
 			UiApplication.getUiApplication().popScreen(this);
 		}

@@ -70,7 +70,7 @@ public final class Const {
 	private static EncodedImage image;
 	private static Bitmap b;
 	
-	private static Bitmap getScaledBitmapImage(String imagename, int ratioX, int ratioY){
+	private static Bitmap getScaledBitmapImage(String imagename, double ratioX, double ratioY){
 		image = EncodedImage.getEncodedImageResource(imagename);
 		try {	
 			int currentWidthFixed32 = Fixed32.toFP(image.getWidth());
