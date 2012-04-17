@@ -1,7 +1,7 @@
 package net.mytcg.topcar.util;
 
+import net.mytcg.topcar.ui.custom.CustomCheckboxField;
 import net.mytcg.topcar.ui.custom.SexyEditField;
-import net.rim.device.api.ui.component.CheckboxField;
 
 public class Answer {
 	String answerid = "";
@@ -11,7 +11,7 @@ public class Answer {
 	int answered = -1;
 	String creditvalue = "";
 	SexyEditField editbox=null;
-	CheckboxField checkbox= null;
+	CustomCheckboxField checkbox= null;
 	
 	public Answer(){
 		
@@ -63,11 +63,11 @@ public class Answer {
 		editbox = editbo;
 	}
 
-	public CheckboxField getCheckBoxPointer() {
+	public CustomCheckboxField getCheckBoxPointer() {
 		return checkbox;
 	}
 
-	public void setCheckBoxPointer(CheckboxField checkbo) {
+	public void setCheckBoxPointer(CustomCheckboxField checkbo) {
 		checkbox = checkbo;
 	}
 

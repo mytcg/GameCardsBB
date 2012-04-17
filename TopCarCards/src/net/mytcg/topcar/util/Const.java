@@ -676,6 +676,24 @@ public final class Const {
 		return note;
 	}
 	
+	private static Bitmap boxselected;
+	private static String sz_boxselected = "box_selected.png";
+	public static Bitmap getBoxSelected() {
+		if (boxselected == null) {
+			boxselected = getSizeImage(sz_boxselected);   
+		}
+		return boxselected;
+	}
+	
+	private static Bitmap boxunselected;
+	private static String sz_boxunselected = "box_unselected.png";
+	public static Bitmap getBoxUnselected() {
+		if (boxunselected == null) {
+			boxunselected = getSizeImage(sz_boxunselected);   
+		}
+		return boxunselected;
+	}
+	
 	private static Bitmap thumbnaildisplaycentre;
 	private static String sz_thumbnaildisplaycentre = "thumbnail_display_centre.png";
 	public static Bitmap getThumbCentre() {

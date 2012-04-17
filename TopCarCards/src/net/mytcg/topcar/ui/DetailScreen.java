@@ -2,6 +2,7 @@ package net.mytcg.topcar.ui;
 
 import java.util.Vector;
 
+import net.mytcg.topcar.ui.custom.CustomCheckboxField;
 import net.mytcg.topcar.ui.custom.ColorLabelField;
 import net.mytcg.topcar.ui.custom.FixedButtonField;
 import net.mytcg.topcar.ui.custom.FriendField;
@@ -40,7 +41,7 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 	FriendField lblfriend = new FriendField("","","");
 	ListItemField lblTransactions = new ListItemField("Last Transactions", -1, false, 0);
 	ColorLabelField lbltmp = new ColorLabelField("");
-	CheckboxField cbxtmp = new CheckboxField("",false,CheckboxField.NON_FOCUSABLE);
+	CustomCheckboxField cbxtmp = new CustomCheckboxField(false,false,Field.FIELD_VCENTER);
 	Vector answers = new Vector();
 	int count =0;
 	int credits = 0;
@@ -148,11 +149,11 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 	    			if(answerid != -1){
 	    				try{
 	    				lbltmp = new ColorLabelField(desc);
-	    				cbxtmp = new CheckboxField("",false,CheckboxField.NON_FOCUSABLE);
+	    				cbxtmp = new CustomCheckboxField(false,false,Field.FIELD_VCENTER);
 	    				cbxtmp.setChecked(answered.equals("1"));
 		    			cbxtmp.setEditable(false);
 		    			//cbxtmp.setEnabled(false);
-	    				tmp = new SexyEditField((Const.getWidth()-25-60),Const.getButtonHeight());
+	    				tmp = new SexyEditField((Const.getWidth()-Const.getBoxSelected().getWidth()-60),Const.getButtonHeight());
 	    				tmp.setText(answer);
 	    				//tmp = new SexyEditField(answer);
 	        			tmp.setChangeListener(this);
