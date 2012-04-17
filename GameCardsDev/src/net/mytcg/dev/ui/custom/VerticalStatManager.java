@@ -6,9 +6,9 @@ import java.io.OutputStream;
 import javax.microedition.io.Connector;
 import javax.microedition.io.file.FileConnection;
 
+import net.mytcg.dev.util.SettingsBean;
 import net.mytcg.dev.http.ConnectionGet;
 import net.mytcg.dev.util.Const;
-import net.rim.device.api.math.Fixed32;
 import net.rim.device.api.system.Bitmap;
 import net.rim.device.api.system.EncodedImage;
 import net.rim.device.api.ui.Field;
@@ -22,7 +22,7 @@ import net.rim.device.api.ui.container.VerticalFieldManager;
 
 public class VerticalStatManager extends VerticalFieldManager
 {
-	Bitmap img = Const.getBackground();
+	//Bitmap img = Const.getGrey();
 	private String url;
 	private String file;
 	public Bitmap image;
@@ -68,7 +68,9 @@ public class VerticalStatManager extends VerticalFieldManager
 	{
 		int xPts[] = {0,0,getPreferredWidth(),getPreferredWidth()};
 		int yPts[] = {0,Const.getHeight(),Const.getHeight(),0};
-		g.drawTexturedPath(xPts,yPts,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,img);
+		g.setColor(3947580);
+		g.drawFilledPath(xPts, yPts, null, null);
+		//g.drawTexturedPath(xPts,yPts,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,img);
 		
 		g.drawBitmap(((getPreferredWidth()-(image.getWidth()))/2), (((getPreferredHeight())-((image.getHeight())))/2), image.getWidth(), image.getHeight(), image, 0, 0);
 		super.paint(g);
@@ -92,7 +94,20 @@ public class VerticalStatManager extends VerticalFieldManager
 	public void construct() {
 		int font = Const.FONT;
 		image = Const.getLoading();
-		landscape();
+		FileConnection _file = null;
+		InputStream input = null;
+		try {
+			SettingsBean _instance = SettingsBean.getSettings();
+			_file = (FileConnection)Connector.open(Const.getStorage()+Const.PREFIX+_instance.loading);
+			input = _file.openInputStream();
+			byte[] data = new byte[(int) _file.fileSize()];
+			input.read(data);
+			input.close();
+			_file.close();
+			image = (EncodedImage.createEncodedImage(data, 0, data.length)).getBitmap();
+			landscape();
+			invalidate();
+		} catch (Exception e) {}
 		if (file != null) {
 			getData();
 		}
@@ -141,9 +156,18 @@ public class VerticalStatManager extends VerticalFieldManager
 			
 		}
 	}
+	public void removeProgressBar(){
+		synchronized(UiApplication.getEventLock()) {
+			try{
+				this.delete(progress);
+			}catch(Exception e){}
+		}
+	}
 	public void process(byte[] data, String filename) {
 		synchronized(UiApplication.getEventLock()) {
-			this.delete(progress);
+			try{
+				this.delete(progress);
+			}catch(Exception e){}
 		}
 		image = (EncodedImage.createEncodedImage(data, 0, data.length)).getBitmap();
 		landscape();

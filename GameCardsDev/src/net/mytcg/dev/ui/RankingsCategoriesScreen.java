@@ -1,24 +1,36 @@
 package net.mytcg.dev.ui;
 
+import java.util.Vector;
+
 import net.mytcg.dev.ui.custom.ColorLabelField;
 import net.mytcg.dev.ui.custom.FixedButtonField;
 import net.mytcg.dev.ui.custom.ListItemField;
+import net.mytcg.dev.ui.custom.PageNumberField;
 import net.mytcg.dev.util.Const;
 import net.mytcg.dev.util.SettingsBean;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.FieldChangeListener;
+//import net.rim.device.api.ui.TouchEvent;
 import net.rim.device.api.ui.UiApplication;
+import net.rim.device.api.ui.component.LabelField;
 
 public class RankingsCategoriesScreen extends AppScreen implements FieldChangeListener
 {
 	FixedButtonField exit = new FixedButtonField(Const.back);
+	PageNumberField pageNumber = new PageNumberField("Page 1/1");
 	
 	ListItemField tmp = new ListItemField("Empty", -1, false, 0);
 	
 	boolean update = true;
 	boolean friends = false;
+	Vector pages = new Vector();
+	Vector tempList = new Vector();
+	int currentPage = 0;
 	
 	public void process(String val) {
+		int listSize = (Const.getUsableHeight()) / Const.getButtonHeight();
+		int listCounter = 0;
+		pages = new Vector();
 		SettingsBean _instance = SettingsBean.getSettings();
 		if (update) {
 			SettingsBean.saveSettings(_instance);
@@ -35,7 +47,11 @@ public class RankingsCategoriesScreen extends AppScreen implements FieldChangeLi
 	    		int endIndex = -1;
 	    		String album = "";
 	    		while ((fromIndex = val.indexOf(Const.xml_albumid)) != -1){
-	    			
+	    			if(listCounter >= listSize){
+	    				pages.addElement(tempList);
+	    				tempList = new Vector();
+	    				listCounter=0;
+	    			}
 	    			endIndex = val.indexOf(Const.xml_albumname_end);
 	    			album = val.substring(fromIndex, endIndex+Const.xml_albumname_end_length);
 	    			fromIndex = album.indexOf(Const.xml_albumid);
@@ -53,31 +69,107 @@ public class RankingsCategoriesScreen extends AppScreen implements FieldChangeLi
 	    			synchronized(UiApplication.getEventLock()) {
 	    				tmp = new ListItemField(albumname, albumid, true, 0);
 	        			tmp.setChangeListener(this);
-	        			add(tmp);
+	        			tempList.addElement(tmp);
+	        			listCounter++;
 	        		}
 	    			empty = false;
 	    		}
 	    		if (empty) {
 	    			synchronized(UiApplication.getEventLock()) {
-	        			add(new ListItemField("Empty", -1, false, 0));
+	    				tempList.addElement(new ListItemField("Empty", -1, false, 0));
 	        		}
 	    		}
+	    		pages.addElement(tempList);
+		        synchronized(UiApplication.getEventLock()) {
+		        	if(pages.size()<=1){
+	    				bgManager.setArrowMode(false);
+	    			}
+		        	pageNumber.setLabel("Page 1/"+pages.size());
+		        	Field[] temp = new Field[((Vector)pages.elementAt(0)).size()];
+		        	((Vector)pages.elementAt(0)).copyInto(temp);
+		        	bgManager.deleteAll();
+		    	   	bgManager.addAll(temp);
+		    	}
 	    	}
 	    	invalidate();
 	    	_instance = null;
-	    	setDisplaying(true);
+	    	//setDisplaying(true);
 		}		
 	}
+	/*protected boolean touchEvent(TouchEvent event) {
+		int x = event.getX(1);
+		int y = event.getY(1) - titleManager.getHeight();
+		if(event.getEvent() == TouchEvent.DOWN){
+			if(bgManager.checkLeftArrow(x, y)){
+				navigationMovement(-1, 0, 536870912, 5000);
+				return true;
+			}else if(bgManager.checkRightArrow(x, y)){
+				navigationMovement(1, 0, -1610612736, 5000);   
+				return true;
+			}
+		}
+		if(this.getFieldAtLocation(x, y)==-1){
+			return true;
+		}else if(this.getFieldAtLocation(x, y)==0){
+			if(bgManager.getFieldAtLocation(x, y)!=-1){
+				return super.touchEvent(event);
+			}
+			return true;
+		}
+		else{
+			return super.touchEvent(event);
+		}
+	}*/
+	public boolean navigationMovement(int dx, int dy, int status, int time) {
+		if(dy == 0 && dx == -1){
+			if(pages.size() >1){
+				if((currentPage-1)<0){
+					currentPage = pages.size()-1;
+				}else{
+					currentPage--;
+				}
+				synchronized(UiApplication.getEventLock()) {
+					pageNumber.setLabel("Page "+(currentPage+1)+"/"+pages.size());
+					Field[] temp = new Field[((Vector)pages.elementAt(currentPage)).size()];
+	    			((Vector)pages.elementAt(currentPage)).copyInto(temp);
+	    			bgManager.deleteAll();
+		    		bgManager.addAll(temp);
+		    	}
+			}
+			return true;
+		}else if(dy == 0 && dx == 1){
+			if(pages.size() >1){
+				if((currentPage+1)>=pages.size()){
+					currentPage = 0;
+				}else{
+					currentPage++;
+				}
+				synchronized(UiApplication.getEventLock()) {
+					pageNumber.setLabel("Page "+(currentPage+1)+"/"+pages.size());
+					Field[] temp = new Field[((Vector)pages.elementAt(currentPage)).size()];
+	    			((Vector)pages.elementAt(currentPage)).copyInto(temp);
+	    			bgManager.deleteAll();
+		    		bgManager.addAll(temp);
+		    	}
+			}
+			return true;
+		}else{
+			return super.navigationMovement(dx, dy, status, time);
+		}
+	}
+	
 	public RankingsCategoriesScreen(boolean friends) {
 		super(null);
 		this.friends = friends;
-		add(new ColorLabelField("Choose a category."));
+		add(new ColorLabelField(""));
+		tempList.addElement(new ColorLabelField("Choose a category."));
 		bgManager.setStatusHeight(exit.getContentHeight());
+		bgManager.setArrowMode(true);
 		
 		exit.setChangeListener(this);
 		
 		addButton(new FixedButtonField(""));
-		addButton(new FixedButtonField(""));
+		addButton(pageNumber);
 		addButton(exit);
 		
 		doConnect(Const.leaders);

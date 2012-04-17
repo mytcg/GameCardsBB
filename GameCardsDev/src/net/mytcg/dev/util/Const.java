@@ -9,6 +9,8 @@ import net.mytcg.dev.http.ConnectionHandler;
 import net.mytcg.dev.ui.GameCardsHome;
 import net.mytcg.dev.ui.custom.ImageLoader;
 import net.rim.blackberry.api.phone.Phone;
+import net.rim.device.api.i18n.DateFormat;
+import net.rim.device.api.i18n.SimpleDateFormat;
 import net.rim.device.api.io.file.FileIOException;
 import net.rim.device.api.io.http.HttpDateParser;
 import net.rim.device.api.math.Fixed32;
@@ -68,7 +70,7 @@ public final class Const {
 	private static EncodedImage image;
 	private static Bitmap b;
 	
-	private static Bitmap getScaledBitmapImage(String imagename, int ratioX, int ratioY){
+	private static Bitmap getScaledBitmapImage(String imagename, double ratioX, double ratioY){
 		image = EncodedImage.getEncodedImageResource(imagename);
 		try {	
 			int currentWidthFixed32 = Fixed32.toFP(image.getWidth());
@@ -232,10 +234,10 @@ public final class Const {
 	public static int TYPE = Font.PLAIN;
 	public static final int INCREASE_FONT = 2;
 	
-	public static final int FONTCOLOR = Color.BLACK;
+	public static final int FONTCOLOR = Color.GRAY;
 	public static final int BACKCOLOR = Color.BLACK;
-	public static final int BUTTONCOLOR = Color.BLACK;
-	public static final int SELECTEDCOLOR = Color.BLUE;
+	public static final int BUTTONCOLOR = Color.WHITE;
+	public static final int SELECTEDCOLOR = 12513380;
 	
 	public static final int getWidth() {
 		return Display.getWidth();
@@ -341,7 +343,9 @@ public final class Const {
 	public static String register = "Register";
 	public static String exit = "Exit";
 	public static String back = "Back";
-	public static String purchase = "purchase";
+	public static String host = "Host Game";
+	public static String purchase = "Purchase";
+	public static String boostercards = "Cards";
 	public static String home = "Home";
 	public static String confirm = "Confirm";
 	public static String bid = "Bid";
@@ -457,7 +461,7 @@ public final class Const {
 	public static String http = "http";
 	public static String err_url_htt = "URL not http or https";
 	
-	public static String url = "http://dev.mytcg.net/_phone/?";
+	public static String url = "http://www.mytcg.net/_phone/?";
 	public static String userdetails = "userdetails=1";
 	public static String profiledetails = "profiledetails=1";
 	public static String creditlog = "creditlog=1";
@@ -488,6 +492,9 @@ public final class Const {
 	public static String auctioncategories="auctioncategories=1";
 	public static String getusergames="getusergames=1";
 	public static String playablecategories="playablecategories=1";
+	public static String getopengames="getopengames=1";
+	public static String hostgame="hostgame=1";
+	public static String joingame="joingame=1";
 	public static String startnewgame = "newgame=1";
 	public static String loadgame = "loadgame=1";
 	public static String continuegame = "continuegame=1";
@@ -512,6 +519,7 @@ public final class Const {
 	public static String showall = "&showall=0";
 	public static String cardsincategory = "cardsincategory=";
 	public static String buyproduct = "buyproduct=";
+	public static String cardsinbooster = "cardsinbooster=";
 	public static String second = "&seconds=";
 	public static String savenote = "savenote=";
 	public static String trade = "tradecard=";
@@ -527,6 +535,7 @@ public final class Const {
 	public static String deck_id = "&deck_id=";
 	public static String description = "&description=";
 	public static String category_id = "&category_id=";
+	public static String categoryid = "&categoryid=";
 	public static String height = "&height=";
 	public static String bbheight = "&bbheight=";
 	public static String jpg = "&jpg=1";
@@ -634,17 +643,10 @@ public final class Const {
 			if ((fromIndex = val.indexOf(Const.xml_loadingflipurl)) != -1) {
     			loadingurlflip = val.substring(fromIndex+Const.xml_loadingflipurl_length, val.indexOf(Const.xml_loadingflipurl_end, fromIndex));
     		}
-			if ((fromIndex = val.indexOf(Const.xml_notedate)) != -1) {
-				String notedate = val.substring(fromIndex+Const.xml_notedate_length, val.indexOf(Const.xml_notedate_end, fromIndex));
-				Date date = new Date(HttpDateParser.parse(notedate));
-				if(date.getTime()/1000>_instance.getNoteLoaded()){
-					_instance.notifications = true;
-				}
-    		}
 			load = new ImageLoader(loadingurl);
 			load2 = new ImageLoader(loadingurlflip);
-			_instance.loading = loadingurl.substring(loadingurl.indexOf("/cards/")+Const.cards_length, loadingurl.indexOf(Const.jpeg));
-			_instance.loadingflip = loadingurlflip.substring(loadingurlflip.indexOf("/cards/")+Const.cards_length, loadingurlflip.indexOf(Const.jpeg));
+			_instance.loading = loadingurl.substring(loadingurl.indexOf("/cardsbb/")+Const.cardsbb_length, loadingurl.indexOf(Const.jpeg));
+			_instance.loadingflip = loadingurlflip.substring(loadingurlflip.indexOf("/cardsbb/")+Const.cardsbb_length, loadingurlflip.indexOf(Const.jpeg));
     		_instance.setAuthenticated(true);
     		SettingsBean.saveSettings(_instance);
     		_instance = null;
@@ -674,6 +676,24 @@ public final class Const {
 		return note;
 	}
 	
+	private static Bitmap boxselected;
+	private static String sz_boxselected = "box_selected.png";
+	public static Bitmap getBoxSelected() {
+		if (boxselected == null) {
+			boxselected = getSizeImage(sz_boxselected);   
+		}
+		return boxselected;
+	}
+	
+	private static Bitmap boxunselected;
+	private static String sz_boxunselected = "box_unselected.png";
+	public static Bitmap getBoxUnselected() {
+		if (boxunselected == null) {
+			boxunselected = getSizeImage(sz_boxunselected);   
+		}
+		return boxunselected;
+	}
+	
 	private static Bitmap thumbnaildisplaycentre;
 	private static String sz_thumbnaildisplaycentre = "thumbnail_display_centre.png";
 	public static Bitmap getThumbCentre() {
@@ -692,6 +712,15 @@ public final class Const {
 		return thumbnaildisplayrightedge;
 	}
 	
+	private static Bitmap select;
+	private static String sz_select = "select.png";
+	public static Bitmap getSelect() {
+		if (select == null) {
+			select = getSizeImage(sz_select);   
+		}
+		return select;
+	}
+	
 	private static Bitmap loading;
 	private static String sz_loading = "loading.png";
 	public static Bitmap getLoading() {
@@ -699,6 +728,294 @@ public final class Const {
 			loading = getSizeImage(sz_loading);   
 		}
 		return loading;
+	}
+	
+	private static Bitmap leftarrow;
+	private static String sz_leftarrow = "leftarrow.png";
+	public static Bitmap getLeftArrow() {
+		if (leftarrow == null) {
+			leftarrow = getSizeImage(sz_leftarrow);   
+		}
+		return leftarrow;
+	}
+	
+	private static Bitmap rightarrow;
+	private static String sz_rightarrow = "rightarrow.png";
+	public static Bitmap getRightArrow() {
+		if (rightarrow == null) {
+			rightarrow = getSizeImage(sz_rightarrow);   
+		}
+		return rightarrow;
+	}
+	
+	private static Bitmap activedot;
+	private static String sz_activedot = "active_dot.png";
+	public static Bitmap getActiveDot() {
+		if (activedot == null) {
+			activedot = getSizeImage(sz_activedot);   
+		}
+		return activedot;
+	}
+	
+	private static Bitmap inactivedot;
+	private static String sz_inactivedot = "inactive_dot.png";
+	public static Bitmap getInactiveDot() {
+		if (inactivedot == null) {
+			inactivedot = getSizeImage(sz_inactivedot);   
+		}
+		return inactivedot;
+	}
+	
+	private static Bitmap album;
+	private static String sz_album = "Album.png";
+	public static Bitmap getAlbum() {
+		if (album == null) {
+			album = getSizeImage(sz_album);   
+		}
+		return album;
+	}
+	
+	private static Bitmap albumthumb;
+	private static String sz_albumthumb = "Album_thumb.png";
+	public static Bitmap getAlbumThumb() {
+		if (albumthumb == null) {
+			albumthumb = getSizeImage(sz_albumthumb);   
+		}
+		return albumthumb;
+	}
+	
+	private static Bitmap Auctions;
+	private static String sz_auctions = "Auctions.png";
+	public static Bitmap getAuctions() {
+		if (Auctions == null) {
+			Auctions = getSizeImage(sz_auctions);   
+		}
+		return Auctions;
+	}
+	
+	private static Bitmap auctionsthumb;
+	private static String sz_auctionsthumb = "Auctions_thumb.png";
+	public static Bitmap getAuctionsThumb() {
+		if (auctionsthumb == null) {
+			auctionsthumb = getSizeImage(sz_auctionsthumb);   
+		}
+		return auctionsthumb;
+	}
+	
+	private static Bitmap Credits;
+	private static String sz_credits = "Credits.png";
+	public static Bitmap getCredits() {
+		if (Credits == null) {
+			Credits = getSizeImage(sz_credits);   
+		}
+		return Credits;
+	}
+	
+	private static Bitmap creditsthumb;
+	private static String sz_creditsthumb = "Credits_thumb.png";
+	public static Bitmap getCreditsThumb() {
+		if (creditsthumb == null) {
+			creditsthumb = getSizeImage(sz_creditsthumb);   
+		}
+		return creditsthumb;
+	}
+	
+	private static Bitmap Decks;
+	private static String sz_decks = "Decks.png";
+	public static Bitmap getDecks() {
+		if (Decks == null) {
+			Decks = getSizeImage(sz_decks);   
+		}
+		return Decks;
+	}
+	
+	private static Bitmap decksthumb;
+	private static String sz_decksthumb = "Decks_thumb.png";
+	public static Bitmap getDecksThumb() {
+		if (decksthumb == null) {
+			decksthumb = getSizeImage(sz_decksthumb);   
+		}
+		return decksthumb;
+	}
+	
+	private static Bitmap FriendRanks;
+	private static String sz_friendranks = "FriendRanks.png";
+	public static Bitmap getFriendRanks() {
+		if (FriendRanks == null) {
+			FriendRanks = getSizeImage(sz_friendranks);   
+		}
+		return FriendRanks;
+	}
+	
+	private static Bitmap friendranksthumb;
+	private static String sz_friendranksthumb = "FriendRanks_thumb.png";
+	public static Bitmap getFriendRanksThumb() {
+		if (friendranksthumb == null) {
+			friendranksthumb = getSizeImage(sz_friendranksthumb);   
+		}
+		return friendranksthumb;
+	}
+	
+	private static Bitmap Friends;
+	private static String sz_friends = "Friends.png";
+	public static Bitmap getFriends() {
+		if (Friends == null) {
+			Friends = getSizeImage(sz_friends);   
+		}
+		return Friends;
+	}
+	
+	private static Bitmap friendsthumb;
+	private static String sz_friendsthumb = "Friends_thumb.png";
+	public static Bitmap getFriendsThumb() {
+		if (friendsthumb == null) {
+			friendsthumb = getSizeImage(sz_friendsthumb);   
+		}
+		return friendsthumb;
+	}
+	
+	private static Bitmap Invite;
+	private static String sz_invite = "Invite.png";
+	public static Bitmap getInvite() {
+		if (Invite == null) {
+			Invite = getSizeImage(sz_invite);   
+		}
+		return Invite;
+	}
+	
+	private static Bitmap invitethumb;
+	private static String sz_invitethumb = "Invite_thumb.png";
+	public static Bitmap getInviteThumb() {
+		if (invitethumb == null) {
+			invitethumb = getSizeImage(sz_invitethumb);   
+		}
+		return invitethumb;
+	}
+	
+	private static Bitmap Logout;
+	private static String sz_logout = "logout.png";
+	public static Bitmap getLogout() {
+		if (Logout == null) {
+			Logout = getSizeImage(sz_logout);   
+		}
+		return Logout;
+	}
+	
+	private static Bitmap logoutthumb;
+	private static String sz_logoutthumb = "Logout_thumb.png";
+	public static Bitmap getLogoutThumb() {
+		if (logoutthumb == null) {
+			logoutthumb = getSizeImage(sz_logoutthumb);   
+		}
+		return logoutthumb;
+	}
+	
+	private static Bitmap Notifications;
+	private static String sz_notifications = "Notifications.png";
+	public static Bitmap getNotifications() {
+		if (Notifications == null) {
+			Notifications = getSizeImage(sz_notifications);   
+		}
+		return Notifications;
+	}
+	
+	private static Bitmap notificationsthumb;
+	private static String sz_notificationsthumb = "Notifications_thumb.png";
+	public static Bitmap getNotificationsThumb() {
+		if (notificationsthumb == null) {
+			notificationsthumb = getSizeImage(sz_notificationsthumb);   
+		}
+		return notificationsthumb;
+	}
+	
+	private static Bitmap Play;
+	private static String sz_play = "Play.png";
+	public static Bitmap getPlay() {
+		if (Play == null) {
+			Play = getSizeImage(sz_play);   
+		}
+		return Play;
+	}
+	
+	private static Bitmap playthumb;
+	private static String sz_playthumb = "Play_thumb.png";
+	public static Bitmap getPlayThumb() {
+		if (playthumb == null) {
+			playthumb = getSizeImage(sz_playthumb);   
+		}
+		return playthumb;
+	}
+	
+	private static Bitmap Profile;
+	private static String sz_profile = "Profile.png";
+	public static Bitmap getProfile() {
+		if (Profile == null) {
+			Profile = getSizeImage(sz_profile);   
+		}
+		return Profile;
+	}
+	
+	private static Bitmap profilethumb;
+	private static String sz_profilethumb = "Profile_thumb.png";
+	public static Bitmap getProfileThumb() {
+		if (profilethumb == null) {
+			profilethumb = getSizeImage(sz_profilethumb);   
+		}
+		return profilethumb;
+	}
+	
+	private static Bitmap Rankings;
+	private static String sz_rankings = "Rankings.png";
+	public static Bitmap getRankings() {
+		if (Rankings == null) {
+			Rankings = getSizeImage(sz_rankings);   
+		}
+		return Rankings;
+	}
+	
+	private static Bitmap rankingsthumb;
+	private static String sz_rankingsthumb = "Rankings_thumb.png";
+	public static Bitmap getRankingsThumb() {
+		if (rankingsthumb == null) {
+			rankingsthumb = getSizeImage(sz_rankingsthumb);   
+		}
+		return rankingsthumb;
+	}
+	
+	private static Bitmap Redeem;
+	private static String sz_redeem = "Redeem.png";
+	public static Bitmap getRedeem() {
+		if (Redeem == null) {
+			Redeem = getSizeImage(sz_redeem);   
+		}
+		return Redeem;
+	}
+	
+	private static Bitmap redeemthumb;
+	private static String sz_redeemthumb = "Redeem_thumb.png";
+	public static Bitmap getRedeemThumb() {
+		if (redeemthumb == null) {
+			redeemthumb = getSizeImage(sz_redeemthumb);   
+		}
+		return redeemthumb;
+	}
+	
+	private static Bitmap Shop;
+	private static String sz_shop = "Shop.png";
+	public static Bitmap getShop() {
+		if (Shop == null) {
+			Shop = getSizeImage(sz_shop);   
+		}
+		return Shop;
+	}
+	
+	private static Bitmap shopthumb;
+	private static String sz_shopthumb = "Shop_thumb.png";
+	public static Bitmap getShopThumb() {
+		if (shopthumb == null) {
+			shopthumb = getSizeImage(sz_shopthumb);   
+		}
+		return shopthumb;
 	}
 	
 	private static Bitmap loadingthumb;
@@ -915,6 +1232,15 @@ public final class Const {
 			logo = getSizeImage(sz_logo);   
 		}
 		return logo;
+	}
+	
+	private static Bitmap head;
+	private static String sz_head = "head.png";
+	public static Bitmap getHead() {
+		if (head == null) {
+			head = getSizeImage(sz_head);   
+		}
+		return head;
 	}
 	
 	private static Bitmap logoleft;

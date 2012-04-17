@@ -8,7 +8,6 @@ import javax.microedition.io.file.FileConnection;
 import net.mytcg.dev.http.ConnectionGet;
 import net.mytcg.dev.util.Const;
 
-import net.rim.device.api.system.Bitmap;
 import net.rim.device.api.ui.Field;
 
 import net.rim.device.api.ui.Graphics;
@@ -21,9 +20,8 @@ public final class ImageLoader extends Field {
 	public ImageLoader(String url) {
 		this.url = url;
 		if ((url != null)&&(url.length() > 0)){
-			file = url.substring(url.indexOf(Const.cards)+Const.cards_length, url.indexOf(Const.jpeg));
+			file = url.substring(url.indexOf("/cardsbb/")+Const.cardsbb_length, url.indexOf(Const.jpeg));
 		}
-		System.out.println("file "+file);
 		construct();
 	}
 	
@@ -33,16 +31,16 @@ public final class ImageLoader extends Field {
 	public void setUrl(String url) {
 		this.url = url;
 		if ((url != null)&&(url.length() > 0)){
-			file = url.substring(url.indexOf(Const.cards)+Const.cards_length, url.indexOf(Const.jpeg));
+			file = url.substring(url.indexOf("/cardsbb/")+Const.cardsbb_length, url.indexOf(Const.jpeg));
 		}
 		construct();
 	}
 	
 	public synchronized void saveData(byte[] data, String filename) {
+		System.out.println("Saving: "+filename);
 		FileConnection _file = null;
 		OutputStream output = null;
 		try {
-			System.out.println("WAT "+Const.getStorage()+Const.PREFIX+filename);
 			_file = (FileConnection)Connector.open(Const.getStorage()+Const.PREFIX+filename);
 			_file.create();
 			output = _file.openOutputStream();
@@ -57,7 +55,6 @@ public final class ImageLoader extends Field {
 			_file = (FileConnection)Connector.open(Const.getStorage()+Const.PREFIX+file);
 			if (!_file.exists()) {
 				_file.close();
-				System.out.println("url "+url);
 				doConnect(url);
 			} else {
 				_file.close();

@@ -3,6 +3,7 @@ package net.mytcg.dev.ui.custom;
 import net.mytcg.dev.util.Const;
 import net.rim.device.api.math.Fixed32;
 import net.rim.device.api.system.Bitmap;
+import net.rim.device.api.ui.Color;
 import net.rim.device.api.ui.Font;
 import net.rim.device.api.ui.Graphics;
 import net.rim.device.api.ui.Manager;
@@ -16,7 +17,7 @@ public final class SexyEditField extends Manager {
 	private int mW = 8;
 	private int mH = 13;
 	
-	private VerticalFieldManager vfm = new VerticalFieldManager(HORIZONTAL_SCROLL | NO_VERTICAL_SCROLL | NO_VERTICAL_SCROLLBAR | USE_ALL_WIDTH | USE_ALL_HEIGHT);
+	private VerticalFieldManager vfm = new VerticalFieldManager(NO_HORIZONTAL_SCROLL | NO_VERTICAL_SCROLL | NO_VERTICAL_SCROLLBAR | USE_ALL_WIDTH | USE_ALL_HEIGHT);
 	private EditField editField;
 	
 	private Bitmap editbox_left_top;
@@ -41,10 +42,11 @@ public final class SexyEditField extends Manager {
 	
 	private boolean focus;
 	private boolean focusable = true;
+	private boolean useManagerWidth = false;
 	
-	protected void drawFocus(Graphics g, boolean x) {
-		
-	}
+	protected void drawFocus(Graphics graphics, boolean on) {
+        invalidate();
+    }
 	
 	public SexyEditField(int width, int height, long style, int maxchars) {
 		super(style | NO_VERTICAL_SCROLL | NO_HORIZONTAL_SCROLL);
@@ -72,11 +74,14 @@ public final class SexyEditField extends Manager {
 		Font _font = getFont();
 		_font = _font.derive(Font.PLAIN,Const.FONT);
 		setFont(_font);
+		managerWidth = width;//Const.getWidth();
+		managerHeight = height;//getPreferredHeight();
 		editField = new EditField("", "", maxchars, style|FOCUSABLE|EditField.NO_NEWLINE) {
 			protected void drawFocus(Graphics g, boolean x) {}
 			
 			public int getPreferredWidth() {
-				return Const.getWidth()-(Const.PADDING+2*mW);
+				//return Const.getWidth()-(Const.PADDING+2*mW);
+				return managerWidth;
 			}
 			protected void layout(int width, int height) {
 				width = getPreferredWidth();
@@ -90,8 +95,6 @@ public final class SexyEditField extends Manager {
 			}
 		};
 		editField.setFont(_font);
-		managerWidth = width;//Const.getWidth();
-		managerHeight = height;//getPreferredHeight();
 		add(vfm);
 		vfm.add(editField);
 	}
@@ -103,6 +106,7 @@ public final class SexyEditField extends Manager {
 	}
 	public SexyEditField(String s) {
 		this(Const.getWidth(),Const.getButtonHeight(), 0L, 140);
+		useManagerWidth = true;
 		setText(s);
 	}
 	public SexyEditField(String s, long l) {
@@ -112,9 +116,10 @@ public final class SexyEditField extends Manager {
 	
 	public SexyEditField(String s, long l, int maxchars) {
 		this(Const.getWidth(),Const.getButtonHeight(), l, maxchars);
+		useManagerWidth = true;
 		setText(s);
 	}
-
+	
 	public String getText() {
 		return editField.getText();
 	}
@@ -128,7 +133,18 @@ public final class SexyEditField extends Manager {
 		focusable = f;
 	}
 	public int getPreferredWidth() {
-		return managerWidth;
+		if(!useManagerWidth){
+			return managerWidth;
+		}else{
+			Manager tmp = getManager();
+			if (tmp != null) {
+				managerWidth =  tmp.getPreferredWidth();
+			} else {
+				managerWidth =  Const.getWidth();
+			}
+			useManagerWidth = false;
+			return managerWidth;
+		}
 	}
 
 	public boolean isFocusable() {
@@ -136,6 +152,7 @@ public final class SexyEditField extends Manager {
 	}
 	
 	protected void onFocus(int direction) {
+		System.out.println("onFocus");
 		focus = true;
 		invalidate();
 		super.onFocus(direction);
@@ -149,6 +166,8 @@ public final class SexyEditField extends Manager {
 	
 	protected boolean navigationClick(int status, int time) {
 		fieldChangeNotify(1);
+		focus = true;
+		invalidate();
 		return true;
 	}
 	
@@ -176,11 +195,9 @@ public final class SexyEditField extends Manager {
 	}
 	
 	public final void paint(Graphics g) {
-		int _xPts[] = {0,0,getPreferredWidth(),getPreferredWidth()};
-		int _yPts[] = {0,Const.getHeight(),Const.getHeight(),0};
-		g.drawTexturedPath(_xPts,_yPts,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,Const.getBackground());
 		g.setColor(Const.FONTCOLOR);
 		if (!focus) {
+			g.setColor(Color.WHITE);
 			//fills body block
 			int xPts[] = {5,5,getPreferredWidth()-5,getPreferredWidth()-5};
 			int yPts[] = {5,getPreferredHeight()-5, getPreferredHeight()-5, 5};

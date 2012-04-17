@@ -9,6 +9,7 @@ import net.mytcg.dev.ui.custom.HorizontalStatManager;
 import net.mytcg.dev.ui.custom.VerticalGamePlayManager;
 import net.mytcg.dev.ui.custom.VerticalStatManager;
 import net.mytcg.dev.util.Const;
+import net.rim.device.api.math.Fixed32;
 import net.rim.device.api.system.Bitmap;
 import net.rim.device.api.ui.Color;
 import net.rim.device.api.ui.Field;
@@ -34,9 +35,9 @@ public class AppScreen extends MainScreen {
 	}
 	
 	protected BackgroundManager statusManager = new BackgroundManager(false);
-	protected HorizontalFieldManager hManager1 = new HorizontalFieldManager();
-	
-	protected ColorLabelField status = new ColorLabelField("", Color.RED);
+	protected HorizontalFieldManager hManager1 =  new HorizontalFieldManager();
+
+	protected ColorLabelField status = new ColorLabelField("", 12513380);
 	protected Bitmap logo = Const.getLogo();
 	protected Bitmap logoleft = Const.getLogoLeft();
 	protected Bitmap logoright = Const.getLogoRight();
@@ -64,6 +65,8 @@ public class AppScreen extends MainScreen {
 	public void setDisplaying(boolean display) {
 		isDisplaying = display;
 	}
+	public void pageLeft (){}
+	public void pageRight(){}
 	
 	public void setText(String text) {
 		if ((text != null)&&(text.length() > 0)) {
@@ -74,8 +77,8 @@ public class AppScreen extends MainScreen {
 			     {
 			           synchronized(UiApplication.getEventLock()){
 			        	   try{
-			        		   status.setText("\n" + msg + "\n\n");
-			        		   bgManager.invalidate();
+			        		   status.setText( msg );
+			        		   titleManager.invalidate();
 			        	   }catch(Exception e){};
 			           }
 			     }
@@ -87,7 +90,7 @@ public class AppScreen extends MainScreen {
 			     {
 			           synchronized(UiApplication.getEventLock()){
 			        	   status.setText("");
-							bgManager.invalidate();
+			        	   titleManager.invalidate();
 			           }
 			     }
 			});
@@ -106,13 +109,25 @@ public class AppScreen extends MainScreen {
 		}
 	}
 	
+	//Bitmap img = Const.getGrey();
+	protected void paint(Graphics g)
+	{
+		int xPts[] = {0,0,Const.getWidth(),Const.getWidth()};
+		int yPts[] = {0,Const.getHeight(),Const.getHeight(),0};
+		g.setColor(3947580);
+		g.drawFilledPath(xPts, yPts, null, null);
+		//g.drawTexturedPath(xPts,yPts,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,img);
+		super.paint(g);
+	}
+	
 	public AppScreen(AppScreen parent) {
 		super();
+		titleManager.setTitle(true);
 		add(titleManager);
 		add(bgManager);
 		this.parent = parent;
 		//title setup
-		titleManager.add(new BitmapField(logo, BitmapField.FIELD_HCENTER));
+		titleManager.add(new BitmapField(logo, BitmapField.FIELD_LEFT));
 		titleManager.add(status);
 		
 		bgManager.setTitleHeight(Const.getLogoHeight()+(Const.FONT));

@@ -6,7 +6,6 @@ import net.mytcg.dev.util.Auction;
 import net.mytcg.dev.util.Const;
 import net.rim.device.api.i18n.SimpleDateFormat;
 import net.rim.device.api.io.http.HttpDateParser;
-import net.rim.device.api.math.Fixed32;
 import net.rim.device.api.system.Bitmap;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.Font;
@@ -27,10 +26,8 @@ public final class AuctionField extends Field {
 	}
 	
 	public void construct() {
-		int font = Const.FONT;
-		
 		Font _font = getFont();
-		_font = _font.derive(Const.TYPE,font);
+		_font = _font.derive(Const.TYPE,Const.FONT);
 		setFont(_font);
 	}
 	
@@ -61,9 +58,9 @@ public final class AuctionField extends Field {
     	return false;
     }
 	public void paint(Graphics g) {
-		int _xPts[] = {0,0,getPreferredWidth(),getPreferredWidth()};
-		int _yPts[] = {0,getPreferredHeight(),getPreferredHeight(),0};
-		g.drawTexturedPath(_xPts,_yPts,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,Const.getBackground());
+		//int _xPts[] = {0,0,getPreferredWidth(),getPreferredWidth()};
+		//int _yPts[] = {0,getPreferredHeight(),getPreferredHeight(),0};
+		//g.drawTexturedPath(_xPts,_yPts,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,Const.getBackground());
 		
 		g.setColor(Const.FONTCOLOR);
 		

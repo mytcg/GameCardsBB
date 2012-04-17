@@ -23,7 +23,7 @@ import net.rim.device.api.ui.container.HorizontalFieldManager;
 
 public class HorizontalGamePlayManager extends HorizontalFieldManager
 {
-	Bitmap img = Const.getBackground();
+	//Bitmap img = Const.getGrey();
 	private String url;
 	private String file;
 	public Bitmap image;
@@ -75,7 +75,9 @@ public class HorizontalGamePlayManager extends HorizontalFieldManager
 	{
 		int xPts[] = {0,0,getPreferredWidth(),getPreferredWidth()};
 		int yPts[] = {0,getPreferredHeight(),getPreferredHeight(),0};
-		g.drawTexturedPath(xPts,yPts,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,img);
+		g.setColor(3947580);
+		g.drawFilledPath(xPts, yPts, null, null);
+		//g.drawTexturedPath(xPts,yPts,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,img);
 		
 		//g.drawBitmap(((getPreferredWidth()-(image.getWidth()))/2), (((getPreferredHeight())-((image.getHeight())))/2), image.getWidth(), image.getHeight(), image, 0, 0);
 		g.drawBitmap(5, 5, image.getWidth(), image.getHeight(), image, 0, 0);
@@ -124,7 +126,6 @@ public class HorizontalGamePlayManager extends HorizontalFieldManager
 			landscape();
 			invalidate();
 		} catch (Exception e) {
-			
 		}
 		if (file != null) {
 			getData();
@@ -187,10 +188,13 @@ public class HorizontalGamePlayManager extends HorizontalFieldManager
 		//	image = Const.getScaledBitmapImage((EncodedImage.createEncodedImage(data, 0, data.length)),((double)(getPreferredWidth()-20)/temp.getWidth()),((double)(getPreferredHeight()-20)/temp.getHeight()));
 		//}
 		synchronized(UiApplication.getEventLock()) {
-			this.delete(progress);
+			try{
+				this.delete(progress);
+			}catch(Exception e){}
 		}
 		image = (EncodedImage.createEncodedImage(data, 0, data.length)).getBitmap();
 		landscape();
+		sublayout(0, 0);
 		invalidate();
 		saveData(data);
 	}
@@ -217,6 +221,7 @@ public class HorizontalGamePlayManager extends HorizontalFieldManager
             	StatField sField = (StatField) field;
             	setPositionChild(field,((14)/2)+sField.stat.getTop()*image.getWidth()/350, ((10)/2)+(250 - sField.stat.getLeft() - sField.stat.getWidth())*image.getHeight()/250);  //set the position for the field
             	layoutChild( field, sField.stat.getHeight()*image.getHeight()/250, sField.stat.getWidth()*image.getWidth()/350); //lay out the field
+            	sField.setImage(image);
             }else if(field instanceof GaugeField){
             	setPositionChild(field, 15, (getPreferredHeight()/2));  //set the position for the field
             	layoutChild( field, (getPreferredWidth()-60), 100 ); //lay out the field

@@ -25,18 +25,18 @@ public final class CompareField extends Field {
 	public CompareField(String url) {
 		this.url = url;
 		if ((url != null)&&(url.length() > 0)){
-			file = url.substring(url.indexOf(Const.cards)+Const.cards_length, url.indexOf(Const.jpeg));
+			file = url.substring(url.indexOf(Const.cardsbb)+Const.cardsbb_length, url.indexOf(Const.jpeg));
 		}
 		construct();
 	}
 	
-	protected void drawFocus(Graphics g, boolean x) {
-		
-	}
+	protected void drawFocus(Graphics graphics, boolean on) {
+        invalidate();
+    }
 	public void setUrl(String url) {
 		this.url = url;
 		if ((url != null)&&(url.length() > 0)){
-			file = url.substring(url.indexOf(Const.cards)+Const.cards_length, url.indexOf(Const.jpeg));
+			file = url.substring(url.indexOf(Const.cardsbb)+Const.cardsbb_length, url.indexOf(Const.jpeg));
 		}
 		construct();
 	}
@@ -81,7 +81,6 @@ public final class CompareField extends Field {
 		InputStream input = null;
 		try {
 			SettingsBean _instance = SettingsBean.getSettings();
-			System.out.println("O_o "+Const.getStorage()+Const.PREFIX+_instance.loadingflip);
 			_file = (FileConnection)Connector.open(Const.getStorage()+Const.PREFIX+_instance.loadingflip);
 			input = _file.openInputStream();
 			byte[] data = new byte[(int) _file.fileSize()];
@@ -135,9 +134,6 @@ public final class CompareField extends Field {
     	return true;
     }
 	public void paint(Graphics g) {
-		int _xPts[] = {0,0,getPreferredWidth(),getPreferredWidth()};
-		int _yPts[] = {0,getPreferredHeight(),getPreferredHeight(),0};
-		g.drawTexturedPath(_xPts,_yPts,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,Const.getBackground());
 		g.drawBitmap(5, 5, image.getWidth(), image.getHeight(), image, 0, 0);
 	}
 	protected boolean navigationClick(int status, int time) {

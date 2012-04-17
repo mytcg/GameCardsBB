@@ -38,9 +38,10 @@ public final class FixedButtonField extends Field {
 	public void focusRemove() {
 		
 	}
-	protected void drawFocus(Graphics g, boolean x) {
+	//Bitmap img = Const.getGrey();
+	protected void drawFocus(Graphics graphics, boolean on) {
 		
-	}
+    }
 	
 	public void construct(String label) {
 		button_centre = Const.getButtonCentre();
@@ -77,9 +78,10 @@ public final class FixedButtonField extends Field {
 		return !empty;
     }
 	public void paint(Graphics g) {
-		int _xPts[] = {0,0,getPreferredWidth(),getPreferredWidth()};
-		int _yPts[] = {0,Const.getHeight(),Const.getHeight(),0};
-		g.drawTexturedPath(_xPts,_yPts,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,Const.getBackground());
+		int xPts1[] = {0,0,Const.getWidth(),Const.getWidth()};
+		int yPts1[] = {0,Const.getHeight(),Const.getHeight(),0};
+		g.setColor(3947580);
+		g.drawFilledPath(xPts1, yPts1, null, null);
 		
 		if (!empty) {
 			int xPts[] = {5,5,getPreferredWidth()-5,getPreferredWidth()-5};

@@ -1,6 +1,7 @@
 package net.mytcg.dev.ui;
 
 import net.mytcg.dev.ui.custom.AuctionField;
+import net.mytcg.dev.ui.custom.ColorLabelField;
 import net.mytcg.dev.ui.custom.FixedButtonField;
 import net.mytcg.dev.ui.custom.SexyEditField;
 import net.mytcg.dev.util.Auction;
@@ -50,6 +51,7 @@ public class AuctionInfoScreen extends AppScreen implements FieldChangeListener
 	
 	public AuctionInfoScreen(Auction auction, Bitmap auctionthumbnail) {
 		super(null);
+		add(new ColorLabelField(""));
 		this.auction = auction;
 		auctionthumb = auctionthumbnail;
 		bgManager.setStatusHeight(exit.getContentHeight());
@@ -65,6 +67,7 @@ public class AuctionInfoScreen extends AppScreen implements FieldChangeListener
 	}
 	public AuctionInfoScreen(Auction auction, Bitmap auctionthumbnail, boolean biddingtrue) {
 		super(null);
+		add(new ColorLabelField(""));
 		this.auction = auction;
 		auctionthumb = auctionthumbnail;
 		bgManager.setStatusHeight(exit.getContentHeight());

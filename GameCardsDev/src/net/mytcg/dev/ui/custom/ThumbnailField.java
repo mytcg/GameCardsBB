@@ -15,6 +15,9 @@ import net.rim.device.api.system.EncodedImage;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.Font;
 import net.rim.device.api.ui.Graphics;
+import net.rim.device.api.ui.Manager;
+import net.rim.device.api.ui.Screen;
+import net.rim.device.api.ui.XYRect;
 
 public final class ThumbnailField extends Field {
 	
@@ -27,6 +30,7 @@ public final class ThumbnailField extends Field {
 	private String label1;
 	private String label2;
 	private String label3;
+	private boolean booster = false;
 	
 	private Bitmap button_centre;
 	
@@ -135,13 +139,31 @@ public final class ThumbnailField extends Field {
 		}*/
 		
 		if ((getThumbUrl() != null)&&(getThumbUrl().length() > 0)){
-			thumbfile = getThumbUrl().substring(getThumbUrl().indexOf(Const.cards)+Const.cards_length, getThumbUrl().indexOf(Const.jpeg));
+			thumbfile = getThumbUrl().substring(getThumbUrl().indexOf("/cards/")+Const.cards_length, getThumbUrl().indexOf(Const.jpeg));
 		}
 		if ((getFrontUrl() != null)&&(getFrontUrl().length() > 0)){
-			frontfile = getFrontUrl().substring(getFrontUrl().indexOf(Const.cards)+Const.cards_length, getFrontUrl().indexOf(Const.jpeg));
+			frontfile = getFrontUrl().substring(getFrontUrl().indexOf(Const.cardsbb)+Const.cardsbb_length, getFrontUrl().indexOf(Const.jpeg));
 		}
 		if ((getBackUrl() != null)&&(getBackUrl().length() > 0)){
-			backfile  = getBackUrl().substring(getBackUrl().indexOf(Const.cards)+Const.cards_length, getBackUrl().indexOf(Const.jpeg));
+			backfile  = getBackUrl().substring(getBackUrl().indexOf(Const.cardsbb)+Const.cardsbb_length, getBackUrl().indexOf(Const.jpeg));
+		}
+		construct(getDescription());
+	}
+	public ThumbnailField(Card card, boolean delete, boolean booster) {
+		this.card = card;
+		this.delete = delete;
+		this.label2 = "";
+		this.label3 = "";
+		this.booster = booster;
+		
+		if ((getThumbUrl() != null)&&(getThumbUrl().length() > 0)){
+			thumbfile = getThumbUrl().substring(getThumbUrl().indexOf("/cards/")+Const.cards_length, getThumbUrl().indexOf(Const.jpeg));
+		}
+		if ((getFrontUrl() != null)&&(getFrontUrl().length() > 0)){
+			frontfile = getFrontUrl().substring(getFrontUrl().indexOf(Const.cardsbb)+Const.cardsbb_length, getFrontUrl().indexOf(Const.jpeg));
+		}
+		if ((getBackUrl() != null)&&(getBackUrl().length() > 0)){
+			backfile  = getBackUrl().substring(getBackUrl().indexOf(Const.cardsbb)+Const.cardsbb_length, getBackUrl().indexOf(Const.jpeg));
 		}
 		construct(getDescription());
 	}
@@ -161,11 +183,10 @@ public final class ThumbnailField extends Field {
 		this.label2 = "";
 		this.label3 = "";
 		if ((getThumbUrl() != null)&&(getThumbUrl().length() > 0)){
-			thumbfile = getThumbUrl().substring(getThumbUrl().indexOf(Const.cards)+Const.cards_length, getThumbUrl().indexOf(Const.jpeg));
+			thumbfile = getThumbUrl().substring(getThumbUrl().indexOf("/cards/")+Const.cards_length, getThumbUrl().indexOf(Const.jpeg));
 		}
 		construct(getDescription());
 	}
-	
 	protected void drawFocus(Graphics g, boolean x) {
 		
 	}
@@ -235,12 +256,12 @@ public final class ThumbnailField extends Field {
 		button_sel_centre = Const.getThumbRightEdge();
 		note = Const.getNote();
 		
-		if (getQuantity() == 0) {
+		if (getQuantity() == 0 && booster==false) {
 			button_thumbnail = Const.getEmptyThumb();
 		} else {
 			button_thumbnail = Const.getThumbLoading();
 		}
-		if ((thumbfile != null)&&(getQuantity()>0)) {
+		if ((thumbfile != null)&&((getQuantity()>0)||booster)) {
 			getData(0);
 		}
 		Font _font = getFont();
@@ -274,7 +295,6 @@ public final class ThumbnailField extends Field {
 	public void setProductPrice(String price) {
 		this.product.setPrice(price);
 	}
-	
 	public Bitmap getThumbnail(){
 		return button_thumbnail;
 	}
@@ -282,7 +302,12 @@ public final class ThumbnailField extends Field {
 		this.button_thumbnail = thumb;
 	}
 	public int getPreferredWidth() {
-		return Const.getWidth();
+		Manager tmp = getManager();
+		if (tmp != null) {
+			return tmp.getPreferredWidth();
+		} else {
+			return Const.getWidth();
+		}
 	}
 	public int getPreferredHeight() {
 		return button_sel_centre.getHeight();
@@ -296,30 +321,26 @@ public final class ThumbnailField extends Field {
 	public void setFocusable(boolean focusable){
 		this.focusable = focusable;
 	}
+	//Bitmap grey = Const.getGrey();
 	public void paint(Graphics g) {
-		//int _xPts[] = {0,0,getPreferredWidth(),getPreferredWidth()};
-		//int _yPts[] = {0,Const.getHeight(),Const.getHeight(),0};
-		//g.drawTexturedPath(_xPts,_yPts,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,Const.getBackground());
-		
-		int xPts2[] = {0,0,getPreferredWidth(),getPreferredWidth()};
-		int yPts2[] = {0,getPreferredHeight(),getPreferredHeight(),0};
+		int xPts[] = {0,0,getPreferredWidth(),getPreferredWidth()};
+		int yPts[] = {0,getPreferredHeight(),getPreferredHeight(),0};
+		g.setColor(3947580);
+		g.drawFilledPath(xPts, yPts, null, null);
+		//g.drawTexturedPath(xPts,yPts,null,null,0,this.getTop(),Fixed32.ONE,0,0,Fixed32.ONE,grey);
 		
 		g.setColor(Const.FONTCOLOR);
 		
 		if (focus) {
 			g.setColor(Const.SELECTEDCOLOR);
-			g.drawTexturedPath(xPts2,yPts2,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,button_centre);
-			g.drawBitmap(Const.getWidth() - (button_sel_centre.getWidth() + 5), 0, button_sel_centre.getWidth(), getPreferredHeight(), button_sel_centre, 0, 0);
+			g.drawTexturedPath(xPts,yPts,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,button_centre);
+			g.drawBitmap(getPreferredWidth() - (button_sel_centre.getWidth() + 5), 0, button_sel_centre.getWidth(), getPreferredHeight(), button_sel_centre, 0, 0);
 		} else {
 			//int xPts1[] = {2,2,getPreferredWidth()-2,getPreferredWidth()-2};
 			//int yPts1[] = {0,getPreferredHeight(),getPreferredHeight(),0};
 				
-			g.drawTexturedPath(xPts2,yPts2,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,button_centre);
+			g.drawTexturedPath(xPts,yPts,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,button_centre);
 		}
-		
-		//int xPts[] = {0,0,getPreferredWidth(),getPreferredWidth()};
-		//int yPts[] = {0,Const.getHeight(),Const.getHeight(),0};
-		//g.drawTexturedPath(xPts,yPts,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,Const.getBackground());
 		
 		
 		
@@ -381,7 +402,7 @@ public final class ThumbnailField extends Field {
 			}
 			invalidate();
 		}
-		if (type < 2) 
-			getData(++type);
+		//if (type < 2 && booster == false) 
+		//	getData(++type);
 	}
 }

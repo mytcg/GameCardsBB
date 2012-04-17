@@ -124,7 +124,9 @@ public final class NonEditableField extends Manager {
 	public void paint(Graphics g) {
 		int _xPts[] = {0,0,getPreferredWidth(),getPreferredWidth()};
 		int _yPts[] = {0,Const.getHeight(),Const.getHeight(),0};
-		g.drawTexturedPath(_xPts,_yPts,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,Const.getBackground());
+		g.setColor(3947580);
+		g.drawFilledPath(_xPts, _yPts, null, null);
+		//g.drawTexturedPath(_xPts,_yPts,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,Const.getGrey());
 		
 		int xPts[] = {5,5,getPreferredWidth()-5,getPreferredWidth()-5};
 		int yPts[] = {5,getPreferredHeight()-5, getPreferredHeight()-5, 5};

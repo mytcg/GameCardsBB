@@ -1,5 +1,6 @@
 package net.mytcg.dev.ui;
 
+import net.mytcg.dev.ui.custom.ColorLabelField;
 import net.mytcg.dev.ui.custom.FixedButtonField;
 import net.mytcg.dev.ui.custom.ListItemField;
 import net.mytcg.dev.util.Const;
@@ -75,6 +76,7 @@ public class AuctionCategoriesScreen extends AppScreen implements FieldChangeLis
 	}
 	public AuctionCategoriesScreen() {
 		super(null);
+		add(new ColorLabelField(""));
 		bgManager.setStatusHeight(exit.getContentHeight());
 		
 		exit.setChangeListener(this);
@@ -100,6 +102,7 @@ public class AuctionCategoriesScreen extends AppScreen implements FieldChangeLis
 			screen = null;
 			UiApplication.getUiApplication().popScreen(this);
 		} else if(f instanceof ListItemField){
+			
 			int category = ((ListItemField)(f)).getId();
 			screen = new AuctionListScreen(category, 0);
 			UiApplication.getUiApplication().pushScreen(screen);

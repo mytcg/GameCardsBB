@@ -12,6 +12,7 @@ import net.rim.device.api.ui.UiApplication;
 
 import java.util.Vector;
 
+import net.mytcg.dev.ui.custom.ColorLabelField;
 import net.mytcg.dev.ui.custom.FixedButtonField;
 import net.mytcg.dev.ui.custom.ImageField;
 import net.mytcg.dev.ui.custom.StatField;
@@ -137,17 +138,21 @@ public class ImageScreen extends AppScreen implements FieldChangeListener
 			}
 			if (flip) {
 				if(!(Const.getPortrait())){
+					hStatManager.removeProgressBar();
 					hStatManager.setUrl(card.getBackurl());
 					hStatManager.invalidate();
 				}else{
+					vStatManager.removeProgressBar();
 					vStatManager.setUrl(card.getBackurl());
 					vStatManager.invalidate();
 				}
 			} else {
 				if(!(Const.getPortrait())){
+					hStatManager.removeProgressBar();
 					hStatManager.setUrl(card.getFronturl());
 					hStatManager.invalidate();
 				}else{
+					vStatManager.removeProgressBar();
 					vStatManager.setUrl(card.getFronturl());
 					vStatManager.invalidate();
 				}

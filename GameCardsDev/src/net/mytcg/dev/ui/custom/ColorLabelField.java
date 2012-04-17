@@ -3,6 +3,7 @@ package net.mytcg.dev.ui.custom;
 import net.mytcg.dev.util.Const;
 import net.rim.device.api.ui.Font;
 import net.rim.device.api.ui.Graphics;
+import net.rim.device.api.ui.Manager;
 import net.rim.device.api.ui.component.LabelField;
 
 public final class ColorLabelField extends LabelField {
@@ -67,7 +68,16 @@ public final class ColorLabelField extends LabelField {
 	}
 	
 	public int getPreferredWidth() {
-		return _width == 0 ? super.getPreferredWidth() : _width;
+		if (_width == 0) {
+			Manager tmp = getManager();
+			if (tmp != null) {
+				return tmp.getPreferredWidth();
+			} else {
+				return Const.getWidth();
+			}
+		}else{
+			return _width;
+		}
 	}
 	public int getPreferredHeight() {
 		return super.getPreferredHeight()+5;

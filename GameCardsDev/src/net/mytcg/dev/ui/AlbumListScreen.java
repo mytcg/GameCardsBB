@@ -5,8 +5,10 @@ import java.util.Vector;
 import javax.microedition.io.Connector;
 import javax.microedition.io.file.FileConnection;
 
+import net.mytcg.dev.ui.custom.ColorLabelField;
 import net.mytcg.dev.ui.custom.FixedButtonField;
 import net.mytcg.dev.ui.custom.ListItemField;
+import net.mytcg.dev.ui.custom.PageNumberField;
 import net.mytcg.dev.ui.custom.ThumbnailField;
 import net.mytcg.dev.util.Card;
 import net.mytcg.dev.util.Const;
@@ -21,14 +23,21 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 	FixedButtonField exit = new FixedButtonField(Const.back);
 	
 	ThumbnailField tmp = new ThumbnailField(new Card(-1, "", 0, "", "", "", "", 0, null, -1, "", ""));
+	PageNumberField pageNumber = new PageNumberField("Page 1/1");
 	
 	int id = -1;
 	int type = 0;
 	boolean update = true;
 	boolean newcards = false;
 	Card compareCard = null;
+	Vector pages = new Vector();
+	int currentPage = 0;
 	
 	public void process(String val) {
+		int listSize = (Const.getUsableHeight()) / 74;
+		int listCounter = 0;
+		pages = new Vector();
+		Vector tempList = new Vector();
 		SettingsBean _instance = SettingsBean.getSettings();
     	update = _instance.setCards(val, id);
     	
@@ -49,6 +58,7 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 	    	} else if (((fromIndex = val.indexOf(Const.xml_cardsincategory)) != -1)) {
 	    		synchronized(UiApplication.getEventLock()) {
 	    			clear();
+	    			add(new ColorLabelField(""));
 	    		}
 	    		int cardid = -1;
 	    		String description = "";
@@ -77,6 +87,11 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 	    		String statval = "";
 	    		
 	    		while ((fromIndex = val.indexOf(Const.xml_cardid)) != -1){
+	    			if(listCounter >= listSize){
+        				pages.addElement(tempList);
+        				tempList = new Vector();
+        				listCounter=0;
+        			}
 	    			endIndex = val.indexOf(Const.xml_card_end);
 	    			card = val.substring(fromIndex, endIndex+Const.xml_card_end_length);
 	    			fromIndex = card.indexOf(Const.xml_cardid);
@@ -251,7 +266,7 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 							}catch(Exception e){};
 						}
 						if ((cardobject.getFronturl() != null)&&(cardobject.getFronturl().length() > 0)){
-							frontfile = cardobject.getFronturl().substring(cardobject.getFronturl().indexOf(Const.cards)+Const.cards_length, cardobject.getFronturl().indexOf(Const.jpeg));
+							frontfile = cardobject.getFronturl().substring(cardobject.getFronturl().indexOf(Const.cardsbb)+Const.cardsbb_length, cardobject.getFronturl().indexOf(Const.jpeg));
 							try{	
 								_file = (FileConnection)Connector.open(Const.getStorage()+Const.PREFIX+frontfile);
 								if(_file.exists()){
@@ -262,7 +277,7 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 							}catch(Exception e){};
 						}
 						if ((cardobject.getBackurl() != null)&&(cardobject.getBackurl().length() > 0)){
-							backfile  = cardobject.getBackurl().substring(cardobject.getBackurl().indexOf(Const.cards)+Const.cards_length, cardobject.getBackurl().indexOf(Const.jpeg));
+							backfile  = cardobject.getBackurl().substring(cardobject.getBackurl().indexOf(Const.cardsbb)+Const.cardsbb_length, cardobject.getBackurl().indexOf(Const.jpeg));
 							try{	
 								_file = (FileConnection)Connector.open(Const.getStorage()+Const.PREFIX+backfile);
 								if(_file.exists()){
@@ -273,7 +288,7 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 							}catch(Exception e){};
 						}
 						if ((cardobject.getBackFlipurl() != null)&&(cardobject.getBackFlipurl().length() > 0)){
-							backflipfile  = cardobject.getBackFlipurl().substring(cardobject.getBackFlipurl().indexOf(Const.cards)+Const.cards_length, cardobject.getBackFlipurl().indexOf(Const.jpeg));
+							backflipfile  = cardobject.getBackFlipurl().substring(cardobject.getBackFlipurl().indexOf(Const.cardsbb)+Const.cardsbb_length, cardobject.getBackFlipurl().indexOf(Const.jpeg));
 							try{	
 								_file = (FileConnection)Connector.open(Const.getStorage()+Const.PREFIX+backflipfile);
 								if(_file.exists()){
@@ -284,7 +299,7 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 							}catch(Exception e){};
 						}
 						if ((cardobject.getFrontFlipurl() != null)&&(cardobject.getFrontFlipurl().length() > 0)){
-							frontflipfile  = cardobject.getFrontFlipurl().substring(cardobject.getFrontFlipurl().indexOf(Const.cards)+Const.cards_length, cardobject.getFrontFlipurl().indexOf(Const.jpeg));
+							frontflipfile  = cardobject.getFrontFlipurl().substring(cardobject.getFrontFlipurl().indexOf(Const.cardsbb)+Const.cardsbb_length, cardobject.getFrontFlipurl().indexOf(Const.jpeg));
 							try{	
 								_file = (FileConnection)Connector.open(Const.getStorage()+Const.PREFIX+frontflipfile);
 								if(_file.exists()){
@@ -300,7 +315,7 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 	    			empty = false;
 	    			synchronized(UiApplication.getEventLock()) {
 	    				if (id == Const.UPDATES) {
-	    					tmp = new ThumbnailField(_instance.getImages(cardid), true);
+	    					tmp = new ThumbnailField(_instance.getImages(cardid), false);
 	    				} else {
 	    					tmp = new ThumbnailField(_instance.getImages(cardid));
 	    				}
@@ -311,24 +326,105 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 	    					tmp.setThirdLabel("Rating: "+ rating);
 	    				}
 	        			tmp.setChangeListener(this);
-	        			add(tmp);
+	        			//add(tmp);
+	        			tempList.addElement(tmp);
+	        			listCounter++;
 	        		}
 	    		}
 	    		if (empty) {
 	    			synchronized(UiApplication.getEventLock()) {
 	        			add(new ListItemField("Empty", -1, false, 0));
 	        		}
+	    		}else{
+	    			pages.addElement(tempList);
 	    		}
 	    		SettingsBean.saveSettings(_instance);
 	    		_instance = null;
+	    		synchronized(UiApplication.getEventLock()) {
+	    			if(pages.size()<=1){
+	    				bgManager.setArrowMode(false);
+	    			} else {
+	    				bgManager.setArrowMode(true);
+	    			}
+	    			pageNumber.setLabel("Page 1/"+pages.size());
+	    			ThumbnailField[] temp = new ThumbnailField[((Vector)pages.elementAt(0)).size()];
+	    			((Vector)pages.elementAt(0)).copyInto(temp);
+	    			bgManager.deleteAll();
+		    		bgManager.addAll(temp);
+		    	}
 	    	}
-	    	setDisplaying(true);
+	    	//setDisplaying(true);
     	}
 	}
+	/*protected boolean touchEvent(TouchEvent event) {
+		int x = event.getX(1);
+		int y = event.getY(1) - titleManager.getHeight();
+		if(event.getEvent() == TouchEvent.DOWN){
+			if(bgManager.checkLeftArrow(x, y)){
+				navigationMovement(-1, 0, 536870912, 5000);
+				return true;
+			}else if(bgManager.checkRightArrow(x, y)){
+				navigationMovement(1, 0, -1610612736, 5000);   
+				return true;
+			}
+		}
+		if(this.getFieldAtLocation(x, y)==-1){
+			return true;
+		}else if(this.getFieldAtLocation(x, y)==0){
+			if(bgManager.getFieldAtLocation(x, y)!=-1){
+				return super.touchEvent(event);
+			}
+			return true;
+		}
+		else{
+			return super.touchEvent(event);
+		}
+	}*/
+	public boolean navigationMovement(int dx, int dy, int status, int time) {
+		if(dy == 0 && dx == -1){
+			if(pages.size() >1){
+				if((currentPage-1)<0){
+					currentPage = pages.size()-1;
+				}else{
+					currentPage--;
+				}
+				synchronized(UiApplication.getEventLock()) {
+					pageNumber.setLabel("Page "+(currentPage+1)+"/"+pages.size());
+	    			ThumbnailField[] temp = new ThumbnailField[((Vector)pages.elementAt(currentPage)).size()];
+	    			((Vector)pages.elementAt(currentPage)).copyInto(temp);
+	    			bgManager.deleteAll();
+		    		bgManager.addAll(temp);
+		    	}
+			}
+			return true;
+		}else if(dy == 0 && dx == 1){
+			if(pages.size() >1){
+				if((currentPage+1)>=pages.size()){
+					currentPage = 0;
+				}else{
+					currentPage++;
+				}
+				synchronized(UiApplication.getEventLock()) {
+					pageNumber.setLabel("Page "+(currentPage+1)+"/"+pages.size());
+	    			ThumbnailField[] temp = new ThumbnailField[((Vector)pages.elementAt(currentPage)).size()];
+	    			((Vector)pages.elementAt(currentPage)).copyInto(temp);
+	    			bgManager.deleteAll();
+		    		bgManager.addAll(temp);
+		    	}
+			}
+			return true;
+		}else{
+			return super.navigationMovement(dx, dy, status, time);
+		}
+	}
+	
 	public AlbumListScreen(int id, int type) {
 		super(null);
 		this.type = type;
 		bgManager.setStatusHeight(exit.getContentHeight());
+		bgManager.setArrowMode(true);
+		
+		add(new ColorLabelField(""));
 		
 		if (id == Const.NEWCARDS) {
 			newcards = true;
@@ -337,7 +433,7 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 		exit.setChangeListener(this);
 		
 		addButton(new FixedButtonField(""));
-		addButton(new FixedButtonField(""));
+		addButton(pageNumber);
 		addButton(exit);
 		
 		this.id = id;
@@ -351,6 +447,9 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 		this.type = type;
 		this.compareCard = card;
 		bgManager.setStatusHeight(exit.getContentHeight());
+		bgManager.setArrowMode(true);
+		
+		add(new ColorLabelField(""));
 		
 		if (id == Const.NEWCARDS) {
 			newcards = true;
@@ -359,7 +458,7 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 		exit.setChangeListener(this);
 		
 		addButton(new FixedButtonField(""));
-		addButton(new FixedButtonField(""));
+		addButton(pageNumber);
 		addButton(exit);
 		
 		this.id = id;
@@ -371,11 +470,14 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 	public AlbumListScreen(String val) {
 		super(null);
 		bgManager.setStatusHeight(exit.getContentHeight());
+		bgManager.setArrowMode(true);
+		
+		add(new ColorLabelField(""));
 		
 		exit.setChangeListener(this);
 		
 		addButton(new FixedButtonField(""));
-		addButton(new FixedButtonField(""));
+		addButton(pageNumber);
 		addButton(exit);
 		
 		process(val);
@@ -385,11 +487,14 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 		super(null);
 		this.type = type;
 		bgManager.setStatusHeight(exit.getContentHeight());
+		bgManager.setArrowMode(true);
+		
+		add(new ColorLabelField(""));
 		
 		exit.setChangeListener(this);
 		
 		addButton(new FixedButtonField(""));
-		addButton(new FixedButtonField(""));
+		addButton(pageNumber);
 		addButton(exit);
 		
 		process(val);
@@ -406,7 +511,7 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 			//UiApplication.getUiApplication().popScreen(this);
 		}
 		screen = null;
-		if (!isVisible()) {
+		if (id!=-1) {
 			doConnect(Const.cardsincategory+id+Const.height+Const.getCardHeight()+Const.jpg+Const.bbheight+Const.getAppHeight()+Const.width+Const.getCardWidth()+Const.second+SettingsBean.getSettings().getLoaded());
 		}
 		super.onExposed();

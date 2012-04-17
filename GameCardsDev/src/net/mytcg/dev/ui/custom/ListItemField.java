@@ -3,10 +3,16 @@ package net.mytcg.dev.ui.custom;
 import net.mytcg.dev.util.Const;
 import net.rim.device.api.math.Fixed32;
 import net.rim.device.api.system.Bitmap;
+import net.rim.device.api.system.Display;
+import net.rim.device.api.ui.Color;
 import net.rim.device.api.ui.DrawStyle;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.Font;
 import net.rim.device.api.ui.Graphics;
+import net.rim.device.api.ui.Manager;
+import net.rim.device.api.ui.Screen;
+//import net.rim.device.api.ui.TouchEvent;
+import net.rim.device.api.ui.XYRect;
 
 public final class ListItemField extends Field {
 	
@@ -37,8 +43,9 @@ public final class ListItemField extends Field {
 		construct(fontsize, label, id, hasCards, updated);
 	}
 	protected void drawFocus(Graphics g, boolean x) {
-		
+
 	}
+	
 	public void construct(int font, String label, int id, boolean hasCards, int updated) {
 		
 		button_centre = Const.getListboxCentre();
@@ -71,7 +78,12 @@ public final class ListItemField extends Field {
 		focusable = f;
 	}
 	public int getPreferredWidth() {
-		return Const.getWidth();
+		Manager tmp = getManager();
+		if (tmp != null) {
+			return tmp.getPreferredWidth();
+		} else {
+			return Const.getWidth();
+		}
 	}
 	public int getPreferredHeight() {
 		return Const.getButtonHeight();
@@ -82,16 +94,18 @@ public final class ListItemField extends Field {
 	public boolean isFocusable() {
     	return focusable;
     }
+	//Bitmap grey = Const.getGrey();
 	public void paint(Graphics g) {
-		int _xPts[] = {0,0,getPreferredWidth(),getPreferredWidth()};
-		int _yPts[] = {0,Const.getHeight(),Const.getHeight(),0};
-		
 		int xPts[] = {0,0,getPreferredWidth(),getPreferredWidth()};
 		int yPts[] = {0,getPreferredHeight(),getPreferredHeight(),0};
-		g.clear();
+		g.setColor(3947580);
+		g.drawFilledPath(xPts, yPts, null, null);
+		//g.drawTexturedPath(xPts,yPts,null,null,0,this.getTop(),Fixed32.ONE,0,0,Fixed32.ONE,grey);
+		g.setColor(Const.FONTCOLOR);
 		
-		
-		g.drawTexturedPath(_xPts,_yPts,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,Const.getBackground());
+		//int xPts[] = {0,0,getPreferredWidth(),getPreferredWidth()};
+		//int yPts[] = {0,getPreferredHeight(),getPreferredHeight(),0};
+		//g.clear();
 		
 		g.setColor(Const.FONTCOLOR);
 		
@@ -121,7 +135,9 @@ public final class ListItemField extends Field {
 		invalidate();
 	}
 	protected boolean navigationClick(int status, int time) {
-        fieldChangeNotify(1);
+		fieldChangeNotify(1);
+		focus = true;
+        invalidate();
         return true;
     }
 }

@@ -1,8 +1,9 @@
 package net.mytcg.dev.ui;
 
 import net.mytcg.dev.ui.custom.ColorLabelField;
-import net.mytcg.dev.ui.custom.CompareField;
 import net.mytcg.dev.ui.custom.FixedButtonField;
+import net.mytcg.dev.ui.custom.HorizontalGamePlayManager;
+import net.mytcg.dev.ui.custom.VerticalGamePlayManager;
 import net.mytcg.dev.util.Card;
 import net.mytcg.dev.util.Const;
 import net.mytcg.dev.util.SettingsBean;
@@ -19,18 +20,22 @@ public class CompareScreen extends AppScreen implements FieldChangeListener
 	private FixedButtonField exit = new FixedButtonField(Const.back);
 	private FixedButtonField flips = new FixedButtonField(Const.flip);
 	
-	private CompareField image1 = null;
-	private CompareField image2 = null;
+	private VerticalGamePlayManager vimage1 = null;
+	private VerticalGamePlayManager vimage2 = null;
+	private HorizontalGamePlayManager himage1 = null;
+	private HorizontalGamePlayManager himage2 = null;
 	private boolean flip = false;
 	private Card card1 = null;
 	private Card card2 = null;
 	
-	Bitmap img = Const.getBackground();
+	//Bitmap img = Const.getGrey();
 	public void paint(Graphics g)
 	{
 		int xPts[] = {0,0,getPreferredWidth(),getPreferredWidth()};
 		int yPts[] = {0,getPreferredHeight(),getPreferredHeight(),0};
-		g.drawTexturedPath(xPts,yPts,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,img);
+		g.setColor(3947580);
+		g.drawFilledPath(xPts, yPts, null, null);
+		//g.drawTexturedPath(xPts,yPts,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,img);
 		super.paint(g);
 	}
 	
@@ -45,18 +50,20 @@ public class CompareScreen extends AppScreen implements FieldChangeListener
 		
 		add(new ColorLabelField(""));
 		
-		image1 = new CompareField(card1.getFrontFlipurl());
-		image1.setChangeListener(this);
-		
-		image2 = new CompareField(card2.getFrontFlipurl());
-		image2.setChangeListener(this);
-		
 		if(!(Const.getPortrait())){
-			hbgManager.add(image1);
-			hbgManager.add(image2);
+			vimage1 = new VerticalGamePlayManager();
+			vimage2 = new VerticalGamePlayManager();
+			vimage1.setUrl(card1.getFrontFlipurl());
+			vimage2.setUrl(card2.getFrontFlipurl());
+			hbgManager.add(vimage1);
+			hbgManager.add(vimage2);
 		}else{
-			bgManager.add(image1);
-			bgManager.add(image2);
+			himage1 = new HorizontalGamePlayManager();
+			himage2 = new HorizontalGamePlayManager();
+			himage1.setUrl(card1.getFrontFlipurl());
+			himage2.setUrl(card2.getFrontFlipurl());
+			bgManager.add(himage1);
+			bgManager.add(himage2);
 		}
 		
 		
@@ -85,12 +92,22 @@ public class CompareScreen extends AppScreen implements FieldChangeListener
 		} else if ((f == flips)) {
 			flip = !flip;
 			if (flip) {
-				image1.setUrl(card1.getBackFlipurl());
-				image2.setUrl(card2.getBackFlipurl());
+				if(!(Const.getPortrait())){
+					vimage1.setUrl(card1.getBackFlipurl());
+					vimage2.setUrl(card2.getBackFlipurl());
+				}else{
+					himage1.setUrl(card1.getBackFlipurl());
+					himage2.setUrl(card2.getBackFlipurl());
+				}
 				this.invalidate();
 			} else {
-				image1.setUrl(card1.getFrontFlipurl());
-				image2.setUrl(card2.getFrontFlipurl());
+				if(!(Const.getPortrait())){
+					vimage1.setUrl(card1.getFrontFlipurl());
+					vimage2.setUrl(card2.getFrontFlipurl());
+				}else{
+					himage1.setUrl(card1.getFrontFlipurl());
+					himage2.setUrl(card2.getFrontFlipurl());
+				}
 				this.invalidate();
 			}
 		}

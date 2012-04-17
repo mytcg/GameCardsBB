@@ -2,18 +2,20 @@ package net.mytcg.dev.util;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.Hashtable;
 
 import net.rim.device.api.i18n.SimpleDateFormat;
 import net.rim.device.api.io.http.HttpDateParser;
+import net.rim.device.api.system.Bitmap;
 import net.rim.device.api.system.PersistentObject;
 import net.rim.device.api.system.PersistentStore;
 import net.rim.device.api.util.Persistable;
 
 public final class SettingsBean implements Persistable {
 	private static SettingsBean _instance;
-	//0xb4ca47389ee2956bL
-	private static final long GUID = 0xb4ca47389ee2956bL;
+	
+	private static final long GUID = 0x8802af5a5d602a5eL;
 	
 	
 	//the users username for the server
@@ -75,8 +77,6 @@ public final class SettingsBean implements Persistable {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Calendar calender = Calendar.getInstance();
 		Date date = new Date(HttpDateParser.parse(dateFormat.format(calender.getTime())));
-		System.out.println("noteloaded "+date);
-		System.out.println("noteloaded "+date.getTime()/1000);
 		
 		noteloaded=(int)(date.getTime()/1000);
 	}

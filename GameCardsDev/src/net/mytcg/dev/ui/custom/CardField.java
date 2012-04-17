@@ -18,9 +18,9 @@ public final class CardField extends Field {
 		construct();
 	}
 	
-	protected void drawFocus(Graphics g, boolean x) {
-		
-	}
+	protected void drawFocus(Graphics graphics, boolean on) {
+        invalidate();
+    }
 	
 	public void construct() {
 		int font = Const.FONT;
@@ -58,9 +58,9 @@ public final class CardField extends Field {
     	return false;
     }
 	public void paint(Graphics g) {
-		int _xPts[] = {0,0,getPreferredWidth(),getPreferredWidth()};
+		/*int _xPts[] = {0,0,getPreferredWidth(),getPreferredWidth()};
 		int _yPts[] = {0,Const.getHeight(),Const.getHeight(),0};
-		g.drawTexturedPath(_xPts,_yPts,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,Const.getBackground());
+		g.drawTexturedPath(_xPts,_yPts,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,Const.getBackground());*/
 		
 		g.setColor(Const.FONTCOLOR);
 		

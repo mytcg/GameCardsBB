@@ -1,10 +1,12 @@
 package net.mytcg.dev.ui;
 
 import java.util.Date;
+import java.util.Vector;
 
 import net.mytcg.dev.ui.custom.ColorLabelField;
 import net.mytcg.dev.ui.custom.FixedButtonField;
 import net.mytcg.dev.ui.custom.ListItemField;
+import net.mytcg.dev.ui.custom.PageNumberField;
 import net.mytcg.dev.ui.custom.ThumbnailField;
 import net.mytcg.dev.util.Auction;
 import net.mytcg.dev.util.Const;
@@ -13,12 +15,14 @@ import net.rim.device.api.i18n.SimpleDateFormat;
 import net.rim.device.api.io.http.HttpDateParser;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.FieldChangeListener;
+//import net.rim.device.api.ui.TouchEvent;
 import net.rim.device.api.ui.UiApplication;
 
 public class AuctionListScreen extends AppScreen implements FieldChangeListener
 {
 	FixedButtonField exit = new FixedButtonField(Const.back);
 	ColorLabelField header = new ColorLabelField("");
+	PageNumberField pageNumber = new PageNumberField("Page 1/1");
 	
 	ThumbnailField tmp = null;
 	
@@ -26,8 +30,15 @@ public class AuctionListScreen extends AppScreen implements FieldChangeListener
 	boolean purchased = false;
 	int id = -1;
 	int type = 1;
+	Vector pages = new Vector();
+	Vector tempList = new Vector();
+	int currentPage = 0;
 	
 	public void process(String val) {
+		int listSize = (Const.getUsableHeight()) / Const.getThumbRightEdge().getHeight();
+		int listCounter = 0;
+		pages = new Vector();
+		tempList = new Vector();
 		SettingsBean _instance = SettingsBean.getSettings();
 		if (update) {
 			SettingsBean.saveSettings(_instance);
@@ -44,16 +55,9 @@ public class AuctionListScreen extends AppScreen implements FieldChangeListener
     				_instance = SettingsBean.getSettings();
     				_instance.setCredits(credits);
     				SettingsBean.saveSettings(_instance);
-    				synchronized(UiApplication.getEventLock()) {
-    					header.setText("Current credits:" + SettingsBean.getSettings().getCredits());
-    	    		}
-    				
     			}
-	    		
 	    		synchronized(UiApplication.getEventLock()) {
-	    			clear();
 	    			header.setText("Current credits:" + SettingsBean.getSettings().getCredits());
-	    			add(header);
 	    		}
 	    		int auctionid = -1;
 	    		int usercardid = -1;
@@ -72,6 +76,11 @@ public class AuctionListScreen extends AppScreen implements FieldChangeListener
 	    		int endIndex = -1;
 	    		String auction = "";
 	    		while ((fromIndex = val.indexOf(Const.xml_auctioncardid)) != -1){
+	    			if(listCounter >= listSize){
+	    				pages.addElement(tempList);
+	    				tempList = new Vector();
+	    				listCounter=0;
+	    			}
 	    			endIndex = val.indexOf(Const.xml_auction_end);
 	    			auction = val.substring(fromIndex, endIndex+Const.xml_auction_end_length);
 	    			fromIndex = auction.indexOf(Const.xml_auctioncardid);
@@ -163,7 +172,8 @@ public class AuctionListScreen extends AppScreen implements FieldChangeListener
 	    				
 	    				tmp.setThirdLabel(day + hour);
 	        			tmp.setChangeListener(this);
-	        			add(tmp);
+	        			tempList.addElement(tmp);
+	        			listCounter++;
 	        		}
 	    			empty = false;
 	    		}
@@ -171,18 +181,99 @@ public class AuctionListScreen extends AppScreen implements FieldChangeListener
 	    			synchronized(UiApplication.getEventLock()) {
 	        			add(new ListItemField("Empty", -1, false, 0));
 	        		}
+	    		}else{
+	    			pages.addElement(tempList);
+		        	synchronized(UiApplication.getEventLock()) {
+		        		if(pages.size()<=1){
+		    				bgManager.setArrowMode(false);
+		    			}
+		        		pageNumber.setLabel("Page 1/"+pages.size());
+		        		Field[] temp = new Field[((Vector)pages.elementAt(0)).size()];
+		        		((Vector)pages.elementAt(0)).copyInto(temp);
+		        		try{
+		    				bgManager.deleteAll();
+		    			}catch(Exception e){}
+		    			bgManager.add(header);
+		    	    	bgManager.addAll(temp);
+		    	    }
 	    		}
 	    	}
 	    	invalidate();
 	    	_instance = null;
-	    	setDisplaying(true);
+	    	//setDisplaying(true);
 		}		
 	}
+	/*protected boolean touchEvent(TouchEvent event) {
+		int x = event.getX(1);
+		int y = event.getY(1) - titleManager.getHeight();
+		if(event.getEvent() == TouchEvent.DOWN){
+			if(bgManager.checkLeftArrow(x, y)){
+				navigationMovement(-1, 0, 536870912, 5000);
+				return true;
+			}else if(bgManager.checkRightArrow(x, y)){
+				navigationMovement(1, 0, -1610612736, 5000);   
+				return true;
+			}
+		}
+		if(this.getFieldAtLocation(x, y)==-1){
+			return true;
+		}else if(this.getFieldAtLocation(x, y)==0){
+			if(bgManager.getFieldAtLocation(x, y)!=-1){
+				return super.touchEvent(event);
+			}
+			return true;
+		}
+		else{
+			return super.touchEvent(event);
+		}
+	}*/
+	public boolean navigationMovement(int dx, int dy, int status, int time) {
+		if(dy == 0 && dx == -1){
+			if(pages.size() >1){
+				if((currentPage-1)<0){
+					currentPage = pages.size()-1;
+				}else{
+					currentPage--;
+				}
+				synchronized(UiApplication.getEventLock()) {
+					pageNumber.setLabel("Page "+(currentPage+1)+"/"+pages.size());
+					Field[] temp = new Field[((Vector)pages.elementAt(currentPage)).size()];
+	    			((Vector)pages.elementAt(currentPage)).copyInto(temp);
+	    			bgManager.deleteAll();
+	    			add(header);
+		    		bgManager.addAll(temp);
+		    	}
+			}
+			return true;
+		}else if(dy == 0 && dx == 1){
+			if(pages.size() >1){
+				if((currentPage+1)>=pages.size()){
+					currentPage = 0;
+				}else{
+					currentPage++;
+				}
+				synchronized(UiApplication.getEventLock()) {
+					pageNumber.setLabel("Page "+(currentPage+1)+"/"+pages.size());
+					Field[] temp = new Field[((Vector)pages.elementAt(currentPage)).size()];
+	    			((Vector)pages.elementAt(currentPage)).copyInto(temp);
+	    			bgManager.deleteAll();
+	    			add(header);
+		    		bgManager.addAll(temp);
+		    	}
+			}
+			return true;
+		}else{
+			return super.navigationMovement(dx, dy, status, time);
+		}
+	}
+	
 	public AuctionListScreen(int id, int type) {
 		super(null);
+		add(new ColorLabelField(""));
 		this.id = id;
 		this.type = type;
 		bgManager.setStatusHeight(exit.getContentHeight());
+		bgManager.setArrowMode(true);
 		
 		exit.setChangeListener(this);
 		
@@ -190,7 +281,7 @@ public class AuctionListScreen extends AppScreen implements FieldChangeListener
 		add(header);
 		
 		addButton(new FixedButtonField(""));
-		addButton(new FixedButtonField(""));
+		addButton(pageNumber);
 		addButton(exit);
 		if(type == 0){
 			doConnect(Const.categoryauction+"&category_id="+id+Const.height+Const.getCardHeight()+Const.jpg+Const.bbheight+Const.getAppHeight()+Const.width+Const.getCardWidth());
@@ -202,7 +293,12 @@ public class AuctionListScreen extends AppScreen implements FieldChangeListener
 	protected void onExposed() {
 		if (!isVisible()) {
 			if(type == 0){
-				doConnect(Const.categoryauction+"&category_id="+id+Const.height+Const.getCardHeight()+Const.jpg+Const.bbheight+Const.getAppHeight()+Const.width+Const.getCardWidth());
+				synchronized(UiApplication.getEventLock()) {
+					bgManager.deleteAll();
+					add(header);
+					tempList = new Vector();
+					doConnect(Const.categoryauction+"&category_id="+id+Const.height+Const.getCardHeight()+Const.jpg+Const.bbheight+Const.getAppHeight()+Const.width+Const.getCardWidth());
+				}
 			}
 		}
 	}

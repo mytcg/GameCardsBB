@@ -17,9 +17,9 @@ public class LoginScreen extends AppScreen implements FieldChangeListener
 	
 	SexyEditField username = new SexyEditField("");//, EditField.FILTER_NUMERIC, 36);
 	SexyEditField password = new SexyEditField("");
+	int height = 0;
 	
 	public void process(String val) {
-		System.out.println("val "+val);
 		int fromIndex;
 		String freebie = "-1";
     	if ((fromIndex = val.indexOf(Const.xml_result)) != -1) {
@@ -51,7 +51,7 @@ public class LoginScreen extends AppScreen implements FieldChangeListener
 	public LoginScreen()
 	{
 		super(null);
-		
+		height = Const.getAppHeight();
 		SettingsBean _instance = SettingsBean.getSettings();
 		_instance.setAuthenticated(false);
 		_instance.lastloaded();
@@ -59,8 +59,10 @@ public class LoginScreen extends AppScreen implements FieldChangeListener
 		
 		add(new ColorLabelField(Const.user));
 		add(username);
+		//username.setText("heinzs");
 		add(new ColorLabelField(Const.password));
 		add(password);
+		//password.setText("aaaaaa");
 		
 		bgManager.setStatusHeight(Const.getButtonHeight());
 		
@@ -81,18 +83,18 @@ public class LoginScreen extends AppScreen implements FieldChangeListener
 			} else {
 				String password64="";
 				try {
-					password64 = new String(Base64OutputStream.encode(password.getText().getBytes(), 0, password.getText().length(), false, false), "UTF-8");
+					password64 = new String(Base64OutputStream.encode((password.getText().trim()).getBytes(), 0, (password.getText().trim()).length(), false, false), "UTF-8");
 				} catch (Exception e) {
 					
 				}
 				
 				SettingsBean _instance = SettingsBean.getSettings();
-				_instance.setUsername(username.getText());
+				_instance.setUsername((username.getText()).trim());
 				_instance.setPassword(password64);
 				SettingsBean.saveSettings(_instance);
 				_instance = null;
-				System.out.println("pleo "+Const.userdetails+Const.height+Const.getAppHeight()+Const.width+Const.getCardWidth());
-				doConnect(Const.userdetails+Const.jpg+Const.height+Const.getAppHeight()+Const.width+Const.getCardWidth(), false);
+				System.out.println(Const.bbheight+Const.getAppHeight() + "  "+height);
+				doConnect(Const.userdetails+Const.jpg+Const.height+height+Const.bbheight+height+Const.width+Const.getCardWidth(), false);
 			}
 		}
 	}

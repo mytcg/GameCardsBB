@@ -6,6 +6,7 @@ import java.io.OutputStream;
 import javax.microedition.io.Connector;
 import javax.microedition.io.file.FileConnection;
 
+import net.mytcg.dev.util.SettingsBean;
 import net.mytcg.dev.http.ConnectionGet;
 import net.mytcg.dev.util.Const;
 import net.rim.device.api.math.Fixed32;
@@ -22,7 +23,7 @@ import net.rim.device.api.ui.container.HorizontalFieldManager;
 
 public class HorizontalStatManager extends HorizontalFieldManager
 {
-	Bitmap img = Const.getBackground();
+	//Bitmap img = Const.getGrey();
 	private String url;
 	private String file;
 	public Bitmap image;
@@ -68,7 +69,9 @@ public class HorizontalStatManager extends HorizontalFieldManager
 	{
 		int xPts[] = {0,0,getPreferredWidth(),getPreferredWidth()};
 		int yPts[] = {0,getPreferredHeight(),getPreferredHeight(),0};
-		g.drawTexturedPath(xPts,yPts,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,img);
+		g.setColor(3947580);
+		g.drawFilledPath(xPts, yPts, null, null);
+		//g.drawTexturedPath(xPts,yPts,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,img);
 		
 		g.drawBitmap(((getPreferredWidth()-(image.getWidth()))/2), (((getPreferredHeight())-((image.getHeight())))/2), image.getWidth(), image.getHeight(), image, 0, 0);
 		super.paint(g);
@@ -92,7 +95,20 @@ public class HorizontalStatManager extends HorizontalFieldManager
 	public void construct() {
 		int font = Const.FONT;
 		image = Const.getLoading();
-		landscape();
+		FileConnection _file = null;
+		InputStream input = null;
+		try {
+			SettingsBean _instance = SettingsBean.getSettings();
+			_file = (FileConnection)Connector.open(Const.getStorage()+Const.PREFIX+_instance.loading);
+			input = _file.openInputStream();
+			byte[] data = new byte[(int) _file.fileSize()];
+			input.read(data);
+			input.close();
+			_file.close();
+			image = (EncodedImage.createEncodedImage(data, 0, data.length)).getBitmap();
+			landscape();
+			invalidate();
+		} catch (Exception e) {}
 		if (file != null) {
 			getData();
 		}
@@ -141,9 +157,18 @@ public class HorizontalStatManager extends HorizontalFieldManager
 			
 		}
 	}
+	public void removeProgressBar(){
+		synchronized(UiApplication.getEventLock()) {
+			try{
+				this.delete(progress);
+			}catch(Exception e){}
+		}
+	}
 	public void process(byte[] data, String filename) {
 		synchronized(UiApplication.getEventLock()) {
-			this.delete(progress);
+			try{
+				this.delete(progress);
+			}catch(Exception e){}
 		}
 		image = (EncodedImage.createEncodedImage(data, 0, data.length)).getBitmap();
 		landscape();
@@ -151,7 +176,6 @@ public class HorizontalStatManager extends HorizontalFieldManager
 		saveData(data, filename);
 	}
 	public synchronized void saveData(byte[] data, String filename) {
-		System.out.println("filename " + filename);
 		FileConnection _file = null;
 		OutputStream output = null;
 		try {
@@ -175,8 +199,8 @@ public class HorizontalStatManager extends HorizontalFieldManager
             	setPositionChild(field, ((getPreferredWidth()-(image.getWidth()))/2)+sField.stat.getTop()*image.getWidth()/350, (((getPreferredHeight())-((image.getHeight())))/2)+(250 - sField.stat.getLeft() - sField.stat.getWidth())*image.getHeight()/250);  //set the position for the field
             	layoutChild( field, sField.stat.getHeight()*image.getHeight()/250, sField.stat.getWidth()*image.getWidth()/350); //lay out the field
             }else if(field instanceof GaugeField){
-            	setPositionChild(field, 40, ((Const.getHeight()-Const.getButtonCentre().getHeight())/2-5));  //set the position for the field
-            	layoutChild( field, (getPreferredWidth()-80), 100 ); //lay out the field
+            	setPositionChild(field, 45, ((Const.getHeight()-Const.getButtonCentre().getHeight())/2-5));  //set the position for the field
+            	layoutChild( field, (getPreferredWidth()-90), 100 ); //lay out the field
             }
         }
 		setExtent();
