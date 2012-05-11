@@ -2,6 +2,7 @@ package net.mytcg.dex.ui;
 
 import java.util.Vector;
 
+import net.mytcg.dex.ui.custom.ColorLabelField;
 import net.mytcg.dex.ui.custom.FixedButtonField;
 import net.mytcg.dex.ui.custom.ListItemField;
 import net.mytcg.dex.ui.custom.ThumbnailField;
@@ -237,6 +238,8 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 	public AlbumListScreen(int id) {
 		super(null);
 		bgManager.setStatusHeight(exit.getContentHeight());
+		
+		add(new ColorLabelField(""));
 		
 		if (id == Const.NEWCARDS) {
 			newcards = true;
