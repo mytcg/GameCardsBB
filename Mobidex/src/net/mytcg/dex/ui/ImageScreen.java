@@ -5,6 +5,7 @@ import net.mytcg.dex.ui.custom.ImageField;
 import net.mytcg.dex.ui.custom.StatField;
 import net.mytcg.dex.util.Card;
 import net.mytcg.dex.util.Const;
+import net.mytcg.dex.util.SettingsBean;
 import net.rim.blackberry.api.browser.Browser;
 import net.rim.blackberry.api.browser.BrowserSession;
 import net.rim.blackberry.api.invoke.Invoke;
@@ -127,6 +128,18 @@ public class ImageScreen extends AppScreen implements FieldChangeListener
 	
 	public void process(String val) {
 		synchronized(UiApplication.getEventLock()) {
+			screen = null;
+			UiApplication.getUiApplication().popScreen(this);
+		}
+	}
+	
+	protected void onExposed() {
+		SettingsBean _instance = SettingsBean.getSettings();
+		if(_instance.deleted){
+			if(_instance.search == false){
+				_instance.deleted = false;
+				SettingsBean.saveSettings(_instance);
+			}
 			screen = null;
 			UiApplication.getUiApplication().popScreen(this);
 		}

@@ -43,6 +43,8 @@ public final class SettingsBean implements Persistable {
 	private String all;
 	public boolean loadingimage = false;
 	public boolean notifications = false;
+	public boolean deleted = false;
+	public boolean search = false;
 	public String loading;
 	public String loadingflip;
 	public int deckid = -1;

@@ -4,6 +4,7 @@ import net.mytcg.dex.ui.custom.FixedButtonField;
 import net.mytcg.dex.ui.custom.ListItemField;
 import net.mytcg.dex.util.Card;
 import net.mytcg.dex.util.Const;
+import net.mytcg.dex.util.SettingsBean;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.FieldChangeListener;
 import net.rim.device.api.ui.UiApplication;
@@ -53,8 +54,13 @@ public class OptionScreen extends AppScreen implements FieldChangeListener
 		
 	}
 	protected void onExposed() {
+		SettingsBean _instance = SettingsBean.getSettings();
 		if (Const.added == 1) {
 			Const.added = 0;
+			screen = null;
+			UiApplication.getUiApplication().popScreen(this);
+		}
+		if(_instance.deleted){
 			screen = null;
 			UiApplication.getUiApplication().popScreen(this);
 		}

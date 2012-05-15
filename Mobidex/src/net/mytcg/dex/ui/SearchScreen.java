@@ -79,9 +79,26 @@ public class SearchScreen extends AppScreen implements FieldChangeListener, KeyL
 		}
 	}
 	
+	protected void onExposed() {
+		SettingsBean _instance = SettingsBean.getSettings();
+		if(_instance.deleted){
+			_instance.deleted = false;
+			SettingsBean.saveSettings(_instance);
+			String search64="";
+			try {
+				search64 = new String(Base64OutputStream.encode(number.getText().getBytes(), 0, number.getText().length(), false, false), "UTF-8");
+			} catch (Exception e) {
+				
+			}
+			doConnect(Const.seek+search64+Const.height+Const.getCardHeight()+Const.jpg+Const.bbheight+Const.getAppHeight()+Const.width+Const.getCardWidth()+Const.second+SettingsBean.getSettings().getLoaded());
+		}
+	}
+	
 	public void fieldChanged(Field f, int i) {
+		SettingsBean _instance = SettingsBean.getSettings();
 		if (f == back) {
-			
+			_instance.search = false;
+			SettingsBean.saveSettings(_instance);
 			screen = null;
 			UiApplication.getUiApplication().popScreen(this);
 			
@@ -94,6 +111,8 @@ public class SearchScreen extends AppScreen implements FieldChangeListener, KeyL
 			} catch (Exception e) {
 				
 			}
+			_instance.search = true;
+			SettingsBean.saveSettings(_instance);
 			doConnect(Const.seek+search64+Const.height+Const.getCardHeight()+Const.jpg+Const.bbheight+Const.getAppHeight()+Const.width+Const.getCardWidth()+Const.second+SettingsBean.getSettings().getLoaded());
 		} else if (f == number) {
 			System.out.println("test");

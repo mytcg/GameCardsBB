@@ -278,6 +278,11 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 			doConnect(Const.cardsincategory+id+Const.height+Const.getCardHeight()+Const.jpg+Const.bbheight+Const.getAppHeight()+Const.width+Const.getCardWidth()+Const.second+SettingsBean.getSettings().getLoaded());
 		}
 		super.onExposed();
+		SettingsBean _instance = SettingsBean.getSettings();
+		if(_instance.deleted){
+			screen = null;
+			UiApplication.getUiApplication().popScreen(this);
+		}
 	}
 
 	
