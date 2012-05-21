@@ -98,6 +98,9 @@ public class AlbumScreen extends AppScreen implements FieldChangeListener
 	    				System.out.println(albumname);
 	        			tmp.setChangeListener(this);
 	        			add(tmp);
+	        			if(albumname.equalsIgnoreCase("New Cards")){
+	        				fieldChanged(tmp, 0);
+	        			}
 	        		}
 	    		}
 	    		synchronized(UiApplication.getEventLock()) {
