@@ -461,7 +461,7 @@ public final class Const {
 	public static String http = "http";
 	public static String err_url_htt = "URL not http or https";
 	
-	public static String url = "http://www.mytcg.net/_phone/?";
+	public static String url = "http://dev.mytcg.net/_phone/?";
 	public static String userdetails = "userdetails=1";
 	public static String profiledetails = "profiledetails=1";
 	public static String creditlog = "creditlog=1";
@@ -531,6 +531,7 @@ public final class Const {
 	public static String usercard_id = "&usercard_id=";
 	public static String cardid = "&cardid=";
 	public static String card_id = "&card_id=";
+	public static String friendid = "&friendid=";
 	public static String deckid = "&deckid=";
 	public static String deck_id = "&deck_id=";
 	public static String description = "&description=";
@@ -1622,6 +1623,10 @@ public final class Const {
 	public static final int xml_usr_length = xml_usr.length();
 	public static final String xml_usr_end = "</usr>";
 	public static final int xml_usr_end_length = xml_usr_end.length();
+	public static final String xml_user_id = "<user_id>";
+	public static final int xml_user_id_length = xml_user_id.length();
+	public static final String xml_user_id_end = "</user_id>";
+	public static final int xml_user_id_end_length = xml_user_id_end.length();
 	public static final String xml_date = "<date>";
 	public static final int xml_date_length = xml_date.length();
 	public static final String xml_date_end = "</date>";

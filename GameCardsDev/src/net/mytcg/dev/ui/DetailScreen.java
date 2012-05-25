@@ -38,7 +38,7 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 	ListItemField lblFriends = new ListItemField(Const.friend, Const.FRIENDS, false, 0);
 	ListLabelField lbltrans = new ListLabelField("No transactions yet.");
 	ListLabelField lblnote = new ListLabelField("No notifications yet.");
-	FriendField lblfriend = new FriendField("","","");
+	FriendField lblfriend = new FriendField(-1,"","","");
 	ListItemField lblTransactions = new ListItemField("Last Transactions", -1, false, 0);
 	ColorLabelField lbltmp = new ColorLabelField("");
 	CustomCheckboxField cbxtmp = new CustomCheckboxField(false,false,Field.FIELD_VCENTER);
@@ -341,16 +341,18 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 	    	    	bgManager.addAll(temp);
 	    	    }
 	    	} else if (((fromIndex = val.indexOf(Const.xml_friends)) != -1)) {
+	    		System.out.println("aaaaa "+val);
 	    		int listSize = (Const.getUsableHeight()) / (Const.getThumbCentre().getHeight());
 	    		int listCounter = 1;
 	    		pages = new Vector();
+	    		int friendid = -1;
 	    		String desc = "";
 	    		String usr = "";
 	    		String value = "";
 	    		
 	    		int endIndex = -1;
 	    		String friend = "";
-	    		while ((fromIndex = val.indexOf(Const.xml_usr)) != -1){
+	    		while ((fromIndex = val.indexOf(Const.xml_user_id)) != -1){
 	    			if(listCounter >= listSize){
 	    				pages.addElement(tempList);
 	    				tempList = new Vector();
@@ -360,6 +362,13 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 	    			try{
 	    				friend = val.substring(fromIndex, endIndex+Const.xml_friend_end_length);
 	    			}catch(Exception e){};
+	    			fromIndex = friend.indexOf(Const.xml_user_id);
+	    			
+	    			try {
+	    				friendid = Integer.parseInt(friend.substring(fromIndex+Const.xml_user_id_length, friend.indexOf(Const.xml_user_id_end, fromIndex)));
+	    			} catch (Exception e) {
+	    				friendid = -1;
+	    			}
 	    			fromIndex = friend.indexOf(Const.xml_usr);
 	    			if ((fromIndex = friend.indexOf(Const.xml_usr)) != -1) {
 	    				usr = friend.substring(fromIndex+Const.xml_usr_length, friend.indexOf(Const.xml_usr_end, fromIndex));
@@ -374,7 +383,8 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 	    			val = val.substring(val.indexOf(Const.xml_friend_end)+Const.xml_friend_end_length);
 	    			if(!usr.equals("")){
 	    				try{
-	    					lblfriend = new FriendField(usr,value,desc);
+	    					lblfriend = new FriendField(friendid,usr,value,desc);
+	    					lblfriend.setChangeListener(this);
 			    			synchronized(UiApplication.getEventLock()) {
 			    				tempList.addElement(lblfriend);
 			    				//add(new SeparatorField());
@@ -499,6 +509,12 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 			BrowserSession browserSession = Browser.getDefaultSession();
 			browserSession.displayPage("http://buy.mytcg.net");
 			browserSession.showBrowser();
+		} else if(f instanceof FriendField){
+			int id = ((FriendField)f).getFriendId();
+			if(id != -1){
+				screen = new AlbumScreen(id, 4);
+				UiApplication.getUiApplication().pushScreen(screen);
+			}
 		}
 	}
 }

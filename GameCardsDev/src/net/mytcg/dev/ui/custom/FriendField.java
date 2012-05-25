@@ -8,12 +8,14 @@ import net.rim.device.api.ui.Font;
 import net.rim.device.api.ui.Graphics;
 
 public final class FriendField extends Field {
+	int id = -1;
 	String label1 = "";
 	String label2 = "";
 	String label3 = "";
 	boolean focus = false;
 	private Bitmap button_centre;
-	public FriendField(String label1, String label2,String label3) {
+	public FriendField(int id, String label1, String label2,String label3) {
+		this.id = id;
 		this.label1 = label1;
 		this.label2 = label2;
 		this.label3 = label3;
@@ -39,6 +41,9 @@ public final class FriendField extends Field {
 	public void onFocus(int direction) {
 		focus = true;
 		invalidate();
+	}
+	public int getFriendId(){
+		return id;
 	}
 	public void onVisibilityChange(boolean visible) {
 		
