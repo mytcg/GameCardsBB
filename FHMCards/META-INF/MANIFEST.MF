@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: GameCardsDev
+Bundle-SymbolicName: GameCardsDev
+Bundle-Version: 1.0.0.qualifier
+Export-Package: net.mytcg.topcar.http,
+ net.mytcg.topcar.ui,
+ net.mytcg.topcar.ui.custom,
+ net.mytcg.topcar.util
