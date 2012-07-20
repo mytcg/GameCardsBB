@@ -32,6 +32,7 @@ public class RegistrationScreen extends AppScreen implements FieldChangeListener
     	if ((fromIndex = val.indexOf(Const.xml_result)) != -1) {
     		super.process(val);
     	} else if (((fromIndex = val.indexOf(Const.xml_userdetails)) != -1)) {
+    		Const.processUserDetailsOnRegister(val);
     		SettingsBean _instance = SettingsBean.getSettings();
     		_instance.setAuthenticated(true);
     		_instance.setUsername(username.getText());

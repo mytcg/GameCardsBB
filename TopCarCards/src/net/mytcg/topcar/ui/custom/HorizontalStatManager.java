@@ -94,7 +94,7 @@ public class HorizontalStatManager extends HorizontalFieldManager
 	}
 	public void construct() {
 		int font = Const.FONT;
-		image = Const.getLoading();
+		image = Const.getLoadingFlip();
 		FileConnection _file = null;
 		InputStream input = null;
 		try {

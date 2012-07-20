@@ -655,6 +655,25 @@ public final class Const {
     	return false;
 	}
 	
+	public static void processUserDetailsOnRegister(String val) {
+		int fromIndex;
+    	if ((fromIndex = val.indexOf(xml_userdetails)) != -1) {
+    		SettingsBean _instance = SettingsBean.getSettings();
+    		if ((fromIndex = val.indexOf(Const.xml_loadingurl)) != -1) {
+				loadingurl = val.substring(fromIndex+Const.xml_loadingurl_length, val.indexOf(Const.xml_loadingurl_end, fromIndex));
+			}
+			if ((fromIndex = val.indexOf(Const.xml_loadingflipurl)) != -1) {
+    			loadingurlflip = val.substring(fromIndex+Const.xml_loadingflipurl_length, val.indexOf(Const.xml_loadingflipurl_end, fromIndex));
+    		}
+			load = new ImageLoader(loadingurl);
+			load2 = new ImageLoader(loadingurlflip);
+			_instance.loading = loadingurl.substring(loadingurl.indexOf("/cardsbb/")+Const.cardsbb_length, loadingurl.indexOf(Const.jpeg));
+			_instance.loadingflip = loadingurlflip.substring(loadingurlflip.indexOf("/cardsbb/")+Const.cardsbb_length, loadingurlflip.indexOf(Const.jpeg));
+    		SettingsBean.saveSettings(_instance);
+    		_instance = null;
+    	}
+	}
+	
 	/*
 	 * ICONS
 	 */
@@ -728,6 +747,15 @@ public final class Const {
 			loading = getSizeImage(sz_loading);   
 		}
 		return loading;
+	}
+	
+	private static Bitmap loadingflip;
+	private static String sz_loadingflip = "loadingflip.png";
+	public static Bitmap getLoadingFlip() {
+		if (loadingflip == null) {
+			loadingflip = getSizeImage(sz_loadingflip);   
+		}
+		return loadingflip;
 	}
 	
 	private static Bitmap leftarrow;
