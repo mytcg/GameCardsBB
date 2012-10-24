@@ -21,8 +21,9 @@ public final class GameCardsHome extends UiApplication {
 		Const.app = this;
 	}
 	public void process(String val) {
+		System.out.println("foo "+val);
 		synchronized(UiApplication.getEventLock()) {
-			pushScreen(new DownloadScreen(val, screen));
+			//pushScreen(new DownloadScreen(val, screen));
 		}
 	}
 	public void nextScreen() {
@@ -31,7 +32,7 @@ public final class GameCardsHome extends UiApplication {
 		} catch (Exception e) {}
 		switch (Const.GOTOSCREEN) {
 			case Const.ALBUMSCREEN:
-				update();
+				//update();
 				screen = new AlbumScreen();
 				break;
 			case Const.LOGINSCREEN:
