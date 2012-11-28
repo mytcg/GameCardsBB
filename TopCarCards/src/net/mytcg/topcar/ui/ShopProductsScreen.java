@@ -49,6 +49,7 @@ public class ShopProductsScreen extends AppScreen implements FieldChangeListener
 	    		String productname = "";
 	    		String producttype = "";
 	    		String productprice = "";
+	    		String productpremium = "";
 	    		String productnumcards = "";
 	    		String productthumb = "";
 	    		int endIndex = -1;
@@ -59,12 +60,16 @@ public class ShopProductsScreen extends AppScreen implements FieldChangeListener
     				_instance = SettingsBean.getSettings();
     				_instance.setCredits(credits);
     				SettingsBean.saveSettings(_instance);
-    				synchronized(UiApplication.getEventLock()) {
-    					header.setText("Current credits:" + SettingsBean.getSettings().getCredits());
-    	    		}
-    				
     			}
-	    		
+	    		if ((fromIndex = val.indexOf(Const.xml_premium)) != -1) {
+    				String premium = val.substring(fromIndex+Const.xml_premium_length, val.indexOf(Const.xml_premium_end, fromIndex));
+    				_instance = SettingsBean.getSettings();
+    				_instance.setPremium(premium);
+    				SettingsBean.saveSettings(_instance);
+    				synchronized(UiApplication.getEventLock()) {
+    					header.setText("Credits: " + SettingsBean.getSettings().getCredits()+" Premium: "+SettingsBean.getSettings().getPremium());
+    	    		}
+    			}
 	    		while ((fromIndex = val.indexOf(Const.xml_productid)) != -1){
 	    			if(listCounter >= listSize){
         				pages.addElement(tempList);
@@ -89,6 +94,9 @@ public class ShopProductsScreen extends AppScreen implements FieldChangeListener
 	    			if ((fromIndex = product.indexOf(Const.xml_productprice)) != -1) {
 	    				productprice = product.substring(fromIndex+Const.xml_productprice_length, product.indexOf(Const.xml_productprice_end, fromIndex));
 	    			}
+	    			if ((fromIndex = product.indexOf(Const.xml_productpremium)) != -1) {
+	    				productpremium = product.substring(fromIndex+Const.xml_productpremium_length, product.indexOf(Const.xml_productpremium_end, fromIndex));
+	    			}
 	    			if ((fromIndex = product.indexOf(Const.xml_productnumcards)) != -1) {
 	    				productnumcards = product.substring(fromIndex+Const.xml_productnumcards_length, product.indexOf(Const.xml_productnumcards_end, fromIndex));
 	    			}
@@ -105,8 +113,15 @@ public class ShopProductsScreen extends AppScreen implements FieldChangeListener
 	    					tmp.setProductPrice("Free");
 	    					tmp.setSecondLabel("Price: Free");
 	    				}else{
-	    					tmp.setProductPrice(productprice);
-	    					tmp.setSecondLabel("Price: "+productprice);
+	    					if(!productprice.equals("")){
+	    						tmp.setProductPrice(productprice);
+	    						tmp.setPriceType(1);
+	    						tmp.setSecondLabel("Credits: "+productprice);
+	    					}else{
+	    						tmp.setProductPrice(productpremium);
+	    						tmp.setPriceType(2);
+	    						tmp.setSecondLabel("Premium: "+productpremium);
+	    					}
 	    				}
 	    				tmp.setThirdLabel("Cards: "+productnumcards);
 	        			tmp.setChangeListener(this);
@@ -221,7 +236,7 @@ public class ShopProductsScreen extends AppScreen implements FieldChangeListener
 		addButton(exit);
 		
 		if (!freebie) {
-			header.setText("Current credits:" + SettingsBean.getSettings().getCredits());
+			header.setText("Credits: " + SettingsBean.getSettings().getCredits()+" Premium: " + SettingsBean.getSettings().getPremium());
 			add(header);
 		} else {
 			header.setText("Received: 300 credits and a free starter pack.");

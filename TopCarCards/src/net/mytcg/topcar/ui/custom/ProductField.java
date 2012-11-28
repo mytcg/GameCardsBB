@@ -67,9 +67,11 @@ public final class ProductField extends Field {
 		g.setFont(_font);
 		
 		g.drawText(product.getDesc(), image.getWidth()+10, 4);
-		
-		g.drawText("Credits: "+product.getPrice(), image.getWidth()+10, Const.FONT+6);
-		
+		if(product.getPriceType()==1){
+			g.drawText("Credits: "+product.getPrice(), image.getWidth()+10, Const.FONT+6);
+		}else if(product.getPriceType()==2){
+			g.drawText("Premium: "+product.getPrice(), image.getWidth()+10, Const.FONT+6);
+		}
 		g.drawText("Cards: "+product.getNumCards(), image.getWidth()+10, (Const.FONT*2)+8);
 		
 		g.drawText("Type: "+product.getType(), image.getWidth()+10, (Const.FONT*3)+12);

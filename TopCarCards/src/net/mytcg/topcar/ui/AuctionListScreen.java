@@ -35,6 +35,7 @@ public class AuctionListScreen extends AppScreen implements FieldChangeListener
 	int currentPage = 0;
 	
 	public void process(String val) {
+		System.out.println(val);
 		int listSize = (Const.getUsableHeight()) / Const.getThumbRightEdge().getHeight();
 		int listCounter = 0;
 		pages = new Vector();
@@ -56,8 +57,14 @@ public class AuctionListScreen extends AppScreen implements FieldChangeListener
     				_instance.setCredits(credits);
     				SettingsBean.saveSettings(_instance);
     			}
+	    		if ((fromIndex = val.indexOf(Const.xml_premium)) != -1) {
+    				String premium = val.substring(fromIndex+Const.xml_premium_length, val.indexOf(Const.xml_premium_end, fromIndex));
+    				_instance = SettingsBean.getSettings();
+    				_instance.setPremium(premium);
+    				SettingsBean.saveSettings(_instance);
+    			}
 	    		synchronized(UiApplication.getEventLock()) {
-	    			header.setText("Current credits:" + SettingsBean.getSettings().getCredits());
+	    			header.setText("Credits: " + SettingsBean.getSettings().getCredits()+" Premium: " + SettingsBean.getSettings().getPremium());
 	    		}
 	    		int auctionid = -1;
 	    		int usercardid = -1;
@@ -137,7 +144,7 @@ public class AuctionListScreen extends AppScreen implements FieldChangeListener
 	    				tmpAuc.setFronturl(fronturl);
 	    				tmpAuc.setBackurl(backurl);
 	    				tmp = new ThumbnailField(tmpAuc);
-	    				if(!price.equals("")){
+	    				if(!price.equals("0")){
 	    					if (lastBidUser.equals(SettingsBean.getSettings().getUsername())) {
 	    						tmp.setSecondLabel("Current bid: "+price+ " (Yours)");
 	    					} else {
@@ -277,7 +284,7 @@ public class AuctionListScreen extends AppScreen implements FieldChangeListener
 		
 		exit.setChangeListener(this);
 		
-		header.setText("Current credits:" + SettingsBean.getSettings().getCredits());
+		header.setText("Credits: " + SettingsBean.getSettings().getCredits()+" Premium: " + SettingsBean.getSettings().getPremium());
 		add(header);
 		
 		addButton(new FixedButtonField(""));

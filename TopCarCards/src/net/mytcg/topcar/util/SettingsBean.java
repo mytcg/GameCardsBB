@@ -26,6 +26,7 @@ public final class SettingsBean implements Persistable {
 	private String email;
 	//credits
 	private String credits;
+	private String premium;
 	//the users url for the server
 	private String url;
 	//the schedule option, none, auto, daily, weekly
@@ -42,6 +43,7 @@ public final class SettingsBean implements Persistable {
 	public boolean created = false;
 	public boolean shared = false;
 	public boolean added = false;
+	public boolean add = false;
 	public boolean deleted = false;
 	public boolean leavegame = false;
 	public boolean notifications = false;
@@ -179,6 +181,16 @@ public final class SettingsBean implements Persistable {
 			return false;
 		}
 		this.credits = credits;
+		return true;
+	}
+	public String getPremium() {
+		return premium;
+	}
+	public boolean setPremium(String premium) {
+		if ((this.premium != null)&&(this.premium.equals(premium))) {
+			return false;
+		}
+		this.premium = premium;
 		return true;
 	}
 	public String getPassword() {

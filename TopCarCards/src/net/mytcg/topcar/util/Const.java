@@ -360,6 +360,7 @@ public final class Const {
 	public static String usern = " Username:";
 	public static String email = " Email:";
 	public static String credits = "Credits";
+	public static String premium = "Premium";
 	public static String openingbid = " Opening Bid: ";
 	public static String currentbid = " Current Bid: ";
 	public static String buynowprice = " Buy Now Price: ";
@@ -375,6 +376,7 @@ public final class Const {
 	public static String create = "Create";
 	public static String flip = "Flip";
 	public static String options = "Options";
+	public static String add = "Add";
 	public static String logout = "Logout";
 	public static String logOut = "Log Out";
 	public static String albums = "Albums";
@@ -461,7 +463,7 @@ public final class Const {
 	public static String http = "http";
 	public static String err_url_htt = "URL not http or https";
 	
-	public static String url = "http://www.mytcg.net/_phone/topcar/?";
+	public static String url = "http://dev.mytcg.net/_phone/topcar/?";
 	public static String userdetails = "userdetails=1";
 	public static String profiledetails = "profiledetails=1";
 	public static String creditlog = "creditlog=1";
@@ -491,6 +493,7 @@ public final class Const {
 	public static String freebieproducts = "categoryproducts=1";
 	public static String auctioncategories="auctioncategories=1";
 	public static String getusergames="getusergames=1";
+	public static String playable="&playable=1";
 	public static String playablecategories="playablecategories=1";
 	public static String getopengames="getopengames=1";
 	public static String hostgame="hostgame=1";
@@ -504,6 +507,7 @@ public final class Const {
 	public static String getcardsindeck="getcardsindeck=1";
 	public static String cardsincategorynotdeck= "cardsincategorynotdeck=";
 	public static String getalldecks="getalldecks=1";
+	public static String getachis="getachis=1";
 	public static String addtodeck="addtodeck=1";
 	public static String categoryauction = "categoryauction=1";
 	public static String createauction = "createauction=1";
@@ -533,6 +537,7 @@ public final class Const {
 	public static String card_id = "&card_id=";
 	public static String deckid = "&deckid=";
 	public static String deck_id = "&deck_id=";
+	public static String position_id = "&position_id=";
 	public static String description = "&description=";
 	public static String category_id = "&category_id=";
 	public static String categoryid = "&categoryid=";
@@ -541,6 +546,8 @@ public final class Const {
 	public static String jpg = "&jpg=1";
 	public static String width = "&width=";
 	public static String freebie = "&freebie=";
+	public static String type = "&type=";
+	public static String purch = "&purchase=";
 	public static String subcategories = "usersubcategories=1&category=";
 	public static String cat = "<usercategories><album><album><albumid>-999</albumid><hascards>false</hascards><albumname>Empty</albumname></album></usercategories>";
 	public static String productcat = "<cardcategories><album><albumid>-999</albumid><albumname>Empty</albumname></album></cardcategories>";
@@ -636,6 +643,9 @@ public final class Const {
     		}
     		if ((fromIndex = val.indexOf(xml_credits)) != -1) {
     			_instance.setCredits(val.substring(fromIndex+xml_credits_length, val.indexOf(xml_credits_end, fromIndex)));
+    		}
+    		if ((fromIndex = val.indexOf(xml_premium)) != -1) {
+    			_instance.setPremium(val.substring(fromIndex+xml_premium_length, val.indexOf(xml_premium_end, fromIndex)));
     		}
     		if ((fromIndex = val.indexOf(Const.xml_loadingurl)) != -1) {
 				loadingurl = val.substring(fromIndex+Const.xml_loadingurl_length, val.indexOf(Const.xml_loadingurl_end, fromIndex));
@@ -828,6 +838,24 @@ public final class Const {
 			auctionsthumb = getSizeImage(sz_auctionsthumb);   
 		}
 		return auctionsthumb;
+	}
+	
+	private static Bitmap Awards;
+	private static String sz_awards = "Achievements.png";
+	public static Bitmap getAwards() {
+		if (Awards == null) {
+			Awards = getSizeImage(sz_awards);   
+		}
+		return Awards;
+	}
+	
+	private static Bitmap awardsthumb;
+	private static String sz_awardsthumb = "Achievements_thumb.png";
+	public static Bitmap getAwardsThumb() {
+		if (awardsthumb == null) {
+			awardsthumb = getSizeImage(sz_awardsthumb);   
+		}
+		return awardsthumb;
 	}
 	
 	private static Bitmap Credits;
@@ -1508,6 +1536,18 @@ public final class Const {
 	public static final int xml_leaderboard_length = xml_leaderboard.length(); 
 	public static final String xml_leaderboard_end = "</leaderboard>";
 	public static final int xml_leaderboard_end_length = xml_leaderboard_end.length();
+	public static final String xml_achis = "<achis>";
+	public static final int xml_achis_length = xml_achis.length(); 
+	public static final String xml_achis_end = "</achis>";
+	public static final int xml_achis_end_length = xml_achis_end.length();
+	public static final String xml_achi = "<achi>";
+	public static final int xml_achi_length = xml_achi.length(); 
+	public static final String xml_achi_end = "</achi>";
+	public static final int xml_achi_end_length = xml_achi_end.length();
+	public static final String xml_subachi = "<subachi>";
+	public static final int xml_subachi_length = xml_subachi.length(); 
+	public static final String xml_subachi_end = "</subachi>";
+	public static final int xml_subachi_end_length = xml_subachi_end.length();
 	public static final String xml_decks = "<decks>";
 	public static final int xml_decks_length = xml_decks.length(); 
 	public static final String xml_decks_end = "</decks>";
@@ -1536,6 +1576,10 @@ public final class Const {
 	public static final int xml_productprice_length = xml_productprice.length();
 	public static final String xml_productprice_end = "</productprice>";
 	public static final int price = xml_productprice_end.length();
+	public static final String xml_productpremium = "<productpremium>";
+	public static final int xml_productpremium_length = xml_productpremium.length();
+	public static final String xml_productpremium_end = "</productpremium>";
+	public static final int xml_productpremium_end_length = xml_productpremium_end.length();
 	public static final String xml_productnumcards = "<productnumcards>";
 	public static final int xml_productnumcards_length = xml_productnumcards.length();
 	public static final String xml_productnumcards_end = "</productnumcards>";
@@ -1580,6 +1624,14 @@ public final class Const {
 	public static final int xml_active_length = xml_active.length();
 	public static final String xml_active_end = "</active>";
 	public static final int xml_active_end_length = xml_active_end.length();
+	public static final String xml_progress = "<progress>";
+	public static final int xml_progress_length = xml_progress.length();
+	public static final String xml_progress_end = "</progress>";
+	public static final int xml_progress_end_length = xml_progress_end.length();
+	public static final String xml_target = "<target>";
+	public static final int xml_target_length = xml_target.length();
+	public static final String xml_target_end = "</target>";
+	public static final int xml_target_end_length = xml_target_end.length();
 	public static final String xml_explanation = "<explanation>";
 	public static final int xml_explanation_length = xml_explanation.length();
 	public static final String xml_explanation_end = "</explanation>";
@@ -1642,10 +1694,26 @@ public final class Const {
 	public static final int xml_userdetails_length = xml_userdetails.length();
 	public static final String xml_userdetails_end = "</userdetails>";
 	public static final int xml_userdetails_end_length = xml_userdetails_end.length();
+	public static final String xml_name = "<name>";
+	public static final int xml_name_length = xml_name.length();
+	public static final String xml_name_end = "</name>";
+	public static final int xml_name_end_length = xml_name_end.length();
+	public static final String xml_completeimage = "<complete_image>";
+	public static final int xml_completeimage_length = xml_completeimage.length();
+	public static final String xml_completeimage_end = "</complete_image>";
+	public static final int xml_completeimage_end_length = xml_completeimage_end.length();
+	public static final String xml_datecompleted = "<date_completed>";
+	public static final int xml_datecompleted_length = xml_datecompleted.length();
+	public static final String xml_datecompleted_end = "</date_completed>";
+	public static final int xml_datecompleted_end_length = xml_datecompleted_end.length();
 	public static final String xml_descr = "<desc>";
 	public static final int xml_descr_length = xml_descr.length();
 	public static final String xml_descr_end = "</desc>";
 	public static final int xml_descr_end_length = xml_descr_end.length();
+	public static final String xml_type = "<type>";
+	public static final int xml_type_length = xml_type.length();
+	public static final String xml_type_end = "</type>";
+	public static final int xml_type_end_length = xml_type_end.length();
 	public static final String xml_usr = "<usr>";
 	public static final int xml_usr_length = xml_usr.length();
 	public static final String xml_usr_end = "</usr>";
@@ -1674,6 +1742,10 @@ public final class Const {
 	public static final int xml_credits_length = xml_credits.length();
 	public static final String xml_credits_end = "</credits>";
 	public static final int xml_credits_end_length = xml_credits_end.length();
+	public static final String xml_premium = "<premium>";
+	public static final int xml_premium_length = xml_premium.length();
+	public static final String xml_premium_end = "</premium>";
+	public static final int xml_premium_end_length = xml_premium_end.length();
 	public static final String xml_freebie = "<freebie>";
 	public static final int xml_freebie_length = xml_freebie.length();
 	public static final String xml_freebie_end = "</freebie>";
@@ -1753,6 +1825,10 @@ public final class Const {
 	public static final int xml_description_length = xml_description.length();
 	public static final String xml_description_end = "</description>";
 	public static final int xml_description_end_length = xml_description_end.length();
+	public static final String xml_incompleteimage = "<incomplete_image>";
+	public static final int xml_incompleteimage_length = xml_incompleteimage.length();
+	public static final String xml_incompleteimage_end = "</incomplete_image>";
+	public static final int xml_incompleteimage_end_length = xml_incompleteimage_end.length();
 	public static final String xml_statdescription = "<stat_description>";
 	public static final int xml_statdescription_length = xml_statdescription.length();
 	public static final String xml_statdescription_end = "</stat_description>";
@@ -1813,6 +1889,18 @@ public final class Const {
 	public static final int xml_notedate_length = xml_notedate.length();
 	public static final String xml_notedate_end = "</notedate>";
 	public static final int xml_notedate_end_length = xml_notedate_end.length();
+	public static final String xml_positionid = "<positionid>";
+	public static final int xml_positionid_length = xml_positionid.length();
+	public static final String xml_positionid_end = "</positionid>";
+	public static final int xml_positionid_end_length = xml_positionid_end.length();
+	public static final String xml_position = "<position>";
+	public static final int xml_position_length = xml_position.length();
+	public static final String xml_position_end = "</position>";
+	public static final int xml_position_end_length = xml_position_end.length();
+	public static final String xml_points = "<points>";
+	public static final int xml_points_length = xml_points.length();
+	public static final String xml_points_end = "</points>";
+	public static final int xml_points_end_length = xml_points_end.length();
 	public static final String xml_value = "<value>";
 	public static final int xml_value_length = xml_value.length();
 	public static final String xml_value_end = "</value>";

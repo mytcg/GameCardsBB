@@ -41,7 +41,7 @@ public class ShopPurchaseScreen extends AppScreen implements FieldChangeListener
 		if(freebie){
 			lblConfirm = new ColorLabelField("Are you sure you want this free booster pack?");
 		}else{
-			lblConfirm = new ColorLabelField("Current credits: " + SettingsBean.getSettings().getCredits());
+			lblConfirm = new ColorLabelField("Credits: " + SettingsBean.getSettings().getCredits()+" Premium: " + SettingsBean.getSettings().getPremium());
 		}
 		exit.setChangeListener(this);
 		confirm.setChangeListener(this);
@@ -71,7 +71,11 @@ public class ShopPurchaseScreen extends AppScreen implements FieldChangeListener
 			screen = null;
 			UiApplication.getUiApplication().popScreen(this);
 		} else if(f == confirm){
-			doConnect(Const.buyproduct+product.getId()+Const.height+Const.getCardHeight()+Const.jpg+Const.bbheight+Const.getAppHeight()+Const.width+Const.getCardWidth()+Const.freebie+(freebie?"1":"0"));
+			String purchase = "3";
+			if(product.getPriceType()==2){
+				purchase = "2";
+			}
+			doConnect(Const.buyproduct+product.getId()+Const.height+Const.getCardHeight()+Const.jpg+Const.bbheight+Const.getAppHeight()+Const.width+Const.getCardWidth()+Const.freebie+(freebie?"1":"0")+Const.purch+purchase);
 		} else if(f == cards){
 			screen = new ViewBoosterScreen(product.getId());
 			UiApplication.getUiApplication().pushScreen(screen);

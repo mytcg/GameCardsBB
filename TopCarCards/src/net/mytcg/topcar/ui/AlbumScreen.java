@@ -25,6 +25,7 @@ public class AlbumScreen extends AppScreen implements FieldChangeListener
 	int type = 0;
 	boolean update = true;
 	int deckid = -1;
+	int positionid=-1;
 	Card card = null;
 	Vector pages = new Vector();
 	int currentPage = 0;
@@ -267,9 +268,27 @@ public class AlbumScreen extends AppScreen implements FieldChangeListener
 		process(SettingsBean.getSettings().getUsercategories(id));
 		doConnect(Const.subcategories+id+Const.second+SettingsBean.getSettings().getLoaded());
 	}
+	public AlbumScreen(int id, int type, int deckid, int positionid) {
+		super(null);
+		this.type = type;
+		this.deckid = deckid;
+		this.positionid=positionid;
+		bgManager.setStatusHeight(exit.getContentHeight());
+		bgManager.setArrowMode(true);
+		add(new ColorLabelField(""));
+		
+		exit.setChangeListener(this);
+		
+		addButton(new FixedButtonField(""));
+		addButton(pageNumber);
+		addButton(exit);
+		
+		this.id = id;
+		doConnect(Const.subcategories+id+Const.second+SettingsBean.getSettings().getLoaded()+Const.playable);
+	}
 	protected void onExposed() {
 		invalidate();
-		if(type == 1 || type == 3){
+		if(type == 1 || type == 3 || type == 4){
 			UiApplication.getUiApplication().popScreen(this);
 		}
 		if (!isVisible()) {
@@ -290,6 +309,16 @@ public class AlbumScreen extends AppScreen implements FieldChangeListener
 		if (f == exit) {
 			screen = null;
 			UiApplication.getUiApplication().popScreen(this);
+		}  else if(type == 4){
+			int id = ((ListItemField)(f)).getId();
+			boolean hascards = ((ListItemField)(f)).hasCards();
+			if (!hascards) {
+				screen = new AlbumScreen(id, type, deckid, positionid);
+				UiApplication.getUiApplication().pushScreen(screen);
+			} else {
+				screen = new AddCardToDeckListScreen(deckid,id,positionid);
+				UiApplication.getUiApplication().pushScreen(screen);
+			}
 		} else if(type == 3){
 			int id = ((ListItemField)(f)).getId();
 			boolean hascards = ((ListItemField)(f)).hasCards();

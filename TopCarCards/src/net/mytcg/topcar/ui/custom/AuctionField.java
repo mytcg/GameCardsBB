@@ -75,7 +75,7 @@ public final class AuctionField extends Field {
 		g.drawText(auction.getDesc(), image.getWidth()+10, height);
 		
 		height += Const.FONT+4;
-		if(!auction.getPrice().equals("")){
+		if(!auction.getPrice().equals("0")){
 			g.drawText("Current bid: "+auction.getPrice(), image.getWidth()+10, height);
 		}else{
 			g.drawText("Opening bid: "+auction.getOpeningBid(), image.getWidth()+10, height);
@@ -83,7 +83,7 @@ public final class AuctionField extends Field {
 		
 		height += Const.FONT+4;
 		g.drawText("Buy Out: "+auction.getBuyNowPrice(), image.getWidth()+10, height);
-		if(!auction.getPrice().equals("")){
+		if(!auction.getPrice().equals("0")){
 			height += Const.FONT+4;
 			g.drawText("Bidder: "+auction.getLastBidUser(), image.getWidth()+10, height);
 		}

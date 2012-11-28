@@ -42,6 +42,7 @@ public class MenuScreen extends AppScreen implements FieldChangeListener
 	MenuThumbnailField decks;
 	MenuThumbnailField shop;
 	MenuThumbnailField auctions;
+	MenuThumbnailField awards;
 	MenuThumbnailField redeem;
 	MenuThumbnailField balance;
 	MenuThumbnailField profile;
@@ -77,6 +78,7 @@ public class MenuScreen extends AppScreen implements FieldChangeListener
 		decks = new MenuThumbnailField(Const.getDecksThumb(), Const.getDecks(),menu);
 		shop = new MenuThumbnailField(Const.getShopThumb(), Const.getShop(), menu);
 		auctions = new MenuThumbnailField(Const.getAuctionsThumb(), Const.getAuctions(),menu);
+		awards = new MenuThumbnailField(Const.getAwardsThumb(), Const.getAwards(),menu);
 		redeem = new MenuThumbnailField(Const.getRedeemThumb(), Const.getRedeem(),menu);
 		balance = new MenuThumbnailField(Const.getCreditsThumb(), Const.getCredits(),menu);
 		profile = new MenuThumbnailField(Const.getProfileThumb(), Const.getProfile(),menu);
@@ -92,6 +94,7 @@ public class MenuScreen extends AppScreen implements FieldChangeListener
 		decks.setChangeListener(this);
 		shop.setChangeListener(this);
 		auctions.setChangeListener(this);
+		awards.setChangeListener(this);
 		redeem.setChangeListener(this);
 		balance.setChangeListener(this);
 		profile.setChangeListener(this);
@@ -109,6 +112,7 @@ public class MenuScreen extends AppScreen implements FieldChangeListener
 		temp.addElement(decks);
 		temp.addElement(shop);
 		temp.addElement(auctions);
+		temp.addElement(awards);
 		temp.addElement(balance);
 		temp.addElement(profile);
 		temp.addElement(notifications);
@@ -297,6 +301,9 @@ public class MenuScreen extends AppScreen implements FieldChangeListener
 			UiApplication.getUiApplication().pushScreen(screen);
 		} else if(f == auctions){
 			screen = new AuctionMenuScreen();
+			UiApplication.getUiApplication().pushScreen(screen);
+		} else if(f == awards){
+			screen = new AwardsScreen();
 			UiApplication.getUiApplication().pushScreen(screen);
 		} else if(f == redeem){
 			screen = new RedeemScreen(this);

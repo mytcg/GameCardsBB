@@ -319,6 +319,9 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 	    				} else {
 	    					tmp = new ThumbnailField(_instance.getImages(cardid));
 	    				}
+	    				if(quantity>-1){
+	    					tmp.setLabel(description+" ("+ quantity+")");
+	    				}
 	    				if(!quality.equals("")){
 	    					tmp.setSecondLabel(""+ quality);
 	    				}

@@ -31,9 +31,11 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 	FixedButtonField buy = new FixedButtonField(Const.buy);
 	PageNumberField pageNumber = new PageNumberField("Page 1/1");
 	SexyEditField balance = new SexyEditField("");
+	SexyEditField premium = new SexyEditField("");
 	SexyEditField tmp = new SexyEditField("");
 	ColorLabelField lbltop = null;
 	ListItemField lblBalance = new ListItemField(Const.credits, -1, false, 0);
+	ListItemField lblPremium = new ListItemField(Const.premium, -1, false, 0);
 	ListItemField lblNotifications = new ListItemField(Const.notification, Const.NOTIFICATIONS, false, 0);
 	ListItemField lblFriends = new ListItemField(Const.friend, Const.FRIENDS, false, 0);
 	ListLabelField lbltrans = new ListLabelField("No transactions yet.");
@@ -67,11 +69,16 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 			tempList.addElement(lbltop);
 			tempList.addElement(lblBalance);
 			tempList.addElement(balance);
+			tempList.addElement(lblPremium);
+			tempList.addElement(premium);
 			tempList.addElement(lblTransactions);
 			lblBalance.setFocusable(false);
+			lblPremium.setFocusable(false);
 			lblTransactions.setFocusable(false);
 			balance.setText(SettingsBean.getSettings().getCredits());
 			balance.setFocusable(false);
+			premium.setText(SettingsBean.getSettings().getPremium());
+			premium.setFocusable(false);
 			buy.setChangeListener(this);
 			addButton(buy);
 			doConnect(Const.creditlog);
@@ -94,6 +101,7 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 	}
 	
 	public void process(String val) {
+		System.out.println(val);
 		if (!(isDisplaying())) {
 			int fromIndex;
 	    	if ((fromIndex = val.indexOf(Const.xml_result)) != -1) {
@@ -193,13 +201,14 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 	    	    }
 	    	} else if (((fromIndex = val.indexOf(Const.xml_transactions)) != -1)) {
 	    		int listSize = (Const.getUsableHeight()) / (Const.getButtonSelCentre().getHeight()+11);
-	    		int listCounter = 3;
+	    		int listCounter = 5;
 	    		pages = new Vector();
 	    		int transactionid = -1;
 	    		String desc = "";
 	    		String date = "";
 	    		String value = "";
 	    		String credits = "";
+	    		String premium = "";
 	    		int endIndex = -1;
 	    		String transaction = "";
 	    		
@@ -211,6 +220,16 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
     				SettingsBean.saveSettings(_instance);
     				synchronized(UiApplication.getEventLock()) {
     					balance.setText(SettingsBean.getSettings().getCredits());
+    	    		}
+    				
+    			}
+	    		if ((fromIndex = val.indexOf(Const.xml_premium)) != -1) {
+    				premium = val.substring(fromIndex+Const.xml_premium_length, val.indexOf(Const.xml_premium_end, fromIndex));
+    				SettingsBean _instance = SettingsBean.getSettings();
+    				_instance.setPremium(premium);
+    				SettingsBean.saveSettings(_instance);
+    				synchronized(UiApplication.getEventLock()) {
+    					this.premium.setText(SettingsBean.getSettings().getPremium());
     	    		}
     				
     			}

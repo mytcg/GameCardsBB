@@ -23,13 +23,33 @@ public class AddCardToDeckListScreen extends AppScreen implements FieldChangeLis
 	String cards = null;
 	int deckid = -1;
 	int categoryid = -1;
+	int positionid = -1;
 	boolean update = true;
+	Card card = null;
 
 	public AddCardToDeckListScreen(int deckid, int categoryid)
 	{
 		super(null);
 		this.deckid = deckid;
 		this.categoryid = categoryid;
+		bgManager.setStatusHeight(exit.getContentHeight());
+		
+		exit.setChangeListener(this); 
+		
+		add(label);
+		
+		addButton(new FixedButtonField(""));
+		addButton(new FixedButtonField(""));
+		addButton(exit);
+		doConnect(Const.cardsincategorynotdeck+categoryid+Const.deck_id+deckid+Const.height+Const.getCardHeight()+Const.width+Const.getCardWidth()+Const.jpg+Const.bbheight+Const.getAppHeight());
+	}
+	
+	public AddCardToDeckListScreen(int deckid, int categoryid, int positionid)
+	{
+		super(null);
+		this.deckid = deckid;
+		this.categoryid = categoryid;
+		this.positionid = positionid;
 		bgManager.setStatusHeight(exit.getContentHeight());
 		
 		exit.setChangeListener(this); 
@@ -231,7 +251,7 @@ public class AddCardToDeckListScreen extends AppScreen implements FieldChangeLis
     					card = card.substring(card.indexOf(Const.xml_stat_end)+Const.xml_stat_end_length);
     				}
     			}
-    			Card cardobject = new Card(cardid, description, quantity, thumburl, fronturl, backurl, note, updated, stats, rating, quality, value);
+    			Card cardobject = new Card(cardid, description, quantity, thumburl, fronturl, backurl, note, 0, stats, rating, quality, value);
     			_instance.setImages(cardid, cardobject);
 
     			val = val.substring(val.indexOf(Const.xml_card_end)+Const.xml_card_end_length);
@@ -258,17 +278,40 @@ public class AddCardToDeckListScreen extends AppScreen implements FieldChangeLis
     	invalidate();		
 	}
 	
+	public void onExposed (){
+		SettingsBean _instance = SettingsBean.getSettings();
+		if(_instance.add){
+			_instance.add = false;
+			SettingsBean.saveSettings(_instance);
+			addCard();
+		}
+		super.onExposed();
+	}
+	
 	public void fieldChanged(Field f, int i) {
 		if (f == exit) {
 			screen = null;
 			UiApplication.getUiApplication().popScreen(this);
 		} else if(f instanceof ThumbnailField){
 			ThumbnailField set = ((ThumbnailField)(f));
-			Card card = set.getCard();
+			card = set.getCard();
+			if (card.getQuantity() > 0) {
+				screen = new ImageScreen(card, this);
+				UiApplication.getUiApplication().pushScreen(screen);
+			}
+		}
+	}
+	
+	public void addCard(){
+		if(card!=null){
 			synchronized(UiApplication.getEventLock()) {
-    			label.setText("Adding card to deck...");
-    		}
-			doConnect(Const.addtodeck+Const.deck_id+deckid+Const.card_id+card.getId());
+				label.setText("Adding card to deck...");
+			}
+			if(positionid==-1){
+				doConnect(Const.addtodeck+Const.deck_id+deckid+Const.card_id+card.getId());
+			}else{
+				doConnect(Const.addtodeck+Const.deck_id+deckid+Const.card_id+card.getId()+Const.position_id+positionid);
+			}
 		}
 	}
 }
