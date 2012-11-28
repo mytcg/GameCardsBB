@@ -19,16 +19,17 @@ public class AuctionCategoriesScreen extends AppScreen implements FieldChangeLis
 	boolean update = true;
 	
 	public void process(String val) {
-		SettingsBean _instance = SettingsBean.getSettings();
-		if (id >= 0) {
-    		update = _instance.setUsercategories(val, id);
-		} else {
-			update = _instance.setUsercategories(val);
-		}
+		System.out.println("WUBWUB "+val);
+		//SettingsBean _instance = SettingsBean.getSettings();
+		//if (id >= 0) {
+    	//	update = _instance.setUsercategories(val, id);
+		//} else {
+		//	update = _instance.setUsercategories(val);
+		//}
 		
-		if (update) {
-			SettingsBean.saveSettings(_instance);
-		}
+		//if (update) {
+		//	SettingsBean.saveSettings(_instance);
+		//}
 		
 		if ((!(isDisplaying()))||(update)) {
 			int fromIndex;
@@ -70,7 +71,7 @@ public class AuctionCategoriesScreen extends AppScreen implements FieldChangeLis
 	    		}
 	    	}
 	    	invalidate();
-	    	_instance = null;
+	    	//_instance = null;
 	    	setDisplaying(true);
 		}		
 	}
@@ -84,9 +85,24 @@ public class AuctionCategoriesScreen extends AppScreen implements FieldChangeLis
 		addButton(new FixedButtonField(""));
 		addButton(new FixedButtonField(""));
 		addButton(exit);
-		process(SettingsBean.getSettings().getUsercategories());
+		//process(SettingsBean.getSettings().getUsercategories());
 		
 		doConnect(Const.auctioncategories);
+	}
+	
+	public AuctionCategoriesScreen(int categoryId) {
+		super(null);
+		add(new ColorLabelField(""));
+		bgManager.setStatusHeight(exit.getContentHeight());
+		
+		exit.setChangeListener(this);
+		
+		addButton(new FixedButtonField(""));
+		addButton(new FixedButtonField(""));
+		addButton(exit);
+		process(SettingsBean.getSettings().getUsercategories());
+		
+		doConnect(Const.auctioncategories+"&categoryId="+categoryId);
 	}
 	
 	protected void onExposed() {

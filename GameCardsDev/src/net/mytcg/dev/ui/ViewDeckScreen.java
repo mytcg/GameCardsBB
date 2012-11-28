@@ -26,6 +26,8 @@ public class ViewDeckScreen extends AppScreen implements FieldChangeListener
 	ThumbnailField tmp = new ThumbnailField(new Card(-1, "", 0, "", "", "", "", 0, null,-1, "", ""));
 	String cards = null;
 	int deckid = -1;
+	int type = 1;
+	int active = 1;
 	int categoryid = -1;
 	boolean update = true;
 	Vector pages = new Vector();
@@ -33,11 +35,13 @@ public class ViewDeckScreen extends AppScreen implements FieldChangeListener
 	int currentPage = 0;
 	int numcards = 0;
 
-	public ViewDeckScreen(int deckid)
+	public ViewDeckScreen(int deckid,int type, int active)
 	{
 		super(null);
 		add(new ColorLabelField(""));
 		this.deckid = deckid;
+		this.type = type;
+		this.active = active;
 		bgManager.setStatusHeight(exit.getContentHeight());
 		bgManager.setArrowMode(true);
 		
@@ -48,19 +52,25 @@ public class ViewDeckScreen extends AppScreen implements FieldChangeListener
 		addcard.setChangeListener(this);
 		deletedeck.setChangeListener(this);
 		
-		tempList.addElement(addcard);
-		tempList.addElement(deletedeck);
+		if(type==1||type==2){
+			tempList.addElement(addcard);
+			tempList.addElement(deletedeck);
+		}
 		
 		addButton(new FixedButtonField(""));
 		addButton(pageNumber);
 		addButton(exit);
 		
-		doConnect(Const.getcardsindeck+Const.deck_id+deckid+Const.height+Const.getCardHeight()+Const.jpg+Const.bbheight+Const.getAppHeight()+Const.width+Const.getCardWidth());
+		doConnect(Const.getcardsindeck+Const.deck_id+deckid+Const.height+Const.getCardHeight()+Const.jpg+Const.bbheight+Const.getAppHeight()+Const.width+Const.getCardWidth()+Const.type+type);
 	}
 	
 	public void process(String val) {
+		System.out.println(val);
 		int listSize = (Const.getUsableHeight()) / 74;
-		int listCounter = 1;
+		int listCounter = 0;
+		if(type==1||type==2){
+			listCounter = 1;
+		}
 		pages = new Vector();
 		SettingsBean _instance = SettingsBean.getSettings();
     	update = _instance.setCards(val, -1);
@@ -84,6 +94,9 @@ public class ViewDeckScreen extends AppScreen implements FieldChangeListener
     		String backurl = "";
     		String note = "";
     		String value = "";
+    		String position = "";
+    		int positionid = -1;
+    		int points = 0;
     		int rating = -1;
     		int updated = 0;
     		Vector stats = null;
@@ -142,6 +155,23 @@ public class ViewDeckScreen extends AppScreen implements FieldChangeListener
     			}
     			if ((fromIndex = card.indexOf(Const.xml_value)) != -1) {
     				value = card.substring(fromIndex+Const.xml_value_length, card.indexOf(Const.xml_value_end, fromIndex));
+    			}
+    			if ((fromIndex = card.indexOf(Const.xml_positionid)) != -1) {
+    				try {
+    					positionid = Integer.parseInt(card.substring(fromIndex+Const.xml_positionid_length, card.indexOf(Const.xml_positionid_end, fromIndex)));
+    				} catch (Exception e) {
+    					positionid = -1;
+    				}
+    			}
+    			if ((fromIndex = card.indexOf(Const.xml_position)) != -1) {
+    				position = card.substring(fromIndex+Const.xml_position_length, card.indexOf(Const.xml_position_end, fromIndex));
+    			}
+    			if ((fromIndex = card.indexOf(Const.xml_points)) != -1) {
+    				try {
+    					points = Integer.parseInt(card.substring(fromIndex+Const.xml_points_length, card.indexOf(Const.xml_points_end, fromIndex)));
+    				} catch (Exception e) {
+    					points = 0;
+    				}
     			}
     			if ((fromIndex = card.indexOf(Const.xml_quantity)) != -1) {
     				try {
@@ -254,7 +284,7 @@ public class ViewDeckScreen extends AppScreen implements FieldChangeListener
     					card = card.substring(card.indexOf(Const.xml_stat_end)+Const.xml_stat_end_length);
     				}
     			}
-    			Card cardobject = new Card(cardid, description, quantity, thumburl, fronturl, backurl, note, updated, stats, rating, quality, value);
+    			Card cardobject = new Card(cardid, description, quantity, thumburl, fronturl, backurl, note, 0, stats, rating, quality, value);
     			_instance.setImages(cardid, cardobject);
 
     			val = val.substring(val.indexOf(Const.xml_card_end)+Const.xml_card_end_length);
@@ -262,9 +292,22 @@ public class ViewDeckScreen extends AppScreen implements FieldChangeListener
     			empty = false;
     			synchronized(UiApplication.getEventLock()) {
     				tmp = new ThumbnailField(_instance.getImages(cardid));
-    				tmp.setSecondLabel("Quantity: "+ quantity);
-    				if(!quality.equals("")){
-    					tmp.setSecondLabel("Quality: "+ quality);
+    				if(type==1||type==2){
+	    				tmp.setSecondLabel("Quantity: "+ quantity);
+	    				if(!quality.equals("")){
+	    					tmp.setSecondLabel("Quality: "+ quality);
+	    				}
+    				}else if(type==4){
+    					if(!description.equals("")){
+    						tmp.setLabel(description);
+	    					tmp.setSecondLabel("Position: "+position);
+	    					tmp.setThirdLabel("Points: "+points);
+    					}else{
+	    					tmp.setLabel("Position: "+position);
+	    					tmp.setSecondLabel("Points: "+points);
+	    					tmp.setThirdLabel("");
+    					}
+    					tmp.setPositionId(positionid);
     				}
     				tmp.setChangeListener(this);
     				tempList.addElement(tmp);
@@ -282,7 +325,7 @@ public class ViewDeckScreen extends AppScreen implements FieldChangeListener
         		if(pages.size()<=1){
     				bgManager.setArrowMode(false);
     			}
-        		if(numcards == 10){
+        		if((type==1||type==2) && numcards == 10){
     	    		//bgManager.delete(addcard);
     	    		((Vector)pages.elementAt(0)).removeElement(addcard);
     	    	}
@@ -378,10 +421,12 @@ public class ViewDeckScreen extends AppScreen implements FieldChangeListener
 			bgManager.deleteAll();
 			add(new ColorLabelField(""));
 			tempList = new Vector();
-			tempList.addElement(addcard);
-			tempList.addElement(deletedeck);
+			if(type==1||type==2){
+				tempList.addElement(addcard);
+				tempList.addElement(deletedeck);
+			}
 		}
-		doConnect(Const.getcardsindeck+Const.deck_id+deckid+Const.height+Const.getCardHeight()+Const.jpg+Const.bbheight+Const.getAppHeight()+Const.width+Const.getCardWidth());
+		doConnect(Const.getcardsindeck+Const.deck_id+deckid+Const.height+Const.getCardHeight()+Const.jpg+Const.bbheight+Const.getAppHeight()+Const.width+Const.getCardWidth()+Const.type+type);
 	}
 	public void fieldChanged(Field f, int i) {
 		if (f == exit) {
@@ -396,8 +441,13 @@ public class ViewDeckScreen extends AppScreen implements FieldChangeListener
 		} else if(f instanceof ThumbnailField){
 			ThumbnailField set = ((ThumbnailField)(f));
 			Card card = set.getCard();
-			screen = new RemoveCardFromDeckScreen(card,deckid);
-			UiApplication.getUiApplication().pushScreen(screen);
+			if(type==1||type==2){
+				screen = new RemoveCardFromDeckScreen(card,deckid);
+				UiApplication.getUiApplication().pushScreen(screen);
+			}else if(type==4&&active==1){
+				screen = new AlbumScreen(categoryid, 4,deckid, set.getPositionId());
+				UiApplication.getUiApplication().pushScreen(screen);
+			}
 		}
 	}
 }

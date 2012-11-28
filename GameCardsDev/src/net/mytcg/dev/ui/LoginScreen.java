@@ -25,6 +25,7 @@ public class LoginScreen extends AppScreen implements FieldChangeListener
     	if ((fromIndex = val.indexOf(Const.xml_result)) != -1) {
     		super.process(val);
     	} else if ((fromIndex = val.indexOf(Const.xml_userdetails)) != -1) {
+    		System.out.println(val);
     		if (Const.processUserDetails(val)) {
     			if ((fromIndex = val.indexOf(Const.xml_freebie)) != -1) {
         			freebie = (val.substring(fromIndex+Const.xml_freebie_length, val.indexOf(Const.xml_freebie_end, fromIndex)));

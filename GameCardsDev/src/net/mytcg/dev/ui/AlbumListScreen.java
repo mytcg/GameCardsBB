@@ -319,6 +319,9 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 	    				} else {
 	    					tmp = new ThumbnailField(_instance.getImages(cardid));
 	    				}
+	    				if(quantity>-1){
+	    					tmp.setLabel(description+" ("+ quantity+")");
+	    				}
 	    				if(!quality.equals("")){
 	    					tmp.setSecondLabel(""+ quality);
 	    				}
@@ -440,30 +443,6 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 		
 		process(SettingsBean.getSettings().getCards(id));
 		doConnect(Const.cardsincategory+id+Const.height+Const.getCardHeight()+Const.jpg+Const.bbheight+Const.getAppHeight()+Const.width+Const.getCardWidth()+Const.second+SettingsBean.getSettings().getLoaded());
-	}
-	
-	public AlbumListScreen(int id, int type, int friendid) {
-		super(null);
-		this.type = type;
-		bgManager.setStatusHeight(exit.getContentHeight());
-		bgManager.setArrowMode(true);
-		
-		add(new ColorLabelField(""));
-		
-		if (id == Const.NEWCARDS) {
-			newcards = true;
-		}
-		
-		exit.setChangeListener(this);
-		
-		addButton(new FixedButtonField(""));
-		addButton(pageNumber);
-		addButton(exit);
-		
-		this.id = id;
-		
-		process(SettingsBean.getSettings().getCards(id));
-		doConnect(Const.cardsincategory+id+Const.friendid+friendid+Const.height+Const.getCardHeight()+Const.jpg+Const.bbheight+Const.getAppHeight()+Const.width+Const.getCardWidth()+Const.second+SettingsBean.getSettings().getLoaded());
 	}
 	
 	public AlbumListScreen(int id, int type, Card card) {

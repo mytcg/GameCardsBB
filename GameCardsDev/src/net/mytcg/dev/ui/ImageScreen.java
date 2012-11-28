@@ -26,6 +26,7 @@ public class ImageScreen extends AppScreen implements FieldChangeListener
 	private FixedButtonField exit = new FixedButtonField(Const.back);
 	private FixedButtonField flips = new FixedButtonField(Const.flip);
 	private FixedButtonField option = new FixedButtonField(Const.options);
+	private FixedButtonField add = new FixedButtonField(Const.add);
 	
 	private ImageField image = null;
 	private StatField [] stats;
@@ -91,6 +92,27 @@ public class ImageScreen extends AppScreen implements FieldChangeListener
 		addButton(exit);
 	}
 	
+	public ImageScreen(Card card, AppScreen screen) {
+		super(screen, true);
+		this.card = card;
+		
+		exit.setChangeListener(this);
+		flips.setChangeListener(this);
+		add.setChangeListener(this);
+		
+		if(!(Const.getPortrait())){
+			hStatManager.setStatusHeight(exit.getContentHeight());
+			hStatManager.setUrl(card.getFronturl());
+		}else{
+			vStatManager.setStatusHeight(exit.getContentHeight());
+			vStatManager.setUrl(card.getFronturl());
+		}
+		
+		addButton(add);
+		addButton(flips);
+		addButton(exit);
+	}
+	
 	public void process(String val) {
 		synchronized(UiApplication.getEventLock()) {
 			screen = null;
@@ -118,6 +140,12 @@ public class ImageScreen extends AppScreen implements FieldChangeListener
 				screen = null;
 				UiApplication.getUiApplication().popScreen(this);
 			}
+		} else if (f == add) {
+			SettingsBean _instance = SettingsBean.getSettings();
+			_instance.add = true;
+			SettingsBean.saveSettings(_instance);
+			screen = null;
+			UiApplication.getUiApplication().popScreen(this);
 		} else if (f == option) {
 			if (confirm) {
 				doConnect(Const.rejectcard+card.getId());

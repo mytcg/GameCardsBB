@@ -17,7 +17,7 @@ public class NoteScreen extends AppScreen implements FieldChangeListener
 {
 	FixedButtonField exit = new FixedButtonField(Const.back);
 	FixedButtonField save = new FixedButtonField(Const.save);
-	SexyEditField note = new SexyEditField(Const.getWidth(),Const.getUsableHeight()-90);
+	SexyEditField note = new SexyEditField(Const.getWidth(),Const.getUsableHeight()-110);
 	Card card = null;
 	
 	public NoteScreen(Card card, AppScreen screen)

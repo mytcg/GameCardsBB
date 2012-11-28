@@ -36,7 +36,8 @@ public class MainManager extends VerticalFieldManager
 	{
 		int xPts[] = {0,0,getPreferredWidth(),getPreferredWidth()};
 		int yPts[] = {0,getPreferredHeight(),getPreferredHeight(),0};
-		g.setColor(3947580);
+		//g.setColor(3947580);
+		g.setColor(5921370);
 		g.drawFilledPath(xPts, yPts, null, null);
 		//g.drawTexturedPath(xPts,yPts,null,null,0,0,Fixed32.ONE,0,0,Fixed32.ONE,img);
 		super.paint(g);

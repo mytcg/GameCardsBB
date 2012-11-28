@@ -15,6 +15,7 @@ public class Product implements Persistable {
 	private String type = "";
 	private String numcards = "";
 	private String price = "";
+	private int pricetype = 1;
 	private Vector stats = new Vector();
 	
 	public Product(int id, String description, int quantity, String thumburl, String fronturl, String backurl, String note, int updated, Vector stats) {
@@ -112,6 +113,9 @@ public class Product implements Persistable {
 	public void setPrice(String price) {
 		this.price = price;
 	}
+	public void setPriceType(int pricetype) {
+		this.pricetype = pricetype;
+	}
 	
 	
 	public int getId() {
@@ -146,5 +150,8 @@ public class Product implements Persistable {
 	}
 	public String getPrice() {
 		return price;
+	}
+	public int getPriceType() {
+		return pricetype;
 	}
 }

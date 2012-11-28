@@ -2,6 +2,7 @@ package net.mytcg.dev.http;
 
 import java.util.Vector;
 
+import net.mytcg.dev.ui.custom.AwardField;
 import net.mytcg.dev.ui.custom.CompareField;
 import net.mytcg.dev.ui.custom.HorizontalStatManager;
 import net.mytcg.dev.ui.custom.ImageField;
@@ -27,6 +28,14 @@ public class ConnectionHandler extends Thread {
 		urls = new Vector();
 	}
 	public synchronized void process(byte[] data, int type, ThumbnailField thumb, String url) {
+		removeUrl(url);
+		thumb.process(data, type);
+		Const.THREADS--;
+		if ((Const.THREADS == 0)&&(connections.size()==0)) {
+			close();
+		}
+	}
+	public synchronized void process(byte[] data, int type, AwardField thumb, String url) {
 		removeUrl(url);
 		thumb.process(data, type);
 		Const.THREADS--;
@@ -90,6 +99,22 @@ public class ConnectionHandler extends Thread {
 		current = null;
 	}
 	public synchronized void addConnect(String url, int type, ThumbnailField thumb) {
+		//if (urls.contains(url)) {
+			
+		//} else {
+			urls.addElement(url);
+			ThumbConnection tmp = new ThumbConnection(url, type, thumb);
+			if (!connections.contains(tmp)) {
+				connections.addElement(tmp);
+				if (!busy) {
+					busy = true;
+					start();
+				}
+				checkRun();
+			}
+		//}
+	}
+	public synchronized void addConnect(String url, int type, AwardField thumb) {
 		//if (urls.contains(url)) {
 			
 		//} else {
@@ -220,6 +245,9 @@ public class ConnectionHandler extends Thread {
 			cG.start();
 		} else if (thumb.getThumb() != null) {
 			ConnectionGet cG = new ConnectionGet(thumb.getUrl(), this, thumb.getType(), thumb.getThumb());
+			cG.start();
+		} else if (thumb.getAwardThumb() != null) {
+			ConnectionGet cG = new ConnectionGet(thumb.getUrl(), this, thumb.getType(), thumb.getAwardThumb());
 			cG.start();
 		} else if (thumb.getVert() != null) {
 			ConnectionGet cG = new ConnectionGet(thumb.getUrl(), this, thumb.getVert(), thumb.getFilename(), thumb.getGaugeField());

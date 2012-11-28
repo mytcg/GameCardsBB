@@ -2,8 +2,8 @@ package net.mytcg.dev.ui;
 
 import java.util.Vector;
 
-import net.mytcg.dev.ui.custom.ColorLabelField;
 import net.mytcg.dev.ui.custom.CustomCheckboxField;
+import net.mytcg.dev.ui.custom.ColorLabelField;
 import net.mytcg.dev.ui.custom.FixedButtonField;
 import net.mytcg.dev.ui.custom.FriendField;
 import net.mytcg.dev.ui.custom.ListItemField;
@@ -21,7 +21,7 @@ import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.FieldChangeListener;
 //import net.rim.device.api.ui.TouchEvent;
 import net.rim.device.api.ui.UiApplication;
-import net.rim.device.api.ui.component.LabelField;
+import net.rim.device.api.ui.component.CheckboxField;
 import net.rim.device.api.ui.component.SeparatorField;
 
 public class DetailScreen extends AppScreen implements FieldChangeListener
@@ -31,14 +31,16 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 	FixedButtonField buy = new FixedButtonField(Const.buy);
 	PageNumberField pageNumber = new PageNumberField("Page 1/1");
 	SexyEditField balance = new SexyEditField("");
+	SexyEditField premium = new SexyEditField("");
 	SexyEditField tmp = new SexyEditField("");
 	ColorLabelField lbltop = null;
 	ListItemField lblBalance = new ListItemField(Const.credits, -1, false, 0);
+	ListItemField lblPremium = new ListItemField(Const.premium, -1, false, 0);
 	ListItemField lblNotifications = new ListItemField(Const.notification, Const.NOTIFICATIONS, false, 0);
 	ListItemField lblFriends = new ListItemField(Const.friend, Const.FRIENDS, false, 0);
 	ListLabelField lbltrans = new ListLabelField("No transactions yet.");
 	ListLabelField lblnote = new ListLabelField("No notifications yet.");
-	FriendField lblfriend = new FriendField(-1,"","","");
+	FriendField lblfriend = new FriendField("","","");
 	ListItemField lblTransactions = new ListItemField("Last Transactions", -1, false, 0);
 	ColorLabelField lbltmp = new ColorLabelField("");
 	CustomCheckboxField cbxtmp = new CustomCheckboxField(false,false,Field.FIELD_VCENTER);
@@ -67,11 +69,16 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 			tempList.addElement(lbltop);
 			tempList.addElement(lblBalance);
 			tempList.addElement(balance);
+			tempList.addElement(lblPremium);
+			tempList.addElement(premium);
 			tempList.addElement(lblTransactions);
 			lblBalance.setFocusable(false);
+			lblPremium.setFocusable(false);
 			lblTransactions.setFocusable(false);
 			balance.setText(SettingsBean.getSettings().getCredits());
 			balance.setFocusable(false);
+			premium.setText(SettingsBean.getSettings().getPremium());
+			premium.setFocusable(false);
 			buy.setChangeListener(this);
 			addButton(buy);
 			doConnect(Const.creditlog);
@@ -94,6 +101,7 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 	}
 	
 	public void process(String val) {
+		System.out.println(val);
 		if (!(isDisplaying())) {
 			int fromIndex;
 	    	if ((fromIndex = val.indexOf(Const.xml_result)) != -1) {
@@ -153,7 +161,7 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 	    				cbxtmp.setChecked(answered.equals("1"));
 		    			cbxtmp.setEditable(false);
 		    			//cbxtmp.setEnabled(false);
-	    				tmp = new SexyEditField((Const.getWidth()-60-Const.getBoxSelected().getWidth()),Const.getButtonHeight());
+	    				tmp = new SexyEditField((Const.getWidth()-Const.getBoxSelected().getWidth()-60),Const.getButtonHeight());
 	    				tmp.setText(answer);
 	    				//tmp = new SexyEditField(answer);
 	        			tmp.setChangeListener(this);
@@ -193,13 +201,14 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 	    	    }
 	    	} else if (((fromIndex = val.indexOf(Const.xml_transactions)) != -1)) {
 	    		int listSize = (Const.getUsableHeight()) / (Const.getButtonSelCentre().getHeight()+11);
-	    		int listCounter = 3;
+	    		int listCounter = 5;
 	    		pages = new Vector();
 	    		int transactionid = -1;
 	    		String desc = "";
 	    		String date = "";
 	    		String value = "";
 	    		String credits = "";
+	    		String premium = "";
 	    		int endIndex = -1;
 	    		String transaction = "";
 	    		
@@ -211,6 +220,16 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
     				SettingsBean.saveSettings(_instance);
     				synchronized(UiApplication.getEventLock()) {
     					balance.setText(SettingsBean.getSettings().getCredits());
+    	    		}
+    				
+    			}
+	    		if ((fromIndex = val.indexOf(Const.xml_premium)) != -1) {
+    				premium = val.substring(fromIndex+Const.xml_premium_length, val.indexOf(Const.xml_premium_end, fromIndex));
+    				SettingsBean _instance = SettingsBean.getSettings();
+    				_instance.setPremium(premium);
+    				SettingsBean.saveSettings(_instance);
+    				synchronized(UiApplication.getEventLock()) {
+    					this.premium.setText(SettingsBean.getSettings().getPremium());
     	    		}
     				
     			}
@@ -341,18 +360,16 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 	    	    	bgManager.addAll(temp);
 	    	    }
 	    	} else if (((fromIndex = val.indexOf(Const.xml_friends)) != -1)) {
-	    		System.out.println("aaaaa "+val);
 	    		int listSize = (Const.getUsableHeight()) / (Const.getThumbCentre().getHeight());
 	    		int listCounter = 1;
 	    		pages = new Vector();
-	    		int friendid = -1;
 	    		String desc = "";
 	    		String usr = "";
 	    		String value = "";
 	    		
 	    		int endIndex = -1;
 	    		String friend = "";
-	    		while ((fromIndex = val.indexOf(Const.xml_user_id)) != -1){
+	    		while ((fromIndex = val.indexOf(Const.xml_usr)) != -1){
 	    			if(listCounter >= listSize){
 	    				pages.addElement(tempList);
 	    				tempList = new Vector();
@@ -362,13 +379,6 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 	    			try{
 	    				friend = val.substring(fromIndex, endIndex+Const.xml_friend_end_length);
 	    			}catch(Exception e){};
-	    			fromIndex = friend.indexOf(Const.xml_user_id);
-	    			
-	    			try {
-	    				friendid = Integer.parseInt(friend.substring(fromIndex+Const.xml_user_id_length, friend.indexOf(Const.xml_user_id_end, fromIndex)));
-	    			} catch (Exception e) {
-	    				friendid = -1;
-	    			}
 	    			fromIndex = friend.indexOf(Const.xml_usr);
 	    			if ((fromIndex = friend.indexOf(Const.xml_usr)) != -1) {
 	    				usr = friend.substring(fromIndex+Const.xml_usr_length, friend.indexOf(Const.xml_usr_end, fromIndex));
@@ -383,8 +393,7 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 	    			val = val.substring(val.indexOf(Const.xml_friend_end)+Const.xml_friend_end_length);
 	    			if(!usr.equals("")){
 	    				try{
-	    					lblfriend = new FriendField(friendid,usr,value,desc);
-	    					lblfriend.setChangeListener(this);
+	    					lblfriend = new FriendField(usr,value,desc);
 			    			synchronized(UiApplication.getEventLock()) {
 			    				tempList.addElement(lblfriend);
 			    				//add(new SeparatorField());
@@ -509,12 +518,6 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 			BrowserSession browserSession = Browser.getDefaultSession();
 			browserSession.displayPage("http://buy.mytcg.net");
 			browserSession.showBrowser();
-		} else if(f instanceof FriendField){
-			int id = ((FriendField)f).getFriendId();
-			if(id != -1){
-				screen = new AlbumScreen(id, 4);
-				UiApplication.getUiApplication().pushScreen(screen);
-			}
 		}
 	}
 }

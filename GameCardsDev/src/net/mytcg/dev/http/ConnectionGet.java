@@ -12,6 +12,7 @@ import javax.microedition.io.file.FileConnection;
 
 import net.mytcg.dev.ui.AppScreen;
 import net.mytcg.dev.ui.GameCardsHome;
+import net.mytcg.dev.ui.custom.AwardField;
 import net.mytcg.dev.ui.custom.CompareField;
 import net.mytcg.dev.ui.custom.HorizontalGamePlayManager;
 import net.mytcg.dev.ui.custom.HorizontalStatManager;
@@ -31,6 +32,7 @@ public final class ConnectionGet extends Connection implements Runnable {
 	private AppScreen screen = null;
 	private ConnectionHandler field = null;
 	private ThumbnailField thumb = null;
+	private AwardField awardthumb = null;
 	private ImageField image = null;
 	private ImageLoader imageload = null;
 	private CompareField com = null;
@@ -104,6 +106,13 @@ public final class ConnectionGet extends Connection implements Runnable {
 		this.thumb = thumb;
 		
 	}
+	public ConnectionGet(String url, ConnectionHandler field, int type, AwardField awardthumb) {
+		this(url);
+		this.type = type;
+		this.field = field;
+		this.awardthumb = awardthumb;
+		
+	}
 	public ConnectionGet(String url, AppScreen screen) {
 		this(SettingsBean.getSettings().getUrl()+url);
 		this.screen = screen;
@@ -132,6 +141,34 @@ public final class ConnectionGet extends Connection implements Runnable {
 			break;
 		case 2:
 			filename = thumb.getBackFile();
+			break;
+		}
+		
+		try {
+			_file = (FileConnection)Connector.open(Const.getStorage()+Const.PREFIX+filename);
+			_file.create();
+			output = _file.openOutputStream();
+			output.write(data);
+			output.close();
+			_file.close();
+		} catch (Exception e) {
+			
+		}
+	}
+	
+	public synchronized void saveDataAward(byte[] data, int type) {
+		FileConnection _file = null;
+		OutputStream output = null;
+		String filename = "";
+		switch (type) {
+		case 0:
+			filename = awardthumb.getThumbFile();
+			break;
+		case 1:
+			filename = awardthumb.getFrontFile();
+			break;
+		case 2:
+			filename = awardthumb.getBackFile();
 			break;
 		}
 		
@@ -228,6 +265,10 @@ public final class ConnectionGet extends Connection implements Runnable {
 		        	if ((field != null)&&(thumb != null)) {
 		        		saveData(data, type);
 		        		field.process(data, type, thumb, _url);
+		        	}
+		        	if ((field != null)&&(awardthumb != null)) {
+		        		saveDataAward(data, type);
+		        		field.process(data, type, awardthumb, _url);
 		        	}
 		        	if ((field != null)&&(image != null)) {
 		        		field.process(data, image, filename, _url);

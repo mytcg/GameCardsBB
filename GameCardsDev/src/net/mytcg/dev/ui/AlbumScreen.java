@@ -25,7 +25,7 @@ public class AlbumScreen extends AppScreen implements FieldChangeListener
 	int type = 0;
 	boolean update = true;
 	int deckid = -1;
-	int friendid = -1;
+	int positionid=-1;
 	Card card = null;
 	Vector pages = new Vector();
 	int currentPage = 0;
@@ -227,17 +227,10 @@ public class AlbumScreen extends AppScreen implements FieldChangeListener
 		addButton(new FixedButtonField(""));
 		addButton(pageNumber);
 		addButton(exit);
-		if(type == 4){
-			friendid = id;
-		}else{
-			this.id = id;
-			process(SettingsBean.getSettings().getUsercategories(id));
-		}
-		if(type == 4){
-			doConnect(Const.usercategories+Const.friendid+friendid+Const.second+SettingsBean.getSettings().getLoaded());
-		} else{
-			doConnect(Const.subcategories+id+Const.second+SettingsBean.getSettings().getLoaded());
-		}
+		
+		this.id = id;
+		process(SettingsBean.getSettings().getUsercategories(id));
+		doConnect(Const.subcategories+id+Const.second+SettingsBean.getSettings().getLoaded());
 	}
 	public AlbumScreen(int id, int type, Card card) {
 		super(null);
@@ -260,11 +253,7 @@ public class AlbumScreen extends AppScreen implements FieldChangeListener
 	public AlbumScreen(int id, int type, int deckid) {
 		super(null);
 		this.type = type;
-		if(type==4){
-			this.friendid = deckid;
-		} else{
-			this.deckid = deckid;
-		}
+		this.deckid = deckid;
 		bgManager.setStatusHeight(exit.getContentHeight());
 		bgManager.setArrowMode(true);
 		add(new ColorLabelField(""));
@@ -277,12 +266,31 @@ public class AlbumScreen extends AppScreen implements FieldChangeListener
 		
 		this.id = id;
 		process(SettingsBean.getSettings().getUsercategories(id));
-		doConnect(Const.subcategories+id+Const.friendid+friendid+Const.second+SettingsBean.getSettings().getLoaded());
+		doConnect(Const.subcategories+id+Const.second+SettingsBean.getSettings().getLoaded());
+	}
+	public AlbumScreen(int id, int type, int deckid, int positionid) {
+		super(null);
+		this.type = type;
+		this.deckid = deckid;
+		this.positionid=positionid;
+		bgManager.setStatusHeight(exit.getContentHeight());
+		bgManager.setArrowMode(true);
+		add(new ColorLabelField(""));
+		
+		exit.setChangeListener(this);
+		
+		addButton(new FixedButtonField(""));
+		addButton(pageNumber);
+		addButton(exit);
+		
+		this.id = id;
+		doConnect(Const.subcategories+id+Const.second+SettingsBean.getSettings().getLoaded()+Const.playable);
 	}
 	protected void onExposed() {
 		invalidate();
-		if(type == 1 || type == 3){
+		if(type == 1 || type == 3 || type == 4){
 			UiApplication.getUiApplication().popScreen(this);
+			return;
 		}
 		if (!isVisible()) {
 			if (id >= 0) {
@@ -302,6 +310,16 @@ public class AlbumScreen extends AppScreen implements FieldChangeListener
 		if (f == exit) {
 			screen = null;
 			UiApplication.getUiApplication().popScreen(this);
+		}  else if(type == 4){
+			int id = ((ListItemField)(f)).getId();
+			boolean hascards = ((ListItemField)(f)).hasCards();
+			if (!hascards) {
+				screen = new AlbumScreen(id, type, deckid, positionid);
+				UiApplication.getUiApplication().pushScreen(screen);
+			} else {
+				screen = new AddCardToDeckListScreen(deckid,id,positionid);
+				UiApplication.getUiApplication().pushScreen(screen);
+			}
 		} else if(type == 3){
 			int id = ((ListItemField)(f)).getId();
 			boolean hascards = ((ListItemField)(f)).hasCards();
@@ -322,17 +340,7 @@ public class AlbumScreen extends AppScreen implements FieldChangeListener
 				screen = new AlbumListScreen(id, type, card);
 				UiApplication.getUiApplication().pushScreen(screen);
 			}
-		} else if(type == 4){
-			int id = ((ListItemField)(f)).getId();
-			boolean hascards = ((ListItemField)(f)).hasCards();
-			if (!hascards) {
-				screen = new AlbumScreen(id, type, friendid);
-				UiApplication.getUiApplication().pushScreen(screen);
-			} else {
-				screen = new AlbumListScreen(id, type, friendid);
-				UiApplication.getUiApplication().pushScreen(screen);
-			}
-		}else {
+		} else {
 			int id = ((ListItemField)(f)).getId();
 			boolean hascards = ((ListItemField)(f)).hasCards();
 			if (!hascards) {

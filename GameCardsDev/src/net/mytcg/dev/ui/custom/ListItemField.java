@@ -18,7 +18,7 @@ public final class ListItemField extends Field {
 	
 	private boolean focus = false;
 	private String label;
-	private int id;
+	private int id, active, type, children;
 	private boolean hasCards;
 	private boolean focusable = true;
 	
@@ -32,6 +32,24 @@ public final class ListItemField extends Field {
 	
 	public int getId() {
 		return id;
+	}
+	public int getActive() {
+		return active;
+	}
+	public void setActive(int active) {
+		this.active = active;
+	}
+	public int getChildren() {
+		return children;
+	}
+	public void setChildren(int children) {
+		this.children = children;
+	}
+	public int getType() {
+		return type;
+	}
+	public void setType(int type) {
+		this.type = type;
 	}
 	public boolean hasCards() {
 		return hasCards;

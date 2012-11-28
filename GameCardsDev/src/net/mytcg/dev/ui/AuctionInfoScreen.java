@@ -6,6 +6,7 @@ import net.mytcg.dev.ui.custom.FixedButtonField;
 import net.mytcg.dev.ui.custom.SexyEditField;
 import net.mytcg.dev.util.Auction;
 import net.mytcg.dev.util.Const;
+import net.mytcg.dev.util.SettingsBean;
 import net.rim.device.api.system.Bitmap;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.FieldChangeListener;
@@ -67,7 +68,7 @@ public class AuctionInfoScreen extends AppScreen implements FieldChangeListener
 	}
 	public AuctionInfoScreen(Auction auction, Bitmap auctionthumbnail, boolean biddingtrue) {
 		super(null);
-		add(new ColorLabelField(""));
+		add(new ColorLabelField("Credits: " + SettingsBean.getSettings().getCredits()+" Premium: " + SettingsBean.getSettings().getPremium()));
 		this.auction = auction;
 		auctionthumb = auctionthumbnail;
 		bgManager.setStatusHeight(exit.getContentHeight());
@@ -79,7 +80,7 @@ public class AuctionInfoScreen extends AppScreen implements FieldChangeListener
 		
 		
 		add(new AuctionField(auction,auctionthumbnail));
-		
+		add(new ColorLabelField("Place Bid"));
 		add(bidbox);
 		int bidval = 0;
 		try {

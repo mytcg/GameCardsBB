@@ -243,6 +243,9 @@ public class ViewBoosterScreen extends AppScreen implements FieldChangeListener
     			empty = false;
     			synchronized(UiApplication.getEventLock()) {
     				tmp = new ThumbnailField(_instance.getImages(cardid), false, true);
+    				if(quantity > -1){
+    					tmp.setLabel(description+" ("+quantity+")");
+    				}
     				if(!quality.equals("")){
     					tmp.setSecondLabel(""+ quality);
     				}

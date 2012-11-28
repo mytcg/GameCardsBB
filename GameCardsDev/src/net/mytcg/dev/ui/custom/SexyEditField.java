@@ -195,7 +195,7 @@ public final class SexyEditField extends Manager {
 	}
 	
 	public final void paint(Graphics g) {
-		g.setColor(Const.FONTCOLOR);
+		g.setColor(Color.BLACK);
 		if (!focus) {
 			g.setColor(Color.WHITE);
 			//fills body block

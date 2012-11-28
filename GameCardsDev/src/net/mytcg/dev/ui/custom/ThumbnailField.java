@@ -31,6 +31,7 @@ public final class ThumbnailField extends Field {
 	private String label2;
 	private String label3;
 	private boolean booster = false;
+	private int positionId = -1;
 	
 	private Bitmap button_centre;
 	
@@ -124,7 +125,12 @@ public final class ThumbnailField extends Field {
 	public Auction getAuction() {
 		return auction;
 	}
-	
+	public void setPositionId(int positionId){
+		this.positionId = positionId;
+	}
+	public int getPositionId(){
+		return positionId;
+	}
 	public ThumbnailField(Card card) {
 		this(card, false);
 	}
@@ -295,6 +301,9 @@ public final class ThumbnailField extends Field {
 	public void setProductPrice(String price) {
 		this.product.setPrice(price);
 	}
+	public void setPriceType(int pricetype) {
+		this.product.setPriceType(pricetype);
+	}
 	public Bitmap getThumbnail(){
 		return button_thumbnail;
 	}
@@ -355,9 +364,9 @@ public final class ThumbnailField extends Field {
 			}
 			
 			if (card.getUpdated() == 1) {
-				g.drawText("*" +label1 +(card.getQuantity()>-1?" ("+card.getQuantity()+")":""), button_thumbnail.getWidth()+10, 4);
+				g.drawText("*" +label1, button_thumbnail.getWidth()+10, 4);
 			} else {
-				g.drawText(label1 +(card.getQuantity()>-1?" ("+card.getQuantity()+")":""), button_thumbnail.getWidth()+10, 4);
+				g.drawText(label1, button_thumbnail.getWidth()+10, 4);
 			}
 		}else if(product != null){
 			g.drawText(label1, button_thumbnail.getWidth()+10, 4);

@@ -44,7 +44,24 @@ public class AuctionMenuScreen extends AppScreen implements FieldChangeListener
 		doConnect(Const.auctioncategories);
 	}
 	
+	public AuctionMenuScreen(int categoryId)
+	{
+		super(null);
+		add(new ColorLabelField(""));
+		bgManager.setStatusHeight(exit.getContentHeight());
+		bgManager.setArrowMode(true);
+		
+		exit.setChangeListener(this); 
+
+		addButton(new FixedButtonField(""));
+		addButton(pageNumber);
+		addButton(exit);
+		
+		doConnect(Const.auctioncategories+"&categoryId="+categoryId);
+	}
+	
 	public void process(String val) {
+		System.out.println(val);
 		int listSize = (Const.getUsableHeight()) / Const.getButtonHeight();
 		int listCounter = 1;
 		pages = new Vector();
@@ -55,6 +72,7 @@ public class AuctionMenuScreen extends AppScreen implements FieldChangeListener
 	    	} else if (((fromIndex = val.indexOf(Const.xml_cardcategories)) != -1)) {
 	    		int albumid = -1;
 	    		String albumname = "";
+	    		int children = 0;
 	    		int endIndex = -1;
 	    		String album = "";
 	    		while ((fromIndex = val.indexOf(Const.xml_albumid)) != -1){
@@ -72,6 +90,13 @@ public class AuctionMenuScreen extends AppScreen implements FieldChangeListener
 	    			} catch (Exception e) {
 	    				albumid = -1;
 	    			}
+	    			if ((fromIndex = album.indexOf(Const.xml_children)) != -1) {
+	    				try {
+		    				children = Integer.parseInt(album.substring(fromIndex+Const.xml_children_length, album.indexOf(Const.xml_children_end, fromIndex)));
+		    			} catch (Exception e) {
+		    				children = 0;
+		    			}
+	    			}
 	    			if ((fromIndex = album.indexOf(Const.xml_albumname)) != -1) {
 	    				albumname = album.substring(fromIndex+Const.xml_albumname_length, album.indexOf(Const.xml_albumname_end, fromIndex));
 	    			}
@@ -79,6 +104,7 @@ public class AuctionMenuScreen extends AppScreen implements FieldChangeListener
 	    			if(albumid != -1){
 		    			synchronized(UiApplication.getEventLock()) {
 		    				tmp = new ListItemField(albumname, albumid, true, 0);
+		    				tmp.setChildren(children);
 		        			tmp.setChangeListener(this);
 		        			tempList.addElement(tmp);
 		        			listCounter++;
@@ -172,17 +198,22 @@ public class AuctionMenuScreen extends AppScreen implements FieldChangeListener
 			UiApplication.getUiApplication().pushScreen(screen);
 		}else if(f instanceof ListItemField){
 			int category = ((ListItemField)(f)).getId();
-			if(category > -1){
-				screen = new AuctionListScreen(category,0);
-				UiApplication.getUiApplication().pushScreen(screen);
-			} else if (category == -2) {
-				screen = new AuctionListScreen(category,1);
-				UiApplication.getUiApplication().pushScreen(screen);
-			} else if(category  == -4){
-				screen = new AuctionListScreen(category,0);
-				UiApplication.getUiApplication().pushScreen(screen);
-			} else if(category  == -3){
-				screen = new AuctionListScreen(category,0);
+			if(((ListItemField)(f)).getChildren()==0){
+				if(category > -1){
+					screen = new AuctionListScreen(category,0);
+					UiApplication.getUiApplication().pushScreen(screen);
+				} else if (category == -2) {
+					screen = new AuctionListScreen(category,1);
+					UiApplication.getUiApplication().pushScreen(screen);
+				} else if(category  == -4){
+					screen = new AuctionListScreen(category,0);
+					UiApplication.getUiApplication().pushScreen(screen);
+				} else if(category  == -3){
+					screen = new AuctionListScreen(category,0);
+					UiApplication.getUiApplication().pushScreen(screen);
+				}
+			}else{
+				screen = new AuctionMenuScreen(category);
 				UiApplication.getUiApplication().pushScreen(screen);
 			}
 		}
