@@ -224,6 +224,7 @@ public class VerticalGamePlayManager extends VerticalFieldManager
             field = getField(i); //get the field
             if(field instanceof StatField){
             	StatField sField = (StatField)field;
+            	sField.setImage(image);
             	setPositionChild(field, ((14)/2)+sField.stat.getLeft()*image.getWidth()/250, (((14)/2))+sField.stat.getTop()*image.getHeight()/350);  //set the position for the field
             	layoutChild( field, sField.stat.getWidth()*image.getWidth()/250, sField.stat.getHeight()*image.getHeight()/350 ); //lay out the field
             }else if(field instanceof GaugeField){

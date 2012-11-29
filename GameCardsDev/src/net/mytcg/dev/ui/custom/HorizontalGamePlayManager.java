@@ -219,12 +219,13 @@ public class HorizontalGamePlayManager extends HorizontalFieldManager
             field = getField(i); //get the field
             if(field instanceof StatField){
             	StatField sField = (StatField) field;
+            	sField.setImage(image);
             	setPositionChild(field,((14)/2)+sField.stat.getTop()*image.getWidth()/350, ((10)/2)+(250 - sField.stat.getLeft() - sField.stat.getWidth())*image.getHeight()/250);  //set the position for the field
             	layoutChild( field, sField.stat.getHeight()*image.getHeight()/250, sField.stat.getWidth()*image.getWidth()/350); //lay out the field
             	sField.setImage(image);
             }else if(field instanceof GaugeField){
             	setPositionChild(field, 15, (getPreferredHeight()/2));  //set the position for the field
-            	layoutChild( field, (getPreferredWidth()-60), 100 ); //lay out the field
+            	layoutChild( field, (getPreferredWidth()-75), 100 ); //lay out the field
             }
         }
 		setExtent();
