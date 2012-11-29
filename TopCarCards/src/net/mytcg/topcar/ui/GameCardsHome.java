@@ -12,7 +12,7 @@ public final class GameCardsHome extends UiApplication {
 	public GameCardsHome() {
 		Const.getSettings();
 		if (SettingsBean.getSettings().getAuthenticated()) {
-			update();
+			//update();
 			screen = new MenuScreen();
 		} else {
 			screen = new LoginRegisterScreen();
@@ -31,7 +31,7 @@ public final class GameCardsHome extends UiApplication {
 		} catch (Exception e) {}
 		switch (Const.GOTOSCREEN) {
 			case Const.MENUSCREEN:
-				update();
+				//update();
 				screen = new MenuScreen();
 				break;
 			case Const.LOGINSCREEN:
@@ -47,10 +47,10 @@ public final class GameCardsHome extends UiApplication {
 		pushScreen(screen);
 	}
 	public void update() {
-		String url = SettingsBean.getSettings().getUrl()+Const.update+Const.VERSION+Const.getMSISDN()+Const.getIMSI()+Const.getIMEI()+Const.getOS()+Const.getMake()+Const.getModel()+Const.getOSVer()+Const.getTouch()+Const.width+Const.getWidth()+Const.height+Const.getHeight();
-		url = Const.removeSpaces(url);
-		ConnectionGet cG = new ConnectionGet(url, this);
-		cG.start();
+		//String url = SettingsBean.getSettings().getUrl()+Const.update+Const.VERSION+Const.getMSISDN()+Const.getIMSI()+Const.getIMEI()+Const.getOS()+Const.getMake()+Const.getModel()+Const.getOSVer()+Const.getTouch()+Const.width+Const.getWidth()+Const.height+Const.getHeight();
+		//url = Const.removeSpaces(url);
+		//ConnectionGet cG = new ConnectionGet(url, this);
+		//cG.start();
 	}
 	public void previousScreen() {
 		try {

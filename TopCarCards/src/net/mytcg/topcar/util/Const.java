@@ -463,7 +463,7 @@ public final class Const {
 	public static String http = "http";
 	public static String err_url_htt = "URL not http or https";
 	
-	public static String url = "http://dev.mytcg.net/_phone/topcar/?";
+	public static String url = "http://www.mytcg.net/_phone/topcar/?";
 	public static String userdetails = "userdetails=1";
 	public static String profiledetails = "profiledetails=1";
 	public static String creditlog = "creditlog=1";

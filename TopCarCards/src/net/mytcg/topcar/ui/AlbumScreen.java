@@ -284,7 +284,7 @@ public class AlbumScreen extends AppScreen implements FieldChangeListener
 		addButton(exit);
 		
 		this.id = id;
-		doConnect(Const.subcategories+id+Const.second+SettingsBean.getSettings().getLoaded()+Const.playable);
+		doConnect(Const.subcategories+id+Const.second+SettingsBean.getSettings().getLoaded());
 	}
 	protected void onExposed() {
 		invalidate();
