@@ -231,7 +231,7 @@ public class ViewBoosterScreen extends AppScreen implements FieldChangeListener
 
     						}
     					}
-    					stats.addElement(new Stat(statdesc, statval, statival, stattop, statleft, statwidth, statheight, statfrontorback, statcolorred, statcolorgreen, statcolorblue));
+    					stats.addElement(new Stat(statdesc, statval, statival, stattop, statleft, statwidth, statheight, statfrontorback, statcolorred, statcolorgreen, statcolorblue, 0));
     					card = card.substring(card.indexOf(Const.xml_stat_end)+Const.xml_stat_end_length);
     				}
     			}

@@ -6,10 +6,10 @@ public class Stat implements Persistable {
 	private String description = "";
 	private String value = "";
 	private String stattype = "";
-	private int top, left, width, height, frontOrBack, colorRed, colorGreen, colorBlue, cardstatid, categorystatid;
+	private int top, left, width, height, frontOrBack, colorRed, colorGreen, colorBlue, cardstatid, categorystatid, selectable;
 	private double val;
 	
-	public Stat(String description, String value, double val, int top, int left, int width, int height, int frontOrBack, int colorRed, int colorGreen, int colorBlue) {
+	public Stat(String description, String value, double val, int top, int left, int width, int height, int frontOrBack, int colorRed, int colorGreen, int colorBlue, int selectable) {
 		setDesc(description);
 		setValue(value);
 		setVal(val);
@@ -21,6 +21,7 @@ public class Stat implements Persistable {
 		setColorRed(colorRed);
 		setColorGreen(colorGreen);
 		setColorBlue(colorBlue);
+		setSelectable(selectable);
 	}
 	
 	public boolean equals(Stat compare) {
@@ -76,6 +77,9 @@ public class Stat implements Persistable {
 	public void setColorBlue(int colorBlue) {
 		this.colorBlue = colorBlue;
 	}
+	public void setSelectable(int selectable) {
+		this.selectable = selectable;
+	}
 	
 	public String getDesc() {
 		return description;
@@ -118,5 +122,8 @@ public class Stat implements Persistable {
 	}
 	public int getColorBlue() {
 		return colorBlue;
+	}
+	public int getSelectable() {
+		return selectable;
 	}
 }

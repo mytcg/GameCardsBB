@@ -15,7 +15,7 @@ import net.rim.device.api.util.Persistable;
 public final class SettingsBean implements Persistable {
 	private static SettingsBean _instance;
 	
-	private static final long GUID = 0x8802af5a5d602a5eL;
+	private static final long GUID = 0xb2f42db8744295e0L;
 	
 	
 	//the users username for the server

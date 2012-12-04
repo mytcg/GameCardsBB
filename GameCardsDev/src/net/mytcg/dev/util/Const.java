@@ -31,7 +31,7 @@ public final class Const {
 	public static String VERSION = "1.0";
 	private static boolean PORTRAIT = true;
 	private static final double ratio = 1.40625;
-	public static String PREFIX = "dev_";
+	public static String PREFIX = "gc_";
 	public static int THREADS = 0;
 	public static ConnectionHandler connect = null;
 	public static ImageLoader load = null;
@@ -234,7 +234,7 @@ public final class Const {
 	public static int TYPE = Font.PLAIN;
 	public static final int INCREASE_FONT = 2;
 	
-	public static final int FONTCOLOR = Color.LIGHTGRAY;
+	public static final int FONTCOLOR = Color.LIGHTGREY;
 	public static final int BACKCOLOR = Color.BLACK;
 	public static final int BUTTONCOLOR = Color.WHITE;
 	public static final int SELECTEDCOLOR = Color.LIGHTGREEN;
@@ -1963,6 +1963,8 @@ public final class Const {
 	public static final int xml_green_length = xml_green.length();
 	public static final String xml_blue = "blue=\"";
 	public static final int xml_blue_length = xml_blue.length();
+	public static final String xml_selectable = "selectable=\"";
+	public static final int xml_selectable_length = xml_selectable.length();
 	public static final String xml_ival = "ival=\"";
 	public static final int xml_ival_length = xml_ival.length();
 	public static final String xml_end = "\"";

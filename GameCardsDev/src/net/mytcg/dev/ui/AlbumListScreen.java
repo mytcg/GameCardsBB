@@ -84,6 +84,7 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 	    		int statcolorred = 0;
 	    		int statcolorgreen = 0;
 	    		int statcolorblue = 0;
+	    		int statselectable = 0;
 	    		String statval = "";
 	    		
 	    		while ((fromIndex = val.indexOf(Const.xml_cardid)) != -1){
@@ -238,7 +239,14 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 	    							
 	    						}
 	    					}
-	    					stats.addElement(new Stat(statdesc, statval, statival, stattop, statleft, statwidth, statheight, statfrontorback, statcolorred, statcolorgreen, statcolorblue));
+	    					if((fromIndex = card.indexOf(Const.xml_selectable)) != -1){
+	    						try{
+	    							statselectable = Integer.parseInt(card.substring(fromIndex+Const.xml_selectable_length, card.indexOf(Const.xml_end, fromIndex+Const.xml_selectable_length)));
+	    						} catch(Exception e){
+	    							
+	    						}
+	    					}
+	    					stats.addElement(new Stat(statdesc, statval, statival, stattop, statleft, statwidth, statheight, statfrontorback, statcolorred, statcolorgreen, statcolorblue, statselectable));
 	    					card = card.substring(card.indexOf(Const.xml_stat_end)+Const.xml_stat_end_length);
 	    				}
 	    			}
