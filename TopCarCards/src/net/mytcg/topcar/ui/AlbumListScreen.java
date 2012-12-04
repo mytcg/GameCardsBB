@@ -34,7 +34,7 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 	int currentPage = 0;
 	
 	public void process(String val) {
-		int listSize = (Const.getUsableHeight()) / 74;
+		int listSize = (Const.getUsableHeight()+20) / Const.getThumbRightEdge().getHeight();
 		int listCounter = 0;
 		pages = new Vector();
 		Vector tempList = new Vector();
@@ -84,6 +84,7 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 	    		int statcolorred = 0;
 	    		int statcolorgreen = 0;
 	    		int statcolorblue = 0;
+	    		int statselectable = 0;
 	    		String statval = "";
 	    		
 	    		while ((fromIndex = val.indexOf(Const.xml_cardid)) != -1){
@@ -238,7 +239,14 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 	    							
 	    						}
 	    					}
-	    					stats.addElement(new Stat(statdesc, statval, statival, stattop, statleft, statwidth, statheight, statfrontorback, statcolorred, statcolorgreen, statcolorblue));
+	    					if((fromIndex = card.indexOf(Const.xml_selectable)) != -1){
+	    						try{
+	    							statselectable = Integer.parseInt(card.substring(fromIndex+Const.xml_selectable_length, card.indexOf(Const.xml_end, fromIndex+Const.xml_selectable_length)));
+	    						} catch(Exception e){
+	    							
+	    						}
+	    					}
+	    					stats.addElement(new Stat(statdesc, statval, statival, stattop, statleft, statwidth, statheight, statfrontorback, statcolorred, statcolorgreen, statcolorblue, statselectable));
 	    					card = card.substring(card.indexOf(Const.xml_stat_end)+Const.xml_stat_end_length);
 	    				}
 	    			}
@@ -335,9 +343,8 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 	        		}
 	    		}
 	    		if (empty) {
-	    			synchronized(UiApplication.getEventLock()) {
-	        			add(new ListItemField("Empty", -1, false, 0));
-	        		}
+	    			tempList.addElement(new ListItemField("Empty", -1, false, 0));
+	    			pages.addElement(tempList);
 	    		}else{
 	    			pages.addElement(tempList);
 	    		}
@@ -350,7 +357,7 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 	    				bgManager.setArrowMode(true);
 	    			}
 	    			pageNumber.setLabel("Page 1/"+pages.size());
-	    			ThumbnailField[] temp = new ThumbnailField[((Vector)pages.elementAt(0)).size()];
+	    			Field[] temp = new Field[((Vector)pages.elementAt(0)).size()];
 	    			((Vector)pages.elementAt(0)).copyInto(temp);
 	    			bgManager.deleteAll();
 		    		bgManager.addAll(temp);
@@ -440,8 +447,9 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 		addButton(exit);
 		
 		this.id = id;
-		
-		process(SettingsBean.getSettings().getCards(id));
+		if(!newcards){
+			process(SettingsBean.getSettings().getCards(id));
+		}
 		doConnect(Const.cardsincategory+id+Const.height+Const.getCardHeight()+Const.jpg+Const.bbheight+Const.getAppHeight()+Const.width+Const.getCardWidth()+Const.second+SettingsBean.getSettings().getLoaded());
 	}
 	
@@ -465,8 +473,9 @@ public class AlbumListScreen extends AppScreen implements FieldChangeListener
 		addButton(exit);
 		
 		this.id = id;
-		
-		process(SettingsBean.getSettings().getCards(id));
+		if(!newcards){
+			process(SettingsBean.getSettings().getCards(id));
+		}
 		doConnect(Const.cardsincategory+id+Const.height+Const.getCardHeight()+Const.jpg+Const.bbheight+Const.getAppHeight()+Const.width+Const.getCardWidth()+Const.second+SettingsBean.getSettings().getLoaded());
 	}
 	

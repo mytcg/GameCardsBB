@@ -28,7 +28,7 @@ public final class StatField extends Field {
 	}
 	
 	protected void drawFocus(Graphics g, boolean x) {
-		if(counter>0){
+		/*if(counter>0){
 			XYRect rect = new XYRect();
 			rect = getFieldExtent(this);
 			if(!(Const.getPortrait())){
@@ -42,7 +42,7 @@ public final class StatField extends Field {
 			}
 			this.paint(g);
 		}
-		counter++;
+		counter++;*/
 	}
 	
 	public static final XYRect getFieldExtent(Field fld) {

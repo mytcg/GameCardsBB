@@ -5,6 +5,7 @@ import net.mytcg.topcar.ui.custom.ListItemField;
 import net.mytcg.topcar.util.Const;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.FieldChangeListener;
+import net.rim.device.api.ui.UiApplication;
 
 public class LoginRegisterScreen extends AppScreen implements FieldChangeListener
 {
@@ -38,6 +39,9 @@ public class LoginRegisterScreen extends AppScreen implements FieldChangeListene
 	}
 	public void fieldChanged(Field f, int i) {
 		if (f == exit) {
+			login.setChangeListener(null);
+			register.setChangeListener(null);
+			exit.setChangeListener(null);
 			System.exit(0);
 		} else if (f == login) {
 			close();

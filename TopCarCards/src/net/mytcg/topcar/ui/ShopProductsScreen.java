@@ -30,7 +30,7 @@ public class ShopProductsScreen extends AppScreen implements FieldChangeListener
 	int currentPage = 0;
 	
 	public void process(String val) {
-		int listSize = (Const.getUsableHeight()) / 74;
+		int listSize = (Const.getUsableHeight()+20) / Const.getThumbRightEdge().getHeight();
 		int listCounter = 0;
 		pages = new Vector();
 		Vector tempList = new Vector();

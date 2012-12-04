@@ -76,9 +76,11 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 			lblPremium.setFocusable(false);
 			lblTransactions.setFocusable(false);
 			balance.setText(SettingsBean.getSettings().getCredits());
-			balance.setFocusable(false);
+			balance.setEdit(false);
+			//balance.setFocusable(false);
 			premium.setText(SettingsBean.getSettings().getPremium());
-			premium.setFocusable(false);
+			premium.setEdit(false);
+			//premium.setFocusable(false);
 			buy.setChangeListener(this);
 			addButton(buy);
 			doConnect(Const.creditlog);
@@ -294,7 +296,7 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 	    	    	bgManager.addAll(temp);
 	    	    }
 	    	} else if (((fromIndex = val.indexOf(Const.xml_notifications)) != -1)) {
-	    		int listSize = (Const.getUsableHeight()) / (Const.getButtonSelCentre().getHeight()+17);
+	    		int listSize = (Const.getUsableHeight()+20) / (Const.getButtonSelCentre().getHeight()+17);
 	    		int listCounter = 1;
 	    		pages = new Vector();
 	    		int noteid = -1;

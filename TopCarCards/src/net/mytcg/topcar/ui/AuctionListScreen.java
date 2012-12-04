@@ -36,7 +36,7 @@ public class AuctionListScreen extends AppScreen implements FieldChangeListener
 	
 	public void process(String val) {
 		System.out.println(val);
-		int listSize = (Const.getUsableHeight()) / Const.getThumbRightEdge().getHeight();
+		int listSize = (Const.getUsableHeight()+20) / Const.getThumbRightEdge().getHeight();
 		int listCounter = 0;
 		pages = new Vector();
 		tempList = new Vector();

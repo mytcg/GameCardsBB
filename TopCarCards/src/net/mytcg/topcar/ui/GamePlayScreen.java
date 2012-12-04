@@ -362,7 +362,7 @@ public class GamePlayScreen extends AppScreen implements FieldChangeListener
     							categorystatid = -1;
     						}
     					}
-    					Stat s = new Stat(statdesc, "", statival, stattop, statleft, statwidth, statheight, statfrontorback, statcolorred, statcolorgreen, statcolorblue);
+    					Stat s = new Stat(statdesc, "", statival, stattop, statleft, statwidth, statheight, statfrontorback, statcolorred, statcolorgreen, statcolorblue, 0);
     					s.setStatType(stattype);
     					s.setStatId(statid);
     					s.setCategoryStatId(categorystatid);
@@ -488,7 +488,7 @@ public class GamePlayScreen extends AppScreen implements FieldChangeListener
     							categorystatid = -1;
     						}
     					}
-    					Stat s = new Stat(statdesc, "", statival, stattop, statleft, statwidth, statheight, statfrontorback, statcolorred, statcolorgreen, statcolorblue);
+    					Stat s = new Stat(statdesc, "", statival, stattop, statleft, statwidth, statheight, statfrontorback, statcolorred, statcolorgreen, statcolorblue, 0);
     					s.setStatType(stattype);
     					s.setStatId(statid);
     					s.setCategoryStatId(categorystatid);

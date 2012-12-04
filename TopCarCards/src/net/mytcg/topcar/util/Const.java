@@ -1959,6 +1959,8 @@ public final class Const {
 	public static final int xml_green_length = xml_green.length();
 	public static final String xml_blue = "blue=\"";
 	public static final int xml_blue_length = xml_blue.length();
+	public static final String xml_selectable = "selectable=\"";
+	public static final int xml_selectable_length = xml_selectable.length();
 	public static final String xml_ival = "ival=\"";
 	public static final int xml_ival_length = xml_ival.length();
 	public static final String xml_end = "\"";

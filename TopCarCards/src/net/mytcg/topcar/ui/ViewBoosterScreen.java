@@ -47,8 +47,7 @@ public class ViewBoosterScreen extends AppScreen implements FieldChangeListener
 	}
 	
 	public void process(String val) {
-		System.out.println("gg "+val);
-		int listSize = (Const.getUsableHeight()) / 74;
+		int listSize = (Const.getUsableHeight()+20) / Const.getThumbRightEdge().getHeight();
 		int listCounter = 0;
 		pages = new Vector();
 		Vector tempList = new Vector();
@@ -231,7 +230,7 @@ public class ViewBoosterScreen extends AppScreen implements FieldChangeListener
 
     						}
     					}
-    					stats.addElement(new Stat(statdesc, statval, statival, stattop, statleft, statwidth, statheight, statfrontorback, statcolorred, statcolorgreen, statcolorblue));
+    					stats.addElement(new Stat(statdesc, statval, statival, stattop, statleft, statwidth, statheight, statfrontorback, statcolorred, statcolorgreen, statcolorblue, 0));
     					card = card.substring(card.indexOf(Const.xml_stat_end)+Const.xml_stat_end_length);
     				}
     			}

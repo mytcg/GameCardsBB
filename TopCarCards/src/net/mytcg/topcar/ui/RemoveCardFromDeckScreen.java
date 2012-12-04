@@ -18,21 +18,23 @@ public class RemoveCardFromDeckScreen extends AppScreen implements FieldChangeLi
 	private boolean flip = false;
 	private Card card = null;
 	private int deckid = -1;
-	private ImageField image;
 	
-	public RemoveCardFromDeckScreen(Card card, int deckid) {
-		super(true);
+	public RemoveCardFromDeckScreen(AppScreen screen, Card card, int deckid) {
+		super(screen, true);
 		this.card = card;
 		this.deckid = deckid;
 		
-		bgManager.setStatusHeight(exit.getContentHeight());
 		exit.setChangeListener(this);
 		flips.setChangeListener(this);
 		remove.setChangeListener(this);
 		
-		image = new ImageField(card.getFronturl());
-		
-		add(image);
+		if(!(Const.getPortrait())){
+			hStatManager.setStatusHeight(exit.getContentHeight());
+			hStatManager.setUrl(card.getFronturl());
+		}else{
+			vStatManager.setStatusHeight(exit.getContentHeight());
+			vStatManager.setUrl(card.getFronturl());
+		}
 		
 		addButton(remove);
 		addButton(flips);
@@ -55,9 +57,25 @@ public class RemoveCardFromDeckScreen extends AppScreen implements FieldChangeLi
 		} else if ((f == flips)) {
 			flip = !flip;
 			if (flip) {
-				image.setUrl(card.getBackurl());
+				if(!(Const.getPortrait())){
+					hStatManager.removeProgressBar();
+					hStatManager.setUrl(card.getBackurl());
+					hStatManager.invalidate();
+				}else{
+					vStatManager.removeProgressBar();
+					vStatManager.setUrl(card.getBackurl());
+					vStatManager.invalidate();
+				}
 			} else {
-				image.setUrl(card.getFronturl());
+				if(!(Const.getPortrait())){
+					hStatManager.removeProgressBar();
+					hStatManager.setUrl(card.getFronturl());
+					hStatManager.invalidate();
+				}else{
+					vStatManager.removeProgressBar();
+					vStatManager.setUrl(card.getFronturl());
+					vStatManager.invalidate();
+				}
 			}
 		}
 	}

@@ -2,6 +2,7 @@ package net.mytcg.topcar.ui;
 
 import java.util.Vector;
 
+import net.mytcg.topcar.ui.AddCardToDeckListScreen;
 import net.mytcg.topcar.ui.custom.ColorLabelField;
 import net.mytcg.topcar.ui.custom.FixedButtonField;
 import net.mytcg.topcar.ui.custom.ListItemField;
@@ -34,6 +35,7 @@ public class ViewDeckScreen extends AppScreen implements FieldChangeListener
 	Vector tempList = new Vector();
 	int currentPage = 0;
 	int numcards = 0;
+	boolean hascards = false;
 
 	public ViewDeckScreen(int deckid,int type, int active)
 	{
@@ -66,7 +68,7 @@ public class ViewDeckScreen extends AppScreen implements FieldChangeListener
 	
 	public void process(String val) {
 		System.out.println(val);
-		int listSize = (Const.getUsableHeight()) / 74;
+		int listSize = (Const.getUsableHeight()+20) / Const.getThumbRightEdge().getHeight();
 		int listCounter = 1;
 		pages = new Vector();
 		SettingsBean _instance = SettingsBean.getSettings();
@@ -116,7 +118,14 @@ public class ViewDeckScreen extends AppScreen implements FieldChangeListener
     				categoryid = -1;
     			}
     		}
-
+    		if ((fromIndex = val.indexOf(Const.xml_hascards)) != -1) {
+				String hc = val.substring(fromIndex+Const.xml_hascards_length, val.indexOf(Const.xml_hascards_end, fromIndex));
+				if(hc.equals("true")){
+					hascards = true;
+				}else{
+					hascards = false;
+				}
+			}
     		while ((fromIndex = val.indexOf(Const.xml_cardid)) != -1){
     			if(listCounter >= listSize){
     				pages.addElement(tempList);
@@ -277,7 +286,7 @@ public class ViewDeckScreen extends AppScreen implements FieldChangeListener
 
     						}
     					}
-    					stats.addElement(new Stat(statdesc, statval, statival, stattop, statleft, statwidth, statheight, statfrontorback, statcolorred, statcolorgreen, statcolorblue));
+    					stats.addElement(new Stat(statdesc, statval, statival, stattop, statleft, statwidth, statheight, statfrontorback, statcolorred, statcolorgreen, statcolorblue, 0));
     					card = card.substring(card.indexOf(Const.xml_stat_end)+Const.xml_stat_end_length);
     				}
     			}
@@ -439,11 +448,16 @@ public class ViewDeckScreen extends AppScreen implements FieldChangeListener
 			ThumbnailField set = ((ThumbnailField)(f));
 			Card card = set.getCard();
 			if(type==1||type==2){
-				screen = new RemoveCardFromDeckScreen(card,deckid);
+				screen = new RemoveCardFromDeckScreen(this,card,deckid);
 				UiApplication.getUiApplication().pushScreen(screen);
 			}else if(type==4&&active==1){
-				screen = new AlbumScreen(categoryid, 4,deckid, set.getPositionId());
-				UiApplication.getUiApplication().pushScreen(screen);
+				if(hascards==false){
+					screen = new AlbumScreen(categoryid, 4,deckid, set.getPositionId());
+					UiApplication.getUiApplication().pushScreen(screen);
+				} else {
+					screen = new AddCardToDeckListScreen(deckid,categoryid,set.getPositionId());
+					UiApplication.getUiApplication().pushScreen(screen);
+				}
 			}
 		}
 	}

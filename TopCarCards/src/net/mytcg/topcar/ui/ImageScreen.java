@@ -78,7 +78,8 @@ public class ImageScreen extends AppScreen implements FieldChangeListener
 				}
 				
 				stats[i].setChangeListener(this);
-				//addStat(stats[i]);
+				if(((Stat)cardStats.elementAt(i)).getSelectable()==1)
+					addStat(stats[i]);
 			}
 		}
 		//addStat(new NullField());
