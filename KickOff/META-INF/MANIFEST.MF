@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: KickOff
+Bundle-SymbolicName: KickOff
+Bundle-Version: 1.0.0.qualifier
+Export-Package: net.mytcg.kickoff.http,
+ net.mytcg.kickoff.ui,
+ net.mytcg.kickoff.ui.custom,
+ net.mytcg.kickoff.util
