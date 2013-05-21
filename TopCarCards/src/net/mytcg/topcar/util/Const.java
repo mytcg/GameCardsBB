@@ -506,7 +506,8 @@ public final class Const {
 	public static String getdecks="getdecks=1";
 	public static String getcardsindeck="getcardsindeck=1";
 	public static String cardsincategorynotdeck= "cardsincategorynotdeck=";
-	public static String getalldecks="getalldecks=1";
+	public static String getallnormaldecks="getallnormaldecks=1";
+	public static String getallcompdecks="getallcompdecks=1";
 	public static String getachis="getachis=1";
 	public static String addtodeck="addtodeck=1";
 	public static String categoryauction = "categoryauction=1";
@@ -892,6 +893,24 @@ public final class Const {
 			decksthumb = getSizeImage(sz_decksthumb);   
 		}
 		return decksthumb;
+	}
+	
+	private static Bitmap CompDecks;
+	private static String sz_compdecks = "Formula_1.png";
+	public static Bitmap getCompDecks() {
+		if (CompDecks == null) {
+			CompDecks = getSizeImage(sz_compdecks);   
+		}
+		return CompDecks;
+	}
+	
+	private static Bitmap compdecksthumb;
+	private static String sz_compdecksthumb = "Formula_1_thumb.png";
+	public static Bitmap getCompDecksThumb() {
+		if (compdecksthumb == null) {
+			compdecksthumb = getSizeImage(sz_compdecksthumb);   
+		}
+		return compdecksthumb;
 	}
 	
 	private static Bitmap FriendRanks;
@@ -1480,6 +1499,10 @@ public final class Const {
 	public static final String xml_result = "<result>";
 	public static final int xml_result_length = xml_result.length();
 	public static final String xml_result_end = "</result>";
+	public static final String xml_setencrypt = "<setEncrypt>";
+	public static final int xml_setencrypt_length = xml_setencrypt.length(); 
+	public static final String xml_setencrypt_end = "</setEncrypt>";
+	public static final int xml_setencrypt_end_length = xml_setencrypt_end.length();
 	public static final String xml_success = "<success>";
 	public static final int xml_success_length = xml_success.length();
 	public static final String xml_success_end = "</success>";

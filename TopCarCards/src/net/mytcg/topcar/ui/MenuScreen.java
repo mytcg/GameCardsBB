@@ -40,6 +40,7 @@ public class MenuScreen extends AppScreen implements FieldChangeListener
 	MenuThumbnailField albums;
 	MenuThumbnailField play;
 	MenuThumbnailField decks;
+	MenuThumbnailField compdecks;
 	MenuThumbnailField shop;
 	MenuThumbnailField auctions;
 	MenuThumbnailField awards;
@@ -76,6 +77,7 @@ public class MenuScreen extends AppScreen implements FieldChangeListener
 		albums = new MenuThumbnailField(Const.getAlbumThumb(),Const.getAlbum(),menu);
 		play = new MenuThumbnailField(Const.getPlayThumb(), Const.getPlay(),menu);
 		decks = new MenuThumbnailField(Const.getDecksThumb(), Const.getDecks(),menu);
+		compdecks = new MenuThumbnailField(Const.getCompDecksThumb(), Const.getCompDecks(),menu);
 		shop = new MenuThumbnailField(Const.getShopThumb(), Const.getShop(), menu);
 		auctions = new MenuThumbnailField(Const.getAuctionsThumb(), Const.getAuctions(),menu);
 		awards = new MenuThumbnailField(Const.getAwardsThumb(), Const.getAwards(),menu);
@@ -92,6 +94,7 @@ public class MenuScreen extends AppScreen implements FieldChangeListener
 		albums.setChangeListener(this);
 		play.setChangeListener(this);
 		decks.setChangeListener(this);
+		compdecks.setChangeListener(this);
 		shop.setChangeListener(this);
 		auctions.setChangeListener(this);
 		awards.setChangeListener(this);
@@ -110,6 +113,7 @@ public class MenuScreen extends AppScreen implements FieldChangeListener
 		temp.addElement(albums);
 		temp.addElement(play);
 		temp.addElement(decks);
+		temp.addElement(compdecks);
 		temp.addElement(shop);
 		temp.addElement(auctions);
 		temp.addElement(awards);
@@ -294,7 +298,10 @@ public class MenuScreen extends AppScreen implements FieldChangeListener
 			screen = new NewGameScreen();
 			UiApplication.getUiApplication().pushScreen(screen);
 		} else if(f == decks){
-			screen = new DecksScreen();
+			screen = new DecksScreen(false);
+			UiApplication.getUiApplication().pushScreen(screen);
+		} else if(f == compdecks){
+			screen = new DecksScreen(true);
 			UiApplication.getUiApplication().pushScreen(screen);
 		} else if(f == shop){
 			screen = new ShopCategoriesScreen();

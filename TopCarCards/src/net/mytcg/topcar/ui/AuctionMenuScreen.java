@@ -45,6 +45,7 @@ public class AuctionMenuScreen extends AppScreen implements FieldChangeListener
 	}
 	
 	public void process(String val) {
+		System.out.println(val);
 		int listSize = (Const.getUsableHeight()) / Const.getButtonHeight();
 		int listCounter = 1;
 		pages = new Vector();

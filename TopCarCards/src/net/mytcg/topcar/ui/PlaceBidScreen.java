@@ -117,10 +117,12 @@ public class PlaceBidScreen extends AppScreen implements FieldChangeListener
 		if(auction.getPrice().equals("")){
 			if(Integer.parseInt(bid)<Integer.parseInt(auction.getOpeningBid())){
 				setText("Your bid needs to equal or exceed the opning bid..");
+				return false;
 			}
 		}else{
 			if(Integer.parseInt(bid)<=Integer.parseInt(auction.getPrice())){
 				setText("Your bid needs to be higher than the current bid.");
+				return false;
 			}
 		}
 		return true;

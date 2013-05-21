@@ -2,6 +2,7 @@ package net.mytcg.topcar.ui;
 
 import java.util.Vector;
 
+import net.mytcg.topcar.ui.ChangePasswordScreen;
 import net.mytcg.topcar.ui.custom.CustomCheckboxField;
 import net.mytcg.topcar.ui.custom.ColorLabelField;
 import net.mytcg.topcar.ui.custom.FixedButtonField;
@@ -22,6 +23,7 @@ import net.rim.device.api.ui.FieldChangeListener;
 //import net.rim.device.api.ui.TouchEvent;
 import net.rim.device.api.ui.UiApplication;
 import net.rim.device.api.ui.component.CheckboxField;
+import net.rim.device.api.ui.component.LabelField;
 import net.rim.device.api.ui.component.SeparatorField;
 
 public class DetailScreen extends AppScreen implements FieldChangeListener
@@ -44,6 +46,7 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 	ListItemField lblTransactions = new ListItemField("Last Transactions", -1, false, 0);
 	ColorLabelField lbltmp = new ColorLabelField("");
 	CustomCheckboxField cbxtmp = new CustomCheckboxField(false,false,Field.FIELD_VCENTER);
+	ColorLabelField change = new ColorLabelField("Change Password?", LabelField.FIELD_VCENTER);
 	Vector answers = new Vector();
 	int count =0;
 	int credits = 0;
@@ -58,9 +61,12 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 		bgManager.setStatusHeight(exit.getContentHeight());
 		bgManager.setArrowMode(true);
 		if(screenType == Const.PROFILESCREEN){
+			change.setFocusable(true);
 			lbltop = new ColorLabelField("Earn credits by filling in profile details.");
 			tempList.addElement(lbltop);
+			tempList.addElement(change);
 			save.setChangeListener(this);
+			change.setChangeListener(this);
 			addButton(save);
 			doConnect(Const.profiledetails);
 		} else if(screenType == Const.BALANCESCREEN){
@@ -490,6 +496,9 @@ public class DetailScreen extends AppScreen implements FieldChangeListener
 		if (f == exit) {
 			screen = null;
 			UiApplication.getUiApplication().popScreen(this);
+		} else if(f == change){
+			screen = new ChangePasswordScreen();
+			UiApplication.getUiApplication().pushScreen(screen);
 		} else if (f == save){
 			try{
 				count = 0;

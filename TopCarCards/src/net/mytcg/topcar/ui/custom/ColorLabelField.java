@@ -13,15 +13,16 @@ public final class ColorLabelField extends LabelField {
 	private int _changeColor;
 	private int _backColor;
 	private int _width;
+	private boolean focusable = false;
 
 	public ColorLabelField(String text) {
 		super(text);
-		construct(Const.FONT, 0, Font.PLAIN, Const.FONTCOLOR, Const.BACKCOLOR, Const.BACKCOLOR);
+		construct(Const.FONT, 0, Font.PLAIN, Const.FONTCOLOR, Const.SELECTEDCOLOR, Const.FONTCOLOR);
 	}
 	
 	public ColorLabelField(String text, long style) {
 		super(text, style);
-		construct(Const.FONT, 0, Font.PLAIN, Const.FONTCOLOR, Const.BACKCOLOR, Const.BACKCOLOR);
+		construct(Const.FONT, 0, Font.PLAIN, Const.FONTCOLOR, Const.SELECTEDCOLOR, Const.FONTCOLOR);
 	}
 	public ColorLabelField(String text, int color) {
 		super(text);
@@ -29,23 +30,23 @@ public final class ColorLabelField extends LabelField {
 	}
 	public ColorLabelField(String text, long style, int font) {
 		super(text, style);
-		construct(font, 0, Font.PLAIN, Const.FONTCOLOR, Const.BACKCOLOR, Const.BACKCOLOR);
+		construct(font, 0, Font.PLAIN, Const.FONTCOLOR, Const.SELECTEDCOLOR, Const.FONTCOLOR);
 	}
 	public ColorLabelField(String text, int width, long style) {
 		super(text, style);
-		construct(Const.FONT, width, Font.PLAIN, Const.FONTCOLOR, Const.BACKCOLOR, Const.BACKCOLOR);
+		construct(Const.FONT, width, Font.PLAIN, Const.FONTCOLOR, Const.SELECTEDCOLOR, Const.FONTCOLOR);
 	}
 	public ColorLabelField(String text, int fontsize, long style, int color) {
 		super(text, style);
-		construct(fontsize, 0, Font.PLAIN, color, Const.BACKCOLOR, Const.BACKCOLOR);
+		construct(fontsize, 0, Font.PLAIN, color, Const.SELECTEDCOLOR, Const.FONTCOLOR);
 	}
 	public ColorLabelField(String text, int fontsize, long style, int color, int width) {
 		super(text, style);
-		construct(fontsize, width, Font.PLAIN, color, Const.BACKCOLOR, Const.BACKCOLOR);
+		construct(fontsize, width, Font.PLAIN, color, Const.SELECTEDCOLOR, Const.FONTCOLOR);
 	}
 	public ColorLabelField(String text, int color, int font, int fontsize, long style) {
 		super(text, style);
-		construct(fontsize, 0, font, color, Const.BACKCOLOR, Const.BACKCOLOR);
+		construct(fontsize, 0, font, color, Const.SELECTEDCOLOR, Const.FONTCOLOR);
 	}
 	public ColorLabelField(String text, int color, int changeColor, int backColor, int font, int fontsize, long style) {
 		super(text, style);
@@ -59,12 +60,20 @@ public final class ColorLabelField extends LabelField {
 	private void construct(int fontsize, int width, int fontStyle, int color, int changeColor, int backColor) {
 		_normalColor = color;
 		_changeColor = changeColor;
-		_currentColor = backColor;
+		_currentColor = color;
 		_backColor = backColor;
 		_width = width;
 		Font _font = getFont();
 		_font = _font.derive(fontStyle, fontsize);
 		setFont(_font);
+	}
+	
+	public boolean isFocusable(){
+		return focusable;
+	}
+	
+	public void setFocusable(boolean focusable){
+		this.focusable  = focusable;
 	}
 	
 	public int getPreferredWidth() {
@@ -91,7 +100,7 @@ public final class ColorLabelField extends LabelField {
 		//g.setColor(_currentColor);
 		//g.fillRect(-1, -1, getPreferredWidth()+2, getPreferredHeight()+2);
 		//g.setColor(_normalColor);
-		g.setColor(_normalColor);
+		g.setColor(_currentColor);
 		super.paint(g);
 	}
 	

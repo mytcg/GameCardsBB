@@ -24,10 +24,12 @@ public class DecksScreen extends AppScreen implements FieldChangeListener
 	Vector pages = new Vector();
 	Vector tempList = new Vector();
 	int currentPage = 0;
+	boolean comp = false;
 
-	public DecksScreen()
+	public DecksScreen(boolean comp)
 	{
 		super(null);
+		this.comp = comp;
 		add(new ColorLabelField(""));
 		bgManager.setStatusHeight(exit.getContentHeight());
 		bgManager.setArrowMode(true);
@@ -37,19 +39,28 @@ public class DecksScreen extends AppScreen implements FieldChangeListener
 		exit.setChangeListener(this); 
 		newdeck.setChangeListener(this);
 		
-		tempList.addElement(newdeck);
+		if(!comp){
+			tempList.addElement(newdeck);
+		}
 		
 		addButton(new FixedButtonField(""));
 		addButton(pageNumber);
 		addButton(exit);
 		
-		doConnect(Const.getalldecks);
+		if(comp){
+			doConnect(Const.getallcompdecks);
+		}else{
+			doConnect(Const.getallnormaldecks);
+		}
 	}
 	
 	public void process(String val) {
 		System.out.println(val);
 		int listSize = (Const.getUsableHeight()) / Const.getButtonHeight();
 		int listCounter = 1;
+		if(comp){
+			listCounter = 0;
+		}
 		pages = new Vector();
 		int fromIndex;
 	    if ((fromIndex = val.indexOf(Const.xml_result)) != -1) {
@@ -195,9 +206,15 @@ public class DecksScreen extends AppScreen implements FieldChangeListener
 				bgManager.deleteAll();
 				add(new ColorLabelField(""));
 				tempList = new Vector();
-				tempList.addElement(newdeck);
+				if(!comp){
+					tempList.addElement(newdeck);
+				}
 			}
-			doConnect(Const.getalldecks);
+			if(comp){
+				doConnect(Const.getallcompdecks);
+			}else{
+				doConnect(Const.getallnormaldecks);
+			}
 		}
 	}
 	public void fieldChanged(Field f, int i) {

@@ -69,7 +69,10 @@ public class ViewDeckScreen extends AppScreen implements FieldChangeListener
 	public void process(String val) {
 		System.out.println(val);
 		int listSize = (Const.getUsableHeight()+20) / Const.getThumbRightEdge().getHeight();
-		int listCounter = 1;
+		int listCounter = 0;
+		if(type==1||type==2){
+			listCounter = 1;
+		}
 		pages = new Vector();
 		SettingsBean _instance = SettingsBean.getSettings();
     	update = _instance.setCards(val, -1);

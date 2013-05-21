@@ -31,6 +31,7 @@ public class AlbumScreen extends AppScreen implements FieldChangeListener
 	int currentPage = 0;
 	
 	public void process(String val) {
+		System.out.println("zzz "+val);
 		int listSize = (Const.getUsableHeight()) / Const.getButtonHeight();
 		int listCounter = 0;
 		pages = new Vector();
@@ -290,6 +291,7 @@ public class AlbumScreen extends AppScreen implements FieldChangeListener
 		invalidate();
 		if(type == 1 || type == 3 || type == 4){
 			UiApplication.getUiApplication().popScreen(this);
+			return;
 		}
 		if (!isVisible()) {
 			if (id >= 0) {

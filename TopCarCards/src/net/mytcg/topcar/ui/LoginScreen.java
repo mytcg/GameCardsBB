@@ -1,5 +1,6 @@
 package net.mytcg.topcar.ui;
 
+import net.mytcg.topcar.ui.ForgotPasswordScreen;
 import net.mytcg.topcar.ui.custom.ColorLabelField;
 import net.mytcg.topcar.ui.custom.FixedButtonField;
 import net.mytcg.topcar.ui.custom.SexyEditField;
@@ -9,6 +10,7 @@ import net.rim.device.api.io.Base64OutputStream;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.FieldChangeListener;
 import net.rim.device.api.ui.UiApplication;
+import net.rim.device.api.ui.component.LabelField;
 
 public class LoginScreen extends AppScreen implements FieldChangeListener
 {
@@ -17,6 +19,7 @@ public class LoginScreen extends AppScreen implements FieldChangeListener
 	
 	SexyEditField username = new SexyEditField("");//, EditField.FILTER_NUMERIC, 36);
 	SexyEditField password = new SexyEditField("");
+	ColorLabelField forgot = new ColorLabelField(" Forgot Password? ", LabelField.FIELD_VCENTER);
 	int height = 0;
 	
 	public void process(String val) {
@@ -57,18 +60,21 @@ public class LoginScreen extends AppScreen implements FieldChangeListener
 		_instance.setAuthenticated(false);
 		_instance.lastloaded();
 		SettingsBean.saveSettings(_instance);
+		forgot.setFocusable(true);
 		
 		add(new ColorLabelField(Const.user));
 		add(username);
 		//username.setText("heinzs");
 		add(new ColorLabelField(Const.password));
 		add(password);
+		add(forgot);
 		//password.setText("aaaaaa");
 		
 		bgManager.setStatusHeight(Const.getButtonHeight());
 		
 		exit.setChangeListener(this);
 		login.setChangeListener(this);
+		forgot.setChangeListener(this);
 		
 		addButton(login);
 		addButton(new FixedButtonField(""));
@@ -78,6 +84,9 @@ public class LoginScreen extends AppScreen implements FieldChangeListener
 	public void fieldChanged(Field f, int i) {
 		if (f == exit) {
 			System.exit(0);
+		} else if(f == forgot){
+			screen = new ForgotPasswordScreen();
+			UiApplication.getUiApplication().pushScreen(screen);
 		} else if (f == login) {
 			if ((username.getText() == null)||(username.getText().length() <= 0)) {
 				setText("Username cannot be blank.");
